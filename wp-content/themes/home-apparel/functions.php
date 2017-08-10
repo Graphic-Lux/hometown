@@ -31,7 +31,7 @@ function my_redirect() {
 add_action( 'template_redirect', 'my_redirect' );
 
 add_action('template_redirect', 'redirect_user_role'); function redirect_user_role(){ 
-	if(current_user_can('administrator') && is_page('2')) { wp_redirect('http://dev.hostsites.cloud/home/landing-page/'); } }
+	if(current_user_can('administrator') && is_page('2')) { wp_redirect('/landing-page/'); } }
 
 function mytheme_custom_scripts(){
     if ( is_home() || is_front_page()) {
