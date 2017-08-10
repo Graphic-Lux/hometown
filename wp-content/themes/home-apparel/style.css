@@ -1,0 +1,168 @@
+/*
+Theme Name: Home Apparel
+Version: 1.0
+Author: Graphic Lux
+Author URI: https://graphiclux.com
+Template: enfold
+*/
+
+
+/* fonts */
+
+@font-face{	font-family:"UniversLT47CondensedLight"; src:url(font/UniversLT47CondensedLight.ttf);}
+@font-face{	font-family:"UniversLT57Condensed"; src:url(font/UniversLT57Condensed.ttf);}
+@font-face{	font-family:"UniversLT67CondensedBold"; src:url(font/UniversLT67CondensedBold.ttf);}
+@font-face{	font-family:"UniversLT59UltraCondensed"; src:url(font/UniversLT59UltraCondensed.ttf);}
+@font-face{	font-family:"UniversLT67CondensedBoldOblique"; src:url(font/UniversLT67CondensedBoldOblique.ttf);}
+@font-face{	font-family:"UniversLT57CondensedOblique"; src:url(font/UniversLT57CondensedOblique.ttf);}
+@font-face{	font-family:"UniversLT47CondensedLightOblique"; src:url(font/UniversLT47CondensedLightOblique.ttf);}
+
+
+/*Add your own styles here:*/
+
+.main_color h1, .main_color h2, .main_color h3, .main_color h4, .main_color h5, .main_color h6 {
+	font-family: "UniversLT57Condensed";
+}
+
+#top #wrap_all .av-burger-overlay .av-burger-overlay-scroll #av-burger-menu-ul li a {
+	font-family: "UniversLT47CondensedLight"
+}
+
+.html_av-overlay-side-classic #top .av-burger-overlay li a {
+    border-bottom-width: 0px;
+}
+
+.main_color h2, .template-page .entry-content-wrapper h2 {
+	font-size: 36px;
+	text-transform: none;
+}
+
+body div .avia-button {
+	font-family:"UniversLT57Condensed";
+    border-radius: 0px;
+    text-transform: uppercase;
+}
+
+#top .avia-button-fullwidth {
+	font-size: 12px;
+	letter-spacing: .2em;
+}
+
+#header_main_alternate {
+	display: none;
+}
+
+.html_header_top.html_header_sticky.html_bottom_nav_header #main {
+    padding-top: 88px;
+}
+
+span.logo {
+    margin-top: 10px;
+}
+
+.cart_dropdown_first .cart_dropdown_link {
+    font-size: 30px;
+}
+
+.log_forms { 
+	width: 98%; 
+	padding: 5px; 
+	border: 0px solid #CCC; 
+	margin: 2px; 
+	background: #fff; 
+} 
+
+.drop-shadow {
+	box-sizing:border-box; 
+	-webkit-box-shadow: 0px 0px 32px 10px rgba(0,0,0,1);
+	-moz-box-shadow: 0px 0px 32px 10px rgba(0,0,0,1);
+	box-shadow: 0px 0px 32px 10px rgba(0,0,0,1); 
+}
+
+#centered-one-third .av_one_third {
+    left: 27.3%;
+    transform: translateX(-28.3%);
+}
+
+.av-special-heading {
+    margin-top: 15px;
+}
+
+.main_color .log_forms input[type=submit] {
+    width: 100%;
+    padding: 15px 7px;
+    background: #000;
+}
+
+.login label {
+	display: none;
+}
+
+h2.login {
+    padding-top: 10px;
+    font-size: 22px !important;
+}
+
+#top form#loginform {
+    margin-bottom: 0px;
+}
+
+#top .login input[type="text"], #top .main_color .login input[type='password']{
+    font-size: .8em;
+}
+
+input#wp-submit {
+    width: 100%;
+    background: #000;
+    padding: 16px 0px 16px 0;
+    margin-bottom: 10px;
+}
+
+.login-form-container {
+    padding: 25px;
+    background: #fff;
+}
+
+a.forgot-password {
+	font-size: 11px;
+	text-decoration: underline;
+	margin-left: 25px;
+	color: #fff;
+}
+
+#top div.woocommerce-message {
+    border-color: #f8f8f8;
+    background-color: #f8f8f8;
+    color: #000;
+}
+
+nav.woocommerce-MyAccount-navigation ul li {
+	font-family: "UniversLT57Condensed";
+	font-size: 20px;
+}
+
+nav.woocommerce-MyAccount-navigation ul li a {
+    padding: 20px;   
+}
+
+/* Mobile Hamburger Menu Only */
+@media only screen and (max-width: 9999999px) and (min-width: 768px) {
+	.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item-avia-special {
+	    display: block;
+	}
+	
+	.responsive #top #wrap_all .av_mobile_menu_tablet .main_menu {
+    top: 0;
+    left: auto;
+    right: 45px;
+    display: block;
+	}
+}
+
+/* End of Mobile Hamburger Menu Only */
+@media only screen and (max-width: 767px) {
+
+	.responsive #top .logo {
+	    width: 54%;
+	}
+}
