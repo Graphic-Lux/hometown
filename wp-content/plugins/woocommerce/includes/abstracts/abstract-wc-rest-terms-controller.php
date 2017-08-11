@@ -121,19 +121,19 @@ abstract class WC_REST_Terms_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access to create a term.
+	 * Check if a given request has access to custom-t a term.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
 	public function create_item_permissions_check( $request ) {
-		$permissions = $this->check_permissions( $request, 'create' );
+		$permissions = $this->check_permissions( $request, 'custom-t' );
 		if ( is_wp_error( $permissions ) ) {
 			return $permissions;
 		}
 
 		if ( ! $permissions ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -197,7 +197,7 @@ abstract class WC_REST_Terms_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access batch create, update and delete items.
+	 * Check if a given request has access batch custom-t, update and delete items.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return boolean|WP_Error

@@ -20,7 +20,7 @@ if( !class_exists( 'avia_megamenu' ) )
 {
 
 	/**
-	 * The avia megamenu class contains various methods necessary to create mega menus out of the admin backend
+	 * The avia megamenu class contains various methods necessary to custom-t mega menus out of the admin backend
 	 * @package 	AviaFramework
 	 */
 	class avia_megamenu
@@ -327,7 +327,7 @@ if( !class_exists( 'avia_backend_walker' ) )
 {
 /**
  * Create HTML list of nav menu input items.
- * This walker is a clone of the wordpress edit menu walker with some options appended, so the user can choose to create mega menus
+ * This walker is a clone of the wordpress edit menu walker with some options appended, so the user can choose to custom-t mega menus
  *
  * @package AviaFramework
  * @since 1.0
@@ -571,7 +571,7 @@ if( !class_exists( 'avia_backend_walker' ) )
 
 
 						<?php
-						$title = 'Use the description to create a Text Block. Dont display this item as a link. (note: dont remove the label text, otherwise wordpress will delete the item)';
+						$title = 'Use the description to custom-t a Text Block. Dont display this item as a link. (note: dont remove the label text, otherwise wordpress will delete the item)';
 						$key = "menu-item-avia-textarea";
 						$value = get_post_meta( $item->ID, '_'.$key, true);
 
@@ -641,7 +641,7 @@ if( !class_exists( 'avia_backend_walker' ) )
 if( !function_exists( 'avia_fallback_menu' ) )
 {
 	/**
-	 * Create a navigation out of pages if the user didnt create a menu in the backend
+	 * Create a navigation out of pages if the user didnt custom-t a menu in the backend
 	 *
 	 */
 	function avia_fallback_menu($params)

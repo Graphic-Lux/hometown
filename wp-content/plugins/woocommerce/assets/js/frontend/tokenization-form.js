@@ -39,7 +39,7 @@
 					$( ':input.woocommerce-SavedPaymentMethods-tokenInput:checked', $target ).trigger( 'change' );
 
 					// Hide "save card" if "Create Account" is not checked.
-					// Check that the field is shown in the form - some plugins and force create account remove it
+					// Check that the field is shown in the form - some plugins and force custom-t account remove it
 					if ( $( 'input#createaccount' ).length && ! $('input#createaccount').is( ':checked' ) ) {
 						$wcTokenizationForm.hideSaveNewCheckbox();
 					}
@@ -65,7 +65,7 @@
 				// When a radio button is changed, make sure to show/hide our new CC info area
 				$( ':input.woocommerce-SavedPaymentMethods-tokenInput', $target ).change( this.onTokenChange );
 
-				// OR if create account is checked
+				// OR if custom-t account is checked
 				$ ( 'input#createaccount' ).change( this.onCreateAccountChange );
 
 				this.onDisplay();

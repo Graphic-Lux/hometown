@@ -437,7 +437,7 @@ add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_show_product_
 
 
 #
-# create the shop navigation with account links, as well as cart and checkout, called as fallback function by the wp_nav_menu function in header.php
+# custom-t the shop navigation with account links, as well as cart and checkout, called as fallback function by the wp_nav_menu function in header.php
 #
 function avia_shop_nav($args)
 {
@@ -1351,7 +1351,7 @@ if(!function_exists('avia_woocommerce_frontend_search_params'))
 	}
 }
 
-//helper function to create the active list class
+//helper function to custom-t the active list class
 if(!function_exists('avia_woo_active_class'))
 {
 	function avia_woo_active_class($key1, $key2)

@@ -173,14 +173,14 @@ class WC_API_Webhooks extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['webhook'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_webhook_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'webhook' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_webhook_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'webhook' ), 400 );
 			}
 
 			$data = $data['webhook'];
 
 			// permission check
 			if ( ! current_user_can( 'publish_shop_webhooks' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_webhooks', __( 'You do not have permission to create webhooks.', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_webhooks', __( 'You do not have permission to custom-t webhooks.', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_webhook_data', $data, $this );
@@ -209,7 +209,7 @@ class WC_API_Webhooks extends WC_API_Resource {
 			$webhook_id = wp_insert_post( $webhook_data );
 
 			if ( is_wp_error( $webhook_id ) || ! $webhook_id ) {
-				throw new WC_API_Exception( 'woocommerce_api_cannot_create_webhook', sprintf( __( 'Cannot create webhook: %s', 'woocommerce' ), is_wp_error( $webhook_id ) ? implode( ', ', $webhook_id->get_error_messages() ) : '0' ), 500 );
+				throw new WC_API_Exception( 'woocommerce_api_cannot_create_webhook', sprintf( __( 'Cannot custom-t webhook: %s', 'woocommerce' ), is_wp_error( $webhook_id ) ? implode( ', ', $webhook_id->get_error_messages() ) : '0' ), 500 );
 			}
 
 			$webhook = new WC_Webhook( $webhook_id );

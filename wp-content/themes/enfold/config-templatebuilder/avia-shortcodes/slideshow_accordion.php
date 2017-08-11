@@ -547,7 +547,7 @@ if ( !class_exists( 'avia_sc_slider_accordion' ) )
 				$slide_html = $slider->html();
 				
 				
-				//if the element is nested within a section or a column dont create the section shortcode around it
+				//if the element is nested within a section or a column dont custom-t the section shortcode around it
 				if(!ShortcodeHelper::is_top_level()) return $slide_html;
 				
 				
@@ -556,13 +556,13 @@ if ( !class_exists( 'avia_sc_slider_accordion' ) )
 				$output .= "</div>"; //close section
 				
 				
-				//if the next tag is a section dont create a new section from this shortcode
+				//if the next tag is a section dont custom-t a new section from this shortcode
 				if(!empty($meta['siblings']['next']['tag']) && in_array($meta['siblings']['next']['tag'],  AviaBuilder::$full_el ))
 				{
 				    $skipSecond = true;
 				}
 
-				//if there is no next element dont create a new section.
+				//if there is no next element dont custom-t a new section.
 				if(empty($meta['siblings']['next']['tag']))
 				{
 				    $skipSecond = true;

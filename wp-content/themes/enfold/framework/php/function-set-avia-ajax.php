@@ -267,9 +267,9 @@ if(!function_exists('avia_ajax_save_options_create_array'))
 				$temp_set[1] = $set;
 				$set = $temp_set;
 			}
-			else //if an ajax data array was passed create the array by exploding the key/value pair
+			else //if an ajax data array was passed custom-t the array by exploding the key/value pair
 			{
-				//create key/value pairs
+				//custom-t key/value pairs
 				$set = explode("=", $set);
 			}
 			
@@ -279,7 +279,7 @@ if(!function_exists('avia_ajax_save_options_create_array'))
 			
 			/*
 			 *  check if the element is a group element. 
-			 *  If so create an array by exploding the string and then iterating over the results and using them as array keys
+			 *  If so custom-t an array by exploding the string and then iterating over the results and using them as array keys
 			 */
 			 
 			if($set[0] != "") //values with two colons are reserved for js controlling and saving is not needed 
@@ -634,7 +634,7 @@ if(!function_exists('avia_ajax_create_dynamic_options'))
 						$element['id']   = $new_slug . $element['id'];
 						$element['slug'] = $new_slug;
 						
-						//create frontend output
+						//custom-t frontend output
 						$result .=  $html->render_single_element($element);
 						
 						//save the element to the database as well

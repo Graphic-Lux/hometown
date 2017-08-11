@@ -257,18 +257,18 @@ class WC_Checkout {
 	 * 		520 - Cannot insert order into the database.
 	 * 		521 - Cannot get order after creation.
 	 * 		522 - Cannot update order.
-	 * 		525 - Cannot create line item.
-	 * 		526 - Cannot create fee item.
-	 * 		527 - Cannot create shipping item.
-	 * 		528 - Cannot create tax item.
-	 * 		529 - Cannot create coupon item.
+	 * 		525 - Cannot custom-t line item.
+	 * 		526 - Cannot custom-t fee item.
+	 * 		527 - Cannot custom-t shipping item.
+	 * 		528 - Cannot custom-t tax item.
+	 * 		529 - Cannot custom-t coupon item.
 	 *
 	 * @throws Exception
 	 * @param  $data Posted data.
 	 * @return int|WP_ERROR
 	 */
 	public function create_order( $data ) {
-		// Give plugins the opportunity to create an order themselves.
+		// Give plugins the opportunity to custom-t an order themselves.
 		if ( $order_id = apply_filters( 'woocommerce_create_order', null, $this ) ) {
 			return $order_id;
 		}
@@ -281,7 +281,7 @@ class WC_Checkout {
 			/**
 			 * If there is an order pending payment, we can resume it here so
 			 * long as it has not changed. If the order has changed, i.e.
-			 * different items or cost, create a new order. We use a hash to
+			 * different items or cost, custom-t a new order. We use a hash to
 			 * detect changes which is based on cart items + order total.
 			 */
 			if ( $order_id && ( $order = wc_get_order( $order_id ) ) && $order->has_cart_hash( $cart_hash ) && $order->has_status( array( 'pending', 'failed' ) ) ) {

@@ -21,7 +21,7 @@ if( !class_exists( 'avia_style_generator' ) )
 
 
 	/**
-	 *  The avia_style_generator class holds all methods necessary to create and overwrite the default css styles with those set in the wordpress backend
+	 *  The avia_style_generator class holds all methods necessary to custom-t and overwrite the default css styles with those set in the wordpress backend
 	 *  @package 	AviaFramework
 	 */
 

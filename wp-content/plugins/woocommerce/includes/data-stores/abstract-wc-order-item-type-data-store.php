@@ -129,7 +129,7 @@ abstract class Abstract_WC_Order_Item_Type_Data_Store extends WC_Data_Store_WP i
 
 	/**
 	 * Saves an item's data to the database / item meta.
-	 * Ran after both create and update, so $item->get_id() will be set.
+	 * Ran after both custom-t and update, so $item->get_id() will be set.
 	 *
 	 * @since 3.0.0
 	 * @param WC_Order_Item $item

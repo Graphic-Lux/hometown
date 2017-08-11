@@ -154,7 +154,7 @@ class object extends rest
 	}
 	
 	/**
-	 * This method allows /api/object/create and $object->create($array)
+	 * This method allows /api/object/custom-t and $object->custom-t($array)
 	 *
 	 * This creates an object in the database from either data or json.
 	 */

@@ -386,7 +386,7 @@ class WC_Product_Variable extends WC_Product {
 	}
 
 	/**
-	 * Save data (either create or update depending on if we are working on an existing product).
+	 * Save data (either custom-t or update depending on if we are working on an existing product).
 	 *
 	 * @since 3.0.0
 	 */

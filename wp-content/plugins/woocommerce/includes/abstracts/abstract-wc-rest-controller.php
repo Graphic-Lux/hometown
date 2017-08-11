@@ -82,8 +82,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 		$limit = apply_filters( 'woocommerce_rest_batch_items_limit', 100, $this->get_normalized_rest_base() );
 		$total = 0;
 
-		if ( ! empty( $items['create'] ) ) {
-			$total += count( $items['create'] );
+		if ( ! empty( $items['custom-t'] ) ) {
+			$total += count( $items['custom-t'] );
 		}
 
 		if ( ! empty( $items['update'] ) ) {
@@ -103,7 +103,7 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Bulk create, update and delete items.
+	 * Bulk custom-t, update and delete items.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array Of WP_Error or WP_REST_Response.
@@ -122,8 +122,8 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 			return $limit;
 		}
 
-		if ( ! empty( $items['create'] ) ) {
-			foreach ( $items['create'] as $item ) {
+		if ( ! empty( $items['custom-t'] ) ) {
+			foreach ( $items['custom-t'] as $item ) {
 				$_item = new WP_REST_Request( 'POST' );
 
 				// Default parameters.
@@ -141,12 +141,12 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 				$_response = $this->create_item( $_item );
 
 				if ( is_wp_error( $_response ) ) {
-					$response['create'][] = array(
+					$response['custom-t'][] = array(
 						'id'    => 0,
 						'error' => array( 'code' => $_response->get_error_code(), 'message' => $_response->get_error_message(), 'data' => $_response->get_error_data() ),
 					);
 				} else {
-					$response['create'][] = $wp_rest_server->response_to_data( $_response, '' );
+					$response['custom-t'][] = $wp_rest_server->response_to_data( $_response, '' );
 				}
 			}
 		}
@@ -357,7 +357,7 @@ abstract class WC_REST_Controller extends WP_REST_Controller {
 			'title'      => 'batch',
 			'type'       => 'object',
 			'properties' => array(
-				'create' => array(
+				'custom-t' => array(
 					'description' => __( 'List of created resources.', 'woocommerce' ),
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit' ),

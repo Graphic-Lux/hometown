@@ -467,7 +467,7 @@ msgstr "Thème"
 #: config-layerslider/LayerSlider_old/config/defaults.php:244
 msgid ""
 "The skin used for this slider. The 'noskin' skin is a border- and buttonless "
-"skin. Your custom skins will appear in the list when you create their "
+"skin. Your custom skins will appear in the list when you custom-t their "
 "folders."
 msgstr ""
 
@@ -2726,7 +2726,7 @@ msgstr ""
 #: config-layerslider/LayerSlider_old/templates/tmpl-slider-settings.php:170
 msgid ""
 "You can change the skin of the slider. The 'noskin' skin is a border- and "
-"buttonless skin. Your custom skins will appear in the list when you create "
+"buttonless skin. Your custom skins will appear in the list when you custom-t "
 "their folders as well."
 msgstr ""
 "Vous pouvez le thème du slider. Le thème 'noskin' est un thème avec bordure "
@@ -3458,7 +3458,7 @@ msgstr "Ne pas importer des images"
 #: config-layerslider/LayerSlider_old/views/slider_list.php:319
 msgid ""
 "Choose a LayerSlider export file downloaded previously to import your "
-"sliders. In order to import from outdated versions, you need to create a "
+"sliders. In order to import from outdated versions, you need to custom-t a "
 "file and paste the export code into it. The file needs to have a .json "
 "extension."
 msgstr ""
@@ -4454,7 +4454,7 @@ msgstr "Pas encore de transitions 2D"
 # @ LayerSlider
 #: config-layerslider/LayerSlider/views/transition_builder.php:887
 #: config-layerslider/LayerSlider_old/views/transition_builder.php:887
-msgid "You didn't create any 3D transitions yet"
+msgid "You didn't custom-t any 3D transitions yet"
 msgstr "Vous n'avez pas encore créer des transitions 3D"
 
 # @ LayerSlider
@@ -4462,7 +4462,7 @@ msgstr "Vous n'avez pas encore créer des transitions 3D"
 #: config-layerslider/LayerSlider/views/transition_builder.php:1058
 #: config-layerslider/LayerSlider_old/views/transition_builder.php:888
 #: config-layerslider/LayerSlider_old/views/transition_builder.php:1058
-msgid "To create a new transition, click to the \\\"Add new\\\" button above."
+msgid "To custom-t a new transition, click to the \\\"Add new\\\" button above."
 msgstr ""
 "Pour créer une nouvelle transition, cliquer sur le bouton \\\"Add new\\\" ci-"
 "dessous."
@@ -4470,7 +4470,7 @@ msgstr ""
 # @ LayerSlider
 #: config-layerslider/LayerSlider/views/transition_builder.php:1057
 #: config-layerslider/LayerSlider_old/views/transition_builder.php:1057
-msgid "You didn't create any 2D transitions yet"
+msgid "You didn't custom-t any 2D transitions yet"
 msgstr "Vous n'avez pas encore de créer des transitions 2D"
 
 # @ LayerSlider
@@ -4725,7 +4725,7 @@ msgstr "Choisissez un slider :"
 # @ LayerSlider
 #: config-layerslider/LayerSlider/wp/widgets.php:52
 #: config-layerslider/LayerSlider_old/wp/widgets.php:52
-msgid "You didn't create any slider yet."
+msgid "You didn't custom-t any slider yet."
 msgstr "Vous n'avez pas encore créé de slider."
 
 # @ LayerSlider
@@ -4807,7 +4807,7 @@ msgstr ""
 #: config-templatebuilder/avia-shortcodes/av-helper-mailchimp.php:377
 msgid ""
 "We were not able to find any Newsletter List on your Mailchimp that your "
-"visitors can subscribe to. Please create at least one in your Mailchimp back-"
+"visitors can subscribe to. Please custom-t at least one in your Mailchimp back-"
 "end and refresh the list data here to use Mailchimp with this theme."
 msgstr ""
 "Nous ne sommes pas en mesure de trouver une liste de Newsletter sur votre "
@@ -8919,7 +8919,7 @@ msgstr "Ligne de grille"
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/grid_row.php:30
 msgid ""
-"Add multiple Grid Rows below each other to create advanced grid layouts. "
+"Add multiple Grid Rows below each other to custom-t advanced grid layouts. "
 "Cells can be styled individually"
 msgstr ""
 "Ajouter plusieurs lignes à la grille ci-dessous pour créer des modèles de "
@@ -11409,7 +11409,7 @@ msgstr "Quel type de menu voulez-vous afficher"
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/menu.php:53
 msgid ""
-"Either use an existing menu, built in Appearance -> Menus or create a simple "
+"Either use an existing menu, built in Appearance -> Menus or custom-t a simple "
 "custom menu here"
 msgstr ""
 "Soit utiliser un menu existant, créé dans Apparence -> Menus ou créer un "
@@ -11432,7 +11432,7 @@ msgstr "Sélectionner le menu à afficher"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/menu.php:65
-msgid "You can create new menus in "
+msgid "You can custom-t new menus in "
 msgstr "Vous pouvez créer de nouveaux menus dans "
 
 # @ avia_framework
@@ -13781,7 +13781,7 @@ msgstr "Afficher un diaporama de LayerSlider"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/slideshow_layerslider.php:57
-msgid "No Layer Slider Found. Click here to create one"
+msgid "No Layer Slider Found. Click here to custom-t one"
 msgstr "Aucun LayerSlider trouvé. Cliquez ici pour en créer un."
 
 # @ avia_framework
@@ -13801,7 +13801,7 @@ msgstr "Affichage d'un Revolution Slider pleine largeur"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/slideshow_revolution.php:57
-msgid "No Revolution Slider Found. Click here to create one"
+msgid "No Revolution Slider Found. Click here to custom-t one"
 msgstr "Aucun Revolution Slider trouvé. Cliquez ici pour en créer un."
 
 # @ avia_framework
@@ -14437,7 +14437,7 @@ msgstr "Style des témoignages"
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/testimonials.php:121
 msgid ""
-"Here you can select how to display the testimonials. You can either create a "
+"Here you can select how to display the testimonials. You can either custom-t a "
 "testimonial slider or a testimonial grid with multiple columns"
 msgstr ""
 "Vous pouvez ici choisir le type d'affichage des témoignages. Vous pouvez "
@@ -15349,7 +15349,7 @@ msgstr ""
 # @ avia_framework
 #: config-templatebuilder/avia-template-builder/config/pointers.php:13
 msgid ""
-"The Avia Layout Builder allows you to create unique layouts with an easy to "
+"The Avia Layout Builder allows you to custom-t unique layouts with an easy to "
 "use, drag and drop interface."
 msgstr ""
 "Le Constructeur de pages Avia vous permet de créer des mises en pages "
@@ -17536,7 +17536,7 @@ msgstr "Importer l'auteur :"
 
 # @ wordpress-importer
 #: framework/php/wordpress-importer/wordpress-importer.php:310
-msgid "or create new user with login name:"
+msgid "or custom-t new user with login name:"
 msgstr "ou créer un nouvel utilisateur avec l'identifiant :"
 
 # @ wordpress-importer
@@ -17563,7 +17563,7 @@ msgstr "- Selectionner -"
 #: framework/php/wordpress-importer/wordpress-importer.php:374
 #, php-format
 msgid ""
-"Failed to create new user for %s. Their posts will be attributed to the "
+"Failed to custom-t new user for %s. Their posts will be attributed to the "
 "current user."
 msgstr ""
 "Impossible de créer un nouvel utilisateur pour %s. Ses articles seront "
@@ -17877,7 +17877,7 @@ msgstr "Newsletter avec Mailchimp"
 #: includes/admin/register-admin-options.php:47
 msgid ""
 "Mailchimp allows you to easily use newsletter functionality with this theme. "
-"In order to use the Newsletter features you need to create a Mailchimp "
+"In order to use the Newsletter features you need to custom-t a Mailchimp "
 "account and enter your API key into the field below."
 msgstr ""
 "Mailchimp vous permet d'utiliser facilement des fonctionnalités de "

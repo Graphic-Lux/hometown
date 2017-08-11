@@ -18,7 +18,7 @@ $strings['avia_modal_js']  = array(
 				'remove_one_cell'  => __( 'You need to remove at least one cell', 'avia_framework' ),
 				
 				'gmap_api_text' => __( 'Google changed the way google maps work. You now need to enter a valid Google Maps API Key', 'avia_framework' )."<br/><br/>".
-								   __( 'You can read a description on how to create and enter that key here:', 'avia_framework' )." ".
+								   __( 'You can read a description on how to custom-t and enter that key here:', 'avia_framework' )." ".
 								   "<a target='_blank' href='".admin_url( "admin.php?page=avia#goto_google" )."'>".__( 'Enfold Google Settings', 'avia_framework' )."</a>",
 				
 				'gmap_api_wrong' => __( 'It seems that your Google API key is not configured correctly', 'avia_framework' )."<br/><br/>".

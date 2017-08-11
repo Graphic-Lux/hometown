@@ -2738,7 +2738,7 @@ if ( !getSetAttribute ) {
 				undefined;
 		},
 		set: function( elem, value, name ) {
-			// Set the existing or create a new attribute node
+			// Set the existing or custom-t a new attribute node
 			var ret = elem.getAttributeNode( name );
 			if ( !ret ) {
 				ret = document.createAttribute( name );
@@ -3117,7 +3117,7 @@ jQuery.event = {
 		}
 
 		if ( type.indexOf( "." ) >= 0 ) {
-			// Namespaced trigger; create a regexp to match event type in handle()
+			// Namespaced trigger; custom-t a regexp to match event type in handle()
 			namespaces = type.split(".");
 			type = namespaces.shift();
 			namespaces.sort();
@@ -7252,7 +7252,7 @@ jQuery.extend({
 
 		// For options that shouldn't be deep extended:
 		// you can add your own custom options here if
-		// and when you create one that shouldn't be
+		// and when you custom-t one that shouldn't be
 		// deep extended (see ajaxExtend)
 		flatOptions: {
 			context: true,
@@ -8062,7 +8062,7 @@ var // #5280: Internet Explorer will keep connections alive if we don't abort on
 	xhrId = 0,
 	xhrCallbacks;
 
-// Functions to create xhrs
+// Functions to custom-t xhrs
 function createStandardXHR() {
 	try {
 		return new window.XMLHttpRequest();
@@ -8595,7 +8595,7 @@ function clearFxNow() {
 	fxNow = undefined;
 }
 
-// Generate parameters to create a standard animation
+// Generate parameters to custom-t a standard animation
 function genFx( type, num ) {
 	var obj = {};
 
@@ -8915,7 +8915,7 @@ function defaultDisplay( nodeName ) {
 		// If the simple way fails,
 		// get element's real default display by attaching it to a temp iframe
 		if ( display === "none" || display === "" ) {
-			// No iframe to use yet, so create it
+			// No iframe to use yet, so custom-t it
 			if ( !iframe ) {
 				iframe = document.createElement( "iframe" );
 				iframe.frameBorder = iframe.width = iframe.height = 0;

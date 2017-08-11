@@ -55,13 +55,13 @@ if( ! class_exists( 'avia_superobject' ) )
 		var $option_prefix;
 		
 		/**
-		 * option pages retrieved from the config files in theme_option_pages, used to create the avia admin options panel.
+		 * option pages retrieved from the config files in theme_option_pages, used to custom-t the avia admin options panel.
 		 * @var array
 		 */
 		var $option_pages = array();
 		
 		/**
-		 * option page data retrieved from the config files in theme_option_pages, used to create the items at the avia admin options panel.
+		 * option page data retrieved from the config files in theme_option_pages, used to custom-t the items at the avia admin options panel.
 		 * @var array
 		 */
 		var $option_page_data = array();
@@ -130,7 +130,7 @@ if( ! class_exists( 'avia_superobject' ) )
 			//saved option values		
 			$database_option = get_option($this->option_prefix);
 			
-			//create an array that tells us which parent pages hold which subpages
+			//custom-t an array that tells us which parent pages hold which subpages
 			foreach($this->option_pages as $page)
 			{
 				$this->subpages[$page['parent']][] = $page['slug'];

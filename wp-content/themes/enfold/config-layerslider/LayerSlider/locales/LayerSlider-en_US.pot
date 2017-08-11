@@ -560,7 +560,7 @@ msgstr ""
 #: config/defaults.php:537
 msgid ""
 "The skin used for this slider. The “noskin” skin is a border- and buttonless "
-"skin. Your custom skins will appear in the list when you create their "
+"skin. Your custom skins will appear in the list when you custom-t their "
 "folders."
 msgstr ""
 
@@ -1655,7 +1655,7 @@ msgstr ""
 msgid ""
 "By turning this option on, all layers will trigger their Hover Transitions "
 "at the same time when you hover over the slider with your mouse cursor. It’s "
-"useful to create spectacular effects that involve multiple layer transitions "
+"useful to custom-t spectacular effects that involve multiple layer transitions "
 "and activate on hovering over the slider instead of individual layers."
 msgstr ""
 
@@ -4937,7 +4937,7 @@ msgstr ""
 #: templates/tmpl-transition-window.php:69
 msgid ""
 "Share your gorgeous photos with the world or your loved ones in a truly "
-"inspirational way and create sliders with stunning effects with Origami."
+"inspirational way and custom-t sliders with stunning effects with Origami."
 msgstr ""
 
 #: templates/tmpl-transition-window.php:72
@@ -4980,7 +4980,7 @@ msgstr ""
 #: templates/tmpl-upload-sliders.php:11
 msgid ""
 "Notice: In order to import from outdated versions (pre-v3.0.0), you need to "
-"create a new file and paste the export code into it. The file needs to have "
+"custom-t a new file and paste the export code into it. The file needs to have "
 "a .json extension, then you will be able to upload it."
 msgstr ""
 
@@ -5047,7 +5047,7 @@ msgstr ""
 #: views/about.php:56
 msgid ""
 "We’ve added lots of new transition options, which greatly extends the "
-"capabilities of your slideshows. You can now create chainable multi-step "
+"capabilities of your slideshows. You can now custom-t chainable multi-step "
 "animations enhanced with stylish text transitions and interactive hover "
 "animations. There’s also hidden surprises like the much requested Ken Burns "
 "effect, 3D parallax effect, and our new “play by scroll” feature. Oh, and "

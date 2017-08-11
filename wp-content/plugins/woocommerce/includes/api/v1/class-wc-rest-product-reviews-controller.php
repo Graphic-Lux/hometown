@@ -154,15 +154,15 @@ class WC_REST_Product_Reviews_V1_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access to create a new product review.
+	 * Check if a given request has access to custom-t a new product review.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
 	public function create_item_permissions_check( $request ) {
 		$post = get_post( (int) $request['product_id'] );
-		if ( $post && ! wc_rest_check_post_permissions( 'product', 'create', $post->ID ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( $post && ! wc_rest_check_post_permissions( 'product', 'custom-t', $post->ID ) ) {
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
@@ -440,7 +440,7 @@ class WC_REST_Product_Reviews_V1_Controller extends WC_REST_Controller {
 		 * Filter product reviews object returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WP_Comment       $review   Product review object used to create response.
+		 * @param WP_Comment       $review   Product review object used to custom-t response.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_product_review', $response, $review, $request );

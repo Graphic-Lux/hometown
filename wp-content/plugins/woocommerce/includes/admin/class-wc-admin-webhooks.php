@@ -196,12 +196,12 @@ class WC_Admin_Webhooks {
 	 * Create Webhook.
 	 */
 	private function create() {
-		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'create-webhook' ) ) {
+		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'custom-t-webhook' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'woocommerce' ) );
 		}
 
 		if ( ! current_user_can( 'publish_shop_webhooks' ) ) {
-			wp_die( __( 'You do not have permissions to create Webhooks!', 'woocommerce' ) );
+			wp_die( __( 'You do not have permissions to custom-t Webhooks!', 'woocommerce' ) );
 		}
 
 		$webhook_id = wp_insert_post( array(
@@ -348,7 +348,7 @@ class WC_Admin_Webhooks {
 			}
 
 			// Create
-			if ( isset( $_GET['create-webhook'] ) ) {
+			if ( isset( $_GET['custom-t-webhook'] ) ) {
 				$this->create();
 			}
 
@@ -426,7 +426,7 @@ class WC_Admin_Webhooks {
 	 * Table list output.
 	 */
 	private static function table_list_output() {
-		echo '<h2>' . __( 'Webhooks', 'woocommerce' ) . ' <a href="' . esc_url( wp_nonce_url( admin_url( 'admin.php?page=wc-settings&tab=api&section=webhooks&create-webhook=1' ), 'create-webhook' ) ) . '" class="add-new-h2">' . __( 'Add webhook', 'woocommerce' ) . '</a></h2>';
+		echo '<h2>' . __( 'Webhooks', 'woocommerce' ) . ' <a href="' . esc_url( wp_nonce_url( admin_url( 'admin.php?page=wc-settings&tab=api&section=webhooks&custom-t-webhook=1' ), 'custom-t-webhook' ) ) . '" class="add-new-h2">' . __( 'Add webhook', 'woocommerce' ) . '</a></h2>';
 
 		// Get the webhooks count
 		$count = array_sum( (array) wp_count_posts( 'shop_webhook', 'readable' ) );
@@ -446,7 +446,7 @@ class WC_Admin_Webhooks {
 			echo '<div class="woocommerce-BlankState woocommerce-BlankState--webhooks">';
 			?>
 			<h2 class="woocommerce-BlankState-message"><?php _e( 'Webhooks are event notifications sent to URLs of your choice. They can be used to integrate with third-party services which support them.', 'woocommerce' ); ?></h2>
-			<a class="woocommerce-BlankState-cta button-primary button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=wc-settings&tab=api&section=webhooks&create-webhook=1' ), 'create-webhook' ) ); ?>"><?php _e( 'Create a new webhook', 'woocommerce' ); ?></a>
+			<a class="woocommerce-BlankState-cta button-primary button" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=wc-settings&tab=api&section=webhooks&custom-t-webhook=1' ), 'custom-t-webhook' ) ); ?>"><?php _e( 'Create a new webhook', 'woocommerce' ); ?></a>
 
 			<?php echo '<style type="text/css">#posts-filter .wp-list-table, #posts-filter .tablenav.top, .tablenav.bottom .actions  { display: none; } </style></div>';
 		}

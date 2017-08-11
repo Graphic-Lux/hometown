@@ -468,7 +468,7 @@ a.pswp__share--download:hover {
 .pswp__ui--hidden .pswp__caption,
 .pswp__ui--hidden .pswp__button--arrow--left,
 .pswp__ui--hidden .pswp__button--arrow--right {
-  /* Force paint & create composition layer for controls. */
+  /* Force paint & custom-t composition layer for controls. */
   opacity: 0.001; }
 
 /* pswp__ui--one-slide class is added when there is just one item in gallery */

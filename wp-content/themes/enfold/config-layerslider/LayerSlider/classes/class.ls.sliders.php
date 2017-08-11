@@ -180,8 +180,8 @@ class LS_Sliders {
 	 *
 	 * @since 5.0.0
 	 * @access public
-	 * @param string $title The title of the slider to create
-	 * @param array $data The settings of the slider to create
+	 * @param string $title The title of the slider to custom-t
+	 * @param array $data The settings of the slider to custom-t
 	 * @return int The slider database ID inserted
 	 */
 	public static function add($title = 'Unnamed', $data = array(), $slug = '') {

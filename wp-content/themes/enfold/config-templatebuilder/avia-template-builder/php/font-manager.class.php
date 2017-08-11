@@ -104,12 +104,12 @@ class avia_font_manager{
 	{ 	
 		@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 		
-		//if a temp dir already exists remove it and create a new one
+		//if a temp dir already exists remove it and custom-t a new one
 		if(is_dir($this->paths['tempdir'])) $this->delete_folder($this->paths['tempdir']);
 		
-		//create a new
+		//custom-t a new
 		$tempdir = avia_backend_create_folder($this->paths['tempdir'], false);
-		if(!$tempdir) exit('Wasn\'t able to create temp folder');
+		if(!$tempdir) exit('Wasn\'t able to custom-t temp folder');
 		
 	    $zip = new ZipArchive; 
 	    
@@ -183,7 +183,7 @@ class avia_font_manager{
 		if(empty($this->svg_file))
 		{
 			$this->delete_folder($this->paths['tempdir']);
-			exit('Found no SVG file with font information in your folder. Was not able to create the necessary config files');
+			exit('Found no SVG file with font information in your folder. Was not able to custom-t the necessary config files');
 		}
 		
 		//fetch the svg files content
@@ -374,7 +374,7 @@ class avia_font_manager{
 	}
 	
 	
-	//finds the svg file we need to create the config
+	//finds the svg file we need to custom-t the config
 	function find_svg()
 	{
 		$files = scandir($this->paths['tempdir']);

@@ -579,7 +579,7 @@ $pages          = $system_status->get_pages();
 			<td data-export-label="Child Theme"><?php _e( 'Child theme', 'woocommerce' ); ?>:</td>
 			<td class="help"><?php echo wc_help_tip( __( 'Displays whether or not the current theme is a child theme.', 'woocommerce' ) ); ?></td>
 			<td><?php
-				echo $theme['is_child_theme'] ? '<mark class="yes"><span class="dashicons dashicons-yes"></span></mark>' : '<span class="dashicons dashicons-no-alt"></span> &ndash; ' . sprintf( __( 'If you are modifying WooCommerce on a parent theme that you did not build personally we recommend using a child theme. See: <a href="%s" target="_blank">How to create a child theme</a>', 'woocommerce' ), 'https://codex.wordpress.org/Child_Themes' );
+				echo $theme['is_child_theme'] ? '<mark class="yes"><span class="dashicons dashicons-yes"></span></mark>' : '<span class="dashicons dashicons-no-alt"></span> &ndash; ' . sprintf( __( 'If you are modifying WooCommerce on a parent theme that you did not build personally we recommend using a child theme. See: <a href="%s" target="_blank">How to custom-t a child theme</a>', 'woocommerce' ), 'https://codex.wordpress.org/Child_Themes' );
 			?></td>
 		</tr>
 		<?php

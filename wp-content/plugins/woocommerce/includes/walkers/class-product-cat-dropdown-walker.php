@@ -74,7 +74,7 @@ class WC_Product_Cat_Dropdown_Walker extends Walker {
 	}
 
 	/**
-	 * Traverse elements to create list from elements.
+	 * Traverse elements to custom-t list from elements.
 	 *
 	 * Display one element if the element doesn't have any children otherwise,
 	 * display the element and its children. Will only traverse up to the max.

@@ -89,7 +89,7 @@ class WC_Customer_Data_Store extends WC_Data_Store_WP implements WC_Customer_Dat
 	 }
 
 	/**
-	 * Method to create a new customer in the database.
+	 * Method to custom-t a new customer in the database.
 	 *
 	 * @since 3.0.0
 	 *

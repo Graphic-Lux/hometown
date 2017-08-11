@@ -197,7 +197,7 @@ class WC_Admin {
 			include( 'views/html-email-template-preview.php' );
 			$message       = ob_get_clean();
 
-			// create a new email
+			// custom-t a new email
 			$email         = new WC_Email();
 
 			// wrap the content with the email template and then add styles

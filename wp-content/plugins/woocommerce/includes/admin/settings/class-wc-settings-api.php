@@ -110,7 +110,7 @@ class WC_Settings_Rest_API extends WC_Settings_Page {
 		}
 
 		if ( 'keys' == $current_section ) {
-			if ( isset( $_GET['create-key'] ) || isset( $_GET['edit-key'] ) ) {
+			if ( isset( $_GET['custom-t-key'] ) || isset( $_GET['edit-key'] ) ) {
 				return 'post';
 			}
 

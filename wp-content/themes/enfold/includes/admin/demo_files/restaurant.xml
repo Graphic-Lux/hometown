@@ -12,7 +12,7 @@
 <!-- 5. Upload this file using the form provided on that page. -->
 <!-- 6. You will first be asked to map the authors in this export file to users -->
 <!--    on the site. For each author, you may choose to map to an -->
-<!--    existing user on the site or to create a new user. -->
+<!--    existing user on the site or to custom-t a new user. -->
 <!-- 7. WordPress will then import each of the posts, pages, comments, categories, etc. -->
 <!--    contained in this file into your site. -->
 

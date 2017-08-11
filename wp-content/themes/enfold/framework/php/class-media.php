@@ -2,7 +2,7 @@
 /**
  * This file holds various functions that modify the wordpress media uploader
  *
- * It utilizes custom posts to create a gallerie for each upload field. 
+ * It utilizes custom posts to custom-t a gallerie for each upload field. 
  * Kudos to woothemes for this great idea :)
  *
  * @author		Christian "Kriesi" Budschedl
@@ -24,7 +24,7 @@ if( !class_exists( 'avia_media' ) )
 {	
 
 	/**
-	 * The avia media class is a set of static class methods that help to create the hidden image containing posts
+	 * The avia media class is a set of static class methods that help to custom-t the hidden image containing posts
 	 * @package 	AviaFramework
 	 */
 	class avia_media

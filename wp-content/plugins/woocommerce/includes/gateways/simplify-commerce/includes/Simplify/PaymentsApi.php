@@ -38,7 +38,7 @@ class Simplify_PaymentsApi
 	 * @ignore
 	 */
 	public static $methodMap = array(
-		'create' => 'POST',
+		'custom-t' => 'POST',
 		'delete' => 'DELETE',
 		'list' => 'GET',
 		'show' => 'GET',
@@ -57,7 +57,7 @@ class Simplify_PaymentsApi
 	{
 		$paymentsApi = new Simplify_PaymentsApi();
 
-		$jsonObject = $paymentsApi->execute("create", $object, $authentication);
+		$jsonObject = $paymentsApi->execute("custom-t", $object, $authentication);
 
 		$o = $paymentsApi->convertFromHashToObject($jsonObject, $object->getClazz());
 
@@ -229,7 +229,7 @@ class Simplify_PaymentsApi
 			$url .= urlencode($object->id);
 		} elseif ($action == "update") {
 			$url .= urlencode($object->id);
-		} elseif ($action == "create") {
+		} elseif ($action == "custom-t") {
 		}
 		return $url;
 	}
@@ -326,7 +326,7 @@ class Simplify_PaymentsApi
 	 * Helper function to build the Authentication object for backwards compatibility.
 	 * An array of all the arguments passed to one of the API functions is checked against what
 	 * we expect to received.  If it's greater, then we're assuming that the user is using the older way of
-	 * passing the keys. i.e as two separate strings.  We take those two string and create the Authentication object
+	 * passing the keys. i.e as two separate strings.  We take those two string and custom-t the Authentication object
 	 *
 	 * @ignore
 	 * @param $authentication

@@ -49,7 +49,7 @@ class WC_Coupon_Data_Store_CPT extends WC_Data_Store_WP implements WC_Coupon_Dat
 	);
 
 	/**
-	 * Method to create a new coupon in the database.
+	 * Method to custom-t a new coupon in the database.
 	 *
 	 * @since 3.0.0
 	 * @param WC_Coupon $coupon

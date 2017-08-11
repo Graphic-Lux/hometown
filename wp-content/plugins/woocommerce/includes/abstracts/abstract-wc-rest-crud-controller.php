@@ -114,7 +114,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 	}
 
 	/**
-	 * Prepares one object for create or update operation.
+	 * Prepares one object for custom-t or update operation.
 	 *
 	 * @since  3.0.0
 	 * @param  WP_REST_Request $request Request object.
@@ -183,7 +183,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
 			/* translators: %s: post type */
-			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot create existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
+			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot custom-t existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
 		}
 
 		$object = $this->save_object( $request, true );

@@ -1,5 +1,5 @@
 <?
-class tf_sessions extends object
+class sessions extends object
 {
 	var $tableName = "sessions";
 }

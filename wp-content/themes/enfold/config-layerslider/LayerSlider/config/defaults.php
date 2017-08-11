@@ -534,7 +534,7 @@ $lsDefaults = array(
 			'value' => 'v6',
 			'name' => __('Skin', 'LayerSlider'),
 			'keys' => 'skin',
-			'desc' => __('The skin used for this slider. The “noskin” skin is a border- and buttonless skin. Your custom skins will appear in the list when you create their folders.', 'LayerSlider')
+			'desc' => __('The skin used for this slider. The “noskin” skin is a border- and buttonless skin. Your custom skins will appear in the list when you custom-t their folders.', 'LayerSlider')
 		),
 
 
@@ -1817,7 +1817,7 @@ $lsDefaults = array(
 			'value' => false,
 			'name' => __('Global Hover', 'LayerSlider'),
 			'keys' => 'globalhover',
-			'tooltip' => __('By turning this option on, all layers will trigger their Hover Transitions at the same time when you hover over the slider with your mouse cursor. It’s useful to create spectacular effects that involve multiple layer transitions and activate on hovering over the slider instead of individual layers.', 'LayerSlider'),
+			'tooltip' => __('By turning this option on, all layers will trigger their Hover Transitions at the same time when you hover over the slider with your mouse cursor. It’s useful to custom-t spectacular effects that involve multiple layer transitions and activate on hovering over the slider instead of individual layers.', 'LayerSlider'),
 			'premium' => true
 		),
 

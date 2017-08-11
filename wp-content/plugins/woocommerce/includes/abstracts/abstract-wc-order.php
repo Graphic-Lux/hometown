@@ -147,11 +147,11 @@ abstract class WC_Abstract_Order extends WC_Abstract_Legacy_Order {
 	| CRUD methods
 	|--------------------------------------------------------------------------
 	|
-	| Methods which create, read, update and delete orders from the database.
+	| Methods which custom-t, read, update and delete orders from the database.
 	| Written in abstract fashion so that the way orders are stored can be
 	| changed more easily in the future.
 	|
-	| A save method is included for convenience (chooses update or create based
+	| A save method is included for convenience (chooses update or custom-t based
 	| on if the order exists yet).
 	|
 	*/

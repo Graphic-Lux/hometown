@@ -80,9 +80,9 @@ function cast($destination, $sourceObject)
 //  wp_register_script('boostrap-slider-js', REST_PLUGIN_URL . 'assets/js/bootstrap-slider.min.js', array('jquery', 'tf-functions'), '0.2.0', false);
 //
 //  wp_register_script('tf-functions', REST_PLUGIN_URL . 'assets/js/functions.js', array('jquery'), '0.2.0', false);
-//  wp_register_script('audio-js', REST_PLUGIN_URL . 'assets/js/create/audio.js', array('jquery', 'tf-functions'), '0.2.0', false);
-////  wp_register_script('audio-js', REST_PLUGIN_URL . 'assets/js/create/audio.js', array('jquery', 'tf-functions'), '0.2.0', false);
-//  wp_register_script('mp3-visual-js', REST_PLUGIN_URL . 'assets/js/create/visual.js', array('jquery', 'tf-functions'), '0.2.0', false);
+//  wp_register_script('audio-js', REST_PLUGIN_URL . 'assets/js/custom-t/audio.js', array('jquery', 'tf-functions'), '0.2.0', false);
+////  wp_register_script('audio-js', REST_PLUGIN_URL . 'assets/js/custom-t/audio.js', array('jquery', 'tf-functions'), '0.2.0', false);
+//  wp_register_script('mp3-visual-js', REST_PLUGIN_URL . 'assets/js/custom-t/visual.js', array('jquery', 'tf-functions'), '0.2.0', false);
 //
 //  wp_enqueue_script('tf-functions');
 //  wp_enqueue_script('audio-js');

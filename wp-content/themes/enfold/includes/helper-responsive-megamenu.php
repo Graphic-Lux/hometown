@@ -348,7 +348,7 @@ if( !class_exists( 'avia_responsive_mega_menu' ) )
 if( !function_exists( 'avia_responsive_fallback_menu' ) )
 {
 	/**
-	 * Create a navigation out of pages if the user didnt create a menu in the backend
+	 * Create a navigation out of pages if the user didnt custom-t a menu in the backend
 	 *
 	 */
 	function avia_responsive_fallback_menu()

@@ -404,7 +404,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	}
 
 	/**
-	 * Prepare a single order for create or update.
+	 * Prepare a single order for custom-t or update.
 	 *
 	 * @param  WP_REST_Request $request Request object.
 	 * @param  bool            $creating If is creating a new object.
@@ -607,19 +607,19 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	 * Create or update a line item.
 	 *
 	 * @param array $posted Line item data.
-	 * @param string $action 'create' to add line item or 'update' to update it.
+	 * @param string $action 'custom-t' to add line item or 'update' to update it.
 	 *
 	 * @return WC_Order_Item_Product
 	 * @throws WC_REST_Exception Invalid data, server error.
 	 */
-	protected function prepare_line_items( $posted, $action = 'create' ) {
+	protected function prepare_line_items( $posted, $action = 'custom-t' ) {
 		$item    = new WC_Order_Item_Product( ! empty( $posted['id'] ) ? $posted['id'] : '' );
 		$product = wc_get_product( $this->get_product_id( $posted ) );
 
 		if ( $product !== $item->get_product() ) {
 			$item->set_product( $product );
 
-			if ( 'create' === $action ) {
+			if ( 'custom-t' === $action ) {
 				$quantity = isset( $posted['quantity'] ) ? $posted['quantity'] : 1;
 				$total    = wc_get_price_excluding_tax( $product, array( 'qty' => $quantity ) );
 				$item->set_total( $total );
@@ -637,7 +637,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	 * Create or update an order shipping method.
 	 *
 	 * @param $posted $shipping Item data.
-	 * @param string $action 'create' to add shipping or 'update' to update it.
+	 * @param string $action 'custom-t' to add shipping or 'update' to update it.
 	 *
 	 * @return WC_Order_Item_Shipping
 	 * @throws WC_REST_Exception Invalid data, server error.
@@ -645,7 +645,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	protected function prepare_shipping_lines( $posted, $action ) {
 		$item = new WC_Order_Item_Shipping( ! empty( $posted['id'] ) ? $posted['id'] : '' );
 
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 			if ( empty( $posted['method_id'] ) ) {
 				throw new WC_REST_Exception( 'woocommerce_rest_invalid_shipping_item', __( 'Shipping method ID is required.', 'woocommerce' ), 400 );
 			}
@@ -661,7 +661,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	 * Create or update an order fee.
 	 *
 	 * @param array $posted Item data.
-	 * @param string $action 'create' to add fee or 'update' to update it.
+	 * @param string $action 'custom-t' to add fee or 'update' to update it.
 	 *
 	 * @return WC_Order_Item_Fee
 	 * @throws WC_REST_Exception Invalid data, server error.
@@ -669,7 +669,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	protected function prepare_fee_lines( $posted, $action ) {
 		$item = new WC_Order_Item_Fee( ! empty( $posted['id'] ) ? $posted['id'] : '' );
 
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 			if ( empty( $posted['name'] ) ) {
 				throw new WC_REST_Exception( 'woocommerce_rest_invalid_fee_item', __( 'Fee name is required.', 'woocommerce' ), 400 );
 			}
@@ -685,7 +685,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	 * Create or update an order coupon.
 	 *
 	 * @param array $posted Item data.
-	 * @param string $action 'create' to add coupon or 'update' to update it.
+	 * @param string $action 'custom-t' to add coupon or 'update' to update it.
 	 *
 	 * @return WC_Order_Item_Coupon
 	 * @throws WC_REST_Exception Invalid data, server error.
@@ -693,7 +693,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	protected function prepare_coupon_lines( $posted, $action ) {
 		$item = new WC_Order_Item_Coupon( ! empty( $posted['id'] ) ? $posted['id'] : '' );
 
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 			if ( empty( $posted['code'] ) ) {
 				throw new WC_REST_Exception( 'woocommerce_rest_invalid_coupon_coupon', __( 'Coupon code is required.', 'woocommerce' ), 400 );
 			}
@@ -706,7 +706,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	}
 
 	/**
-	 * Wrapper method to create/update order items.
+	 * Wrapper method to custom-t/update order items.
 	 * When updating, the item ID provided is checked to ensure it is associated
 	 * with the order.
 	 *
@@ -721,7 +721,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 		if ( ! empty( $posted['id'] ) ) {
 			$action = 'update';
 		} else {
-			$action = 'create';
+			$action = 'custom-t';
 		}
 
 		$method = 'prepare_' . $item_type;
@@ -748,7 +748,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 		do_action( 'woocommerce_rest_set_order_item', $item, $posted );
 
 		// Save or add to order
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 			$order->add_item( $item );
 		} else {
 			$item->save();

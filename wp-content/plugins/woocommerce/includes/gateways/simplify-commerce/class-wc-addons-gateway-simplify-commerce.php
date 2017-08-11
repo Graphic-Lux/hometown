@@ -50,7 +50,7 @@ class WC_Addons_Gateway_Simplify_Commerce extends WC_Gateway_Simplify_Commerce {
 	 */
 	public function hosted_payment_args( $args, $order_id ) {
 		if ( ( $this->order_contains_subscription( $order_id ) ) || ( $this->order_contains_pre_order( $order_id ) && WC_Pre_Orders_Order::order_requires_payment_tokenization( $order_id ) ) ) {
-			$args['operation'] = 'create.token';
+			$args['operation'] = 'custom-t.token';
 		}
 
 		$args['redirect-url'] = WC()->api_request_url( 'WC_Addons_Gateway_Simplify_Commerce' );

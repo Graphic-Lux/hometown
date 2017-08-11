@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Legacy Payment Tokens.
- * Payment Tokens were introduced in 2.6.0 with create and update as methods.
+ * Payment Tokens were introduced in 2.6.0 with custom-t and update as methods.
  * Major CRUD changes occurred in 3.0, so these were deprecated (save and delete still work).
- * This legacy class is for backwards compatibility in case any code called ->read, ->update or ->create
+ * This legacy class is for backwards compatibility in case any code called ->read, ->update or ->custom-t
  * directly on the object.
  *
  * @version  3.0.0
@@ -58,7 +58,7 @@ abstract class WC_Legacy_Payment_Token extends WC_Data {
 	 * @deprecated 3.0.0 - Use ::save instead.
 	 */
 	public function create() {
-		wc_deprecated_function( 'WC_Payment_Token::create', '3.0.0', 'WC_Payment_Token::save instead.' );
+		wc_deprecated_function( 'WC_Payment_Token::custom-t', '3.0.0', 'WC_Payment_Token::save instead.' );
 		$data_store = WC_Data_Store::load( 'payment-token' );
 		try {
 			$data_store->create( $this );

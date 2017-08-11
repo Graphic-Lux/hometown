@@ -1108,7 +1108,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 
         /**
          * Gathers and renames all of our plugin information to be used by
-         * WP_List_Table to create our table.
+         * WP_List_Table to custom-t our table.
          *
          * @since 2.2.0
          *
@@ -1563,7 +1563,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
                 $sources      = array();
                 $install_path = array();
 
-                // Loop through each plugin to install and try to grab information from WordPress API, if not create 'tgmpa-empty' scalar.
+                // Loop through each plugin to install and try to grab information from WordPress API, if not custom-t 'tgmpa-empty' scalar.
                 $i = 0;
                 foreach ( $plugin_installs as $plugin ) {
                     $api[$i] = plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) ) ? plugins_api( 'plugin_information', array( 'slug' => $plugin, 'fields' => array( 'sections' => false ) ) ) : (object) $api[$i] = 'tgmpa-empty';

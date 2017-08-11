@@ -342,7 +342,7 @@ class WC_Product_Variation_Data_Store_CPT extends WC_Product_Data_Store_CPT impl
 	 *
 	 * @since 3.0.0
 	 * @param WC_Product
-	 * @param bool Force update. Used during create.
+	 * @param bool Force update. Used during custom-t.
 	 */
 	protected function update_terms( &$product, $force = false ) {
 		$changes = $product->get_changes();
@@ -379,7 +379,7 @@ class WC_Product_Variation_Data_Store_CPT extends WC_Product_Data_Store_CPT impl
 	 *
 	 * @since 3.0.0
 	 * @param WC_Product
-	 * @param bool Force update. Used during create.
+	 * @param bool Force update. Used during custom-t.
 	 */
 	protected function update_attributes( &$product, $force = false ) {
 		$changes = $product->get_changes();
@@ -407,7 +407,7 @@ class WC_Product_Variation_Data_Store_CPT extends WC_Product_Data_Store_CPT impl
 	 *
 	 * @since 3.0.0
 	 * @param WC_Product
-	 * @param bool Force update. Used during create.
+	 * @param bool Force update. Used during custom-t.
 	 */
 	public function update_post_meta( &$product, $force = false ) {
 		$meta_key_to_props = array(

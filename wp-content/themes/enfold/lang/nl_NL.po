@@ -147,7 +147,7 @@ msgstr ""
 #: config-templatebuilder/avia-shortcodes/av-helper-mailchimp.php:377
 msgid ""
 "We were not able to find any Newsletter List on your Mailchimp that your "
-"visitors can subscribe to. Please create at least one in your Mailchimp back-"
+"visitors can subscribe to. Please custom-t at least one in your Mailchimp back-"
 "end and refresh the list data here to use Mailchimp with this theme."
 msgstr ""
 
@@ -1063,7 +1063,7 @@ msgstr ""
 
 #: config-templatebuilder/avia-shortcodes/menu.php:54
 msgid ""
-"Either use an existing menu, built in Appearance -> Menus or create a simple "
+"Either use an existing menu, built in Appearance -> Menus or custom-t a simple "
 "custom menu here"
 msgstr ""
 
@@ -2256,7 +2256,7 @@ msgid ""
 msgstr ""
 
 #: config-templatebuilder/avia-template-builder/config/javascript_strings.php:21
-msgid "You can read a description on how to create and enter that key here:"
+msgid "You can read a description on how to custom-t and enter that key here:"
 msgstr ""
 
 #: config-templatebuilder/avia-template-builder/config/javascript_strings.php:22
@@ -6751,7 +6751,7 @@ msgstr "Raster-rij"
 
 #: config-templatebuilder/avia-shortcodes/grid_row.php:30
 msgid ""
-"Add multiple Grid Rows below each other to create advanced grid layouts. "
+"Add multiple Grid Rows below each other to custom-t advanced grid layouts. "
 "Cells can be styled individually"
 msgstr ""
 "Plaats meerdere rijen onder elkaar om een geavanceerde lay-out te creëren. "
@@ -8583,7 +8583,7 @@ msgid "Select menu to display"
 msgstr "Kies het menu om te tonen"
 
 #: config-templatebuilder/avia-shortcodes/menu.php:66
-msgid "You can create new menus in "
+msgid "You can custom-t new menus in "
 msgstr "U kunt nieuwe menu's creëren in"
 
 #: config-templatebuilder/avia-shortcodes/menu.php:66
@@ -10328,7 +10328,7 @@ msgstr "Toon een Layerslider Diavoorstelling"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/slideshow_layerslider.php:57
-msgid "No Layer Slider Found. Click here to create one"
+msgid "No Layer Slider Found. Click here to custom-t one"
 msgstr "Geen Layer Slider gevonden. Klik hier om er een te maken"
 
 # @ avia_framework
@@ -10348,7 +10348,7 @@ msgstr "Toon volledige-breedte Revolution Slider"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/slideshow_revolution.php:57
-msgid "No Revolution Slider Found. Click here to create one"
+msgid "No Revolution Slider Found. Click here to custom-t one"
 msgstr "Geen Revolution Slider Gevonden. Klik hier om er een te maken"
 
 # @ avia_framework
@@ -10806,7 +10806,7 @@ msgstr "Style Testimonial"
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/testimonials.php:122
 msgid ""
-"Here you can select how to display the testimonials. You can either create a "
+"Here you can select how to display the testimonials. You can either custom-t a "
 "testimonial slider or a testimonial grid with multiple columns"
 msgstr ""
 "Hier kunt u selecteren hoe de Testimonials getoond moeten worden. U kunt ook "
@@ -12259,7 +12259,7 @@ msgstr ""
 # @ avia_framework
 #: config-templatebuilder/avia-template-builder/config/pointers.php:13
 msgid ""
-"The Avia Layout Builder allows you to create unique layouts with an easy to "
+"The Avia Layout Builder allows you to custom-t unique layouts with an easy to "
 "use, drag and drop interface."
 msgstr ""
 "Met de Avia Indeling-Bouwer kunt u eenvoudig unieke lay-outs maken d.m.v. "

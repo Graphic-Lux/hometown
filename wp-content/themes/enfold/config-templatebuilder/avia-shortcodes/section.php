@@ -697,7 +697,7 @@ array(
 			    if($background) $background = "style = '{$background}'";
 			    
 			    
-			    /*check/create overlay*/
+			    /*check/custom-t overlay*/
 				$overlay 	= "";
 				$pre_wrap 	= "<div class='av-section-color-overlay-wrap'>" ;
 				if(!empty($overlay_enable))
@@ -803,13 +803,13 @@ array(
 					avia_sc_section::$close_overlay = "";
 				}
 				
-				//if the next tag is a section dont create a new section from this shortcode
+				//if the next tag is a section dont custom-t a new section from this shortcode
 				if(!empty($meta['siblings']['next']['tag']) && in_array($meta['siblings']['next']['tag'], AviaBuilder::$full_el))
 				{
 				    $skipSecond = true;
 				}
 
-				//if there is no next element dont create a new section. if we got a sidebar always create a next section at the bottom
+				//if there is no next element dont custom-t a new section. if we got a sidebar always custom-t a next section at the bottom
 				if(empty($meta['siblings']['next']['tag']) && !avia_has_sidebar())
 				{
 				    $skipSecond = true;
@@ -983,10 +983,10 @@ if(!function_exists('avia_section_after_element_content'))
 		$output = "</div>"; //close section
 		$output .= $extra;
 					
-		//if the next tag is a section dont create a new section from this shortcode
+		//if the next tag is a section dont custom-t a new section from this shortcode
 		if(!empty($meta['siblings']['next']['tag']) && in_array($meta['siblings']['next']['tag'], AviaBuilder::$full_el )){ $skipSecond = true; }
 	
-		//if there is no next element dont create a new section.
+		//if there is no next element dont custom-t a new section.
 		if(empty($meta['siblings']['next']['tag'])) { $skipSecond = true; }
 		
 		if(empty($skipSecond)) { $output .= avia_new_section(array('close'=>false, 'id' => $second_id)); }

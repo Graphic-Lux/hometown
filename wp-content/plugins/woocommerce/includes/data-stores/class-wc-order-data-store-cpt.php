@@ -70,7 +70,7 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 	);
 
 	/**
-	 * Method to create a new order in the database.
+	 * Method to custom-t a new order in the database.
 	 * @param WC_Order $order
 	 */
 	public function create( &$order ) {

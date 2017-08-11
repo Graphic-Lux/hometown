@@ -125,15 +125,15 @@ class WC_REST_Order_Notes_V1_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access create order notes.
+	 * Check if a given request has access custom-t order notes.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
 	 * @return bool|WP_Error
 	 */
 	public function create_item_permissions_check( $request ) {
-		if ( ! wc_rest_check_post_permissions( $this->post_type, 'create' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! wc_rest_check_post_permissions( $this->post_type, 'custom-t' ) ) {
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -217,7 +217,7 @@ class WC_REST_Order_Notes_V1_Controller extends WC_REST_Controller {
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
 			/* translators: %s: post type */
-			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot create existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
+			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot custom-t existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
 		}
 
 		$order = wc_get_order( (int) $request['order_id'] );
@@ -230,7 +230,7 @@ class WC_REST_Order_Notes_V1_Controller extends WC_REST_Controller {
 		$note_id = $order->add_order_note( $request['note'], $request['customer_note'] );
 
 		if ( ! $note_id ) {
-			return new WP_Error( 'woocommerce_api_cannot_create_order_note', __( 'Cannot create order note, please try again.', 'woocommerce' ), array( 'status' => 500 ) );
+			return new WP_Error( 'woocommerce_api_cannot_create_order_note', __( 'Cannot custom-t order note, please try again.', 'woocommerce' ), array( 'status' => 500 ) );
 		}
 
 		$note = get_comment( $note_id );
@@ -356,7 +356,7 @@ class WC_REST_Order_Notes_V1_Controller extends WC_REST_Controller {
 		 * Filter order note object returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WP_Comment       $note     Order note object used to create response.
+		 * @param WP_Comment       $note     Order note object used to custom-t response.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_order_note', $response, $note, $request );

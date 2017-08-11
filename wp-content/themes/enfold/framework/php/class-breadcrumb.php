@@ -525,7 +525,7 @@ function avia_breadcrumbs( $args = array() ) {
 /* avia_breadcrumbs_get_parents() - Retrieve the parents of the current page/post */
 /*-----------------------------------------------------------------------------------*/
 /**
- * Gets parent pages of any post type or taxonomy by the ID or Path.  The goal of this function is to create
+ * Gets parent pages of any post type or taxonomy by the ID or Path.  The goal of this function is to custom-t
  * a clear path back to home given what would normally be a "ghost" directory.  If any page matches the given
  * path, it'll be added.  But, it's also just a way to check for a hierarchy with hierarchical post types.
  *

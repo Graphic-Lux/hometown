@@ -364,14 +364,14 @@ class WC_API_Orders extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['order'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_order_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'order' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_order_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'order' ), 400 );
 			}
 
 			$data = $data['order'];
 
 			// permission check
 			if ( ! current_user_can( 'publish_shop_orders' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_order', __( 'You do not have permission to create orders', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_order', __( 'You do not have permission to custom-t orders', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_order_data', $data, $this );
@@ -393,11 +393,11 @@ class WC_API_Orders extends WC_API_Resource {
 				$default_order_args['customer_id'] = $data['customer_id'];
 			}
 
-			// create the pending order
+			// custom-t the pending order
 			$order = $this->create_base_order( $default_order_args, $data );
 
 			if ( is_wp_error( $order ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_cannot_create_order', sprintf( __( 'Cannot create order: %s', 'woocommerce' ), implode( ', ', $order->get_error_messages() ) ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_cannot_create_order', sprintf( __( 'Cannot custom-t order: %s', 'woocommerce' ), implode( ', ', $order->get_error_messages() ) ), 400 );
 			}
 
 			// billing/shipping addresses
@@ -418,7 +418,7 @@ class WC_API_Orders extends WC_API_Resource {
 
 					foreach ( $data[ $line ] as $item ) {
 
-						$this->$set_item( $order, $item, 'create' );
+						$this->$set_item( $order, $item, 'custom-t' );
 					}
 				}
 			}
@@ -569,7 +569,7 @@ class WC_API_Orders extends WC_API_Resource {
 
 						// Create item.
 						if ( is_null( $item['id'] ) ) {
-							$this->set_item( $order, $line_type, $item, 'create' );
+							$this->set_item( $order, $line_type, $item, 'custom-t' );
 						} elseif ( $this->item_is_null( $item ) ) {
 							// Delete item.
 							wc_delete_order_item( $item['id'] );
@@ -819,7 +819,7 @@ class WC_API_Orders extends WC_API_Resource {
 	}
 
 	/**
-	 * Wrapper method to create/update order items
+	 * Wrapper method to custom-t/update order items
 	 *
 	 * When updating, the item ID provided is checked to ensure it is associated
 	 * with the order.
@@ -828,7 +828,7 @@ class WC_API_Orders extends WC_API_Resource {
 	 * @param \WC_Order $order order
 	 * @param string $item_type
 	 * @param array $item item provided in the request body
-	 * @param string $action either 'create' or 'update'
+	 * @param string $action either 'custom-t' or 'update'
 	 * @throws WC_API_Exception if item ID is not associated with order
 	 */
 	protected function set_item( $order, $item_type, $item, $action ) {
@@ -859,11 +859,11 @@ class WC_API_Orders extends WC_API_Resource {
 	 * @since 2.2
 	 * @param \WC_Order $order
 	 * @param array $item line item data
-	 * @param string $action 'create' to add line item or 'update' to update it
+	 * @param string $action 'custom-t' to add line item or 'update' to update it
 	 * @throws WC_API_Exception invalid data, server error
 	 */
 	protected function set_line_item( $order, $item, $action ) {
-		$creating  = ( 'create' === $action );
+		$creating  = ( 'custom-t' === $action );
 
 		// product is always required
 		if ( ! isset( $item['product_id'] ) && ! isset( $item['sku'] ) ) {
@@ -955,7 +955,7 @@ class WC_API_Orders extends WC_API_Resource {
 			$item_id = $line_item->save();
 
 			if ( ! $item_id ) {
-				throw new WC_API_Exception( 'woocommerce_cannot_create_line_item', __( 'Cannot create line item, try again.', 'woocommerce' ), 500 );
+				throw new WC_API_Exception( 'woocommerce_cannot_create_line_item', __( 'Cannot custom-t line item, try again.', 'woocommerce' ), 500 );
 			}
 		}
 	}
@@ -1024,7 +1024,7 @@ class WC_API_Orders extends WC_API_Resource {
 	 * @since 2.2
 	 * @param \WC_Order $order
 	 * @param array $shipping item data
-	 * @param string $action 'create' to add shipping or 'update' to update it
+	 * @param string $action 'custom-t' to add shipping or 'update' to update it
 	 * @throws WC_API_Exception invalid data, server error
 	 */
 	protected function set_shipping( $order, $shipping, $action ) {
@@ -1034,7 +1034,7 @@ class WC_API_Orders extends WC_API_Resource {
 			throw new WC_API_Exception( 'woocommerce_invalid_shipping_total', __( 'Shipping total must be a positive amount.', 'woocommerce' ), 400 );
 		}
 
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 
 			// method ID is required
 			if ( ! isset( $shipping['method_id'] ) ) {
@@ -1076,12 +1076,12 @@ class WC_API_Orders extends WC_API_Resource {
 	 * @since 2.2
 	 * @param \WC_Order $order
 	 * @param array $fee item data
-	 * @param string $action 'create' to add fee or 'update' to update it
+	 * @param string $action 'custom-t' to add fee or 'update' to update it
 	 * @throws WC_API_Exception invalid data, server error
 	 */
 	protected function set_fee( $order, $fee, $action ) {
 
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 
 			// fee title is required
 			if ( ! isset( $fee['title'] ) ) {
@@ -1147,7 +1147,7 @@ class WC_API_Orders extends WC_API_Resource {
 	 * @since 2.2
 	 * @param \WC_Order $order
 	 * @param array $coupon item data
-	 * @param string $action 'create' to add coupon or 'update' to update it
+	 * @param string $action 'custom-t' to add coupon or 'update' to update it
 	 * @throws WC_API_Exception invalid data, server error
 	 */
 	protected function set_coupon( $order, $coupon, $action ) {
@@ -1157,7 +1157,7 @@ class WC_API_Orders extends WC_API_Resource {
 			throw new WC_API_Exception( 'woocommerce_invalid_coupon_total', __( 'Coupon discount total must be a positive amount.', 'woocommerce' ), 400 );
 		}
 
-		if ( 'create' === $action ) {
+		if ( 'custom-t' === $action ) {
 
 			// coupon code is required
 			if ( empty( $coupon['code'] ) ) {
@@ -1287,14 +1287,14 @@ class WC_API_Orders extends WC_API_Resource {
 	public function create_order_note( $order_id, $data ) {
 		try {
 			if ( ! isset( $data['order_note'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_order_note_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'order_note' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_order_note_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'order_note' ), 400 );
 			}
 
 			$data = $data['order_note'];
 
 			// permission check
 			if ( ! current_user_can( 'publish_shop_orders' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_order_note', __( 'You do not have permission to create order notes', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_order_note', __( 'You do not have permission to custom-t order notes', 'woocommerce' ), 401 );
 			}
 
 			$order_id = $this->validate_request( $order_id, $this->post_type, 'edit' );
@@ -1314,11 +1314,11 @@ class WC_API_Orders extends WC_API_Resource {
 
 			$is_customer_note = ( isset( $data['customer_note'] ) && true === $data['customer_note'] );
 
-			// create the note
+			// custom-t the note
 			$note_id = $order->add_order_note( $data['note'], $is_customer_note );
 
 			if ( ! $note_id ) {
-				throw new WC_API_Exception( 'woocommerce_api_cannot_create_order_note', __( 'Cannot create order note, please try again.', 'woocommerce' ), 500 );
+				throw new WC_API_Exception( 'woocommerce_api_cannot_create_order_note', __( 'Cannot custom-t order note, please try again.', 'woocommerce' ), 500 );
 			}
 
 			// HTTP 201 Created
@@ -1580,14 +1580,14 @@ class WC_API_Orders extends WC_API_Resource {
 	public function create_order_refund( $order_id, $data, $api_refund = true ) {
 		try {
 			if ( ! isset( $data['order_refund'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_order_refund_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'order_refund' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_order_refund_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'order_refund' ), 400 );
 			}
 
 			$data = $data['order_refund'];
 
 			// Permission check
 			if ( ! current_user_can( 'publish_shop_orders' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_order_refund', __( 'You do not have permission to create order refunds', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_order_refund', __( 'You do not have permission to custom-t order refunds', 'woocommerce' ), 401 );
 			}
 
 			$order_id = absint( $order_id );
@@ -1612,7 +1612,7 @@ class WC_API_Orders extends WC_API_Resource {
 			$refund = wc_create_refund( $data );
 
 			if ( ! $refund ) {
-				throw new WC_API_Exception( 'woocommerce_api_cannot_create_order_refund', __( 'Cannot create order refund, please try again.', 'woocommerce' ), 500 );
+				throw new WC_API_Exception( 'woocommerce_api_cannot_create_order_refund', __( 'Cannot custom-t order refund, please try again.', 'woocommerce' ), 500 );
 			}
 
 			// Refund via API
@@ -1629,7 +1629,7 @@ class WC_API_Orders extends WC_API_Resource {
 					if ( is_wp_error( $result ) ) {
 						return $result;
 					} elseif ( ! $result ) {
-						throw new WC_API_Exception( 'woocommerce_api_create_order_refund_api_failed', __( 'An error occurred while attempting to create the refund using the payment gateway API.', 'woocommerce' ), 500 );
+						throw new WC_API_Exception( 'woocommerce_api_create_order_refund_api_failed', __( 'An error occurred while attempting to custom-t the refund using the payment gateway API.', 'woocommerce' ), 500 );
 					}
 				}
 			}
@@ -1776,7 +1776,7 @@ class WC_API_Orders extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['orders'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_orders_data', sprintf( __( 'No %1$s data specified to create/edit %1$s', 'woocommerce' ), 'orders' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_orders_data', sprintf( __( 'No %1$s data specified to custom-t/edit %1$s', 'woocommerce' ), 'orders' ), 400 );
 			}
 
 			$data  = $data['orders'];
@@ -1810,7 +1810,7 @@ class WC_API_Orders extends WC_API_Resource {
 						$orders[] = $edit['order'];
 					}
 				} else {
-					// Order don't exists / create order
+					// Order don't exists / custom-t order
 					$new = $this->create_order( array( 'order' => $_order ) );
 
 					if ( is_wp_error( $new ) ) {

@@ -421,8 +421,8 @@ final class WooCommerce {
 		$this->load_plugin_textdomain();
 
 		// Load class instances.
-		$this->product_factory                     = new WC_Product_Factory(); // Product Factory to create new product instances
-		$this->order_factory                       = new WC_Order_Factory(); // Order Factory to create new order instances
+		$this->product_factory                     = new WC_Product_Factory(); // Product Factory to custom-t new product instances
+		$this->order_factory                       = new WC_Order_Factory(); // Order Factory to custom-t new order instances
 		$this->countries                           = new WC_Countries(); // Countries class
 		$this->integrations                        = new WC_Integrations(); // Integrations class
 		$this->structured_data                     = new WC_Structured_Data(); // Structured Data class, generates and handles structured data

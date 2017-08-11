@@ -953,13 +953,13 @@ if ( !class_exists( 'avia_sc_slider_full' ) )
 				$output .= "</div>"; //close section
 				
 				
-				//if the next tag is a section dont create a new section from this shortcode
+				//if the next tag is a section dont custom-t a new section from this shortcode
 				if(!empty($meta['siblings']['next']['tag']) && in_array($meta['siblings']['next']['tag'],  AviaBuilder::$full_el ))
 				{
 				    $skipSecond = true;
 				}
 
-				//if there is no next element dont create a new section.
+				//if there is no next element dont custom-t a new section.
 				if(empty($meta['siblings']['next']['tag']))
 				{
 				    $skipSecond = true;

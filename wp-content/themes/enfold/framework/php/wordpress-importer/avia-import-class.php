@@ -137,11 +137,11 @@ class avia_wp_import extends WP_Import
 		$font_uploader 	= new avia_font_manager();
 		$paths			= $font_uploader->paths;
 		
-		//if a temp dir already exists remove it and create a new one
+		//if a temp dir already exists remove it and custom-t a new one
 		if(!is_dir($paths['tempdir']))
 		{
 			$fontdir = avia_backend_create_folder($paths['tempdir'], false);
-			if(!$fontdir) echo('Wasn\'t able to create the folder for font files');
+			if(!$fontdir) echo('Wasn\'t able to custom-t the folder for font files');
 		}
 		
 		//download iconfont files into uploadsfolder
@@ -152,17 +152,17 @@ class avia_wp_import extends WP_Import
 				//folder name
 				$new_font_folder = trailingslashit($paths['tempdir']);
 				
-				//if a sub dir already exists remove it and create a new one
+				//if a sub dir already exists remove it and custom-t a new one
 				if(is_dir($new_font_folder)) $font_uploader->delete_folder( $new_font_folder );
 				
 				$subpdir = avia_backend_create_folder($new_font_folder, false);
 				if(!$subpdir)
 				{ 
-					echo('Wasn\'t able to create sub-folder for font files');
+					echo('Wasn\'t able to custom-t sub-folder for font files');
 				}
 				
 				
-				//iterate over files on remote server and create the same ones on this server
+				//iterate over files on remote server and custom-t the same ones on this server
 				foreach ($files_to_copy as $file_to_copy)
 				{
 					$file_to_copy 	= str_replace("FONTNAME", $font_name, $file_to_copy);
@@ -172,7 +172,7 @@ class avia_wp_import extends WP_Import
 				}
 				
 				
-				//create a config file
+				//custom-t a config file
 				$font_uploader->font_name = $font_name;
 				$font_uploader->create_config();
 				

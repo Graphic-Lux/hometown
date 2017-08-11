@@ -40,7 +40,7 @@ class WC_Order_Item_Tax_Data_Store extends Abstract_WC_Order_Item_Type_Data_Stor
 
 	/**
 	 * Saves an item's data to the database / item meta.
-	 * Ran after both create and update, so $id will be set.
+	 * Ran after both custom-t and update, so $id will be set.
 	 *
 	 * @since 3.0.0
 	 * @param WC_Order_Item_Tax $item

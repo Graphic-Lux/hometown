@@ -114,7 +114,7 @@ if ( ! function_exists( 'register_rest_field' ) ) {
 	 *     @type string|array|null $update_callback Optional. The callback function used to set and update the
 	 *                                              field value. Default is 'null', the value cannot be set or
 	 *                                              updated.
-	 *     @type string|array|null $schema          Optional. The callback function used to create the schema for
+	 *     @type string|array|null $schema          Optional. The callback function used to custom-t the schema for
 	 *                                              this field. Default is 'null', no schema entry will be returned.
 	 * }
 	 */

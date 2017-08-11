@@ -289,7 +289,7 @@ class WP_Import extends WP_Importer {
 	}
 
 	/**
-	 * Display import options for an individual author. That is, either create
+	 * Display import options for an individual author. That is, either custom-t
 	 * a new user based on import info or map to an existing user
 	 *
 	 * @param int $n Index for each author in the form
@@ -307,7 +307,7 @@ class WP_Import extends WP_Importer {
 		$create_users = $this->allow_create_users();
 		if ( $create_users ) {
 			if ( $this->version != '1.0' ) {
-				_e( 'or create new user with login name:', 'wordpress-importer' );
+				_e( 'or custom-t new user with login name:', 'wordpress-importer' );
 				$value = '';
 			} else {
 				_e( 'as a new user:', 'wordpress-importer' );
@@ -330,7 +330,7 @@ class WP_Import extends WP_Importer {
 
 	/**
 	 * Map old author logins to local user IDs based on decisions made
-	 * in import options form. Can map to an existing user, create a new user
+	 * in import options form. Can map to an existing user, custom-t a new user
 	 * or falls back to the current user in case of error with either of the previous
 	 */
 	function get_author_mapping() {
@@ -371,7 +371,7 @@ class WP_Import extends WP_Importer {
 						$this->processed_authors[$old_id] = $user_id;
 					$this->author_mapping[$santized_old_login] = $user_id;
 				} else {
-					printf( __( 'Failed to create new user for %s. Their posts will be attributed to the current user.', 'wordpress-importer' ), esc_html($this->authors[$old_login]['author_display_name']) );
+					printf( __( 'Failed to custom-t new user for %s. Their posts will be attributed to the current user.', 'wordpress-importer' ), esc_html($this->authors[$old_login]['author_display_name']) );
 					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
 						echo ' ' . $user_id->get_error_message();
 					echo '<br />';
@@ -390,7 +390,7 @@ class WP_Import extends WP_Importer {
 	/**
 	 * Create new categories based on import information
 	 *
-	 * Doesn't create a new category if its slug already exists
+	 * Doesn't custom-t a new category if its slug already exists
 	 */
 	function process_categories() {
 		$this->categories = apply_filters( 'wp_import_categories', $this->categories );
@@ -436,7 +436,7 @@ class WP_Import extends WP_Importer {
 	/**
 	 * Create new post tags based on import information
 	 *
-	 * Doesn't create a tag if its slug already exists
+	 * Doesn't custom-t a tag if its slug already exists
 	 */
 	function process_tags() {
 		$this->tags = apply_filters( 'wp_import_tags', $this->tags );
@@ -476,7 +476,7 @@ class WP_Import extends WP_Importer {
 	/**
 	 * Create new terms based on import information
 	 *
-	 * Doesn't create a term its slug already exists
+	 * Doesn't custom-t a term its slug already exists
 	 */
 	function process_terms() {
 		$this->terms = apply_filters( 'wp_import_terms', $this->terms );
@@ -523,7 +523,7 @@ class WP_Import extends WP_Importer {
 	 * Create new posts based on import information
 	 *
 	 * Posts marked as having a parent which doesn't exist will become top level items.
-	 * Doesn't create a new post if: the post type doesn't exist, the given post ID
+	 * Doesn't custom-t a new post if: the post type doesn't exist, the given post ID
 	 * is already noted as imported or a post with the same title and date already exists.
 	 * Note that new/updated terms, comments and meta are imported for the last of the above.
 	 */
@@ -753,7 +753,7 @@ class WP_Import extends WP_Importer {
 	}
 
 	/**
-	 * Attempt to create a new menu item from import data
+	 * Attempt to custom-t a new menu item from import data
 	 *
 	 * Fails for draft, orphaned menu items and those without an associated nav_menu
 	 * or an invalid nav_menu term. If the post type or term object which the menu item
@@ -841,7 +841,7 @@ class WP_Import extends WP_Importer {
 	}
 
 	/**
-	 * If fetching attachments is enabled then attempt to create a new attachment
+	 * If fetching attachments is enabled then attempt to custom-t a new attachment
 	 *
 	 * @param array $post Attachment post details from WXR
 	 * @param string $url URL to fetch attachment from
@@ -1073,7 +1073,7 @@ class WP_Import extends WP_Importer {
 	}
 
 	/**
-	 * Decide whether or not the importer is allowed to create users.
+	 * Decide whether or not the importer is allowed to custom-t users.
 	 * Default is true, can be filtered via import_allow_create_users
 	 *
 	 * @return bool True if creating users is allowed

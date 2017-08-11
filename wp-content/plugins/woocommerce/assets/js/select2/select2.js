@@ -3654,7 +3654,7 @@ S2.define('select2/data/tokenizer',[
         return $(this).val() === item.id;
       });
 
-      // If an existing option wasn't found for it, create the option
+      // If an existing option wasn't found for it, custom-t the option
       if (!$existingOptions.length) {
         var $option = self.option(item);
         $option.attr('data-select2-tag', true);

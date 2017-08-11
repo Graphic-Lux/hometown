@@ -5525,7 +5525,7 @@ msgstr ""
 #: includes/api/v1/class-wc-rest-products-controller.php:739
 #: includes/api/v1/class-wc-rest-webhooks-controller.php:155
 #. translators: %s: post type
-msgid "Cannot create existing %s."
+msgid "Cannot custom-t existing %s."
 msgstr ""
 
 #: includes/abstracts/abstract-wc-rest-crud-controller.php:402
@@ -5668,7 +5668,7 @@ msgstr ""
 #: includes/api/v1/class-wc-rest-product-reviews-controller.php:165
 #: includes/api/v1/class-wc-rest-tax-classes-controller.php:105
 #: includes/api/v1/class-wc-rest-taxes-controller.php:129
-msgid "Sorry, you are not allowed to create resources."
+msgid "Sorry, you are not allowed to custom-t resources."
 msgstr ""
 
 #: includes/abstracts/abstract-wc-rest-posts-controller.php:130
@@ -6093,7 +6093,7 @@ msgstr ""
 
 #: includes/admin/class-wc-admin-assets.php:208
 msgid ""
-"Are you sure you want to link all variations? This will create a new "
+"Are you sure you want to link all variations? This will custom-t a new "
 "variation for each and every possible combination of variation attributes "
 "(max %d per run)."
 msgstr ""
@@ -6815,7 +6815,7 @@ msgstr ""
 
 #: includes/admin/class-wc-admin-help.php:212
 msgid ""
-"If you find a bug within WooCommerce core you can create a ticket via <a "
+"If you find a bug within WooCommerce core you can custom-t a ticket via <a "
 "href=\"%1$s\">Github issues</a>. Ensure you read the <a "
 "href=\"%2$s\">contribution guide</a> prior to submitting your report. To "
 "help us solve your issue, please be as descriptive as possible and include "
@@ -8727,7 +8727,7 @@ msgid "Webhook created on %s"
 msgstr ""
 
 #: includes/admin/class-wc-admin-webhooks.php:204
-msgid "You do not have permissions to create Webhooks!"
+msgid "You do not have permissions to custom-t Webhooks!"
 msgstr ""
 
 #: includes/admin/class-wc-admin-webhooks.php:289
@@ -13826,7 +13826,7 @@ msgstr ""
 msgid ""
 "If you are modifying WooCommerce on a parent theme that you did not build "
 "personally we recommend using a child theme. See: <a href=\"%s\" "
-"target=\"_blank\">How to create a child theme</a>"
+"target=\"_blank\">How to custom-t a child theme</a>"
 msgstr ""
 
 #: includes/admin/views/html-admin-page-status-report.php:589
@@ -14808,7 +14808,7 @@ msgstr ""
 #: includes/api/legacy/v2/class-wc-api-orders.php:1615
 #: includes/api/legacy/v3/class-wc-api-orders.php:1662
 #: includes/api/v1/class-wc-rest-order-refunds-controller.php:309
-msgid "Cannot create order refund, please try again."
+msgid "Cannot custom-t order refund, please try again."
 msgstr ""
 
 #: includes/api/class-wc-rest-order-refunds-controller.php:350
@@ -16964,7 +16964,7 @@ msgstr ""
 #: includes/api/legacy/v1/class-wc-api-customers.php:203
 #: includes/api/legacy/v2/class-wc-api-customers.php:357
 #: includes/api/legacy/v3/class-wc-api-customers.php:358
-msgid "You do not have permission to create this customer"
+msgid "You do not have permission to custom-t this customer"
 msgstr ""
 
 #: includes/api/legacy/v1/class-wc-api-customers.php:435
@@ -17166,12 +17166,12 @@ msgstr ""
 #: includes/api/legacy/v3/class-wc-api-taxes.php:184
 #: includes/api/legacy/v3/class-wc-api-taxes.php:564
 #: includes/api/legacy/v3/class-wc-api-webhooks.php:176
-msgid "No %1$s data specified to create %1$s"
+msgid "No %1$s data specified to custom-t %1$s"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-coupons.php:219
 #: includes/api/legacy/v3/class-wc-api-coupons.php:217
-msgid "You do not have permission to create coupons"
+msgid "You do not have permission to custom-t coupons"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-coupons.php:261
@@ -17221,7 +17221,7 @@ msgstr ""
 #: includes/api/legacy/v3/class-wc-api-orders.php:1826
 #: includes/api/legacy/v3/class-wc-api-products.php:3111
 #: includes/api/legacy/v3/class-wc-api-taxes.php:457
-msgid "No %1$s data specified to create/edit %1$s"
+msgid "No %1$s data specified to custom-t/edit %1$s"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-customers.php:208
@@ -17239,12 +17239,12 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:374
 #: includes/api/legacy/v3/class-wc-api-orders.php:411
-msgid "You do not have permission to create orders"
+msgid "You do not have permission to custom-t orders"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:400
 #: includes/api/legacy/v3/class-wc-api-orders.php:437
-msgid "Cannot create order: %s"
+msgid "Cannot custom-t order: %s"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:434
@@ -17298,7 +17298,7 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:958
 #: includes/api/legacy/v3/class-wc-api-orders.php:1005
-msgid "Cannot create line item, try again."
+msgid "Cannot custom-t line item, try again."
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1034
@@ -17356,7 +17356,7 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1297
 #: includes/api/legacy/v3/class-wc-api-orders.php:1344
-msgid "You do not have permission to create order notes"
+msgid "You do not have permission to custom-t order notes"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1312
@@ -17367,7 +17367,7 @@ msgstr ""
 #: includes/api/legacy/v2/class-wc-api-orders.php:1321
 #: includes/api/legacy/v3/class-wc-api-orders.php:1368
 #: includes/api/v1/class-wc-rest-order-notes-controller.php:233
-msgid "Cannot create order note, please try again."
+msgid "Cannot custom-t order note, please try again."
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1379
@@ -17398,7 +17398,7 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1590
 #: includes/api/legacy/v3/class-wc-api-orders.php:1637
-msgid "You do not have permission to create order refunds"
+msgid "You do not have permission to custom-t order refunds"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-orders.php:1603
@@ -17415,7 +17415,7 @@ msgstr ""
 #: includes/api/legacy/v3/class-wc-api-orders.php:1679
 #: includes/wc-order-functions.php:627
 msgid ""
-"An error occurred while attempting to create the refund using the payment "
+"An error occurred while attempting to custom-t the refund using the payment "
 "gateway API."
 msgstr ""
 
@@ -17428,7 +17428,7 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-products.php:221
 #: includes/api/legacy/v3/class-wc-api-products.php:270
-msgid "You do not have permission to create products"
+msgid "You do not have permission to custom-t products"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-products.php:243
@@ -17535,7 +17535,7 @@ msgstr ""
 #: includes/api/legacy/v2/class-wc-api-products.php:2026
 #: includes/api/legacy/v3/class-wc-api-products.php:2584
 #: includes/api/legacy/v3/class-wc-api-products.php:2925
-msgid "You do not have permission to create product attributes"
+msgid "You do not have permission to custom-t product attributes"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-products.php:2110
@@ -17575,7 +17575,7 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-webhooks.php:183
 #: includes/api/legacy/v3/class-wc-api-webhooks.php:183
-msgid "You do not have permission to create webhooks."
+msgid "You do not have permission to custom-t webhooks."
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-webhooks.php:190
@@ -17593,7 +17593,7 @@ msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-webhooks.php:212
 #: includes/api/legacy/v3/class-wc-api-webhooks.php:212
-msgid "Cannot create webhook: %s"
+msgid "Cannot custom-t webhook: %s"
 msgstr ""
 
 #: includes/api/legacy/v2/class-wc-api-webhooks.php:282
@@ -17617,7 +17617,7 @@ msgid "Consumer Secret is invalid."
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-products.php:707
-msgid "You do not have permission to create product categories"
+msgid "You do not have permission to custom-t product categories"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-products.php:727
@@ -17654,7 +17654,7 @@ msgid "A product tag with the provided ID could not be found"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-products.php:964
-msgid "You do not have permission to create product tags"
+msgid "You do not have permission to custom-t product tags"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-products.php:1012
@@ -17700,7 +17700,7 @@ msgid "A product shipping class with the provided ID could not be found"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-products.php:3266
-msgid "You do not have permission to create product shipping classes"
+msgid "You do not have permission to custom-t product shipping classes"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-products.php:3284
@@ -17732,7 +17732,7 @@ msgid "A tax rate with the provided ID could not be found"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-taxes.php:189
-msgid "You do not have permission to create tax rates"
+msgid "You do not have permission to custom-t tax rates"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-taxes.php:259
@@ -17761,7 +17761,7 @@ msgid "Standard rate"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-taxes.php:569
-msgid "You do not have permission to create tax classes"
+msgid "You do not have permission to custom-t tax classes"
 msgstr ""
 
 #: includes/api/legacy/v3/class-wc-api-taxes.php:593
@@ -17803,7 +17803,7 @@ msgstr ""
 #: includes/api/v1/class-wc-rest-customers-controller.php:327
 #: includes/api/v1/class-wc-rest-tax-classes-controller.php:184
 #: includes/api/v1/class-wc-rest-taxes-controller.php:364
-msgid "Cannot create existing resource."
+msgid "Cannot custom-t existing resource."
 msgstr ""
 
 #: includes/api/v1/class-wc-rest-customers-controller.php:385
@@ -17922,7 +17922,7 @@ msgid "Term name."
 msgstr ""
 
 #: includes/api/v1/class-wc-rest-product-attributes-controller.php:141
-msgid "Sorry, you cannot create new resource."
+msgid "Sorry, you cannot custom-t new resource."
 msgstr ""
 
 #: includes/api/v1/class-wc-rest-product-attributes-controller.php:372
@@ -20724,7 +20724,7 @@ msgstr ""
 
 #: includes/gateways/simplify-commerce/class-wc-gateway-simplify-commerce.php:25
 msgid ""
-"Take payments via Simplify Commerce - uses simplify.js to create card "
+"Take payments via Simplify Commerce - uses simplify.js to custom-t card "
 "tokens and the Simplify Commerce SDK. Requires SSL when sandbox is disabled."
 msgstr ""
 
@@ -23070,7 +23070,7 @@ msgstr ""
 #: templates/myaccount/form-lost-password.php:27
 msgid ""
 "Lost your password? Please enter your username or email address. You will "
-"receive a link to create a new password via email."
+"receive a link to custom-t a new password via email."
 msgstr ""
 
 #: templates/myaccount/form-reset-password.php:27

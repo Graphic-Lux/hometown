@@ -104,7 +104,7 @@ class WC_REST_Product_Reviews_Controller extends WC_REST_Product_Reviews_V1_Cont
 		 * Filter product reviews object returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WP_Comment       $review   Product review object used to create response.
+		 * @param WP_Comment       $review   Product review object used to custom-t response.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_product_review', $response, $review, $request );
@@ -112,7 +112,7 @@ class WC_REST_Product_Reviews_Controller extends WC_REST_Product_Reviews_V1_Cont
 
 
 	/**
-	 * Bulk create, update and delete items.
+	 * Bulk custom-t, update and delete items.
 	 *
 	 * @since  3.0.0
 	 * @param WP_REST_Request $request Full details about the request.
@@ -124,7 +124,7 @@ class WC_REST_Product_Reviews_Controller extends WC_REST_Product_Reviews_V1_Cont
 		$product_id  = $params['product_id'];
 		$body_params = array();
 
-		foreach ( array( 'update', 'create', 'delete' ) as $batch_type ) {
+		foreach ( array( 'update', 'custom-t', 'delete' ) as $batch_type ) {
 			if ( ! empty( $items[ $batch_type ] ) ) {
 				$injected_items = array();
 				foreach ( $items[ $batch_type ] as $item ) {

@@ -89,7 +89,7 @@ if (!empty($tags) && is_array($tags))
   			$count = 1;
   			$output = "";
 
-  			//create seperator
+  			//custom-t seperator
 
      		$output .= "<div class ='related_posts {$rp}'>";
 

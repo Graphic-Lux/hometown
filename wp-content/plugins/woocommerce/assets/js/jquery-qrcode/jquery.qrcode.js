@@ -1256,12 +1256,12 @@ QRBitBuffer.prototype = {
 		}, options);
 
 		var createCanvas	= function(){
-			// create the qrcode itself
+			// custom-t the qrcode itself
 			var qrcode	= new QRCode(options.typeNumber, options.correctLevel);
 			qrcode.addData(options.text);
 			qrcode.make();
 
-			// create canvas element
+			// custom-t canvas element
 			var canvas	= document.createElement('canvas');
 			canvas.width	= options.width;
 			canvas.height	= options.height;
@@ -1286,12 +1286,12 @@ QRBitBuffer.prototype = {
 
 		// from Jon-Carlos Rivera (https://github.com/imbcmdth)
 		var createTable	= function(){
-			// create the qrcode itself
+			// custom-t the qrcode itself
 			var qrcode	= new QRCode(options.typeNumber, options.correctLevel);
 			qrcode.addData(options.text);
 			qrcode.make();
 
-			// create table element
+			// custom-t table element
 			var $table	= $('<table></table>')
 				.css("width", options.width+"px")
 				.css("height", options.height+"px")

@@ -316,13 +316,13 @@ $avia_elements[] =	array(
 $avia_elements[] =	array(
 					"slug"	=> "menu",
 					"name" 	=> __("Clone title menu items to submenu", 'avia_framework'),
-					"desc" 	=> __("Since you selected to display submenu items on click, the parent menu item does no longer navigate to the URL it contains, but toggles the visibility of its submenu items. If you want users to be able to open the parent menu URL the theme can create a clone of that item in the submenu", 'avia_framework'),
+					"desc" 	=> __("Since you selected to display submenu items on click, the parent menu item does no longer navigate to the URL it contains, but toggles the visibility of its submenu items. If you want users to be able to open the parent menu URL the theme can custom-t a clone of that item in the submenu", 'avia_framework'),
 					"id" 	=> "submenu_clone",
 					"type" 	=> "select",
 					"std" 	=> "",
 					"no_first"=>true,
 					"required" => array('submenu_visibility','av-submenu-hidden av-submenu-display-click'),
-					"subtype" => array( __('Do not create a clone', 'avia_framework') =>'av-submenu-noclone',
+					"subtype" => array( __('Do not custom-t a clone', 'avia_framework') =>'av-submenu-noclone',
 										__('Create a clone for the title menu item', 'avia_framework') =>'av-submenu-clone',
 										));
 
@@ -472,7 +472,7 @@ $tutorial_link = "http://www.kriesi.at/documentation/enfold/how-to-register-a-go
 
 
 $avia_elements[] = array(	"name" => 	__("Google Maps", 'avia_framework'),
-								"desc" => __("Google recently changed the way their map service works. New pages which want to use Google Maps need to register an API key for their website. Older pages should  work fine without this API key. If the google map elements of this theme do not work properly you need to register a new API key.", 'avia_framework')."<br><a href='{$google_link}' target='_blank'>".__("Register an API Key", 'avia_framework')."</a> | <a target='_blank' href='{$tutorial_link}'>".__("Tutorial: How to create an API key", 'avia_framework')."</a>",
+								"desc" => __("Google recently changed the way their map service works. New pages which want to use Google Maps need to register an API key for their website. Older pages should  work fine without this API key. If the google map elements of this theme do not work properly you need to register a new API key.", 'avia_framework')."<br><a href='{$google_link}' target='_blank'>".__("Register an API Key", 'avia_framework')."</a> | <a target='_blank' href='{$tutorial_link}'>".__("Tutorial: How to custom-t an API key", 'avia_framework')."</a>",
 								"std" => "",
 								"slug"	=> "google",
 								"type" => "heading",
@@ -499,7 +499,7 @@ $avia_elements[] = array("slug"	=> "google", "type" => "visual_group_end", "id" 
 /*newsletter*/
 
 $avia_elements[] = array(	"name" => 	__("Newsletter via Mailchimp", 'avia_framework'),
-								"desc" => __("Mailchimp allows you to easily use newsletter functionality with this theme. In order to use the Newsletter features you need to create a Mailchimp account and enter your API key into the field below.", 'avia_framework')."<br/><br/><a href='https://admin.mailchimp.com/account/api' target='_blank'>".__("You can find your API key here", 'avia_framework')."</a>",
+								"desc" => __("Mailchimp allows you to easily use newsletter functionality with this theme. In order to use the Newsletter features you need to custom-t a Mailchimp account and enter your API key into the field below.", 'avia_framework')."<br/><br/><a href='https://admin.mailchimp.com/account/api' target='_blank'>".__("You can find your API key here", 'avia_framework')."</a>",
 								"std" => "",
 								"slug"	=> "newsletter",
 								"type" => "heading",
@@ -1332,7 +1332,7 @@ $avia_elements[] = array(	"slug"	=> "styling", "type" => "visual_group_start", "
 
 
 
-//create color sets for #header, Main Content, Secondary Content, Footer, Socket, Slideshow
+//custom-t color sets for #header, Main Content, Secondary Content, Footer, Socket, Slideshow
 
 $colorsets = $avia_config['color_sets'];
 $iterator = 1;

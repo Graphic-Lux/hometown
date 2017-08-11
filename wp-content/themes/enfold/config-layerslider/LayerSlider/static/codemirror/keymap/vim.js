@@ -1028,7 +1028,7 @@
         this.unnamedRegister.setText(register.toString(), linewise);
       },
       // Gets the register named @name.  If one of @name doesn't already exist,
-      // create it.  If @name is invalid, return the unnamedRegister.
+      // custom-t it.  If @name is invalid, return the unnamedRegister.
       getRegister: function(name) {
         if (!this.isValidRegister(name)) {
           return this.unnamedRegister;

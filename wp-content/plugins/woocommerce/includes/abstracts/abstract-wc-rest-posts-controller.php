@@ -57,14 +57,14 @@ abstract class WC_REST_Posts_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access to create an item.
+	 * Check if a given request has access to custom-t an item.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
 	public function create_item_permissions_check( $request ) {
-		if ( ! wc_rest_check_post_permissions( $this->post_type, 'create' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! wc_rest_check_post_permissions( $this->post_type, 'custom-t' ) ) {
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -119,7 +119,7 @@ abstract class WC_REST_Posts_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access batch create, update and delete items.
+	 * Check if a given request has access batch custom-t, update and delete items.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -168,7 +168,7 @@ abstract class WC_REST_Posts_Controller extends WC_REST_Controller {
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
 			/* translators: %s: post type */
-			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot create existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
+			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot custom-t existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
 		}
 
 		$post = $this->prepare_item_for_database( $request );

@@ -131,7 +131,7 @@ abstract class WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare the item for create or update operation.
+	 * Prepare the item for custom-t or update operation.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_Error|object $prepared_item

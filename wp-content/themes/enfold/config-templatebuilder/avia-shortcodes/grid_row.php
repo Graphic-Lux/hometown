@@ -27,7 +27,7 @@ if ( !class_exists( 'avia_sc_grid_row' ) )
 				$this->config['shortcode'] 	= 'av_layout_row';
 				$this->config['html_renderer'] 	= false;
 				$this->config['tinyMCE'] 	= array('disable' => "true");
-				$this->config['tooltip'] 	= __('Add multiple Grid Rows below each other to create advanced grid layouts. Cells can be styled individually', 'avia_framework' );
+				$this->config['tooltip'] 	= __('Add multiple Grid Rows below each other to custom-t advanced grid layouts. Cells can be styled individually', 'avia_framework' );
 				$this->config['drag-level'] = 1;
 				$this->config['drop-level'] = 100;
 

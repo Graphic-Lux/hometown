@@ -71,7 +71,7 @@ abstract class WC_REST_Shipping_Zones_Controller_Base extends WC_REST_Controller
 	}
 
 	/**
-	 * Check if a given request has access to create Shipping Zones.
+	 * Check if a given request has access to custom-t Shipping Zones.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -82,7 +82,7 @@ abstract class WC_REST_Shipping_Zones_Controller_Base extends WC_REST_Controller
 		}
 
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'edit' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;

@@ -21,14 +21,14 @@ if( !class_exists( 'avia_meta_box' ) )
 
 
 	/**
-	 *  The meta box class holds all methods necessary to create and sva and edit meta boxes for new posts, pages and custom post types
+	 *  The meta box class holds all methods necessary to custom-t and sva and edit meta boxes for new posts, pages and custom post types
 	 *  @package 	AviaFramework
 	 */
  
 	class avia_meta_box
 	{
 		/**
-		 * Default boxes holds the information which meta boxes to create after the init_boxes method was called
+		 * Default boxes holds the information which meta boxes to custom-t after the init_boxes method was called
 		 * @var obj
 		 */
 		var $default_boxes;
@@ -66,7 +66,7 @@ if( !class_exists( 'avia_meta_box' ) )
 		
 		/**
 		 * The constructor 
-		 * checks if we are currently viewing a post creation site and hooks into the admin_menu as well as into the save_post to create and safe the meta boxes
+		 * checks if we are currently viewing a post creation site and hooks into the admin_menu as well as into the save_post to custom-t and safe the meta boxes
 		 * It also creates the html object necessary to render the boxes 
 		 */
 		function __construct($avia_superobject)
@@ -90,7 +90,7 @@ if( !class_exists( 'avia_meta_box' ) )
 		/**
 		 * Meta Box initialization
 		 * This function checks if we already got metabox data stored in the posts meta table or if we need to get the data from the config file
-		 * We then loop over the retrieved option array and create the according meta boxes, The callback for each metabox is set to create_meta_box
+		 * We then loop over the retrieved option array and custom-t the according meta boxes, The callback for each metabox is set to create_meta_box
 		 * which renders the elements within the box. To know which box we are currently rendering a callback argument is passed on initialization
 		 */
 		function init_boxes()

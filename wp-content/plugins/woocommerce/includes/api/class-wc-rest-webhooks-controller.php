@@ -68,7 +68,7 @@ class WC_REST_Webhooks_Controller extends WC_REST_Webhooks_V1_Controller {
 		 * Filter webhook object returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param WC_Webhook       $webhook  Webhook object used to create response.
+		 * @param WC_Webhook       $webhook  Webhook object used to custom-t response.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( "woocommerce_rest_prepare_{$this->post_type}", $response, $webhook, $request );

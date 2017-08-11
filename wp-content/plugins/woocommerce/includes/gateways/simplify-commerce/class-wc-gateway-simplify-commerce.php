@@ -22,7 +22,7 @@ class WC_Gateway_Simplify_Commerce extends WC_Payment_Gateway_CC {
 	public function __construct() {
 		$this->id                 = 'simplify_commerce';
 		$this->method_title       = __( 'Simplify Commerce', 'woocommerce' );
-		$this->method_description = __( 'Take payments via Simplify Commerce - uses simplify.js to create card tokens and the Simplify Commerce SDK. Requires SSL when sandbox is disabled.', 'woocommerce' );
+		$this->method_description = __( 'Take payments via Simplify Commerce - uses simplify.js to custom-t card tokens and the Simplify Commerce SDK. Requires SSL when sandbox is disabled.', 'woocommerce' );
 		$this->new_method_label   = __( 'Use a new card', 'woocommerce' );
 		$this->has_fields         = true;
 		$this->supports           = array(
@@ -365,7 +365,7 @@ class WC_Gateway_Simplify_Commerce extends WC_Payment_Gateway_CC {
 			$token->set_token( $customer->id );
 		}
 
-		// If we were able to create an save our card, save the data on our side too
+		// If we were able to custom-t an save our card, save the data on our side too
 		if ( is_object( $customer ) && '' != $customer->id ) {
 			$customer_properties = $customer->getProperties();
 			$card = $customer_properties['card'];
@@ -446,7 +446,7 @@ class WC_Gateway_Simplify_Commerce extends WC_Payment_Gateway_CC {
 				}
 			}
 
-			// Did we create an account and save a payment method? We might need to use the customer token instead of the card token
+			// Did we custom-t an account and save a payment method? We might need to use the customer token instead of the card token
 			if ( isset( $_POST['createaccount'] ) && true === (bool) $_POST['createaccount'] && empty( $customer_token ) ) {
 				$user_token = $this->get_users_token();
 				if ( ! is_null( $user_token ) ) {
@@ -629,7 +629,7 @@ class WC_Gateway_Simplify_Commerce extends WC_Payment_Gateway_CC {
 			'address-state'   => $order->get_billing_state(),
 			'address-zip'     => $order->get_billing_postcode(),
 			'address-country' => $order->get_billing_country(),
-			'operation'       => 'create.token',
+			'operation'       => 'custom-t.token',
 		), $order->get_id() );
 
 		return $args;

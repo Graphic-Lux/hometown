@@ -14,7 +14,7 @@
 /**
  * AVIA Adminpages
  *
- * This class sets the javascript and css links, hooks into wordpress to create the option pages and calls the html creating class to render the different form elements
+ * This class sets the javascript and css links, hooks into wordpress to custom-t the option pages and calls the html creating class to render the different form elements
  *  
  * @package AviaFramework
  * 

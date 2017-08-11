@@ -211,14 +211,14 @@ class WC_API_Products extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['product'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_product_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'product' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_product_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'product' ), 400 );
 			}
 
 			$data = $data['product'];
 
 			// Check permissions
 			if ( ! current_user_can( 'publish_products' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_product', __( 'You do not have permission to create products', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_product', __( 'You do not have permission to custom-t products', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_product_data', $data, $this );
@@ -267,7 +267,7 @@ class WC_API_Products extends WC_API_Resource {
 			$product->set_short_description( isset( $data['short_description'] ) ? $post_excerpt : '' );
 			$product->set_description( isset( $data['description'] ) ? $post_content : '' );
 
-			// Attempts to create the new product.
+			// Attempts to custom-t the new product.
 			$product->save();
 			$id = $product->get_id();
 
@@ -2020,14 +2020,14 @@ class WC_API_Products extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['product_attribute'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_product_attribute_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'product_attribute' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_product_attribute_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'product_attribute' ), 400 );
 			}
 
 			$data = $data['product_attribute'];
 
 			// Check permissions
 			if ( ! current_user_can( 'manage_product_terms' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_product_attribute', __( 'You do not have permission to create product attributes', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_product_attribute', __( 'You do not have permission to custom-t product attributes', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_product_attribute_data', $data, $this );
@@ -2299,7 +2299,7 @@ class WC_API_Products extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['products'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_products_data', sprintf( __( 'No %1$s data specified to create/edit %1$s', 'woocommerce' ), 'products' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_products_data', sprintf( __( 'No %1$s data specified to custom-t/edit %1$s', 'woocommerce' ), 'products' ), 400 );
 			}
 
 			$data  = $data['products'];
@@ -2342,7 +2342,7 @@ class WC_API_Products extends WC_API_Resource {
 					}
 				} else {
 
-					// Product don't exists / create product
+					// Product don't exists / custom-t product
 					$new = $this->create_product( array( 'product' => $_product ) );
 
 					if ( is_wp_error( $new ) ) {

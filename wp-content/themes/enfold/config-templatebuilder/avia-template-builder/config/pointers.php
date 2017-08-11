@@ -10,7 +10,7 @@ foreach($screens as $screen)
 		'screen' => $screen, // this is the page hook we want our pointer to show on
 		'target' => '#avia-builder-button', // the css selector for the pointer to be tied to, best to use ID's
 		'title' => 'Avia Layout Builder',
-		'content' => __('The Avia Layout Builder allows you to create unique layouts with an easy to use, drag and drop interface.','avia_framework' )."<br/><br/>".__('The Builder is available on Pages and Single Portfolio Entries','avia_framework' ),
+		'content' => __('The Avia Layout Builder allows you to custom-t unique layouts with an easy to use, drag and drop interface.','avia_framework' )."<br/><br/>".__('The Builder is available on Pages and Single Portfolio Entries','avia_framework' ),
 		'position' => array( 
 	                   'edge' => 'left', //top, bottom, left, right
 	                   'align' => 'middle' //top, bottom, left, right, middle

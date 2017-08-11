@@ -209,14 +209,14 @@ class WC_API_Coupons extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['coupon'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_coupon_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'coupon' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_coupon_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'coupon' ), 400 );
 			}
 
 			$data = $data['coupon'];
 
 			// Check user permission
 			if ( ! current_user_can( 'publish_shop_coupons' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_coupon', __( 'You do not have permission to create coupons', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_coupon', __( 'You do not have permission to custom-t coupons', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_coupon_data', $data, $this );
@@ -516,7 +516,7 @@ class WC_API_Coupons extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['coupons'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_coupons_data', sprintf( __( 'No %1$s data specified to create/edit %1$s', 'woocommerce' ), 'coupons' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_coupons_data', sprintf( __( 'No %1$s data specified to custom-t/edit %1$s', 'woocommerce' ), 'coupons' ), 400 );
 			}
 
 			$data  = $data['coupons'];
@@ -551,7 +551,7 @@ class WC_API_Coupons extends WC_API_Resource {
 					}
 				} else {
 
-					// Coupon don't exists / create coupon
+					// Coupon don't exists / custom-t coupon
 					$new = $this->create_coupon( array( 'coupon' => $_coupon ) );
 
 					if ( is_wp_error( $new ) ) {

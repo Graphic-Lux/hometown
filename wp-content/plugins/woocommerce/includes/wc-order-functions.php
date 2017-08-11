@@ -624,7 +624,7 @@ function wc_refund_payment( $order, $amount, $reason = '' ) {
 		$result = $gateway->process_refund( $order->get_id(), $amount, $reason );
 
 		if ( ! $result ) {
-			throw new Exception( __( 'An error occurred while attempting to create the refund using the payment gateway API.', 'woocommerce' ) );
+			throw new Exception( __( 'An error occurred while attempting to custom-t the refund using the payment gateway API.', 'woocommerce' ) );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -700,7 +700,7 @@ function wc_get_payment_gateway_by_order( $order ) {
 }
 
 /**
- * When refunding an order, create a refund line item if the partial refunds do not match order total.
+ * When refunding an order, custom-t a refund line item if the partial refunds do not match order total.
  *
  * This is manual; no gateway refund will be performed.
  *

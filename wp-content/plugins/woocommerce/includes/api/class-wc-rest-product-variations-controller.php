@@ -233,7 +233,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 	}
 
 	/**
-	 * Prepare a single variation for create or update.
+	 * Prepare a single variation for custom-t or update.
 	 *
 	 * @param  WP_REST_Request $request Request object.
 	 * @param  bool            $creating If is creating a new object.
@@ -528,7 +528,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 	}
 
 	/**
-	 * Bulk create, update and delete items.
+	 * Bulk custom-t, update and delete items.
 	 *
 	 * @since  3.0.0
 	 * @param WP_REST_Request $request Full details about the request.
@@ -540,7 +540,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 		$product_id  = $params['product_id'];
 		$body_params = array();
 
-		foreach ( array( 'update', 'create', 'delete' ) as $batch_type ) {
+		foreach ( array( 'update', 'custom-t', 'delete' ) as $batch_type ) {
 			if ( ! empty( $items[ $batch_type ] ) ) {
 				$injected_items = array();
 				foreach ( $items[ $batch_type ] as $item ) {

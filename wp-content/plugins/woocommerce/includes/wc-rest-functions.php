@@ -234,7 +234,7 @@ function wc_rest_urlencode_rfc3986( $value ) {
 function wc_rest_check_post_permissions( $post_type, $context = 'read', $object_id = 0 ) {
 	$contexts = array(
 		'read'   => 'read_private_posts',
-		'create' => 'publish_posts',
+		'custom-t' => 'publish_posts',
 		'edit'   => 'edit_post',
 		'delete' => 'delete_post',
 		'batch'  => 'edit_others_posts',
@@ -262,7 +262,7 @@ function wc_rest_check_post_permissions( $post_type, $context = 'read', $object_
 function wc_rest_check_user_permissions( $context = 'read', $object_id = 0 ) {
 	$contexts = array(
 		'read'   => 'list_users',
-		'create' => 'edit_users',
+		'custom-t' => 'edit_users',
 		'edit'   => 'edit_users',
 		'delete' => 'delete_users',
 		'batch'  => 'edit_users',
@@ -285,7 +285,7 @@ function wc_rest_check_user_permissions( $context = 'read', $object_id = 0 ) {
 function wc_rest_check_product_term_permissions( $taxonomy, $context = 'read', $object_id = 0 ) {
 	$contexts = array(
 		'read'   => 'manage_terms',
-		'create' => 'edit_terms',
+		'custom-t' => 'edit_terms',
 		'edit'   => 'edit_terms',
 		'delete' => 'delete_terms',
 		'batch'  => 'edit_terms',

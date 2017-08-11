@@ -9,7 +9,7 @@ if ( ! class_exists( 'WC_Email_Customer_New_Account', false ) ) :
 /**
  * Customer New Account.
  *
- * An email sent to the customer when they create an account.
+ * An email sent to the customer when they custom-t an account.
  *
  * @class       WC_Email_Customer_New_Account
  * @version     2.3.0

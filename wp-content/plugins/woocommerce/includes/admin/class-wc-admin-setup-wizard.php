@@ -608,7 +608,7 @@ class WC_Admin_Setup_Wizard {
 		update_option( 'woocommerce_dimension_unit', $dimension_unit );
 
 		/*
-		 * If this is the initial shipping setup, create a shipping
+		 * If this is the initial shipping setup, custom-t a shipping
 		 * zone containing the country the store is located in, with
 		 * a "free shipping" method preconfigured.
 		 */

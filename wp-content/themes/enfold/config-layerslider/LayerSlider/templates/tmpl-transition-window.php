@@ -66,7 +66,7 @@
 								</td>
 								<td rowspan="2">
 									<p>
-										<?php _e('Share your gorgeous photos with the world or your loved ones in a truly inspirational way and create sliders with stunning effects with Origami.', 'LayerSlider') ?>
+										<?php _e('Share your gorgeous photos with the world or your loved ones in a truly inspirational way and custom-t sliders with stunning effects with Origami.', 'LayerSlider') ?>
 									</p>
 									<small>
 										<?php _e('Origami is a form of 3D transition and it works in the same way as regular slide transitions do. Besides Internet Explorer, Origami works in all the modern browsers (including Edge).', 'LayerSlider') ?>

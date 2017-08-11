@@ -181,12 +181,12 @@ class WC_API_Taxes extends WC_API_Resource {
 	public function create_tax( $data ) {
 		try {
 			if ( ! isset( $data['tax'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_tax_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'tax' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_tax_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'tax' ), 400 );
 			}
 
 			// Check permissions
 			if ( ! current_user_can( 'manage_woocommerce' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_tax', __( 'You do not have permission to create tax rates', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_tax', __( 'You do not have permission to custom-t tax rates', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_tax_data', $data['tax'], $this );
@@ -454,7 +454,7 @@ class WC_API_Taxes extends WC_API_Resource {
 	public function bulk( $data ) {
 		try {
 			if ( ! isset( $data['taxes'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_taxes_data', sprintf( __( 'No %1$s data specified to create/edit %1$s', 'woocommerce' ), 'taxes' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_taxes_data', sprintf( __( 'No %1$s data specified to custom-t/edit %1$s', 'woocommerce' ), 'taxes' ), 400 );
 			}
 
 			$data  = $data['taxes'];
@@ -490,7 +490,7 @@ class WC_API_Taxes extends WC_API_Resource {
 					}
 				} else {
 
-					// Tax rate don't exists / create tax rate
+					// Tax rate don't exists / custom-t tax rate
 					$new = $this->create_tax( array( 'tax' => $_tax ) );
 
 					if ( is_wp_error( $new ) ) {
@@ -561,12 +561,12 @@ class WC_API_Taxes extends WC_API_Resource {
 	public function create_tax_class( $data ) {
 		try {
 			if ( ! isset( $data['tax_class'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_tax_class_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'tax_class' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_tax_class_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'tax_class' ), 400 );
 			}
 
 			// Check permissions
 			if ( ! current_user_can( 'manage_woocommerce' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_tax_class', __( 'You do not have permission to create tax classes', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_tax_class', __( 'You do not have permission to custom-t tax classes', 'woocommerce' ), 401 );
 			}
 
 			$data = $data['tax_class'];

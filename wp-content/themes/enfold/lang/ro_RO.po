@@ -333,7 +333,7 @@ msgstr "Aspect"
 
 # @ LayerSlider
 #: config-layerslider/LayerSlider/config/defaults.php:244
-msgid "The skin used for this slider. The 'noskin' skin is a border- and buttonless skin. Your custom skins will appear in the list when you create their folders."
+msgid "The skin used for this slider. The 'noskin' skin is a border- and buttonless skin. Your custom skins will appear in the list when you custom-t their folders."
 msgstr ""
 
 # @ LayerSlider
@@ -1968,7 +1968,7 @@ msgstr "Numărul de bucle, dacă începe automat prezentarea este activat (0 în
 
 # @ LayerSlider
 #: config-layerslider/LayerSlider/views/slider_edit_settings.php:173
-msgid "You can change the skin of the slider. The 'noskin' skin is a border- and buttonless skin. Your custom skins will appear in the list when you create their folders as well."
+msgid "You can change the skin of the slider. The 'noskin' skin is a border- and buttonless skin. Your custom skins will appear in the list when you custom-t their folders as well."
 msgstr "Puteți schimba pielea a cursorului. Pielea \"Noskin\", este o și transfrontaliere piele nasturi. Skin-uri personalizate vor apărea în lista atunci când vă creați foldere lor, de asemenea."
 
 # @ avia_framework
@@ -2224,7 +2224,7 @@ msgstr "Import Slidere"
 
 # @ LayerSlider
 #: config-layerslider/LayerSlider/views/slider_list.php:362
-msgid "Choose a LayerSlider export file downloaded previously to import your sliders. In order to import from outdated versions, you need to create a file and paste the export code into it. The file needs to have a .json extension."
+msgid "Choose a LayerSlider export file downloaded previously to import your sliders. In order to import from outdated versions, you need to custom-t a file and paste the export code into it. The file needs to have a .json extension."
 msgstr ""
 
 # @ LayerSlider
@@ -2962,17 +2962,17 @@ msgstr ""
 
 # @ LayerSlider
 #: config-layerslider/LayerSlider/views/transition_builder.php:887
-msgid "You didn't create any 3D transitions yet"
+msgid "You didn't custom-t any 3D transitions yet"
 msgstr ""
 
 #: config-layerslider/LayerSlider/views/transition_builder.php:888
 #: config-layerslider/LayerSlider/views/transition_builder.php:1058
-msgid "To create a new transition, click to the \\\"Add new\\\" button above."
+msgid "To custom-t a new transition, click to the \\\"Add new\\\" button above."
 msgstr ""
 
 # @ LayerSlider
 #: config-layerslider/LayerSlider/views/transition_builder.php:1057
-msgid "You didn't create any 2D transitions yet"
+msgid "You didn't custom-t any 2D transitions yet"
 msgstr ""
 
 # @ LayerSlider
@@ -3108,7 +3108,7 @@ msgstr "Alegeți un slider:"
 
 # @ LayerSlider
 #: config-layerslider/LayerSlider/wp/widgets.php:52
-msgid "You didn't create any slider yet."
+msgid "You didn't custom-t any slider yet."
 msgstr "Tu nu a creat nici un slider încă."
 
 # @ LayerSlider
@@ -6272,7 +6272,7 @@ msgid "Grid Row"
 msgstr ""
 
 #: config-templatebuilder/avia-shortcodes/grid_row.php:30
-msgid "Add multiple Grid Rows below each other to create advanced grid layouts. Cells can be styled individually"
+msgid "Add multiple Grid Rows below each other to custom-t advanced grid layouts. Cells can be styled individually"
 msgstr ""
 
 # @ avia_framework
@@ -8132,7 +8132,7 @@ msgid "Which kind of menu do you want to display"
 msgstr ""
 
 #: config-templatebuilder/avia-shortcodes/menu.php:47
-msgid "Either use an existing menu, built in Appearance -> Menus or create a simple custom menu here"
+msgid "Either use an existing menu, built in Appearance -> Menus or custom-t a simple custom menu here"
 msgstr ""
 
 #: config-templatebuilder/avia-shortcodes/menu.php:51
@@ -8150,7 +8150,7 @@ msgstr ""
 
 # @ wordpress-importer
 #: config-templatebuilder/avia-shortcodes/menu.php:59
-msgid "You can create new menus in "
+msgid "You can custom-t new menus in "
 msgstr ""
 
 # @ LayerSlider
@@ -10002,7 +10002,7 @@ msgstr "Afișarea unui slideshow Layerslider"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/slideshow_layerslider.php:57
-msgid "No Layer Slider Found. Click here to create one"
+msgid "No Layer Slider Found. Click here to custom-t one"
 msgstr "Nu Slider Layer găsit. Click aici pentru a crea un"
 
 # @ avia_framework
@@ -10022,7 +10022,7 @@ msgstr "Afișa un slider Revoluția fullwidth"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/slideshow_revolution.php:57
-msgid "No Revolution Slider Found. Click here to create one"
+msgid "No Revolution Slider Found. Click here to custom-t one"
 msgstr "Nu Slider Revoluția a fost găsit. Click aici pentru a crea un"
 
 # @ avia_framework
@@ -10567,7 +10567,7 @@ msgstr "Stil Recomandare"
 
 # @ avia_framework
 #: config-templatebuilder/avia-shortcodes/testimonials.php:121
-msgid "Here you can select how to display the testimonials. You can either create a testimonial slider or a testimonial grid with multiple columns"
+msgid "Here you can select how to display the testimonials. You can either custom-t a testimonial slider or a testimonial grid with multiple columns"
 msgstr "Aici puteți selecta modul de afișare a marturii. Puteți crea fie un slider recomandare sau o grilă comentariu cu mai multe coloane"
 
 # @ avia_framework
@@ -11308,7 +11308,7 @@ msgstr ""
 
 # @ avia_framework
 #: config-templatebuilder/avia-template-builder/config/pointers.php:13
-msgid "The Avia Layout Builder allows you to create unique layouts with an easy to use, drag and drop interface."
+msgid "The Avia Layout Builder allows you to custom-t unique layouts with an easy to use, drag and drop interface."
 msgstr ""
 
 #: config-templatebuilder/avia-template-builder/config/pointers.php:13
@@ -13059,7 +13059,7 @@ msgstr "Import autor:"
 
 # @ wordpress-importer
 #: framework/php/wordpress-importer/wordpress-importer.php:310
-msgid "or create new user with login name:"
+msgid "or custom-t new user with login name:"
 msgstr "sau de a crea un nou utilizator cu numele de utilizator:"
 
 # @ wordpress-importer
@@ -13085,7 +13085,7 @@ msgstr "- Selectați -"
 # @ wordpress-importer
 #: framework/php/wordpress-importer/wordpress-importer.php:374
 #, php-format
-msgid "Failed to create new user for %s. Their posts will be attributed to the current user."
+msgid "Failed to custom-t new user for %s. Their posts will be attributed to the current user."
 msgstr "Nu pentru a crea un nou utilizator pentru %s. Posturile lor vor fi atribuite pentru utilizatorul curent."
 
 # @ wordpress-importer

@@ -200,7 +200,7 @@ class WC_API_Customers extends WC_API_Resource {
 	public function create_customer( $data ) {
 
 		if ( ! current_user_can( 'create_users' ) ) {
-			return new WP_Error( 'woocommerce_api_user_cannot_create_customer', __( 'You do not have permission to create this customer', 'woocommerce' ), array( 'status' => 401 ) );
+			return new WP_Error( 'woocommerce_api_user_cannot_create_customer', __( 'You do not have permission to custom-t this customer', 'woocommerce' ), array( 'status' => 401 ) );
 		}
 
 		return array();

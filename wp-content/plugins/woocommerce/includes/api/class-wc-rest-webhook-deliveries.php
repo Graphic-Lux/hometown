@@ -59,7 +59,7 @@ class WC_REST_Webhook_Deliveries_Controller extends WC_REST_Webhook_Deliveries_V
 		 * Filter webhook delivery object returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response The response object.
-		 * @param stdClass         $log      Delivery log object used to create response.
+		 * @param stdClass         $log      Delivery log object used to custom-t response.
 		 * @param WP_REST_Request  $request  Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_webhook_delivery', $response, $log, $request );

@@ -513,7 +513,7 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 		/**
          * 
          * The upload method renders a single upload element so users can add their own pictures
-         * the script first gets the id of a hidden post that should store the image. if no post is set it will create one
+         * the script first gets the id of a hidden post that should store the image. if no post is set it will custom-t one
          * then we check if a basic url based upload should be used or a more sophisticated id based for slideshows and feauted images, which need
          * the images resized automatically
          *
@@ -855,7 +855,7 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 			
 
 			
-			# is user is alowed to extract files create the upload/insert button
+			# is user is alowed to extract files custom-t the upload/insert button
 			if(empty($element['data']))
 			{
 				$element['data'] =  array(	'target' => $element['id'], 
@@ -1500,7 +1500,7 @@ if( ! class_exists( 'avia_htmlhelper' ) )
 	
 	/**
      * 
-     * The create_options_page method renders an input field and button that lets you create options pages dynamically by entering the new of the new option page
+     * The create_options_page method renders an input field and button that lets you custom-t options pages dynamically by entering the new of the new option page
      * @param array $element the array holds data like type, value, id, class, description which are necessary to render the whole option-section
      * @return string $output the string returned contains the html code generated within the method
      */

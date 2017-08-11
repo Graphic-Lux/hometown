@@ -118,8 +118,8 @@ function rest_template_redirect_intercept()
 
   if (isset($_GET['debug'])) {
     global $wp_rewrite;
-// 		echo "<br> wp_query:";print_r($wp_query);
-// 		print_r($wp_rewrite);
+ 		echo "<br> wp_query:";print_r($wp_query);
+ 		print_r($wp_rewrite);
   }
 
   if ($wp_query->get('rest')) {

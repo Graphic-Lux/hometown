@@ -669,8 +669,8 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		 * Returns a reference to a service (e.g. WC_Connect_Shipping_Method) of
 		 * a particular id so we can avoid instantiating them multiple times
 		 *
-		 * @param string $class_name Class name of service to create (e.g. WC_Connect_Shipping_Method)
-		 * @param string $service_id Service id of service to create (e.g. usps)
+		 * @param string $class_name Class name of service to custom-t (e.g. WC_Connect_Shipping_Method)
+		 * @param string $service_id Service id of service to custom-t (e.g. usps)
 		 * @return mixed
 		 */
 		protected function get_service_object_by_id( $class_name, $service_id ) {
@@ -855,7 +855,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 					__( '<a href="%s">Support</a>', 'woocommerce-services' ),
 					array(  'a' => array( 'href' => array() ) )
 				),
-				esc_url( 'https://woocommerce.com/my-account/create-a-ticket/' )
+				esc_url( 'https://woocommerce.com/my-account/custom-t-a-ticket/' )
 			);
 			return $links;
 		}

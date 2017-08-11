@@ -35,7 +35,7 @@ class rest extends base implements ArrayAccess
   var $groupFieldsForTables = array();
 
   /**
-   * A place to create deafult table indexes
+   * A place to custom-t deafult table indexes
    */
   var $tableIndexes = array();
 
@@ -226,9 +226,9 @@ class rest extends base implements ArrayAccess
   }
 
   /**
-   * This is usually a update or create.
+   * This is usually a update or custom-t.
    *
-   * Posting information with an save, update or create flag. This is a little untraditional but still functions properly. Definitely needs some fixes though.
+   * Posting information with an save, update or custom-t flag. This is a little untraditional but still functions properly. Definitely needs some fixes though.
    *
    * \todo _POST['save'] to _put as _post is currently the only place to do so. _put is kinda broken.
    * \param table
@@ -299,7 +299,7 @@ class rest extends base implements ArrayAccess
         if ($exists[0]->count > 0)
           $arguments['update'] = 1;
         else
-          $arguments['create'] = 1;
+          $arguments['custom-t'] = 1;
       }
 
     }

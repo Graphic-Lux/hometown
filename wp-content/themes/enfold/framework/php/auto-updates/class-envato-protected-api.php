@@ -250,7 +250,7 @@ class Envato_Protected_API {
       return $results;
     }
     
-    /* create the cache and allow filtering before it's saved */
+    /* custom-t the cache and allow filtering before it's saved */
     if ( $results = apply_filters( 'envato_api_set_cache', $this->remote_request( $url ), $transient ) ) {
       set_transient( $transient, $results, $timeout );
       return $results;

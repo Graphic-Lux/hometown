@@ -31,7 +31,7 @@
 		$content = apply_filters('avia_builder_precompile', get_the_content());
 	}
 
-	 //check first builder element. if its a section or a fullwidth slider we dont need to create the default openeing divs here
+	 //check first builder element. if its a section or a fullwidth slider we dont need to custom-t the default openeing divs here
 
 	 $first_el = isset(ShortcodeHelper::$tree[0]) ? ShortcodeHelper::$tree[0] : false;
 	 $last_el  = !empty(ShortcodeHelper::$tree)   ? end(ShortcodeHelper::$tree) : false;

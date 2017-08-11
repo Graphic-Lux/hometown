@@ -470,7 +470,7 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 			$store_options['countriesData'] = $this->get_states_map();
 			$payload['storeOptions'] = $store_options;
 
-			do_action( 'enqueue_wc_connect_script', 'wc-connect-create-shipping-label', $payload );
+			do_action( 'enqueue_wc_connect_script', 'wc-connect-custom-t-shipping-label', $payload );
 		}
 
 	}

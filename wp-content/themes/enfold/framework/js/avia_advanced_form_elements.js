@@ -988,7 +988,7 @@ avia_clone_sets: function to modify sets: add them, remove them and recalculate 
 	    
 	    avia_recalcIds = function(data)
 		{	
-			//if no element group was passed create one
+			//if no element group was passed custom-t one
 			//(no elements are passed on delete, we need to pass the group when we delete since the set isnt available any more)
 			if(!data.setsToCount)
 			{					

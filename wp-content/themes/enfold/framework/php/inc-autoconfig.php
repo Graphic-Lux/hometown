@@ -12,7 +12,7 @@
 
 /**
  * check if file is a plugin or theme based on its location, then set constant and globals for further use within the framework
- * @todo create plugin version of framework and prevent interfering with theme version
+ * @todo custom-t plugin version of framework and prevent interfering with theme version
  */
  
 
@@ -212,12 +212,12 @@ if(is_admin())
 	require( AVIA_PHP.'class-media.php' );
 	
 	/**
-	* This file loads the option set class to create new backend options on the fly
+	* This file loads the option set class to custom-t new backend options on the fly
 	*/
 	require( AVIA_PHP.'class-database-option-sets.php' );
 	
 	/**
-	* This file loads the option set class to create new backend options on the fly
+	* This file loads the option set class to custom-t new backend options on the fly
 	*/
 	require( AVIA_PHP.'wordpress-importer/avia-export-class.php' );
 	
@@ -234,7 +234,7 @@ if(is_admin())
 		
 	
 	/**
-	* This file loads the option set class to create new backend options on the fly
+	* This file loads the option set class to custom-t new backend options on the fly
 	*/
 	require( AVIA_PHP.'class-update-notifier.php' );
 }

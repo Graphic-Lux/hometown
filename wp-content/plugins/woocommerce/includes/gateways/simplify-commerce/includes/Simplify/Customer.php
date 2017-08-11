@@ -44,7 +44,7 @@ class Simplify_Customer extends Simplify_Object {
 	 *     <dt><tt>card.cvc</tt></dt>    <dd>CVC security code of the card. This is the code on the back of the card. Example: 123 <strong>required </strong></dd>
 	 *     <dt><tt>card.expMonth</tt></dt>    <dd>Expiration month of the card. Format is MM. Example: January = 01 <strong>required </strong></dd>
 	 *     <dt><tt>card.expYear</tt></dt>    <dd>Expiration year of the card. Format is YY. Example: 2013 = 13 <strong>required </strong></dd>
-	 *     <dt><tt>card.id</tt></dt>    <dd>ID of card. Unused during customer create. </dd>
+	 *     <dt><tt>card.id</tt></dt>    <dd>ID of card. Unused during customer custom-t. </dd>
 	 *     <dt><tt>card.name</tt></dt>    <dd>Name as appears on the card. <strong>required </strong></dd>
 	 *     <dt><tt>card.number</tt></dt>    <dd>Card number as it appears on the card. [max length: 19, min length: 13] </dd>
 	 *     <dt><tt>email</tt></dt>    <dd>Email address of the customer <strong>required </strong></dd>
@@ -55,7 +55,7 @@ class Simplify_Customer extends Simplify_Object {
 	 *     <dt><tt>subscriptions.billingCycleLimit</tt></dt>    <dd>The number of fixed billing cycles for a plan. Only used if the billingCycle parameter is set to FIXED. Example: 4 </dd>
 	 *     <dt><tt>subscriptions.coupon</tt></dt>    <dd>Coupon associated with the subscription for the customer. </dd>
 	 *     <dt><tt>subscriptions.currency</tt></dt>    <dd>Currency code (ISO-4217). Must match the currency associated with your account. [default: USD] </dd>
-	 *     <dt><tt>subscriptions.customer</tt></dt>    <dd>The customer ID to create the subscription for. Do not supply this when creating a customer. </dd>
+	 *     <dt><tt>subscriptions.customer</tt></dt>    <dd>The customer ID to custom-t the subscription for. Do not supply this when creating a customer. </dd>
 	 *     <dt><tt>subscriptions.frequency</tt></dt>    <dd>Frequency of payment for the plan. Used in conjunction with frequencyPeriod. Valid values are "DAILY", "WEEKLY", "MONTHLY" and "YEARLY". </dd>
 	 *     <dt><tt>subscriptions.frequencyPeriod</tt></dt>    <dd>Period of frequency of payment for the plan. Example: if the frequency is weekly, and periodFrequency is 2, then the subscription is billed bi-weekly. </dd>
 	 *     <dt><tt>subscriptions.name</tt></dt>    <dd>Name describing subscription </dd>

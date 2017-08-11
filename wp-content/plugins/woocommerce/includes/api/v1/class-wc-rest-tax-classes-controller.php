@@ -94,15 +94,15 @@ class WC_REST_Tax_Classes_V1_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access create tax classes.
+	 * Check if a given request has access custom-t tax classes.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
 	 * @return bool|WP_Error
 	 */
 	public function create_item_permissions_check( $request ) {
-		if ( ! wc_rest_check_manager_permissions( 'settings', 'create' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! wc_rest_check_manager_permissions( 'settings', 'custom-t' ) ) {
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -181,7 +181,7 @@ class WC_REST_Tax_Classes_V1_Controller extends WC_REST_Controller {
 
 		// Return error if tax class already exists.
 		if ( $exists ) {
-			return new WP_Error( 'woocommerce_rest_tax_class_exists', __( 'Cannot create existing resource.', 'woocommerce' ), array( 'status' => 400 ) );
+			return new WP_Error( 'woocommerce_rest_tax_class_exists', __( 'Cannot custom-t existing resource.', 'woocommerce' ), array( 'status' => 400 ) );
 		}
 
 		// Add the new class.
@@ -194,7 +194,7 @@ class WC_REST_Tax_Classes_V1_Controller extends WC_REST_Controller {
 		/**
 		 * Fires after a tax class is created or updated via the REST API.
 		 *
-		 * @param stdClass        $tax_class Data used to create the tax class.
+		 * @param stdClass        $tax_class Data used to custom-t the tax class.
 		 * @param WP_REST_Request $request   Request object.
 		 * @param boolean         $creating  True when creating tax class, false when updating tax class.
 		 */
@@ -298,7 +298,7 @@ class WC_REST_Tax_Classes_V1_Controller extends WC_REST_Controller {
 		 * Filter tax object returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response  The response object.
-		 * @param stdClass         $tax_class Tax object used to create response.
+		 * @param stdClass         $tax_class Tax object used to custom-t response.
 		 * @param WP_REST_Request  $request   Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_tax', $response, (object) $tax_class, $request );

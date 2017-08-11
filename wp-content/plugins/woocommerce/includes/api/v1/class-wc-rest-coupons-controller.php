@@ -228,7 +228,7 @@ class WC_REST_Coupons_V1_Controller extends WC_REST_Posts_Controller {
 	}
 
 	/**
-	 * Prepare a single coupon for create or update.
+	 * Prepare a single coupon for custom-t or update.
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_Error|stdClass $data Post object.
@@ -307,7 +307,7 @@ class WC_REST_Coupons_V1_Controller extends WC_REST_Posts_Controller {
 	public function create_item( $request ) {
 		if ( ! empty( $request['id'] ) ) {
 			/* translators: %s: post type */
-			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot create existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
+			return new WP_Error( "woocommerce_rest_{$this->post_type}_exists", sprintf( __( 'Cannot custom-t existing %s.', 'woocommerce' ), $this->post_type ), array( 'status' => 400 ) );
 		}
 
 		$coupon_id = $this->save_coupon( $request );

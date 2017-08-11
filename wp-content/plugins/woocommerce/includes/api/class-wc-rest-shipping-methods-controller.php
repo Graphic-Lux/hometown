@@ -155,7 +155,7 @@ class WC_REST_Shipping_Methods_Controller extends WC_REST_Controller {
 		 * Filter shipping methods object returned from the REST API.
 		 *
 		 * @param WP_REST_Response   $response The response object.
-		 * @param WC_Shipping_Method $method   Shipping method object used to create response.
+		 * @param WC_Shipping_Method $method   Shipping method object used to custom-t response.
 		 * @param WP_REST_Request    $request  Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_shipping_method', $response, $method, $request );

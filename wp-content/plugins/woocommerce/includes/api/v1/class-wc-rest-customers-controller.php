@@ -139,15 +139,15 @@ class WC_REST_Customers_V1_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access create customers.
+	 * Check if a given request has access custom-t customers.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
 	 * @return bool|WP_Error
 	 */
 	public function create_item_permissions_check( $request ) {
-		if ( ! wc_rest_check_user_permissions( 'create' ) ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! wc_rest_check_user_permissions( 'custom-t' ) ) {
+			return new WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to custom-t resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -204,7 +204,7 @@ class WC_REST_Customers_V1_Controller extends WC_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access batch create, update and delete items.
+	 * Check if a given request has access batch custom-t, update and delete items.
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -324,7 +324,7 @@ class WC_REST_Customers_V1_Controller extends WC_REST_Controller {
 	public function create_item( $request ) {
 		try {
 			if ( ! empty( $request['id'] ) ) {
-				throw new WC_REST_Exception( 'woocommerce_rest_customer_exists', __( 'Cannot create existing resource.', 'woocommerce' ), 400 );
+				throw new WC_REST_Exception( 'woocommerce_rest_customer_exists', __( 'Cannot custom-t existing resource.', 'woocommerce' ), 400 );
 			}
 
 			// Sets the username.
@@ -353,7 +353,7 @@ class WC_REST_Customers_V1_Controller extends WC_REST_Controller {
 			/**
 			 * Fires after a customer is created or updated via the REST API.
 			 *
-			 * @param WP_User         $user_data Data used to create the customer.
+			 * @param WP_User         $user_data Data used to custom-t the customer.
 			 * @param WP_REST_Request $request   Request object.
 			 * @param boolean         $creating  True when creating customer, false when updating customer.
 			 */
@@ -437,7 +437,7 @@ class WC_REST_Customers_V1_Controller extends WC_REST_Controller {
 			/**
 			 * Fires after a customer is created or updated via the REST API.
 			 *
-			 * @param WP_User         $customer  Data used to create the customer.
+			 * @param WP_User         $customer  Data used to custom-t the customer.
 			 * @param WP_REST_Request $request   Request object.
 			 * @param boolean         $creating  True when creating customer, false when updating customer.
 			 */
@@ -556,7 +556,7 @@ class WC_REST_Customers_V1_Controller extends WC_REST_Controller {
 		 * Filter customer data returned from the REST API.
 		 *
 		 * @param WP_REST_Response $response   The response object.
-		 * @param WP_User          $user_data  User object used to create response.
+		 * @param WP_User          $user_data  User object used to custom-t response.
 		 * @param WP_REST_Request  $request    Request object.
 		 */
 		return apply_filters( 'woocommerce_rest_prepare_customer', $response, $user_data, $request );

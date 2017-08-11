@@ -604,7 +604,7 @@ class WC_AJAX {
 		$attributes = wc_list_pluck( array_filter( $product->get_attributes(), 'wc_attributes_array_filter_variation' ), 'get_slugs' );
 
 		if ( ! empty( $attributes ) ) {
-			// Get existing variations so we don't create duplicates.
+			// Get existing variations so we don't custom-t duplicates.
 			$existing_variations = array_map( 'wc_get_product', $product->get_children() );
 			$existing_attributes = array();
 

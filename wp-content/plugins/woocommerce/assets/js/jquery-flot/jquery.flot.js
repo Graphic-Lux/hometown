@@ -315,7 +315,7 @@ Licensed under the MIT license.
 			textStyle = font;
 		}
 
-		// Retrieve (or create) the cache for the text's layer and styles
+		// Retrieve (or custom-t) the cache for the text's layer and styles
 
 		layerCache = this._textCache[layer];
 
@@ -331,7 +331,7 @@ Licensed under the MIT license.
 
 		info = styleCache[text];
 
-		// If we can't find a matching element in our cache, create a new one
+		// If we can't find a matching element in our cache, custom-t a new one
 
 		if (info == null) {
 
@@ -414,7 +414,7 @@ Licensed under the MIT license.
 			}
 		}
 
-		// If the text doesn't exist at this position, create a new entry
+		// If the text doesn't exist at this position, custom-t a new entry
 
 		// For the very first position we'll re-use the original element,
 		// while for subsequent ones we'll clone it.
@@ -731,7 +731,7 @@ Licensed under the MIT license.
             // Fill in defaults for axis options, including any unspecified
             // font-spec fields, if a font-spec was provided.
 
-            // If no x/y axis options were provided, create one of each anyway,
+            // If no x/y axis options were provided, custom-t one of each anyway,
             // since the rest of the code assumes that they exist.
 
             var i, axisOptions, axisCount,

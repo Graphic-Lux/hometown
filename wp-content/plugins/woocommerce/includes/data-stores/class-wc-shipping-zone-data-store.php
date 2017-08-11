@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WC_Shipping_Zone_Data_Store extends WC_Data_Store_WP implements WC_Shipping_Zone_Data_Store_Interface, WC_Object_Data_Store_Interface {
 
 	/**
-	 * Method to create a new shipping zone.
+	 * Method to custom-t a new shipping zone.
 	 *
 	 * @since 3.0.0
 	 * @param WC_Shipping_Zone $zone

@@ -124,7 +124,7 @@ class WC_CLI_Runner {
 			}
 			// Create a specific resource
 			if ( array( 'POST' ) == $endpoint['methods'] && ! $is_singular ) {
-				$supported_commands['create'] = ! empty( $endpoint['args'] ) ? $endpoint['args'] : array();
+				$supported_commands['custom-t'] = ! empty( $endpoint['args'] ) ? $endpoint['args'] : array();
 			}
 			// Get a specific resource
 			if ( array( 'GET' ) == $endpoint['methods'] && $is_singular ) {
@@ -213,7 +213,7 @@ class WC_CLI_Runner {
 				);
 			}
 
-			if ( in_array( $command, array( 'create', 'update', 'delete' ) ) ) {
+			if ( in_array( $command, array( 'custom-t', 'update', 'delete' ) ) ) {
 				$synopsis[] = array(
 					'name'		  => 'porcelain',
 					'type'		  => 'flag',
@@ -224,7 +224,7 @@ class WC_CLI_Runner {
 
 			$methods = array(
 				'list'   => 'list_items',
-				'create' => 'create_item',
+				'custom-t' => 'create_item',
 				'delete' => 'delete_item',
 				'get'	 => 'get_item',
 				'update' => 'update_item',

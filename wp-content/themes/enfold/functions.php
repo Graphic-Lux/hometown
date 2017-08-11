@@ -19,7 +19,7 @@ global $avia_config;
 if(isset($avia_config['use_child_theme_functions_only'])) return;
 
 /*
- * create a global var which stores the ids of all posts which are displayed on the current page. It will help us to filter duplicate posts
+ * custom-t a global var which stores the ids of all posts which are displayed on the current page. It will help us to filter duplicate posts
  */
 $avia_config['posts_on_current_page'] = array();
 
@@ -34,7 +34,7 @@ require_once( 'config-wpml/config.php' );
 
 /*
  * These are the available color sets in your backend.
- * If more sets are added users will be able to create additional color schemes for certain areas
+ * If more sets are added users will be able to custom-t additional color schemes for certain areas
  *
  * The array key has to be the class name, the value is only used as tab heading on the styling page
  */

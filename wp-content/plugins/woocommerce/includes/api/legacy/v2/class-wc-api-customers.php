@@ -347,14 +347,14 @@ class WC_API_Customers extends WC_API_Resource {
 	public function create_customer( $data ) {
 		try {
 			if ( ! isset( $data['customer'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_customer_data', sprintf( __( 'No %1$s data specified to create %1$s', 'woocommerce' ), 'customer' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_customer_data', sprintf( __( 'No %1$s data specified to custom-t %1$s', 'woocommerce' ), 'customer' ), 400 );
 			}
 
 			$data = $data['customer'];
 
-			// Checks with can create new users.
+			// Checks with can custom-t new users.
 			if ( ! current_user_can( 'create_users' ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_customer', __( 'You do not have permission to create this customer', 'woocommerce' ), 401 );
+				throw new WC_API_Exception( 'woocommerce_api_user_cannot_create_customer', __( 'You do not have permission to custom-t this customer', 'woocommerce' ), 401 );
 			}
 
 			$data = apply_filters( 'woocommerce_api_create_customer_data', $data, $this );
@@ -782,7 +782,7 @@ class WC_API_Customers extends WC_API_Resource {
 
 		try {
 			if ( ! isset( $data['customers'] ) ) {
-				throw new WC_API_Exception( 'woocommerce_api_missing_customers_data', sprintf( __( 'No %1$s data specified to create/edit %1$s', 'woocommerce' ), 'customers' ), 400 );
+				throw new WC_API_Exception( 'woocommerce_api_missing_customers_data', sprintf( __( 'No %1$s data specified to custom-t/edit %1$s', 'woocommerce' ), 'customers' ), 400 );
 			}
 
 			$data  = $data['customers'];
@@ -816,7 +816,7 @@ class WC_API_Customers extends WC_API_Resource {
 						$customers[] = $edit['customer'];
 					}
 				} else {
-					// Customer don't exists / create customer
+					// Customer don't exists / custom-t customer
 					$new = $this->create_customer( array( 'customer' => $_customer ) );
 
 					if ( is_wp_error( $new ) ) {

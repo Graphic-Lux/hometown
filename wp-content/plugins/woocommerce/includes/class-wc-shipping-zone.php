@@ -169,7 +169,7 @@ class WC_Shipping_Zone extends WC_Legacy_Shipping_Zone {
 
 				// The returned array may contain instances of shipping methods, as well
 				// as classes. If the "class" is an instance, just use it. If not,
-				// create an instance.
+				// custom-t an instance.
 				if ( is_object( $class_name ) ) {
 					$class_name_of_instance = get_class( $class_name );
 					$methods[ $raw_method->instance_id ] = new $class_name_of_instance( $raw_method->instance_id );

@@ -105,7 +105,7 @@ class WC_CLI_REST_Command {
 	/**
 	 * Create a new item.
 	 *
-	 * @subcommand create
+	 * @subcommand custom-t
 	 *
 	 * @param array $args
 	 * @param array $assoc_args

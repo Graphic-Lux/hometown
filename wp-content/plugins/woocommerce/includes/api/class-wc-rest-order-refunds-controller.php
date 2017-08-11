@@ -256,7 +256,7 @@ class WC_REST_Order_Refunds_Controller extends WC_REST_Orders_Controller {
 	}
 
 	/**
-	 * Prepares one object for create or update operation.
+	 * Prepares one object for custom-t or update operation.
 	 *
 	 * @since  3.0.0
 	 * @param  WP_REST_Request $request Request object.
@@ -289,7 +289,7 @@ class WC_REST_Order_Refunds_Controller extends WC_REST_Orders_Controller {
 		}
 
 		if ( ! $refund ) {
-			return new WP_Error( 'woocommerce_rest_cannot_create_order_refund', __( 'Cannot create order refund, please try again.', 'woocommerce' ), 500 );
+			return new WP_Error( 'woocommerce_rest_cannot_create_order_refund', __( 'Cannot custom-t order refund, please try again.', 'woocommerce' ), 500 );
 		}
 
 		/**

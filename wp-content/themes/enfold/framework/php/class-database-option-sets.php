@@ -1,6 +1,6 @@
 <?php  if ( ! defined('AVIA_FW')) exit('No direct script access allowed');
 /**
- * This file holds the class needed to create dynamic option pages and clone, create and remove option arrays from the option pages
+ * This file holds the class needed to custom-t dynamic option pages and clone, custom-t and remove option arrays from the option pages
  *
  * @author		Christian "Kriesi" Budschedl
  * @copyright	Copyright (c) Christian Budschedl
@@ -160,7 +160,7 @@ if( ! class_exists( 'avia_database_set' ) )
 			//get the set of elements saved in the database
 			$current_options = get_option($option_index);
 			
-			//create a new element id and check if it doesnt interfere with the existing elements
+			//custom-t a new element id and check if it doesnt interfere with the existing elements
 			$element = $this->create_unqiue_element_id($element, $current_options);
 			
 			//update the database: add the new element

@@ -32,7 +32,7 @@ if( ! class_exists( 'avia_form' ) )
 
 
 		/**
-		 * This array holds the form elements that where set by the create elements function
+		 * This array holds the form elements that where set by the custom-t elements function
 		 * @var array
 		 */
 		var $form_elements;
