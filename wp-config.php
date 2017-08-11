@@ -19,7 +19,7 @@
  */
 
 
-if ($_SERVER['SERVER_NAME'] === "hometown.dev") {
+//if ($_SERVER['SERVER_NAME'] === "hometown.dev") {
 
   // ** MySQL settings - You can get this info from your web host ** //
   /** The name of the database for WordPress */
@@ -40,28 +40,28 @@ if ($_SERVER['SERVER_NAME'] === "hometown.dev") {
   /** The Database Collate type. Don't change this if in doubt. */
   define('DB_COLLATE', '');
 
-} else if ($_SERVER['SERVER_NAME'] === "dev.hostsites.cloud/home") {
+//} else if ($_SERVER['SERVER_NAME'] === "dev.hostsites.cloud/home/") {
 
-  // ** MySQL settings - You can get this info from your web host ** //
-  /** The name of the database for WordPress */
-  define('DB_NAME', 'hostsi90_home');
+//  // ** MySQL settings - You can get this info from your web host ** //
+//  /** The name of the database for WordPress */
+//  define('DB_NAME', 'hostsi90_home');
+//
+//  /** MySQL database username */
+//  define('DB_USER', 'hostsi90_home'); // http://phpmyadmin.hostsites.cloud/
+//
+//  /** MySQL database password */
+//  define('DB_PASSWORD', ',ieIVT_F1SO.'); // http://phpmyadmin.hostsites.cloud/
+//
+//  /** MySQL hostname */
+//  define('DB_HOST', 'hostsites.cloud');
+//
+//  /** Database Charset to use in creating database tables. */
+//  define('DB_CHARSET', 'utf8mb4');
+//
+//  /** The Database Collate type. Don't change this if in doubt. */
+//  define('DB_COLLATE', '');
 
-  /** MySQL database username */
-  define('DB_USER', 'hostsi90_home'); // http://phpmyadmin.hostsites.cloud/
-
-  /** MySQL database password */
-  define('DB_PASSWORD', ',ieIVT_F1SO.'); // http://phpmyadmin.hostsites.cloud/
-
-  /** MySQL hostname */
-  define('DB_HOST', 'hostsites.cloud');
-
-  /** Database Charset to use in creating database tables. */
-  define('DB_CHARSET', 'utf8mb4');
-
-  /** The Database Collate type. Don't change this if in doubt. */
-  define('DB_COLLATE', '');
-
-};
+//};
 
 
 
