@@ -20,6 +20,18 @@ Template: enfold
 
 /*Add your own styles here:*/
 
+h3 {
+    font-size: 22px;
+}
+
+.av-thin-font .av-special-heading-tag, .modern-quote .av-special-heading-tag {
+    font-weight: 600;
+}
+
+.container_wrap {
+    border-top-width: 0px;
+}
+
 .main_color h1, .main_color h2, .main_color h3, .main_color h4, .main_color h5, .main_color h6 {
 	font-family: "UniversLT57Condensed";
 }
@@ -143,6 +155,35 @@ nav.woocommerce-MyAccount-navigation ul li {
 
 nav.woocommerce-MyAccount-navigation ul li a {
     padding: 20px;   
+}
+
+.main_color h2, .template-page .entry-content-wrapper h2 {
+    font-size: 14px;
+}
+
+#top .price, #top .price span, #top del, #top ins {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+h3.widgettitle {
+    text-transform: none;
+    font-size: 22px;
+}
+
+.widget_product_categories li a {
+    font-size: 14px;
+	font-family: "UniversLT57Condensed";
+    text-transform: uppercase;
+    background: none;
+}
+
+section.widget.widget_product_categories {
+    float: right;
+}
+
+.sidebar_left.sidebar {
+    text-align: left;
 }
 
 /* Mobile Hamburger Menu Only */

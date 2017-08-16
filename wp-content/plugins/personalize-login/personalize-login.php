@@ -108,7 +108,7 @@ class Personalize_Login_Plugin {
 			}
 		} else {
 			// Non-admin users always go to their account page after login
-			$redirect_url = home_url( 'member-account' );
+			$redirect_url = home_url( 'landing-page' );
 		}
 
 		return wp_validate_redirect( $redirect_url, home_url() );
@@ -118,7 +118,7 @@ class Personalize_Login_Plugin {
 	 * Redirect to custom login page after the user has been logged out.
 	 */
 	public function redirect_after_logout() {
-		$redirect_url = home_url( 'member-login?logged_out=true' );
+		$redirect_url = home_url( '/' );
 		wp_safe_redirect( $redirect_url );
 		exit;
 	}
@@ -245,7 +245,7 @@ class Personalize_Login_Plugin {
 				wp_redirect( admin_url() );
 			}
 		} else {
-			wp_redirect( home_url( 'member-account' ) );
+			wp_redirect( home_url( 'landing-page' ) );
 		}
 	}
 
