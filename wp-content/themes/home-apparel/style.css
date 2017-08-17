@@ -28,6 +28,14 @@ h3 {
     font-weight: 600;
 }
 
+.template-page .entry-content-wrapper h2.av-special-heading-tag {
+	font-size: 36px;
+}
+
+.landing-page .modern-quote .av-special-heading-tag {
+    font-weight: normal;
+}
+
 .container_wrap {
     border-top-width: 0px;
 }
@@ -184,6 +192,10 @@ section.widget.widget_product_categories {
 
 .sidebar_left.sidebar {
     text-align: left;
+}
+
+div .products .product a.wcvaswatchinput, div .products .product a.wcvaswatchinput img {
+    display: initial;
 }
 
 /* Mobile Hamburger Menu Only */
