@@ -31,7 +31,7 @@ function my_redirect() {
 add_action( 'template_redirect', 'my_redirect' );
 
 add_action('template_redirect', 'redirect_user_role'); function redirect_user_role(){ 
-	if(current_user_can('administrator') && is_page('2')) { wp_redirect('/landing-page/'); } }
+	if(current_user_can('administrator') && is_page('2')) { wp_redirect('http://dev.hostsites.cloud/home/landing-page/'); } }
 
 function mytheme_custom_scripts(){
     if ( is_home() || is_front_page()) {
@@ -50,7 +50,7 @@ function custom_wc_end_point() {
 }
 add_action( 'init', 'custom_wc_end_point' );
 function custom_endpoint_query_vars( $vars ) {
-    $vars[] = 'contact';
+    $vars[] = 'contact-us';
     return $vars;
 }
 add_filter( 'query_vars', 'custom_endpoint_query_vars', 0 );
@@ -63,7 +63,7 @@ function custom_endpoint_acct_menu_item( $items ) {
    
     $logout = $items['customer-logout'];
     unset( $items['customer-logout'] );
-	$items['contact'] = __( 'Contact', 'woocommerce' ); // replace videos with your endpoint name
+	$items['contact-us'] = __( 'Contact', 'woocommerce' ); // replace videos with your endpoint name
 	$items['customer-logout'] = $logout;
         return $items;
 }

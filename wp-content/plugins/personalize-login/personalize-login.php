@@ -34,16 +34,7 @@ class Personalize_Login_Plugin {
 	 */
 	public static function plugin_activated() {
 		// Information needed for creating the plugin's pages
-		$page_definitions = array(
-			'member-login' => array(
-				'title' => __( 'Login Page', 'personalize-login' ),
-				'content' => '[custom-login-form]'
-			),
-			'member-account' => array(
-				'title' => __( 'Your Account', 'personalize-login' ),
-				'content' => '[account-info]'
-			),
-		);
+		
 
 		foreach ( $page_definitions as $slug => $page ) {
 			// Check that the page doesn't exist already
@@ -82,7 +73,7 @@ class Personalize_Login_Plugin {
 			}
 
 			// The rest are redirected to the login page
-			$login_url = home_url( 'member-login' );
+			$login_url = home_url( 'landing-page' );
 			if ( ! empty( $redirect_to ) ) {
 				$login_url = add_query_arg( 'redirect_to', $redirect_to, $login_url );
 			}
@@ -117,7 +108,7 @@ class Personalize_Login_Plugin {
 			}
 		} else {
 			// Non-admin users always go to their account page after login
-			$redirect_url = home_url( 'member-account' );
+			$redirect_url = home_url( 'landing-page' );
 		}
 
 		return wp_validate_redirect( $redirect_url, home_url() );
@@ -127,7 +118,7 @@ class Personalize_Login_Plugin {
 	 * Redirect to custom login page after the user has been logged out.
 	 */
 	public function redirect_after_logout() {
-		$redirect_url = home_url( 'member-login?logged_out=true' );
+		$redirect_url = home_url( '/' );
 		wp_safe_redirect( $redirect_url );
 		exit;
 	}
@@ -254,7 +245,7 @@ class Personalize_Login_Plugin {
 				wp_redirect( admin_url() );
 			}
 		} else {
-			wp_redirect( home_url( 'member-account' ) );
+			wp_redirect( home_url( 'landing-page' ) );
 		}
 	}
 
