@@ -1,6 +1,6 @@
 <?php
 /**
- * @package TUNEFUZE
+ * @package HOMETOWN
  * @version 0.1a
  */
 /*
