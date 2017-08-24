@@ -28,8 +28,8 @@
       </div>
     </div>
     <div class="subtype">
-      <a class="shirt_view">GRID VIEW</a>
-      <div class="shirt_slider_wrap">
+          <a class="shirt_view">GRID VIEW</a>
+          <div class="shirt_slider_wrap">
         <?php echo do_shortcode('[product_slider]'); ?>
       </div>
       <div class="shirt_grid_wrap">
