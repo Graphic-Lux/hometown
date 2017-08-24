@@ -18,12 +18,14 @@ require_once(REST_PLUGIN_PATH . 'controllers/shortcode-controller.php');
 	    <h3 class="custom_step">Step 1</h3>
 	    <h3 class="step_heading">Choose Your Style</h3>
 	</div>
-    <div class="type">
-      <a>UNISEX</a>
-      <a>MENS</a>
-      <a>WOMENS</a>
-      <a>YOUTH</a>
-    </div>
+	<div class="step-holder">
+	    <div class="type">
+	      <a>UNISEX</a>
+	      <a>MENS</a>
+	      <a>WOMENS</a>
+	      <a>YOUTH</a>
+	    </div>
+	</div>
     <div class="subtype">
       <div class="shirt_slider_wrap">
         <?php echo do_shortcode('[shirt_slider_option]'); ?>
@@ -42,8 +44,10 @@ require_once(REST_PLUGIN_PATH . 'controllers/shortcode-controller.php');
   </div>
 
   <div class="step_2">
-    <h3 class="custom_step">Step 2</h3>
-    <h3 class="step_heading">Create Your Design</h3>
+	<div class="step-holder">  
+	    <h3 class="custom_step">Step 2</h3>
+	    <h3 class="step_heading">Create Your Design</h3>
+	</div>
     <div class="shirt_positions">
       <div class="shirt_front">
 
@@ -65,8 +69,10 @@ require_once(REST_PLUGIN_PATH . 'controllers/shortcode-controller.php');
   </div>
 
   <div class="step_3">
-    <h3 class="custom_step">Step 3</h3>
-    <h3 class="step_heading">Choose Quantities</h3>
+	<div class="step-holder">
+	    <h3 class="custom_step">Step 3</h3>
+	    <h3 class="step_heading">Choose Quantities</h3>
+	</div>
     <div class="product_image_wrap">
       <div class="product_image">
 
