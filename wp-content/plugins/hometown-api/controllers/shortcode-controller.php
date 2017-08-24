@@ -1,10 +1,12 @@
 <?php
 
 
-function shirt_slider_option_func( $atts ){
+function hometown_step_1_func( $atts ){
 
 
   ?>
+
+<div class="step_1">
 
   <div class="step-holder">
     <h3 class="custom_step">Step 1</h3>
@@ -44,11 +46,12 @@ function shirt_slider_option_func( $atts ){
     }
   }
 
-  echo "<div class='subtype'>";
-    echo "<div class='shirt_slider_wrap'>";
-      echo '<div class="swiper-container">';
-
-        echo '<div class="swiper-wrapper mens-slider shirt-slider">';
+  ?>
+  <div class='subtype'>
+    <div class='shirt_slider_wrap'>
+      <div class="swiper-container">
+        <div class="swiper-wrapper mens-slider shirt-slider">
+  <?php
 
           foreach($mensAndUnisex as $mensAndUnisexShirt) {
             $style = explode("$url"."mens-",$mensAndUnisexShirt);
@@ -58,9 +61,11 @@ function shirt_slider_option_func( $atts ){
             echo '</div>';
           }
 
-        echo '</div>';
+        ?>
+        </div>
 
-        echo '<div class="swiper-wrapper womens-slider shirt-slider">';
+        <div class="swiper-wrapper womens-slider shirt-slider">
+          <?php
 
           foreach($womens as $womensShirt) {
             $style = explode("$url"."womens-",$womensShirt);
@@ -70,9 +75,11 @@ function shirt_slider_option_func( $atts ){
             echo '</div>';
           }
 
-        echo '</div>';
+        ?>
+      </div>
 
-        echo '<div class="swiper-wrapper youth-slider shirt-slider">';
+        <div class="swiper-wrapper youth-slider shirt-slider">
+          <?php
 
           foreach($youth as $youthShirt) {
             $style = explode("$url"."youth-",$youthShirt);
@@ -82,19 +89,67 @@ function shirt_slider_option_func( $atts ){
             echo '</div>';
           }
 
-        echo '</div>'; // swiper-wrapper
+          ?>
+        </div> <!-- swiper-wrapper -->
 
-      echo '</div>'; // swiper-container
+      </div> <!-- swiper-container -->
 
-    echo '</div>'; // shirt_slider_wrap
+    </div> <!-- shirt_slider_wrap -->
 
-  echo '</div>'; // subtype
+  </div> <!-- subtype -->
 
+
+
+  <div class="subtype">
+    <a class="shirt_view">GRID VIEW</a>
+    <div class="shirt_slider_wrap">
+
+    </div>
+    <div class="shirt_grid_wrap">
+
+    </div>
+  </div>
+</div> <!-- step_1 -->
+
+  <?php
 
 
 
 }
-add_shortcode( 'shirt_slider_option', 'shirt_slider_option_func' );
+add_shortcode( 'hometown_step_1', 'hometown_step_1_func' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+function hometown_step_2_func() {
+
+}
+add_shortcode( 'hometown_step_2', 'hometown_step_2_func' );
+
+
+
+
+
+
+
+
+
+
+
+
+function hometown_step_3_func() {
+
+}
+add_shortcode( 'hometown_step_3', 'hometown_step_3_func' );
 
 
 
