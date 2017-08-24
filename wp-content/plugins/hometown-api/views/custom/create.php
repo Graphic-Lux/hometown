@@ -14,8 +14,10 @@ require_once(REST_PLUGIN_PATH . 'controllers/shortcode-controller.php');
 
 
   <div class="step_1">
-    <h3 class="custom_step">Step 1</h3>
-    <h3 class="step_heading">Choose Your Style</h3>
+	<div class="step-holder">
+	    <h3 class="custom_step">Step 1</h3>
+	    <h3 class="step_heading">Choose Your Style</h3>
+	</div>
     <div class="type">
       <a>UNISEX</a>
       <a>MENS</a>
