@@ -4,7 +4,8 @@
 function hometown_step_1_func( $atts ){
 
 
-  ?>
+//  if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+
 
 <div class="step_1">
 
@@ -111,7 +112,9 @@ function hometown_step_1_func( $atts ){
   </div>
 </div> <!-- step_1 -->
 
-  <?php
+<!--  --><?php //endwhile; else : ?>
+<!--    <p>--><?php //_e( 'Sorry, no posts matched your criteria.' ); ?><!--</p>-->
+<!--  --><?php //endif;
 
 
 
@@ -132,6 +135,34 @@ add_shortcode( 'hometown_step_1', 'hometown_step_1_func' );
 
 function hometown_step_2_func() {
 
+?>
+
+  <div class="step_2">
+    <div class="step-holder">
+        <h3 class="custom_step">Step 2</h3>
+        <h3 class="step_heading">Create Your Design</h3>
+    </div>
+    <div class="shirt_positions">
+      <div class="shirt_front">
+
+      </div>
+      <div class="shirt_back">
+
+      </div>
+      <div class="shirt_sleeve">
+
+      </div>
+    </div>
+    <div class="artwork_selection">
+      <h4>Choose Your Artwork</h4>
+      <div class="artwork_slider">
+
+      </div>
+    </div>
+    <a>BACK IMPRINT</a>
+  </div>
+  <?php
+
 }
 add_shortcode( 'hometown_step_2', 'hometown_step_2_func' );
 
@@ -147,6 +178,28 @@ add_shortcode( 'hometown_step_2', 'hometown_step_2_func' );
 
 
 function hometown_step_3_func() {
+
+  ?>
+  <div class="step_3">
+    <div class="step-holder">
+      <h3 class="custom_step">Step 3</h3>
+      <h3 class="step_heading">Choose Quantities</h3>
+    </div>
+    <div class="product_image_wrap">
+      <div class="product_image">
+
+      </div>
+      <div class="product_thumbnails">
+
+      </div>
+    </div>
+    <div class="shirt_sizes_wrap">
+
+    </div>
+    <a>REVIEW & PURCHASE</a>
+  </div>
+  <?php
+
 
 }
 add_shortcode( 'hometown_step_3', 'hometown_step_3_func' );
@@ -226,6 +279,17 @@ function product_grid_and_slider_func( $atts ){
 }
 add_shortcode( 'hometown_products', 'product_grid_and_slider_func' );
 
+
+
+
+function test_shorty() {
+  $output = '<div>';
+  $output .= 'this is appended.';
+  $output .= '</div>';
+
+  return $output;
+}
+add_shortcode( 'test_shorty', 'test_shorty' );
 
 
 
