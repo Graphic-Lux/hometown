@@ -32,3 +32,4 @@ require_once('includes/menus.php');
 require_once('controllers/rest.class.php');
 require_once('controllers/object.class.php');
 require_once('controllers/item.class.php');
+require_once('controllers/shortcode-controller.php');

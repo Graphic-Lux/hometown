@@ -6,8 +6,6 @@
  * Time: 2:14 PM
  */
 
-require_once(REST_PLUGIN_PATH . 'controllers/shortcode-controller.php');
-
 ?>
 
 <?php get_header(); ?>
