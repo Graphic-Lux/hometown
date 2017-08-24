@@ -3,8 +3,7 @@
 
 function hometown_step_1_func( $atts ){
 
-
-//  if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+  ?>
 
 
 <div class="step_1">
@@ -111,10 +110,7 @@ function hometown_step_1_func( $atts ){
     </div>
   </div>
 </div> <!-- step_1 -->
-
-<!--  --><?php //endwhile; else : ?>
-<!--    <p>--><?php //_e( 'Sorry, no posts matched your criteria.' ); ?><!--</p>-->
-<!--  --><?php //endif;
+  <?php
 
 
 
