@@ -198,6 +198,54 @@ div .products .product a.wcvaswatchinput, div .products .product a.wcvaswatchinp
     display: initial;
 }
 
+/* Create Custom */
+
+.step-holder {
+	width: 100%;
+	display: block;
+	background: #fff;
+	border: 1px solid #e3e3e3;
+	margin: 15px;
+}
+
+.step-holder h3 {
+	font-family: "UniversLT57Condensed";
+	margin-bottom: 0px;
+	}
+
+h3.custom_step {
+	color: #fff;
+	width: 105px;
+	display: block;
+	background: #00afef;
+    padding: 15px;
+    float: left;
+    text-align: center
+}
+
+h3.step_heading {
+	padding: 15px;
+    padding-left: 150px;
+}
+
+.type {
+    margin: 5px 0;
+}
+
+.type a {
+    margin-left: 25px;
+    text-transform: uppercase;
+	font-family: "UniversLT57Condensed";
+	font-size: 12px;
+	cursor: pointer;
+	padding: 5px 0;
+}
+
+.type a:hover, .type a:active {
+	color: #00afef;
+	text-decoration: underline; 
+}
+
 /* Mobile Hamburger Menu Only */
 @media only screen and (max-width: 9999999px) and (min-width: 768px) {
 	.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item-avia-special {
