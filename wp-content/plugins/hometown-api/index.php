@@ -15,7 +15,7 @@ Author URI: http://graysonerhard.com
 define("PROJECT_TITLE", "Hometown Apparel");
 define("REST_PLUGIN_ENABLED", true);
 define("REST_PREFIX",   "ha");
-define('REST_DATABASE', "ha_");
+define('REST_DATABASE', "");
 date_default_timezone_set ("America/Denver");
 define('REST_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
 define('REST_PLUGIN_URL', plugin_dir_url( __FILE__ ));

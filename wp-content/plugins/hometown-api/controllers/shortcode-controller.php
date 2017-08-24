@@ -81,34 +81,31 @@ add_shortcode( 'shirt_slider_option', 'shirt_slider_option_func' );
 function product_slider_func( $atts ){
 
   $mensArgs = array( 'post_type' => 'product', 'posts_per_page' => 10, 'product_cat' => 'mens' );
+  $womensArgs = array( 'post_type' => 'product', 'posts_per_page' => 10, 'product_cat' => 'womens' );
+  $youthArgs = array( 'post_type' => 'product', 'posts_per_page' => 10, 'product_cat' => 'youth' );
   $loop = new WP_Query( $mensArgs );
 
 //  print_r($loop);
 
-  $mensAndUnisex = array();
-  $womens = array();
-  $youth = array();
+  $tees = array();
 
   echo '<div class="swiper-container">';
 
-    echo '<div class="swiper-wrapper">';
+    // MENS
+    echo '<div class="swiper-wrapper mens">';
 
       while ( $loop->have_posts() ) : $loop->the_post();
 
       global $product;
-
-
       $product_cats = wp_get_post_terms( get_the_ID(), 'product_cat' );
 
-    //  print_r($product_cats);
-
-    //  print_r(woocommerce_subcats_from_parentcat_by_ID($product_cats->term_id));
+      print_r($product_cats);
 
       if ( $product_cats && ! is_wp_error ( $product_cats ) ){
 
         foreach($product_cats as $cat) {
 
-          if (strtolower($cat->name) === 'mens') {
+          if (strtolower($cat->slug) === 'mens') {
             array_push($mensAndUnisex, $product);
           } else if (strtolower($cat->name) === 'womens') {
             array_push($womens, $product);
@@ -118,17 +115,19 @@ function product_slider_func( $atts ){
 
         }
 
-
-
-
       }
 
       echo '<br /><a href="'.get_permalink().'">' . woocommerce_get_product_thumbnail().' '.get_the_title().'</a>';
 
-
-
       endwhile;
     echo '</div>';
+
+
+
+
+
+
+
   echo '</div>';
   wp_reset_query();
 

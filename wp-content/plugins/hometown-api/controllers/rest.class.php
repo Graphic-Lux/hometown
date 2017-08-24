@@ -62,7 +62,7 @@ class rest extends base implements ArrayAccess
    */
   function __call($method, $arguments)
   {
-
+    echo 'here';die();
     global $wpdb;
 
     // Table list
