@@ -75,6 +75,17 @@ function custom_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'custom_styles' );
 
+//  Product Slider 6 Columns //
+
+add_filter('avia_load_shortcodes', 'avia_include_shortcode_template', 15, 1);
+function avia_include_shortcode_template($paths)
+{
+	$template_url = get_stylesheet_directory();
+    	array_unshift($paths, $template_url.'/shortcodes/');
+
+	return $paths;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// WOOCOMMERCE CUSTOM HOOKS ////////////////////////////////////////////////
 
 

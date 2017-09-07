@@ -24,6 +24,16 @@ h3 {
     font-size: 22px;
 }
 
+.shop_columns_6 .products .product {
+	margin: 0 1% 1% 0;
+    width: 15%;
+}
+
+.shop_columns_6 .products .product.first {
+    clear: both;
+    margin-left: 3.5% !important;
+}
+
 .av-thin-font .av-special-heading-tag, .modern-quote .av-special-heading-tag {
     font-weight: 600;
 }
