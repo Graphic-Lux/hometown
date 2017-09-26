@@ -4,8 +4,7 @@
  * Woocommerce Lighbox by WpBean
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
-
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 add_action( 'woocommerce_after_shop_loop_item','wpb_wl_hook_quickview_link', 11 );
 
@@ -116,9 +115,16 @@ function wpb_wl_hook_quickview_content(){
 			<?php woocommerce_template_single_excerpt();?>
 
 			<!-- Product cart link -->
-			<?php woocommerce_template_single_add_to_cart();?>
+      <?php
+      if ($product->is_type( 'variable' ))
+      {
+        woocommerce_variable_add_to_cart();
+      } else {
+        woocommerce_template_single_add_to_cart();
+      }
+      ?>
 
-		</div>
+    </div>
 	</div>
 	<?php
 }

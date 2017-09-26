@@ -66,7 +66,7 @@ function custom_styles() {
 	wp_enqueue_script( 'grayson', array('jquery'), '', true );
 	wp_enqueue_script('jquery-mobile');
 	wp_enqueue_style( 'sumner' );
- 	wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/includes/js/app.js', array('jquery'), '', true);
+// 	wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/includes/js/app.js', array('jquery'), '', true);
 /*
 	wp_enqueue_style( 'easyzoom' );
 	wp_enqueue_script( 'easyzoom' );
