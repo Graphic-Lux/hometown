@@ -69,6 +69,20 @@ function ha_load_scripts() {
   wp_register_script('swiper', REST_PLUGIN_URL . 'assets/js/Swiper-3.4.2/dist/js/swiper.jquery.min.js', array('jquery'), '1', false);
   wp_register_script('hometown', REST_PLUGIN_URL . 'assets/js/hometown.js', array('jquery'), '1', false);
 
+  $data = array(
+      'apply_coupon_nonce' => wp_create_nonce('apply-coupon'),
+      'remove_coupon_nonce' => wp_create_nonce('remove-coupon'),
+      'update_order_nonce' => wp_create_nonce('update-order-review'),
+      'remove_order_item' => wp_create_nonce('order-item'),
+      'update_total_price_nonce'	=> wp_create_nonce('update_total_price'),
+      'update_shipping_method_nonce'	=> wp_create_nonce('update-shipping-method'),
+      'update_order_review'	=> wp_create_nonce('update-order-review'),
+      'process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
+      'search_products'  =>  wp_create_nonce('search-products')
+  );
+
+  wp_localize_script('hometown', 'localized_config', $data);
+
   wp_enqueue_script('swiper');
   wp_enqueue_script('hometown');
 

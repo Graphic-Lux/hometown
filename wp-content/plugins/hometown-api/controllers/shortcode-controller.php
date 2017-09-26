@@ -103,7 +103,7 @@ function hometown_step_1_func( $atts ){
   <div class="subtype">
     <a class="shirt_view">GRID VIEW</a>
     <div class="shirt_slider_wrap">
-
+<?php hometown_get_products_by_category()?>
     </div>
     <div class="shirt_grid_wrap">
 

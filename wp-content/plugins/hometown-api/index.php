@@ -28,6 +28,7 @@ require_once('includes/functions.php');
 require_once('includes/stubs.php');
 // require_once('includes/posttype.php');
 require_once('includes/menus.php');
+require_once('includes/woocommerce-hooks-filters.php');
 
 require_once('controllers/rest.class.php');
 require_once('controllers/object.class.php');

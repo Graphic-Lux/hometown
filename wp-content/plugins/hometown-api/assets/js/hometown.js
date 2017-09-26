@@ -40,26 +40,13 @@ $(document).ready(function () {
       var style = $(this).attr('id');
       var type = $(this).data('type');
 
+      // var terms = type+' '+style;
+      var terms = 'ninja';
 
-      // Fire our ajax request!
-      // $.ajax({
-      //   method: 'GET',
-      //   // Here we supply the endpoint url, as opposed to the action in the data object with the admin-ajax method
-      //   url: '/rest/wp_posts',
-      //   data: data,
-      //   beforeSend: function ( xhr ) {
-      //     // Here we set a header 'X-WP-Nonce' with the nonce as opposed to the nonce in the data object with admin-ajax
-      //     xhr.setRequestHeader( 'X-WP-Nonce', rest_object.api_nonce );
-      //   },
-      //   success : function( response ) {
-      //     console.log(response);
-      //     $( '#result' ).html(response.message);
-      //   },
-      //   fail : function( response ) {
-      //     console.log(response);
-      //     $( '#result' ).html(response.message);
-      //   }
-      // });
+      $.get('?wc-ajax=json_search_products', {security: localized_config.search_products, term: terms}).done(function(searchResults) {
+        console.log(searchResults);
+      });
+
 
       console.log(type,style);
     });
