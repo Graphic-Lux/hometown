@@ -78,8 +78,8 @@ class wcva_register_style_scripts {
 	   
 	  
 	}
-	
-	if ( ((is_product()) && ($product_type == "variable")) || ( ! empty( $post->post_content ) && strstr( $post->post_content, '[product_page' ) ) || is_shop()) {
+
+	if ( ((is_product()) && ($product_type == "variable")) || ( ! empty( $post->post_content ) && strstr( $post->post_content, '[product_page' ) ) || is_page(229)) {
 
 	   if (($displaytypenumber >0) && ($goahead == 1)) {
 		
