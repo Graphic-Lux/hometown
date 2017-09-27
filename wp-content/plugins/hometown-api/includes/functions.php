@@ -78,7 +78,8 @@ function ha_load_scripts() {
       'update_shipping_method_nonce'	=> wp_create_nonce('update-shipping-method'),
       'update_order_review'	=> wp_create_nonce('update-order-review'),
       'process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
-      'search_products'  =>  wp_create_nonce('search-products')
+      'search_products'  =>  wp_create_nonce('search-products'),
+      'ajaxurl'           => admin_url( 'admin-ajax.php' )
   );
 
   wp_localize_script('hometown', 'localized_config', $data);

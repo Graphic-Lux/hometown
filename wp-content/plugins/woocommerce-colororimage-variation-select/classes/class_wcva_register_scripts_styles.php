@@ -79,7 +79,7 @@ class wcva_register_style_scripts {
 	  
 	}
 
-	if ( ((is_product()) && ($product_type == "variable")) || ( ! empty( $post->post_content ) && strstr( $post->post_content, '[product_page' ) ) || is_page(229)) {
+	if ( ((is_product()) && ($product_type == "variable")) || ( ! empty( $post->post_content ) && strstr( $post->post_content, '[product_page' ) ) || is_page(229) || in_array('custom-create-page', get_body_class())) {
 
 	   if (($displaytypenumber >0) && ($goahead == 1)) {
 		

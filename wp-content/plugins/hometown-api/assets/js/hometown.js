@@ -37,18 +37,26 @@ $(document).ready(function () {
 
   // PULLING PRODUCT AFTER
     $('.single_shirt').unbind().click(function () {
+
+      $('.product_grid_wrap').fadeOut().empty();
+      $('.product_slider_wrap').fadeOut().empty();
+
       var style = $(this).attr('id');
       var type = $(this).data('type');
 
-      // var terms = type+' '+style;
-      var terms = 'ninja';
-
-      $.get('?wc-ajax=json_search_products', {security: localized_config.search_products, term: terms}).done(function(searchResults) {
-        console.log(searchResults);
-      });
-
+      var data = {
+        'action': 'hometown_get_products_by_category',
+        'style': style,
+        'type': type
+      };
 
       console.log(type,style);
+
+      $.get(localized_config.ajaxurl, data).done(function(searchResults) {
+        console.log(searchResults);
+        $('.product_grid_wrap').html(searchResults).fadeIn();
+      });
+
     });
 
 
