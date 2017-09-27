@@ -82,8 +82,7 @@ function hometown_get_products_by_category() {
 //  endwhile;
 //  wp_reset_query();
 //
-//  }
-
+  }
 
 
 }
