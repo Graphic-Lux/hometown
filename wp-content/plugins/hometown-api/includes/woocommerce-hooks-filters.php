@@ -59,4 +59,5 @@ function hometown_get_products_by_category() {
       ?>
     </ul><!--/.products-->
     <?php
+  wp_die();
 }

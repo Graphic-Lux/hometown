@@ -55,6 +55,8 @@ $(document).ready(function () {
       $.get(localized_config.ajaxurl, data).done(function(searchResults) {
         console.log(searchResults);
         $('.product_grid_wrap').html(searchResults).fadeIn();
+        hometown_reload_scripts();
+        $( document.body ).trigger( 'post-load' );
       });
 
     });
@@ -68,3 +70,27 @@ $(document).ready(function () {
 
 
 });
+
+function hometown_reload_scripts() {
+  // $("head script").each(function(){
+  //   var oldScript = this.getAttribute("src");
+  //   $(this).remove();
+  //   var newScript;
+  //   newScript = document.createElement('script');
+  //   newScript.type = 'text/javascript';
+  //   newScript.src = oldScript;
+  //   document.getElementsByTagName("head")[0].appendChild(newScript);
+  // });
+
+  $("body script").each(function(){
+    var oldScript = this.getAttribute("src");
+    if (oldScript !== 'null') {
+      $(this).remove();
+      var newScript;
+      newScript = document.createElement('script');
+      newScript.type = 'text/javascript';
+      newScript.src = oldScript;
+      document.getElementsByTagName("body")[0].appendChild(newScript);
+    }
+  });
+}
