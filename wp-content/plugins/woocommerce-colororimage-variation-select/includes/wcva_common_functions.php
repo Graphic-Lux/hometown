@@ -265,7 +265,7 @@
 	    $load_assests = "no";
 		
 		
-		if (is_cart() || is_product() || is_shop() || (is_product_category()) || is_product_tag()) {
+		if (is_cart() || is_product() || is_shop() || (is_product_category()) || is_product_tag() || is_page(229) || in_array('custom-create-page', get_body_class())) {
 			
 			$load_assests = "yes";
 			
@@ -275,7 +275,8 @@
 			
 		}
 		
-		return $load_assests;
+//		return $load_assests;
+    return "yes";
 	}
    
 ?>

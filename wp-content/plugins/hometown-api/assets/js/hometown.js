@@ -56,32 +56,19 @@ $(document).ready(function () {
         console.log(searchResults);
         $('.product_grid_wrap').html(searchResults).fadeIn();
         hometown_reload_scripts();
+        hometown_init();
         $( document.body ).trigger( 'post-load' );
       });
 
     });
 
-
-
-
-
-
   });
 
 
+  hometown_init();
 });
 
 function hometown_reload_scripts() {
-  // $("head script").each(function(){
-  //   var oldScript = this.getAttribute("src");
-  //   $(this).remove();
-  //   var newScript;
-  //   newScript = document.createElement('script');
-  //   newScript.type = 'text/javascript';
-  //   newScript.src = oldScript;
-  //   document.getElementsByTagName("head")[0].appendChild(newScript);
-  // });
-
   $("body script").each(function(){
     var oldScript = this.getAttribute("src");
     if (oldScript !== 'null') {
@@ -94,3 +81,39 @@ function hometown_reload_scripts() {
     }
   });
 }
+
+
+
+
+function hometown_init() {
+
+  $('.wcvaswatchinput').unbind().click(function(e) {
+
+    e.preventDefault();
+
+    var colorElement = $(this);
+    var colorLink = $(colorElement)[0].href;
+    var color = colorLink.split('color=');
+    color = color[1];
+    var quickViewButton = $(this).parent().parent().parent().parent().parent().find('.wpb_wl_preview_area a');
+    quickViewButton = $(quickViewButton)[0];
+    var lightboxAnchor = quickViewButton.href;
+    var lightboxID = lightboxAnchor.split('#');
+    lightboxID = lightboxID[1];
+
+    $(quickViewButton).click();
+
+    $('#'+lightboxID+' .wcvasquare').removeClass('selectedswatch');
+    $('#'+lightboxID+' .wcvasquare').addClass('wcvaswatchlabel');
+    $('#'+lightboxID+' .attribute_pa_color_'+color).removeClass('wcvaswatchlabel');
+    $('#'+lightboxID+' .attribute_pa_color_'+color).addClass('selectedswatch');
+
+
+
+  });
+
+
+
+}
+
+
