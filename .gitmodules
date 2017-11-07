@@ -1,0 +1,3 @@
+[submodule "plugins/sexy-woocheckout"]
+	path = plugins/sexy-woocheckout
+	url = https://github.com/GraysonE/sexy-woocheckout.git
