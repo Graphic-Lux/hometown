@@ -47,7 +47,7 @@
           
       require 'classes/class_create_variations_metabox.php';
 		  require 'classes/class_override_woocommerce_variable_tamplate.php';
-		  require 'classes/class_wcva_register_scripts_styles.php'; // CONFLICTS WITH ADDITIONAL VARIATION IMAGES
+		  require 'classes/class_wcva_register_scripts_styles.php'; // TODO CONFLICTS WITH ADDITIONAL VARIATION IMAGES
 		  require 'classes/class_attribute_global_values.php';
 		  require 'classes/class_shop_page_swatchs.php';
 		  require 'includes/wcva_common_functions.php';

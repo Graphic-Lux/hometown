@@ -6,6 +6,10 @@
   margin: 0 10px;
 }
 
+.wpb_wl_images {
+  width: 100% !important;
+}
+
 /*.swiper-wrapper {*/
   /*opacity: 0;*/
 /*}*/

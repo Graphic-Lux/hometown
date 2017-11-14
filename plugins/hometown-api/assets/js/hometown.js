@@ -147,3 +147,17 @@ function hometown_get_product_variant_images(productID, variantID) {
 
 }
 
+function hometown_iframe() {
+  var iframe = document.getElementById('iframe-149');
+    // Access contents of it like this
+
+    var iframeContent = iframe.contentWindow.document.getElementById('product-149');
+
+// Get your div element
+
+    var content = document.getElementById('ha-iframe-content-149');
+
+// set contents of this div to iframe's content
+
+    content.innerHTML = iframeContent.innerHTML;
+}

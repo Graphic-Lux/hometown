@@ -1,19 +1,89 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 /**
  * Woocommerce Lighbox by WpBean
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+//require('/home/hostsi90/public_html/dev/home/wp-content/themes/enfold/config-woocommerce/config.php');
+
 add_action( 'woocommerce_after_shop_loop_item','wpb_wl_hook_quickview_link', 11 );
 
 function wpb_wl_hook_quickview_link(){
 	echo '<div class="wpb_wl_preview_area"><a class="wpb_wl_preview open-popup-link" href="#wpb_wl_quick_view_'.get_the_id().'" data-effect="mfp-zoom-in">'.__( 'Quick View','woocommerce-lightbox' ).'</a></div>';
+
+  hometown_wpb_wl_hook_quickview_content();
+}
+
+// CUSTOMIZED AND UPDATED
+//add_action( 'woocommerce_after_shop_loop_item','hometown_wpb_wl_hook_quickview_content' );
+
+
+
+
+//add_action('wp_enqueue_scripts', 'enqueue_scripts_for_hometown');
+//function enqueue_scripts_for_hometown() {
+//
+//  // Load gallery scripts on product pages only if supported.
+//  if ( current_theme_supports( 'wc-product-gallery-zoom' ) ) {
+//    wp_enqueue_script( 'zoom' );
+//  }
+//  if ( current_theme_supports( 'wc-product-gallery-slider' ) ) {
+//    wp_enqueue_script( 'flexslider' );
+//  }
+//  if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
+//    wp_enqueue_script( 'photoswipe-ui-default' );
+//    wp_enqueue_script( 'photoswipe-default-skin' );
+//    add_action( 'wp_footer', 'woocommerce_photoswipe' );
+//  }
+//  wp_enqueue_script( 'wc-single-product' );
+//
+//  hometown_enqueue_styles();
+//
+//}
+
+function hometown_enqueue_styles() {
+//  wp_enqueue_style('avia-woocommerce-css-css');
+//  wp_enqueue_style('avia-woocomm')
 }
 
 
-add_action( 'woocommerce_after_shop_loop_item','wpb_wl_hook_quickview_content' );
+function hometown_wpb_wl_hook_quickview_content(){
+  ?>
+  <div id="wpb_wl_quick_view_<?php echo get_the_id(); ?>" class="mfp-hide mfp-with-anim wpb_wl_quick_view_content wpb_wl_clearfix product">
+		<div class="wpb_wl_images">
+     <?php
+     global $post;
+//     require('/home/hostsi90/public_html/dev/home/wp-content/themes/home-apparel/woocommerce/content-single-product.php');
+//      wp_enqueue_script( 'wc-single-product' );
+//     wp_enqueue_script('wc-add-to-cart-variation');
+       wc_get_template_part( 'content', 'single-product' );
+       $url = get_permalink($post->ID);
+     ?>
+<!--      <iframe id="iframe---><?php //echo $post->ID; ?><!--" src="--><?php //echo $url; ?><!--" width="100%" height="400px"></iframe>-->
+    </div>
+<!--    <div id="ha-iframe-content---><?php //echo $post->ID; ?><!--"></div>-->
+  </div>
+
+  <?php
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 function wpb_wl_hook_quickview_content(){
   global $post, $product, $woocommerce;
 	?>
@@ -21,15 +91,10 @@ function wpb_wl_hook_quickview_content(){
 		<div class="wpb_wl_images">
       <?php
       $postID = $post->ID; // 149
-//      display_product_page($postID);
-      include_once(ABSPATH . 'wp-content/plugins/woocommerce/includes/class-wc-shortcodes.php');
-
-      $attr = array('id'=> $postID);
-
-      product_page( $attr );
-//      echo do_shortcode("[product_page id='$postID']");
+      woocommerce_show_product_images();
+//      wc_get_template( 'single-product/product-image.php' ); // DOES SAME THING AS woocommerce_show_product_images();
+//      woocommerce_show_product_thumbnails();
       ?>
-      <?php //do_shortcode("[product_page id='$postID']")?>
 		</div>
 		<div class="wpb_wl_summary">
 			<!-- Product Title -->
@@ -47,7 +112,7 @@ function wpb_wl_hook_quickview_content(){
       <?php
       if ($product->is_type( 'variable' ))
       {
-        woocommerce_variable_add_to_cart();
+        woocommerce_variable_add_to_cart(); // this is the issue with the js error
       } else {
         woocommerce_template_single_add_to_cart();
       }

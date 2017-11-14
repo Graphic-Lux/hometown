@@ -62,7 +62,6 @@ if ( ! class_exists( 'WC_Connect_API_Client' ) ) {
 		 * @return bool|WP_Error
 		 */
 		public function validate_service_settings( $service_slug, $service_settings ) {
-
 			// Make sure the service slug only contains underscores or letters
 			if ( 1 === preg_match( '/[^a-z_]/i', $service_slug ) ) {
 				return new WP_Error( 'invalid_service_slug', 'Invalid WooCommerce Services service slug provided' );
@@ -271,6 +270,41 @@ if ( ! class_exists( 'WC_Connect_API_Client' ) ) {
 		}
 
 		/**
+		 * Create a deferred Stripe Standard Account
+		 * @param $email string The user's email address
+		 * @param $country string The user's country
+		 * @return object|WP_Error
+		 */
+		public function create_stripe_account( $email, $country ) {
+			$request = array(
+				'email' => $email,
+				'country' => $country,
+			);
+			return $this->request( 'POST', '/stripe/account', $request );
+		}
+
+		public function get_stripe_account_details() {
+			return $this->request( 'GET', '/stripe/account' );
+		}
+
+		public function get_stripe_oauth_init( $return_url ) {
+			$request = array(
+				'returnUrl' => $return_url,
+			);
+			return $this->request( 'POST', '/stripe/oauth-init', $request );
+		}
+
+		public function get_stripe_oauth_keys( $code ) {
+			$request = array(
+				'code' => $code,
+			);
+			return $this->request( 'POST', '/stripe/oauth-keys', $request );
+		}
+
+		public function deauthorize_stripe_account() {
+			return $this->request( 'POST', '/stripe/account/deauthorize' );
+		}
+		/**
 		 * Sends a request to the WooCommerce Services Server
 		 *
 		 * @param $method
@@ -427,11 +461,14 @@ if ( ! class_exists( 'WC_Connect_API_Client' ) ) {
 				'base_city' => WC()->countries->get_base_city(),
 				'base_country' => WC()->countries->get_base_country(),
 				'base_state' => WC()->countries->get_base_state(),
+				'base_postcode' => WC()->countries->get_base_postcode(),
 				'currency' => get_woocommerce_currency(),
 				'dimension_unit' => strtolower( get_option( 'woocommerce_dimension_unit' ) ),
-				'jetpack_version' => JETPACK__VERSION,
-				'wc_version' => WC()->version,
 				'weight_unit' => strtolower( get_option( 'woocommerce_weight_unit' ) ),
+				'wcs_version' => WC_Connect_Loader::get_wcs_version(),
+				'jetpack_version' => JETPACK__VERSION,
+				'is_atomic' => WC_Connect_Jetpack::is_atomic_site(),
+				'wc_version' => WC()->version,
 				'wp_version' => get_bloginfo( 'version' ),
 				'last_services_update' => WC_Connect_Options::get_option( 'services_last_update', 0 ),
 				'last_heartbeat' => WC_Connect_Options::get_option( 'last_heartbeat', 0 ),
