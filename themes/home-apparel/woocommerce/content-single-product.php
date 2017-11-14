@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @hooked wc_print_notices - 10
  */
 do_action( 'woocommerce_before_single_product' );
-
+enqueue_scripts_for_hometown();
 if ( post_password_required() ) {
   echo get_the_password_form();
   return;
@@ -76,9 +76,9 @@ if ( post_password_required() ) {
    * @hooked woocommerce_upsell_display - 15
    * @hooked woocommerce_output_related_products - 20
    */
-//  do_action( 'woocommerce_after_single_product_summary' );
+  do_action( 'woocommerce_after_single_product_summary' ); // causes error
   ?>
 
 </div><!-- #product-<?php the_ID(); ?> -->
 
-<?php //do_action( 'woocommerce_after_single_product' ); ?>
+<?php do_action( 'woocommerce_after_single_product' ); ?>

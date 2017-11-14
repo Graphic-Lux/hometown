@@ -8,7 +8,6 @@
 	 */
 	 get_header();
 
-
  	 if( get_post_meta(get_the_ID(), 'header', true) != 'no') echo avia_title();
  	 
  	 do_action( 'ava_after_main_title' );

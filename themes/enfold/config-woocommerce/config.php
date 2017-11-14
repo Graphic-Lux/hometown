@@ -1116,7 +1116,7 @@ add_action(    'woocommerce_after_single_product_summary', 'woocommerce_output_p
 #
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products',20);
 remove_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products',10);
-add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_related_products', 20);
+//add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_related_products', 20); // causes error
 
 function avia_woocommerce_output_related_products($items = false, $columns = false)
 {
@@ -1144,7 +1144,7 @@ function avia_woocommerce_output_related_products($items = false, $columns = fal
 
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 remove_action( 'woocommerce_after_single_product', 'woocommerce_upsell_display',10);
-add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_upsells', 21); // needs to be called after the "related product" function to inherit columns and product count
+//add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_upsells', 21); // needs to be called after the "related product" function to inherit columns and product count
 
 function avia_woocommerce_output_upsells($items = false, $columns = false)
 {
@@ -1171,7 +1171,7 @@ function avia_woocommerce_output_upsells($items = false, $columns = false)
 
 }
 
-add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_display_output_upsells', 30); //display the related products and upsells
+//add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_display_output_upsells', 30); //display the related products and upsells
 
 function avia_woocommerce_display_output_upsells()
 {
