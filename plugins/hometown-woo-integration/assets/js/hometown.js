@@ -99,10 +99,6 @@ function hometown_init() {
         'type': type
       };
 
-      $.get('http://dev.hostsites.cloud/home/product/patient-ninja/').done(function(pageResult) {
-        $('.shirt_sizes_wrap').html(pageResult);
-      });
-
       $.get(ha_localized_config.ajaxurl, data).done(function(searchResults) {
         // console.log(searchResults);
         $('.product_grid_wrap').html(searchResults).fadeIn();
