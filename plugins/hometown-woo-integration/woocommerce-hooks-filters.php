@@ -137,7 +137,7 @@ function hometown_get_product_variant_images() {
         $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-front-design">';
       } else if ($shirtOrientation === 'back') {
         $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-back-design">';
-      } else if (($shirtOrientation === 'sleeve') || ($shirtOrientation === 'side') {
+      } else if (($shirtOrientation === 'sleeve') || ($shirtOrientation === 'side')) {
         $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-sleeve-design">';
       } else {
         $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-no-design">';
