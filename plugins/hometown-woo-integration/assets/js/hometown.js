@@ -68,8 +68,6 @@ function hometown_init() {
 
   $('.type a').unbind().click(function (e) {
 
-    console.log('here');
-
     e.preventDefault();
     var type = $(this).html().toLowerCase();
     var sliderClass = '.'+type+'-slider';
@@ -136,6 +134,8 @@ function hometown_get_product_variant_images(productID, variantID) {
   };
 
   console.log(data);
+
+  // $.wc_additional_variation_images_frontend.init();
 
   $.get(ha_localized_config.ajaxurl, data).done(function(searchResults) {
     // console.log(searchResults);

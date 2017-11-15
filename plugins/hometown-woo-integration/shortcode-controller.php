@@ -140,15 +140,7 @@ function hometown_step_2_func() {
         <h3 class="step_heading">Create Your Design</h3>
     </div>
     <div class="shirt_positions">
-      <div class="shirt_front">
         <?php hometown_get_product_variant_images(); ?>
-      </div>
-      <div class="shirt_back">
-
-      </div>
-      <div class="shirt_sleeve">
-
-      </div>
     </div>
     <div class="artwork_selection">
       <h4>Choose Your Artwork</h4>
@@ -162,36 +154,6 @@ function hometown_step_2_func() {
 
 }
 add_shortcode( 'hometown_step_2', 'hometown_step_2_func' );
-
-
-function hometown_get_product_variant_images() {
-
-  global $woocommerce;
-
-//  if ((isset($_GET['product_id'])) && (isset($_GET['variant_id']))) {
-    $productID = preg_replace('/\PL/u', '', $_GET['product_id']);
-    $variantID = preg_replace('/\PL/u', '', $_GET['variant_id']);
-
-    $productID = 184;
-    $variantID = 149;
-
-//    echo $productID;
-
-    $product = wc_get_product( $productID );
-
-//    $images = new WC_API_Products()::get_images($product);
-
-//    print_r($images);
-//
-//    $variations = $product->get_available_variations();
-//    foreach ( $variations as $variation ) {
-//      echo $variation['image_src'];
-//    }
-
-//  }
-
-
-}
 
 
 

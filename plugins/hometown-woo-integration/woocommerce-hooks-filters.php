@@ -66,31 +66,105 @@ function hometown_get_products_by_category() {
 
 //add_action( 'wp_ajax_hometown_get_product_variant_images', 'hometown_get_product_variant_images' );
 
-//function hometown_get_product_variant_images() {
-//
-//  global $woocommerce;
-//
-//  if ((isset($_GET['product_id'])) && (isset($_GET['variant_id']))) {
-//    $productID = preg_replace('/\PL/u', '', $_GET['product_id']);
-//    $variantID = preg_replace('/\PL/u', '', $_GET['variant_id']);
-//
-//    $productID = 184;
-//    $variantID = 149;
-//
-////    echo $productID;
-//
-//    $product = wc_get_product( $productID );
-//
-//    $variations = $product->get_available_variations();
-//    foreach ( $variations as $variation ) {
-//      echo $variation['image_src'];
-//    }
-//
-//  }
-//
-//
-//}
+function hometown_get_product_variant_images() {
 
+  $_POST['ajaxImageSwapNonce'] = wp_create_nonce('_wc_additional_variation_images_nonce');
+  $_POST['variation_id'] = 352;
+  $_POST['post_id'] = 340;
+
+
+  $nonce = $_POST['ajaxImageSwapNonce'];
+
+  // Bail if nonce don't check out.
+  if ( ! wp_verify_nonce( $nonce, '_wc_additional_variation_images_nonce' ) ) {
+    die( 'error' );
+  }
+
+  // Sanitize.
+  $post_id = absint( $_POST['post_id'] );
+
+  $variation_id = '';
+
+  if ( ! isset( $_POST['variation_id'] ) ) {
+    $image_ids = get_post_thumbnail_id( $post_id ) . ',' . get_post_meta( $post_id, '_product_image_gallery', true );
+  } else {
+    $variation_id = absint( $_POST['variation_id'] );
+
+    $image_ids = get_post_meta( $variation_id, '_wc_additional_variation_images', true );
+  }
+
+  $image_ids = array_filter( explode( ',', $image_ids ) );
+
+  $product = wc_get_product( $variation_id );
+
+  // If we're selecting the "Choose an Option" (i.e. no variation), product may not be set.
+  if ( $product ) {
+    $main_image_id = $product->get_image_id();
+
+    if ( ! empty( $main_image_id ) ) {
+      array_unshift( $image_ids, $main_image_id );
+    }
+  }
+
+  $main_images = '<div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . ' images" data-columns="' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . '"><figure class="woocommerce-product-gallery__wrapper">';
+
+  $loop = 0;
+
+  if ( 0 < count( $image_ids ) ) {
+    // Build html.
+    foreach ( $image_ids as $id ) {
+      $image_title     = esc_attr( get_the_title( $id ) );
+      $full_size_image = wp_get_attachment_image_src( $id, 'full' );
+      $thumbnail       = wp_get_attachment_image_src( $id, 'shop_thumbnail' );
+      $attributes = array(
+          'title'                   => $image_title,
+          'data-large_image'        => $full_size_image[0],
+          'data-large_image_width'  => $full_size_image[1],
+          'data-large_image_height' => $full_size_image[2],
+      );
+
+
+      $filename = end(explode('/', parse_url($full_size_image[0])['path']));
+
+      $filenameParts = explode('-', $filename);
+      $shirtGender = $filenameParts[0];
+      $shirtType = $filenameParts[1];
+      $shirtColor = $filenameParts[2];
+      $shirtOrientation = $filenameParts[3];
+      $shirtBranding = $filenameParts[4];
+
+      if ($shirtOrientation === 'front') {
+        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-front-design">';
+      } else if ($shirtOrientation === 'back') {
+        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-back-design">';
+      } else if (($shirtOrientation === 'sleeve') || ($shirtOrientation === 'side') {
+        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-sleeve-design">';
+      } else {
+        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-no-design">';
+      }
+
+      $html .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
+      $html .= '</figure>';
+
+      $main_images .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $id );
+
+
+      // Build the list of variations as main images in case a custom
+      // theme has flexslider type lightbox.
+//      $main_images .= apply_filters( 'woocommerce_single_product_image_html', sprintf( '<figure data-thumb="%s" class="woocommerce-product-gallery__image flex-active-slide">%s</figure>', esc_url( $thumbnail[0] ), wp_get_attachment_image( $id, 'shop_single', false, $attributes ) ), $post_id );
+
+      $loop++;
+    }
+  }
+
+  $main_images .= '</figure></div>';
+
+  echo $main_images;
+//  echo $html;
+
+//  echo json_encode( array( 'main_images' => $main_images ) );
+  exit;
+}
 
 
 

@@ -223,7 +223,7 @@ class wcva_shop_page_swatches {
 				    switch ($swatchtype) {
              	        case 'Color':
              		        ?>
-                            <a <?php if ((isset($direct_link)) && ($direct_link == "yes") && ( $load_direct_variation == "yes" )) { ?> href="<?php echo $direct_url; ?>" <?php } ?> class="wcvaswatchinput" data-o-src="<?php if (isset($hoverimageurl)) { echo $hoverimageurl; } ?>" style="width:<?php echo $imagewidth; ?>px; height:<?php echo $imageheight; ?>px;">
+                            <a <?php if ((isset($direct_link)) && ($direct_link == "yes") && ( $load_direct_variation == "yes" )) { ?> href="<?php echo $direct_url; ?>" <?php } ?> class="ajax-popup-link wcvaswatchinput" data-o-src="<?php if (isset($hoverimageurl)) { echo $hoverimageurl; } ?>" style="width:<?php echo $imagewidth; ?>px; height:<?php echo $imageheight; ?>px;">
                             <div class="wcvashopswatchlabel <?php echo $display_shape; ?>" style="background-color:<?php if (isset($swatchcolor)) { echo $swatchcolor; } else { echo '#ffffff'; } ?>; width:<?php echo $imagewidth; ?>px; float:left; height:<?php echo $imageheight; ?>px;"></div>
                             </a>
              		        <?php
@@ -231,7 +231,7 @@ class wcva_shop_page_swatches {
 
              	        case 'Image':
              		        ?>
-                            <a <?php if ((isset($direct_link)) && ($direct_link == "yes") && ( $load_direct_variation == "yes" )) { ?> href="<?php echo $direct_url; ?>" <?php } ?> class="wcvaswatchinput" data-o-src="<?php if (isset($hoverimageurl)) { echo $hoverimageurl; } ?>" >
+                            <a <?php if ((isset($direct_link)) && ($direct_link == "yes") && ( $load_direct_variation == "yes" )) { ?> href="<?php echo $direct_url; ?>" <?php } ?> class="ajax-popup-link wcvaswatchinput" data-o-src="<?php if (isset($hoverimageurl)) { echo $hoverimageurl; } ?>" >
                             <div class="wcvashopswatchlabel <?php echo $display_shape; ?>"  style="background-image:url(<?php if (isset($swatchimageurl)) { echo $swatchimageurl; } ?>); background-size: <?php echo $imagewidth; ?>px <?php echo $imageheight; ?>px; float:left; width:<?php echo $imagewidth; ?>px; height:<?php echo $imageheight; ?>px;"></div>
                             </a>
              		        <?php
@@ -239,7 +239,7 @@ class wcva_shop_page_swatches {
 				
 				        case 'textblock':
              		        ?>
-                            <a <?php if ((isset($direct_link)) && ($direct_link == "yes") && ( $load_direct_variation == "yes" )) { ?> href="<?php echo $direct_url; ?>" <?php } ?> class="wcvaswatchinput" data-o-src="<?php if (isset($hoverimageurl)) { echo $hoverimageurl; } ?>" style="width:<?php echo $imagewidth; ?>px; height:<?php echo $imageheight; ?>px;">
+                            <a <?php if ((isset($direct_link)) && ($direct_link == "yes") && ( $load_direct_variation == "yes" )) { ?> href="<?php echo $direct_url; ?>" <?php } ?> class="ajax-popup-link wcvaswatchinput" data-o-src="<?php if (isset($hoverimageurl)) { echo $hoverimageurl; } ?>" style="width:<?php echo $imagewidth; ?>px; height:<?php echo $imageheight; ?>px;">
                             <div class="wcvashopswatchlabel wcva_shop_textblock <?php echo $display_shape; ?>" style="min-width:<?php echo $imagewidth; ?>px; "><?php  if (isset($attrtextblock)) { echo $attrtextblock; }   ?></div>
                             </a>
              		        <?php
