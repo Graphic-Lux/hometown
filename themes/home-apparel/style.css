@@ -149,7 +149,7 @@ input#wp-submit {
 }
 
 .login-form-container {
-    padding: 25px;
+    padding: 25px 25px 85px 25px;
     background: #fff;
 }
 
@@ -228,18 +228,23 @@ h3.custom_step {
 	width: 105px;
 	display: block;
 	background: #00afef;
-    padding: 15px;
+    padding: 25px;
     float: left;
     text-align: center
 }
 
 h3.step_heading {
-	padding: 15px;
+	padding: 25px;
     padding-left: 150px;
 }
 
 .type {
-    margin: 5px 0;
+    width: 100%;
+	display: block;
+	background: #fff;
+	border: 1px solid #e3e3e3;
+	margin: 15px;
+    padding: 3px;
 }
 
 .type a {
@@ -254,6 +259,41 @@ h3.step_heading {
 .type a:hover, .type a:active {
 	color: #00afef;
 	text-decoration: underline; 
+}
+
+.subtype {
+	width: 100%;
+	display: block;
+	background: #fff;
+	border: 1px solid #e3e3e3;
+	margin: 15px;
+    padding: 30px 20px 30px 20px;
+    overflow: hidden;
+}
+
+div.single_shirt {
+	cursor: pointer;
+	border: 8px solid #0EB6EC;
+	height: 182px;
+}
+
+div.single_shirt:hover {
+	background: #fbfbfb;
+	border: 8px solid #0EB6EC;
+}
+
+.product_grid_wrap ul.products li {
+	width: 15%;
+}
+
+a.continue_button {
+    float: right;
+    background: #000;
+    color: #fff;
+    margin: 5px;
+    padding: 13px 32px 13px 32px;
+    font-size: 12px;
+	font-family: "UniversLT57Condensed";
 }
 
 /* Mobile Hamburger Menu Only */
