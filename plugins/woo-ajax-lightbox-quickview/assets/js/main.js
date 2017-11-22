@@ -21,7 +21,3 @@ function woocommerce_ajax_lightbox_quickview() {
 }
 
 woocommerce_ajax_lightbox_quickview();
-
-
-
-

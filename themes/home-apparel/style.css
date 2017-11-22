@@ -275,6 +275,7 @@ div.single_shirt {
 	cursor: pointer;
 	border: 8px solid #0EB6EC;
 	height: 182px;
+	max-width: 200px;
 }
 
 div.single_shirt:hover {

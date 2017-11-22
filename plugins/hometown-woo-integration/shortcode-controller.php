@@ -47,7 +47,7 @@ function hometown_step_1_func( $atts ){
   }
 
   ?>
-  <div class='subtype'>
+  <div class='subtype shirt_type'>
     <div class='shirt_slider_wrap'>
       <div class="swiper-container">
         <div class="swiper-wrapper mens-slider shirt-slider">
@@ -98,13 +98,7 @@ function hometown_step_1_func( $atts ){
 
   </div> <!-- subtype -->
 
-
-
-  <div class="subtype">
-    <div class="shirt_slider_wrap"></div>
-    <div class="shirt_grid_wrap"></div>
-  </div>
-  <div class="subtype">
+  <div class="subtype product">
     <a class="shirt_view">GRID VIEW</a>
     <div class="product_slider_wrap"></div>
     <div class="product_grid_wrap"></div>
@@ -140,7 +134,7 @@ function hometown_step_2_func() {
         <h3 class="step_heading">Create Your Design</h3>
     </div>
     <div class="shirt_positions">
-        <?php hometown_get_product_variant_images(); ?>
+        <?php //hometown_get_product_variant_images(); ?>
     </div>
     <div class="artwork_selection">
       <h4>Choose Your Artwork</h4>

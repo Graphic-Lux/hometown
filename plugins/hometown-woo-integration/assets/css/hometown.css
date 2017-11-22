@@ -5,3 +5,17 @@
   height: 155px;
   margin: 0 10px;
 }
+
+.hovered {
+  color: #00afef !important;
+  text-decoration: underline;
+}
+
+.selected_single_shirt {
+  background: #fbfbfb;
+  border: 8px solid #0EB6EC;
+}
+
+.subtype.shirt_type, .subtype.product {
+  display: none;
+}

@@ -60,7 +60,10 @@ function ha_load_scripts() {
   wp_localize_script('hometown', 'ha_localized_config', $data);
 
   wp_enqueue_script('swiper');
-  wp_enqueue_script('hometown');
+
+  if (!is_product()) {
+    wp_enqueue_script('hometown');
+  }
   wp_enqueue_script( 'wc-single-product' );
 
 }

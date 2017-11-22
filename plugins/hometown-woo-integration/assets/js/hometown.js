@@ -18,7 +18,6 @@ function hometown_reload_scripts() {
 
 
 
-
 function hometown_init() {
 
   console.log('hometown init');
@@ -55,6 +54,7 @@ function hometown_init() {
     direction: 'horizontal',
     loop: false,
     slidesPerView: 5,
+    autoResize: true
   });
 
 
@@ -68,9 +68,12 @@ function hometown_init() {
 
   $('.type a').unbind().click(function (e) {
 
+    $('.type a').removeClass('hovered');
+    $(this).addClass("hovered");
+
     e.preventDefault();
-    var type = $(this).html().toLowerCase();
-    var sliderClass = '.'+type+'-slider';
+    let type = $(this).html().toLowerCase();
+    let sliderClass = '.'+type+'-slider';
 
     $('.shirt-slider').each(function() {
       $(this).fadeOut('fast');
@@ -82,8 +85,13 @@ function hometown_init() {
       }
     });
 
+    $('.subtype.shirt_type').fadeIn();
+
     // PULLING PRODUCT AFTER
     $('.single_shirt').unbind().click(function () {
+
+      $('.single_shirt').removeClass('selected_single_shirt');
+      $(this).addClass('selected_single_shirt');
 
       $('.product_grid_wrap').fadeOut().empty();
       $('.product_slider_wrap').fadeOut().empty();
@@ -100,9 +108,12 @@ function hometown_init() {
       $.get(ha_localized_config.ajaxurl, data).done(function(searchResults) {
         // console.log(searchResults);
         $('.product_grid_wrap').html(searchResults).fadeIn();
-        hometown_reload_scripts();
-        hometown_init();
-        $( document.body ).trigger( 'post-load' );
+        // hometown_reload_scripts();
+        // hometown_init();
+        woocommerce_ajax_lightbox_quickview(sliderClass);
+        // $( document.body ).trigger( 'post-load' );
+        $(sliderClass).fadeIn();
+        $('.subtype.product').fadeIn();
       });
 
     });
