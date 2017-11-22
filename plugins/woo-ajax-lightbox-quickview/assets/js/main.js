@@ -18,7 +18,9 @@ function woocommerce_ajax_lightbox_quickview() {
         },
         updateStatus: function(data) {
           if(data.status === 'ready') {
+            // magPop = {};
             magPop = $(this);
+            console.log(magPop);
             hometown_reload_add_to_cart_actions();
           }
         }

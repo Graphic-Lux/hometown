@@ -131,7 +131,7 @@ function hometown_reload_scripts() {
 
 function hometown_reload_add_to_cart_actions() {
 
-  // console.log('reload add to cart actions');
+  console.log('reload add to cart actions');
 
   $('.single_add_to_cart_button').unbind().click(function(e) {
 
@@ -139,15 +139,15 @@ function hometown_reload_add_to_cart_actions() {
 
     let data = {
       'action': 'hometown_get_product_variant_images',
-      'ajaxImageSwapNonce': ha_localized_config.ajaxImageSwapNonce,
       'product_id': $(this).parent().find('input[name="product_id"]').val(),
       'variation_id': $(this).parent().find('input[name="variation_id"]').val()
     };
 
-    console.log('magnific popup: ',magPop);
+    // console.log('magnific popup: ',magPop[0]);
 
     magPop[0].close();
-
+    let magnificPopup = $.magnificPopup.instance; // save instance in magnificPopup variable
+    magnificPopup.close(); // Close popup that is currently opened
 
     hometown_get_product_variant_images(data);
 
