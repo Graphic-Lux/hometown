@@ -64,21 +64,9 @@ function hometown_get_products_by_category() {
 
 
 
-//add_action( 'wp_ajax_hometown_get_product_variant_images', 'hometown_get_product_variant_images' );
+add_action( 'wp_ajax_hometown_get_product_variant_images', 'hometown_get_product_variant_images' );
 
 function hometown_get_product_variant_images() {
-
-  $_POST['ajaxImageSwapNonce'] = wp_create_nonce('_wc_additional_variation_images_nonce');
-  $_POST['variation_id'] = 352;
-  $_POST['post_id'] = 340;
-
-
-  $nonce = $_POST['ajaxImageSwapNonce'];
-
-  // Bail if nonce don't check out.
-  if ( ! wp_verify_nonce( $nonce, '_wc_additional_variation_images_nonce' ) ) {
-    die( 'error' );
-  }
 
   // Sanitize.
   $post_id = absint( $_POST['post_id'] );
@@ -89,7 +77,6 @@ function hometown_get_product_variant_images() {
     $image_ids = get_post_thumbnail_id( $post_id ) . ',' . get_post_meta( $post_id, '_product_image_gallery', true );
   } else {
     $variation_id = absint( $_POST['variation_id'] );
-
     $image_ids = get_post_meta( $variation_id, '_wc_additional_variation_images', true );
   }
 
@@ -133,15 +120,7 @@ function hometown_get_product_variant_images() {
       $shirtOrientation = $filenameParts[3];
       $shirtBranding = $filenameParts[4];
 
-      if ($shirtOrientation === 'front') {
-        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-front-design">';
-      } else if ($shirtOrientation === 'back') {
-        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-back-design">';
-      } else if (($shirtOrientation === 'sleeve') || ($shirtOrientation === 'side')) {
-        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-sleeve-design">';
-      } else {
-        $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="woocommerce-product-gallery__image flex-active-slide shirt-no-design">';
-      }
+      $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
 
       $html .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
       $html .= '</figure>';
@@ -160,7 +139,6 @@ function hometown_get_product_variant_images() {
   $main_images .= '</figure></div>';
 
   echo $main_images;
-//  echo $html;
 
 //  echo json_encode( array( 'main_images' => $main_images ) );
   exit;

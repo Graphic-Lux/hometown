@@ -1,52 +1,6 @@
 $=jQuery;
 
-$(document).ready(function () {hometown_init();});
-
-function hometown_reload_scripts() {
-  $("body script").each(function(){
-    var oldScript = this.getAttribute("src");
-    if (oldScript !== 'null') {
-      $(this).remove();
-      var newScript;
-      newScript = document.createElement('script');
-      newScript.type = 'text/javascript';
-      newScript.src = oldScript;
-      document.getElementsByTagName("body")[0].appendChild(newScript);
-    }
-  });
-}
-
-
-
-function hometown_init() {
-
-  console.log('hometown init');
-
-  // OPEN LIGHTBOX BY CLICKING COLOR SWATCH
-  $('.wcvaswatchinput').unbind().click(function(e) {
-
-    e.preventDefault();
-
-    var colorElement = $(this);
-    var colorLink = $(colorElement)[0].href;
-    var color = colorLink.split('color=');
-    color = color[1];
-    var quickViewButton = $(this).parent().parent().parent().parent().parent().find('.wpb_wl_preview_area a');
-    quickViewButton = $(quickViewButton)[0];
-    var lightboxAnchor = quickViewButton.href;
-    var lightboxID = lightboxAnchor.split('#');
-    lightboxID = lightboxID[1];
-
-    $(quickViewButton).click();
-
-    $('#'+lightboxID+' .wcvasquare').removeClass('selectedswatch');
-    $('#'+lightboxID+' .wcvasquare').addClass('wcvaswatchlabel');
-    $('#'+lightboxID+' .attribute_pa_color_'+color).removeClass('wcvaswatchlabel');
-    $('#'+lightboxID+' .attribute_pa_color_'+color).addClass('selectedswatch');
-    $('#'+lightboxID+' .wcva-single-select').val(color);
-
-  });
-
+$(document).ready(function () {
 
   //initialize swiper when document ready
   var mySwiper = new Swiper ('.swiper-container', {
@@ -56,6 +10,42 @@ function hometown_init() {
     slidesPerView: 5,
     autoResize: true
   });
+
+  hometown_init();
+
+});
+
+
+
+function hometown_init() {
+
+  console.log('hometown init');
+
+  // OPEN LIGHTBOX BY CLICKING COLOR SWATCH
+  // $('.wcvaswatchinput').unbind().click(function(e) {
+  //
+  //   e.preventDefault();
+  //
+  //   let colorElement = $(this);
+  //   let colorLink = $(colorElement)[0].href;
+  //   let color = colorLink.split('color=');
+  //   color = color[1];
+  //   let quickViewButton = $(this).parent().parent().parent().parent().parent().find('.wpb_wl_preview_area a');
+  //   quickViewButton = $(quickViewButton)[0];
+  //   let lightboxAnchor = quickViewButton.href;
+  //   let lightboxID = lightboxAnchor.split('#');
+  //   lightboxID = lightboxID[1];
+  //
+  //   $(quickViewButton).click();
+  //
+  //   $('#'+lightboxID+' .wcvasquare').removeClass('selectedswatch');
+  //   $('#'+lightboxID+' .wcvasquare').addClass('wcvaswatchlabel');
+  //   $('#'+lightboxID+' .attribute_pa_color_'+color).removeClass('wcvaswatchlabel');
+  //   $('#'+lightboxID+' .attribute_pa_color_'+color).addClass('selectedswatch');
+  //   $('#'+lightboxID+' .wcva-single-select').val(color);
+  //
+  // });
+
 
 
 
@@ -96,24 +86,21 @@ function hometown_init() {
       $('.product_grid_wrap').fadeOut().empty();
       $('.product_slider_wrap').fadeOut().empty();
 
-      var style = $(this).attr('id');
-      var type = $(this).data('type');
+      let style = $(this).attr('id');
+      let type = $(this).data('type');
 
-      var data = {
+      let data = {
         'action': 'hometown_get_products_by_category',
         'style': style,
         'type': type
       };
 
       $.get(ha_localized_config.ajaxurl, data).done(function(searchResults) {
-        // console.log(searchResults);
+
         $('.product_grid_wrap').html(searchResults).fadeIn();
-        // hometown_reload_scripts();
-        // hometown_init();
-        woocommerce_ajax_lightbox_quickview(sliderClass);
-        // $( document.body ).trigger( 'post-load' );
-        $(sliderClass).fadeIn();
+        woocommerce_ajax_lightbox_quickview();
         $('.subtype.product').fadeIn();
+
       });
 
     });
@@ -121,39 +108,60 @@ function hometown_init() {
   });
 
 
-  $('#continue_1').unbind().click(function(e) {
 
-    e.preventDefault();
-
-    if ($(this).data('product-id') && $(this).data('product-variant-id') !== '') {
-      hometown_get_product_variant_images($(this).data('product-id'), $(this).data('product-variant-id'));
-    }
-    
-  });
 
 
 }
 
 
+function hometown_reload_scripts() {
+  $("body script").each(function(){
+    let oldScript = this.getAttribute("src");
+    if (oldScript !== 'null') {
+      $(this).remove();
+      let newScript;
+      newScript = document.createElement('script');
+      newScript.type = 'text/javascript';
+      newScript.src = oldScript;
+      document.getElementsByTagName("body")[0].appendChild(newScript);
+    }
+  });
+}
 
-function hometown_get_product_variant_images(productID, variantID) {
 
-  var data = {
-    'action': 'hometown_get_product_variant_images',
-    'product_id': productID,
-    'variant_id': variantID
-  };
+function hometown_reload_add_to_cart_actions() {
 
-  console.log(data);
+  // console.log('reload add to cart actions');
 
-  // $.wc_additional_variation_images_frontend.init();
+  $('.single_add_to_cart_button').unbind().click(function(e) {
 
-  $.get(ha_localized_config.ajaxurl, data).done(function(searchResults) {
+    e.preventDefault();
+
+    let data = {
+      'action': 'hometown_get_product_variant_images',
+      'ajaxImageSwapNonce': ha_localized_config.ajaxImageSwapNonce,
+      'product_id': $(this).parent().find('input[name="product_id"]').val(),
+      'variation_id': $(this).parent().find('input[name="variation_id"]').val()
+    };
+
+    console.log('magnific popup: ',magPop);
+
+    magPop[0].close();
+
+
+    hometown_get_product_variant_images(data);
+
+  });
+}
+
+
+function hometown_get_product_variant_images(data) {
+
+  $.post(ha_localized_config.ajaxurl, data).done(function(searchResults) {
+
     // console.log(searchResults);
-    $('.shirt_front').html(searchResults).fadeIn();
-    hometown_reload_scripts();
-    hometown_init();
-    $( document.body ).trigger( 'post-load' );
+    $('.shirt_positions').html(searchResults).fadeIn();
+
   });
 
 }

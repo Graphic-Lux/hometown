@@ -19,3 +19,8 @@
 .subtype.shirt_type, .subtype.product {
   display: none;
 }
+
+.shirt_design {
+  width: 33%;
+  float: left;
+}

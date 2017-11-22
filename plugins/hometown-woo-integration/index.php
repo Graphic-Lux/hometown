@@ -54,6 +54,7 @@ function ha_load_scripts() {
       'update_order_review'	=> wp_create_nonce('update-order-review'),
       'process_checkout' => wp_create_nonce('woocommerce-process_checkout'),
       'search_products'  =>  wp_create_nonce('search-products'),
+//      'ajaxImageSwapNonce' => wp_create_nonce('_wc_additional_variation_images_nonce'),
       'ajaxurl'           => admin_url( 'admin-ajax.php' )
   );
 
