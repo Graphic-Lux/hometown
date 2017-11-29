@@ -103,7 +103,7 @@ function hometown_step_1_func( $atts ){
     <div class="product_slider_wrap"></div>
     <div class="product_grid_wrap"></div>
   </div>
-  <a href="#/" class="continue_button" id="continue_1" data-product-id="" data-product-variant-id="">CONTINUE</a>
+  <a href="#/" class="continue_button" id="continue_1" data-product-id="" data-product-variant-id="">CONTINUE &rarr;</a>
 </div> <!-- step_1 -->
   <?php
 

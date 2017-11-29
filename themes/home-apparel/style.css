@@ -292,9 +292,12 @@ a.continue_button {
     background: #000;
     color: #fff;
     margin: 5px;
-    padding: 13px 32px 13px 32px;
+    padding: 13px 45px 13px 45px;
     font-size: 12px;
-	font-family: "UniversLT57Condensed";
+	font-family: "UniversLT57Condensed";    
+	top: -68px;
+    position: relative;
+    left: 19px;
 }
 
 /* Mobile Hamburger Menu Only */
