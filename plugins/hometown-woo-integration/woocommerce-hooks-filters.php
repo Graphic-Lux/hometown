@@ -236,60 +236,67 @@ function save_variation_settings_fields( $post_id ) {
 add_action( 'woocommerce_after_single_product_summary', 'hometown_sizing_fields', 0 );
 
 function hometown_sizing_fields() {
-  global $post;
 
-  ?>
-  <div class="standard_sizes">
-    <div class="sizing_inputs">
-      <?php $xsData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xs', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xs', true) : 0;
-      ?>
-      <label for="XS">XS</label>
-      <input name="XS" type="text" value="<?=$xsData?>"/>
-    </div>
-    <div class="sizing_inputs">
-      <?php $sData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 's', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 's', true) : 0; ?>
-      <label for="S">S</label>
-      <input name="S" type="text" value="<?=$sData?>"/>
-    </div>
-    <div class="sizing_inputs">
-      <?php $mData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'm', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'm', true) : 0; ?>
-      <label for="M">M</label>
-      <input name="M" type="text" value="<?=$mData?>"/>
-    </div>
-    <div class="sizing_inputs">
-      <?php $lData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'l', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'l', true) : 0; ?>
-      <label for="L">L</label>
-      <input name="L" type="text" value="<?=$lData?>"/>
-    </div>
-    <div class="sizing_inputs">
-      <?php $xlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xl', true) : 0; ?>
-      <label for="XL">XL</label>
-      <input name="XL" type="text" value="<?=$xlData?>"/>
-    </div>
-  </div>
-  <a class="more_sizes">Need bigger sizes?</a>
-  <div class="bigger_sizes">
-    <div class="sizing_inputs">
-      <?php $xxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xxl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xxl', true) : 0; ?>
-      <label for="XXL">XXL</label>
-      <input name="XXL" type="text" value="<?=$xxlData?>"/>
-    </div>
-    <div class="sizing_inputs">
-      <?php $xxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '3xl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '3xl', true) : 0; ?>
-      <label for="3XL">3XL</label>
-      <input name="3XL" type="text" value="<?=$xxxlData?>"/>
-    </div>
-    <div class="sizing_inputs">
-      <?php $xxxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '4xl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '4xl', true) : 0; ?>
-      <label for="4XL">4XL</label>
-      <input name="4XL" type="text" value="<?=$xxxxlData?>"/>
-    </div>
-  </div>
-
-
-  <?
+  hometown_display_sizes();
 
   return true;
+
+}
+
+function hometown_display_sizes() {
+
+  global $post;
+  ?>
+  <div class="all_shirt_sizes">
+    <div class="standard_sizes">
+      <div class="sizing_inputs">
+        <?php $xsData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'XS', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'XS', true) : 0;
+        ?>
+        <label for="XS">XS</label>
+        <input name="XS" type="text" value="<?=$xsData?>"/>
+      </div>
+      <div class="sizing_inputs">
+        <?php $sData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'S', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'S', true) : 0; ?>
+        <label for="S">S</label>
+        <input name="S" type="text" value="<?=$sData?>"/>
+      </div>
+      <div class="sizing_inputs">
+        <?php $mData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'M', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'M', true) : 0; ?>
+        <label for="M">M</label>
+        <input name="M" type="text" value="<?=$mData?>"/>
+      </div>
+      <div class="sizing_inputs">
+        <?php $lData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'L', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'L', true) : 0; ?>
+        <label for="L">L</label>
+        <input name="L" type="text" value="<?=$lData?>"/>
+      </div>
+      <div class="sizing_inputs">
+        <?php $xlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'XL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'XL', true) : 0; ?>
+        <label for="XL">XL</label>
+        <input name="XL" type="text" value="<?=$xlData?>"/>
+      </div>
+    </div>
+    <a class="more_sizes">Need bigger sizes?</a>
+    <div class="bigger_sizes">
+      <div class="sizing_inputs">
+        <?php $xxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'XXL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'XXL', true) : 0; ?>
+        <label for="XXL">XXL</label>
+        <input name="XXL" type="text" value="<?=$xxlData?>"/>
+      </div>
+      <div class="sizing_inputs">
+        <?php $xxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '3XL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '3XL', true) : 0; ?>
+        <label for="3XL">3XL</label>
+        <input name="3XL" type="text" value="<?=$xxxlData?>"/>
+      </div>
+      <div class="sizing_inputs">
+        <?php $xxxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '4XL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '4XL', true) : 0; ?>
+        <label for="4XL">4XL</label>
+        <input name="4XL" type="text" value="<?=$xxxxlData?>"/>
+      </div>
+    </div>
+  </div>
+  <?
+
 }
 
 
@@ -300,3 +307,25 @@ function wc_remove_all_quantity_fields( $return, $product ) {
   return true;
 }
 add_filter( 'woocommerce_is_sold_individually', 'wc_remove_all_quantity_fields', 10, 2 );
+
+
+
+add_filter( 'body_class','hometown_body_classes' );
+function hometown_body_classes( $classes ) {
+
+  $pathname = $_SERVER['REQUEST_URI'];
+
+  if (strpos($pathname, 'create')) {
+    $classes[] = 'custom-create-page';
+  } else if (strpos($pathname, 'predesigned')) {
+    $classes[] = 'predesigned';
+  }
+  $classes[] = 'product-template-default';
+  $classes[] = 'single';
+  $classes[] = 'single-product';
+  $classes[] = 'woocommerce';
+  $classes[] = 'woocommerce-page';
+
+  return $classes;
+
+}

@@ -41,34 +41,6 @@ function mytheme_custom_scripts(){
 }
 add_action( 'wp_enqueue_scripts', 'mytheme_custom_scripts' );
 
-// Register Style
-//function custom_styles() {
-//
-//	wp_register_style( 'grayson', get_stylesheet_directory_uri() . '/grayson/grayson.css', false, '1' );
-//
-//	wp_register_script( 'grayson', get_stylesheet_directory_uri() . '/grayson/grayson.js', false, '1' );
-//
-//	wp_register_script( 'plugins', get_stylesheet_directory_uri() . '/grayson/jquery.plugin.min.js', false, '1' );
-//
-//	wp_register_script( 'jquery-mobile', 'https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', array('jQuery'), false, true);
-//
-//	wp_register_style( 'sumner', get_stylesheet_directory_uri() . '/grayson/sumner/sumner.css', false, '1' );
-//
-//	wp_register_script( 'grayson-payment', get_stylesheet_directory_uri() . '/grayson/payment.js', false, true );
-//
-//	wp_enqueue_style( 'grayson' );
-//	wp_enqueue_script('plugins');
-//	wp_enqueue_script( 'grayson', array('jquery'), '', true );
-//	wp_enqueue_script('jquery-mobile');
-//	wp_enqueue_style( 'sumner' );
-//// 	wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/includes/js/app.js', array('jquery'), '', true);
-///*
-//	wp_enqueue_style( 'easyzoom' );
-//	wp_enqueue_script( 'easyzoom' );
-//*/
-//
-//}
-//add_action( 'wp_enqueue_scripts', 'custom_styles' );
 
 //  Product Slider 6 Columns //
 

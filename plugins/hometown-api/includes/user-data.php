@@ -9,9 +9,9 @@ function hometown_save_user_meta() {
   $user_id = get_current_user_id();
 
   foreach($_POST['sizes'] as $key => $meta_value) {
-//    $meta_key = 'shirt_sizes-' . $product_id . '-' . $variation_id . '-' . $key;
     $meta_key = 'shirt_sizes-' . $product_id . '-' . $key;
-    add_user_meta( $user_id, $meta_key, $meta_value, true );
+    $prev_value = get_user_meta(get_current_user_id(), 'shirt_sizes-' . $product_id . '-' . $key, true);
+    var_dump(update_user_meta( $user_id, $meta_key, $meta_value, $prev_value ));
   }
 
   return true;

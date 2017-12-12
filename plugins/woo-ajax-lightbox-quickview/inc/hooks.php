@@ -2,22 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-add_filter( 'body_class','more_woocommerce_body_classes' );
-function more_woocommerce_body_classes( $classes ) {
-
-  $classes[] = 'custom-create-page';
-  $classes[] = 'product-template-default';
-  $classes[] = 'single';
-  $classes[] = 'single-product';
-  $classes[] = 'woocommerce';
-  $classes[] = 'woocommerce-page';
-
-
-  return $classes;
-
-}
-
-
 add_action( 'woocommerce_after_shop_loop_item','walqv_hook_quickview_link', 11);
 function walqv_hook_quickview_link(){
   global $post;

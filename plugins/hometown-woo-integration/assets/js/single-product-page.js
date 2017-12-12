@@ -1,9 +1,19 @@
 $=jQuery;
 
+let pathname = window.location.pathname;
+
 $(document).ready(function() {
+
   $('.more_sizes').unbind().click(function() {
     $('.bigger_sizes').slideToggle();
-  })
+  });
+
+  console.log(pathname);
+
+  if (pathname.indexOf('create') > 0) {
+    $('.single-product-summary .all_shirt_sizes').remove();
+  }
+
 });
 
 function hometown_reload_add_to_cart_actions() {
@@ -23,9 +33,9 @@ function hometown_reload_add_to_cart_actions() {
       variation_id = $('input[name="variation_id"]').val();
     }
 
-    let pathname = window.location.pathname;
 
-    if (pathname.indexOf('predesigned')) {
+
+    if (pathname.indexOf('predesigned')  > 0) {
 
       let data = {
         'action':         'hometown_save_user_meta',
@@ -76,10 +86,13 @@ function hometown_get_product_variant_images(data) {
 }
 
 function hometown_set_user_size_options(data) {
-  $.post(ha_localized_config.ajaxurl, data).done(function(searchResults) {
+  $.post(ha_localized_config.ajaxurl, data).done(function(userMetaResults) {
 
-    console.log(searchResults);
-    $('.shirt_positions').html(searchResults).fadeIn();
+    console.log(userMetaResults);
+
+    $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
+      window.location.replace('checkout');
+    });
 
   });
 }
