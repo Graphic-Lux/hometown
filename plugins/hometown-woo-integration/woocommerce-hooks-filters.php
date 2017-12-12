@@ -68,6 +68,11 @@ add_action( 'wp_ajax_hometown_get_product_variant_images', 'hometown_get_product
 
 function hometown_get_product_variant_images() {
 
+//  $_POST['variation_id'] = 352;
+//  $_POST['post_id'] = 340;
+
+  echo 'variation_id'.$_POST['variation_id'];
+
   // Sanitize.
   $post_id = absint( $_POST['post_id'] );
 
@@ -96,10 +101,13 @@ function hometown_get_product_variant_images() {
   $main_images = '<div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . ' images" data-columns="' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . '"><figure class="woocommerce-product-gallery__wrapper">';
 
   $loop = 0;
-
+echo count( $image_ids );
   if ( 0 < count( $image_ids ) ) {
     // Build html.
     foreach ( $image_ids as $id ) {
+
+      echo $id;
+
       $image_title     = esc_attr( get_the_title( $id ) );
       $full_size_image = wp_get_attachment_image_src( $id, 'full' );
       $thumbnail       = wp_get_attachment_image_src( $id, 'shop_thumbnail' );
@@ -121,26 +129,19 @@ function hometown_get_product_variant_images() {
       $shirtBranding = $filenameParts[4];
 
       $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
-
       $html .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
       $html .= '</figure>';
 
       $main_images .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $id );
-
-
-      // Build the list of variations as main images in case a custom
-      // theme has flexslider type lightbox.
-//      $main_images .= apply_filters( 'woocommerce_single_product_image_html', sprintf( '<figure data-thumb="%s" class="woocommerce-product-gallery__image flex-active-slide">%s</figure>', esc_url( $thumbnail[0] ), wp_get_attachment_image( $id, 'shop_single', false, $attributes ) ), $post_id );
-
       $loop++;
+
     }
+
   }
 
   $main_images .= '</figure></div>';
 
   echo $main_images;
-
-//  echo json_encode( array( 'main_images' => $main_images ) );
   exit;
 }
 
@@ -176,6 +177,126 @@ function display_product_page($postID) {
 }
 
 
-//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 11 );
-//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 16 );
-//remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 21 );
+// CHANGE ADD TO CART TEXT -> CONTINUE
+add_filter( 'add_to_cart_text', 'woo_custom_single_add_to_cart_text' );                // < 2.1
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_single_add_to_cart_text' );  // 2.1 +
+
+function woo_custom_single_add_to_cart_text() {
+
+  return __( 'Continue', 'woocommerce' );
+
+}
+
+
+
+
+// Add Variation Settings
+add_action( 'woocommerce_product_after_variable_attributes', 'variation_settings_fields', 10, 3 );
+// Save Variation Settings
+add_action( 'woocommerce_save_product_variation', 'save_variation_settings_fields', 10, 2 );
+/**
+ * Create new fields for variations
+ *
+ */
+function variation_settings_fields( $loop, $variation_data, $variation ) {
+
+
+  echo '<div class="options_group">';
+
+  // Number Field
+  woocommerce_wp_text_input(
+      array(
+          'id'          => '_xxl_pricing[' . $variation->ID . ']',
+          'label'       => __( 'XXL+ Pricing', 'woocommerce' ),
+          'desc_tip'    => 'true',
+          'placeholder' => '19.95',
+          'description' => __( 'Enter the price of XXL+ t-shirts that will be more expensive than the XS-XL shirts.', 'woocommerce' ),
+          'value'       => get_post_meta( $variation->ID, '_xxl_pricing', true )
+      )
+  );
+
+  echo '</div>';
+
+}
+/**
+ * Save new fields for variations
+ *
+ */
+function save_variation_settings_fields( $post_id ) {
+  // Text Field
+  $text_field = $_POST['_xxl_pricing'][ $post_id ];
+  if( ! empty( $text_field ) ) {
+    update_post_meta( $post_id, '_xxl_pricing', esc_attr( $text_field ) );
+  }
+}
+
+
+
+
+add_action( 'woocommerce_after_single_product_summary', 'hometown_sizing_fields', 0 );
+
+function hometown_sizing_fields() {
+  global $post;
+
+  ?>
+  <div class="standard_sizes">
+    <div class="sizing_inputs">
+      <?php $xsData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xs', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xs', true) : 0;
+      ?>
+      <label for="XS">XS</label>
+      <input name="XS" type="text" value="<?=$xsData?>"/>
+    </div>
+    <div class="sizing_inputs">
+      <?php $sData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 's', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 's', true) : 0; ?>
+      <label for="S">S</label>
+      <input name="S" type="text" value="<?=$sData?>"/>
+    </div>
+    <div class="sizing_inputs">
+      <?php $mData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'm', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'm', true) : 0; ?>
+      <label for="M">M</label>
+      <input name="M" type="text" value="<?=$mData?>"/>
+    </div>
+    <div class="sizing_inputs">
+      <?php $lData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'l', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'l', true) : 0; ?>
+      <label for="L">L</label>
+      <input name="L" type="text" value="<?=$lData?>"/>
+    </div>
+    <div class="sizing_inputs">
+      <?php $xlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xl', true) : 0; ?>
+      <label for="XL">XL</label>
+      <input name="XL" type="text" value="<?=$xlData?>"/>
+    </div>
+  </div>
+  <a class="more_sizes">Need bigger sizes?</a>
+  <div class="bigger_sizes">
+    <div class="sizing_inputs">
+      <?php $xxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xxl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . 'xxl', true) : 0; ?>
+      <label for="XXL">XXL</label>
+      <input name="XXL" type="text" value="<?=$xxlData?>"/>
+    </div>
+    <div class="sizing_inputs">
+      <?php $xxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '3xl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '3xl', true) : 0; ?>
+      <label for="3XL">3XL</label>
+      <input name="3XL" type="text" value="<?=$xxxlData?>"/>
+    </div>
+    <div class="sizing_inputs">
+      <?php $xxxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '4xl', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $post->ID . '-' . '4xl', true) : 0; ?>
+      <label for="4XL">4XL</label>
+      <input name="4XL" type="text" value="<?=$xxxxlData?>"/>
+    </div>
+  </div>
+
+
+  <?
+
+  return true;
+}
+
+
+/**
+* @desc Remove in all product type
+*/
+function wc_remove_all_quantity_fields( $return, $product ) {
+  return true;
+}
+add_filter( 'woocommerce_is_sold_individually', 'wc_remove_all_quantity_fields', 10, 2 );

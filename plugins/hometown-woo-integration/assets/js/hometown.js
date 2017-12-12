@@ -21,33 +21,6 @@ function hometown_init() {
 
   console.log('hometown init');
 
-  // OPEN LIGHTBOX BY CLICKING COLOR SWATCH
-  // $('.wcvaswatchinput').unbind().click(function(e) {
-  //
-  //   e.preventDefault();
-  //
-  //   let colorElement = $(this);
-  //   let colorLink = $(colorElement)[0].href;
-  //   let color = colorLink.split('color=');
-  //   color = color[1];
-  //   let quickViewButton = $(this).parent().parent().parent().parent().parent().find('.wpb_wl_preview_area a');
-  //   quickViewButton = $(quickViewButton)[0];
-  //   let lightboxAnchor = quickViewButton.href;
-  //   let lightboxID = lightboxAnchor.split('#');
-  //   lightboxID = lightboxID[1];
-  //
-  //   $(quickViewButton).click();
-  //
-  //   $('#'+lightboxID+' .wcvasquare').removeClass('selectedswatch');
-  //   $('#'+lightboxID+' .wcvasquare').addClass('wcvaswatchlabel');
-  //   $('#'+lightboxID+' .attribute_pa_color_'+color).removeClass('wcvaswatchlabel');
-  //   $('#'+lightboxID+' .attribute_pa_color_'+color).addClass('selectedswatch');
-  //   $('#'+lightboxID+' .wcva-single-select').val(color);
-  //
-  // });
-
-
-
 
   // STEP 1
   // SLIDER VIEWING
@@ -129,39 +102,3 @@ function hometown_reload_scripts() {
 }
 
 
-function hometown_reload_add_to_cart_actions() {
-
-  console.log('reload add to cart actions');
-
-  $('.single_add_to_cart_button').unbind().click(function(e) {
-
-    e.preventDefault();
-
-    let data = {
-      'action': 'hometown_get_product_variant_images',
-      'product_id': $(this).parent().find('input[name="product_id"]').val(),
-      'variation_id': $(this).parent().find('input[name="variation_id"]').val()
-    };
-
-    // console.log('magnific popup: ',magPop[0]);
-
-    magPop[0].close();
-    let magnificPopup = $.magnificPopup.instance; // save instance in magnificPopup variable
-    magnificPopup.close(); // Close popup that is currently opened
-
-    hometown_get_product_variant_images(data);
-
-  });
-}
-
-
-function hometown_get_product_variant_images(data) {
-
-  $.post(ha_localized_config.ajaxurl, data).done(function(searchResults) {
-
-    // console.log(searchResults);
-    $('.shirt_positions').html(searchResults).fadeIn();
-
-  });
-
-}

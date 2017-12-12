@@ -15,16 +15,6 @@ Author URI: http://graysonerhard.com
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
- * Localization
- */
-
-//function walqv_textdomain() {
-//  load_plugin_textdomain( 'woo-ajax-lightbox-quick-view', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-//}
-//add_action( 'init', 'walqv_textdomain' );
-
-
-/**
  * Include JS Files
  */
 
@@ -40,9 +30,5 @@ function walqv_adding_scripts() {
 add_action( 'wp_enqueue_scripts', 'walqv_adding_scripts' );
 
 
-
-
-
 /* Requred files */
 require_once dirname( __FILE__ ) . '/inc/hooks.php';
-

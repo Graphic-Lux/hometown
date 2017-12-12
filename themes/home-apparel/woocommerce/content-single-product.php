@@ -82,3 +82,6 @@ if ( post_password_required() ) {
 </div><!-- #product-<?php the_ID(); ?> -->
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
+
+<!-- REGISTER THE NEW ADD_TO_CART ACTIONS FOR THE NEW LIGHTBOX-->
+<script type="text/javascript">$(document).ready(function() {hometown_reload_add_to_cart_actions();});</script>
