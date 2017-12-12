@@ -223,6 +223,41 @@ function save_variation_settings_fields( $post_id ) {
 
 
 
+
+// Display Fields
+add_action('woocommerce_product_options_general_product_data', 'hometown_woocommerce_product_custom_fields');
+
+// Save Fields
+add_action('woocommerce_process_product_meta', 'hometown_woocommerce_product_custom_fields_save');
+
+
+function hometown_woocommerce_product_custom_fields()
+{
+  global $woocommerce, $post;
+  echo '<div class="product_custom_field">';
+    woocommerce_wp_checkbox(
+        array(
+            'id' => '_custom_product',
+            'placeholder' => 'Custom Product',
+            'label' => __('Custom Product', 'woocommerce')
+        )
+    );
+  echo '</div>';
+
+}
+
+function hometown_woocommerce_product_custom_fields_save($post_id)
+{
+  // Custom Product Text Field
+  $woocommerce_custom_product_text_field = $_POST['_custom_product'];
+  update_post_meta($post_id, '_custom_product', esc_attr($woocommerce_custom_product_text_field));
+}
+
+
+
+
+
+
 add_action( 'woocommerce_after_single_product_summary', 'hometown_sizing_fields', 0 );
 
 function hometown_sizing_fields() {
