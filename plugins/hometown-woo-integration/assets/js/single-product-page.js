@@ -18,8 +18,6 @@ $(document).ready(function() {
 
 function hometown_reload_add_to_cart_actions() {
 
-  console.log('reload add to cart actions');
-
   $('.single_add_to_cart_button').unbind().click(function(e) {
 
     e.preventDefault();
@@ -53,6 +51,8 @@ function hometown_reload_add_to_cart_actions() {
       hometown_set_user_size_options(data);
 
     } else if (pathname.indexOf('custom/create')) {
+
+      // console.log(product_id, variation_id);
 
       let data = {
         'action': 'hometown_get_product_variant_images',

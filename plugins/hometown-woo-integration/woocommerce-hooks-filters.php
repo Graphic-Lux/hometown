@@ -68,17 +68,10 @@ add_action( 'wp_ajax_hometown_get_product_variant_images', 'hometown_get_product
 
 function hometown_get_product_variant_images() {
 
-//  $_POST['variation_id'] = 352;
-//  $_POST['post_id'] = 340;
-
-  echo 'variation_id'.$_POST['variation_id'];
-
   // Sanitize.
-  $post_id = absint( $_POST['post_id'] );
+  $post_id = absint( $_POST['product_id'] );
 
-  $variation_id = '';
-
-  if ( ! isset( $_POST['variation_id'] ) ) {
+  if ( $_POST['variation_id'] !== null ) {
     $image_ids = get_post_thumbnail_id( $post_id ) . ',' . get_post_meta( $post_id, '_product_image_gallery', true );
   } else {
     $variation_id = absint( $_POST['variation_id'] );
@@ -101,12 +94,9 @@ function hometown_get_product_variant_images() {
   $main_images = '<div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . ' images" data-columns="' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . '"><figure class="woocommerce-product-gallery__wrapper">';
 
   $loop = 0;
-echo count( $image_ids );
   if ( 0 < count( $image_ids ) ) {
     // Build html.
     foreach ( $image_ids as $id ) {
-
-      echo $id;
 
       $image_title     = esc_attr( get_the_title( $id ) );
       $full_size_image = wp_get_attachment_image_src( $id, 'full' );
