@@ -14,6 +14,8 @@ $(document).ready(function() {
     $('.single-product-summary .all_shirt_sizes').remove();
   }
 
+  $('#avia-woocommerce-css-css').remove();
+
 });
 
 function hometown_reload_add_to_cart_actions() {

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+  exit;
+}
+
 add_action( 'wp_ajax_nopriv_woocommerce_json_search_products', array( 'WC_AJAX', 'json_search_products') );
 add_action( 'wc_ajax_json_search_products', array( 'WC_AJAX', 'json_search_products') );
 
@@ -45,7 +49,9 @@ function hometown_get_products_by_category() {
       $loop = new WP_Query( $args2 );
       if ( $loop->have_posts() ) {
         while ( $loop->have_posts() ) : $loop->the_post();
-          wc_get_template_part( 'content', 'product' );
+          if (get_post_meta(get_the_ID(),'_custom_product', true) === 'yes') {
+            wc_get_template_part( 'content', 'product' );
+          }
         endwhile;
       } else {
         echo __( 'No products found' );
@@ -176,83 +182,6 @@ function woo_custom_single_add_to_cart_text() {
   return __( 'Continue', 'woocommerce' );
 
 }
-
-
-
-
-// Add Variation Settings
-add_action( 'woocommerce_product_after_variable_attributes', 'variation_settings_fields', 10, 3 );
-// Save Variation Settings
-add_action( 'woocommerce_save_product_variation', 'save_variation_settings_fields', 10, 2 );
-/**
- * Create new fields for variations
- *
- */
-function variation_settings_fields( $loop, $variation_data, $variation ) {
-
-
-  echo '<div class="options_group">';
-
-  // Number Field
-  woocommerce_wp_text_input(
-      array(
-          'id'          => '_xxl_pricing[' . $variation->ID . ']',
-          'label'       => __( 'XXL+ Pricing', 'woocommerce' ),
-          'desc_tip'    => 'true',
-          'placeholder' => '19.95',
-          'description' => __( 'Enter the price of XXL+ t-shirts that will be more expensive than the XS-XL shirts.', 'woocommerce' ),
-          'value'       => get_post_meta( $variation->ID, '_xxl_pricing', true )
-      )
-  );
-
-  echo '</div>';
-
-}
-/**
- * Save new fields for variations
- *
- */
-function save_variation_settings_fields( $post_id ) {
-  // Text Field
-  $text_field = $_POST['_xxl_pricing'][ $post_id ];
-  if( ! empty( $text_field ) ) {
-    update_post_meta( $post_id, '_xxl_pricing', esc_attr( $text_field ) );
-  }
-}
-
-
-
-
-
-// Display Fields
-add_action('woocommerce_product_options_general_product_data', 'hometown_woocommerce_product_custom_fields');
-
-// Save Fields
-add_action('woocommerce_process_product_meta', 'hometown_woocommerce_product_custom_fields_save');
-
-
-function hometown_woocommerce_product_custom_fields()
-{
-  global $woocommerce, $post;
-  echo '<div class="product_custom_field">';
-    woocommerce_wp_checkbox(
-        array(
-            'id' => '_custom_product',
-            'placeholder' => 'Custom Product',
-            'label' => __('Custom Product', 'woocommerce')
-        )
-    );
-  echo '</div>';
-
-}
-
-function hometown_woocommerce_product_custom_fields_save($post_id)
-{
-  // Custom Product Text Field
-  $woocommerce_custom_product_text_field = $_POST['_custom_product'];
-  update_post_meta($post_id, '_custom_product', esc_attr($woocommerce_custom_product_text_field));
-}
-
 
 
 

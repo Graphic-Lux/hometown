@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+  exit;
+}
 
 function hometown_step_1_func( $atts ){
 
