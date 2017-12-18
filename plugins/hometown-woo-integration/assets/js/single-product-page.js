@@ -78,9 +78,11 @@ function hometown_reload_add_to_cart_actions() {
 
 function hometown_get_product_variant_images(data) {
 
+  console.log(data);
+
   $.post(ha_localized_config.ajaxurl, data).done(function(searchResults) {
 
-    console.log(searchResults);
+    // console.log(searchResults);
     $('.shirt_positions').html(searchResults).fadeIn();
 
   });
@@ -90,7 +92,7 @@ function hometown_get_product_variant_images(data) {
 function hometown_set_user_size_options(data) {
   $.post(ha_localized_config.ajaxurl, data).done(function(userMetaResults) {
 
-    console.log(userMetaResults);
+    // console.log(userMetaResults);
 
     $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
       window.location.replace('checkout');

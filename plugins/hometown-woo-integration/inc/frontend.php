@@ -77,7 +77,9 @@ function hometown_get_product_variant_images() {
   // Sanitize.
   $post_id = absint( $_POST['product_id'] );
 
-  if ( $_POST['variation_id'] !== null ) {
+  d($_POST);
+
+  if ( $_POST['variation_id'] === null ) {
     $image_ids = get_post_thumbnail_id( $post_id ) . ',' . get_post_meta( $post_id, '_product_image_gallery', true );
   } else {
     $variation_id = absint( $_POST['variation_id'] );
