@@ -100,6 +100,7 @@ function hometown_get_product_variant_images() {
   $main_images = '<div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . ' images" data-columns="' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . '"><figure class="woocommerce-product-gallery__wrapper">';
 
   $loop = 0;
+  d($image_ids);
   if ( 0 < count( $image_ids ) ) {
     // Build html.
     foreach ( $image_ids as $id ) {
@@ -123,6 +124,11 @@ function hometown_get_product_variant_images() {
       $shirtColor = $filenameParts[2];
       $shirtOrientation = $filenameParts[3];
       $shirtBranding = $filenameParts[4];
+
+      d($shirtOrientation);
+
+//      if ($shirtOrientation === '');
+
 
       $html  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
       $html .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
@@ -275,7 +281,7 @@ function hometown_body_classes( $classes ) {
     $classes[] = 'predesigned';
   }
   $classes[] = 'product-template-default';
-  $classes[] = 'single';
+//  $classes[] = 'single';
   $classes[] = 'single-product';
   $classes[] = 'woocommerce';
   $classes[] = 'woocommerce-page';

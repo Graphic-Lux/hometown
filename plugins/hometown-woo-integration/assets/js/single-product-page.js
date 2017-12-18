@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('.single-product-summary .all_shirt_sizes').remove();
   }
 
-  $('#avia-woocommerce-css-css').remove();
+  // $('#avia-woocommerce-css-css').remove();
 
 });
 

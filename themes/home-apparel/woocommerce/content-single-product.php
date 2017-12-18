@@ -20,6 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 
+add_action('wp_print_styles', 'my_deregister_styles', 100);
+
+function my_deregister_styles() {
+  wp_deregister_style('avia-woocommerce-css');
+  wp_deregister_style('');
+}
+
 ?>
 
 <?php
