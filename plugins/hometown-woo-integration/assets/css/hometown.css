@@ -71,3 +71,8 @@
   float: left;
   display:block;
 }
+
+.shirt_positions {
+  overflow: hidden;
+  margin-bottom: 40px;
+}

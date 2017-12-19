@@ -100,7 +100,7 @@ function hometown_get_product_variant_images() {
   $main_images = '<div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . ' images" data-columns="' . apply_filters( 'woocommerce_product_thumbnails_columns', 4 ) . '"><figure class="woocommerce-product-gallery__wrapper">';
 
   $loop = 0;
-  d($image_ids);
+
   if ( 0 < count( $image_ids ) ) {
     // Build html.
     foreach ( $image_ids as $id ) {
@@ -127,19 +127,22 @@ function hometown_get_product_variant_images() {
 
       if ($shirtOrientation === 'front') {
 
-
         $main_images_left = "<div class='step_2_shirt_designs'>";
+
+          // GRAB SHIRT IMAGE
           $leftHTML  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
           $leftHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $leftHTML .= '</figure>';
 
-          $leftHTML_dropdown .= "<select name='imprint_location' class='imprint_location_dropdown>";
-            $leftHTML_dropdown .= "<option value='0' selected='selected'>Choose Your Front Imprint Location</option>";
+          // CREATE DROPDOWN
+          $leftHTML_dropdown = "<select name='imprint_location' class='imprint_location_dropdown>";
+            $leftHTML_dropdown .= "<option value='0'>Choose Your Front Imprint Location</option>";
             $leftHTML_dropdown .= "<option value='top_centered'>Top Centered</option>";
             $leftHTML_dropdown .= "<option value='middle_centered'>Middle Centered</option>";
             $leftHTML_dropdown .= "<option value='pocket'>Pocket</option>";
           $leftHTML_dropdown .= "</select>";
 
+          // PUT IMAGE INTO WOOCOMMERCE HTML FILTER
           $main_images_left .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $leftHTML, $id );
           $main_images_left .= $leftHTML_dropdown;
         $main_images_left .= "</div>";
@@ -151,8 +154,8 @@ function hometown_get_product_variant_images() {
           $middleHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $middleHTML .= '</figure>';
 
-          $middleHTML_dropdown .= "<select name='imprint_location' class='imprint_location_dropdown>";
-            $middleHTML_dropdown .= "<option value='0' selected='selected'>Choose Your Back Imprint Location</option>";
+          $middleHTML_dropdown = "<select name='imprint_location' class='imprint_location_dropdown>";
+            $middleHTML_dropdown .= "<option value='0'>Choose Your Back Imprint Location</option>";
             $middleHTML_dropdown .= "<option value='full'>CENTERED - Full Imprint</option>";
             $middleHTML_dropdown .= "<option value='upper'>Upper Back</option>";
             $middleHTML_dropdown .= "<option value='lower'>Lower Back</option>";
@@ -170,8 +173,8 @@ function hometown_get_product_variant_images() {
           $rightHTML .= '</figure>';
 
           if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
-            $rightHTML_dropdown .= "<select name='imprint_location' class='imprint_location_dropdown>";
-              $rightHTML_dropdown .= "<option value='0' selected='selected'>Choose Your Back Imprint Location</option>";
+            $rightHTML_dropdown = "<select name='imprint_location' class='imprint_location_dropdown>";
+              $rightHTML_dropdown .= "<option value='0'>Choose Your Side Imprint Location</option>";
               $rightHTML_dropdown .= "<option value='full'>CENTERED - Full Imprint</option>";
               $rightHTML_dropdown .= "<option value='upper'>Upper Back</option>";
               $rightHTML_dropdown .= "<option value='lower'>Lower Back</option>";

@@ -1,0 +1,13 @@
+.shirt_artwork {
+  display: block;
+  width: 100%;
+  height: 150px;
+}
+
+.hometown_artwork img {
+  padding: 10px;
+}
+
+.artwork_back, .artwork_sleeve {
+  display: none;
+}

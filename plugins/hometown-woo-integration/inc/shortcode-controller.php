@@ -136,16 +136,16 @@ function hometown_step_2_func() {
         <h3 class="custom_step">Step 2</h3>
         <h3 class="step_heading">Create Your Design</h3>
     </div>
-    <div class="shirt_positions">
-<!--        --><?php //hometown_get_product_variant_images(); ?>
-    </div>
-    <div class="artwork_selection">
-      <h4>Choose Your Artwork</h4>
-      <div class="artwork_slider">
-
+    <div class="step_2_content_container subtype">
+      <div class="shirt_positions"></div>
+      <div class="artwork_selection">
+        <h4>Choose Your Artwork</h4>
+        <div class="artwork_slider">
+          <?php hometown_get_artwork(); ?>
+        </div>
       </div>
     </div>
-    <a>BACK IMPRINT</a>
+
   </div>
   <?php
 
@@ -168,18 +168,19 @@ function hometown_step_3_func() {
       <h3 class="custom_step">Step 3</h3>
       <h3 class="step_heading">Choose Quantities</h3>
     </div>
-    <div class="product_image_wrap">
+
+    <div class="product_image_wrap subtype">
       <div class="product_image">
 
       </div>
       <div class="product_thumbnails">
 
       </div>
+      <div class="shirt_sizes_wrap">
+        <?php hometown_display_sizes(); ?>
+      </div>
+     <a>REVIEW & PURCHASE</a>
     </div>
-    <div class="shirt_sizes_wrap">
-
-    </div>
-    <a>REVIEW & PURCHASE</a>
   </div>
   <?php
 

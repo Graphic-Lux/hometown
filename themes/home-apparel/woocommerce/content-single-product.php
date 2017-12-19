@@ -24,7 +24,6 @@ add_action('wp_print_styles', 'my_deregister_styles', 100);
 
 function my_deregister_styles() {
   wp_deregister_style('avia-woocommerce-css');
-  wp_deregister_style('');
 }
 
 ?>
@@ -36,7 +35,9 @@ function my_deregister_styles() {
  * @hooked wc_print_notices - 10
  */
 do_action( 'woocommerce_before_single_product' );
-enqueue_scripts_for_hometown();
+
+//enqueue_scripts_for_hometown();
+
 if ( post_password_required() ) {
   echo get_the_password_form();
   return;

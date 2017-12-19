@@ -21,25 +21,6 @@ date_default_timezone_set ("America/Denver");
 define('HAWI_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
 define('HAWI_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 
-//add_action('wp_enqueue_scripts', 'enqueue_scripts_for_hometown');
-function enqueue_scripts_for_hometown() {
-
-  // Load gallery scripts on product pages only if supported.
-//  if ( current_theme_supports( 'wc-product-gallery-zoom' ) ) {
-//    wp_enqueue_script( 'zoom' );
-//  }
-//  if ( current_theme_supports( 'wc-product-gallery-slider' ) ) {
-//    wp_enqueue_script( 'flexslider' );
-//  }
-//  if ( current_theme_supports( 'wc-product-gallery-lightbox' ) ) {
-//    wp_enqueue_script( 'photoswipe-ui-default' );
-//    wp_enqueue_script( 'photoswipe-default-skin' );
-//    add_action( 'wp_footer', 'woocommerce_photoswipe' );
-//  }
-  wp_enqueue_script( 'wc-single-product' );
-
-}
-
 function ha_load_scripts() {
 
   $data = array(
@@ -74,7 +55,6 @@ function ha_load_scripts() {
     wp_enqueue_script( 'wc-single-product' );
   }
 
-
 }
 add_action('wp_enqueue_scripts', 'ha_load_scripts');
 
@@ -86,4 +66,3 @@ require_once('inc/shortcode-controller.php');
 
 // PLUGINS THAT WERE CUSTOMIZED
 require_once('inc/woocommerce-colororimage-variation-select/woocommerce-colororimage-variation-select.php');
-//require_once('inc/woocommerce-lightbox/main.php');
