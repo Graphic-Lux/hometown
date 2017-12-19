@@ -27,7 +27,9 @@ $customProduct = get_post_meta(get_the_ID(),'_custom_product', true);
 // Ensure visibility
 if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
-} else if ($customProduct === 'yes') {
+} else if ((strpos($_SERVER['HTTP_REFERER'], 'custom') === false) && ($customProduct === 'yes')) {
+  return;
+} else if ((strpos($_SERVER['HTTP_REFERER'], 'custom') !== false) && ($customProduct !== 'yes')) {
   return;
 }
 
