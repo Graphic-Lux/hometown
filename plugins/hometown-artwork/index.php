@@ -22,7 +22,7 @@ define('HAA_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 add_action('wp_enqueue_scripts', 'ha_artwork_load_scripts');
 function ha_artwork_load_scripts() {
   wp_enqueue_style('artwork', HAA_PLUGIN_URL . 'assets/css/artwork.css');
-  wp_enqueue_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.css', array('jquery'), false, true);
+  wp_enqueue_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.js', array('jquery'), false, true);
 }
 
 require('admin/cpt.php');

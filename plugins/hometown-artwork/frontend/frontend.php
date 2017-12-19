@@ -17,9 +17,9 @@ function hometown_get_artwork() {
 
   $loop = new WP_Query( $args2 );
 
-  $artworkFront = '<div class="swiper-wrapper hometown_artwork artwork_front">';
-  $artworkBack = '<div class="swiper-wrapper hometown_artwork artwork_back">';
-  $artworkSleeve = '<div class="swiper-wrapper hometown_artwork artwork_sleeve">';
+  $artworkFront = '<div class="swiper-wrapper hometown_artwork artwork-front">';
+  $artworkBack = '<div class="swiper-wrapper hometown_artwork artwork-back">';
+  $artworkSleeve = '<div class="swiper-wrapper hometown_artwork artwork-sleeve">';
 
   if ( $loop->have_posts() ) {
     while ( $loop->have_posts() ) : $loop->the_post();

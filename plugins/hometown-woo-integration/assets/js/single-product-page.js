@@ -85,6 +85,8 @@ function hometown_get_product_variant_images(data) {
     // console.log(searchResults);
     $('.shirt_positions').html(searchResults).fadeIn();
 
+    hometown_shirt_opacity();
+
   });
 
 }
