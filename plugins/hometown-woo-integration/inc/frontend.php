@@ -130,7 +130,7 @@ function hometown_get_product_variant_images() {
         $main_images_left = "<div class='step_2_shirt_designs'>";
 
           // GRAB SHIRT IMAGE
-          $leftHTML  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
+          $leftHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
           $leftHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $leftHTML .= '</figure>';
 
@@ -150,7 +150,7 @@ function hometown_get_product_variant_images() {
       } else if ($shirtOrientation === 'back') {
 
         $main_images_middle = "<div class='step_2_shirt_designs'>";
-          $middleHTML  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
+          $middleHTML  = '<figure id="'.$shirtOrientation.'"data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide ">';
           $middleHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $middleHTML .= '</figure>';
 
@@ -168,7 +168,7 @@ function hometown_get_product_variant_images() {
       } else if ($shirtOrientation === 'sleeve') {
 
         $main_images_right = "<div class='step_2_shirt_designs'>";
-          $rightHTML  = '<figure data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide shirt-'.$shirtOrientation.'-design">';
+          $rightHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
           $rightHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $rightHTML .= '</figure>';
 

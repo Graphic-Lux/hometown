@@ -33,14 +33,17 @@ function hometown_get_artwork() {
         if ($category === 'front') {
           $artworkFront .= '<div class="single_art">';
             $artworkFront .= get_the_post_thumbnail(null, array(160,160));
+            $artworkFront .= '<span class="artwork_title">' . get_the_title() . '</span>';
           $artworkFront .= '</div>';
         } else if ($category === 'back') {
           $artworkBack .= '<div class="single_art">';
            $artworkBack .= get_the_post_thumbnail(null, array(160,160));
+           $artworkBack .= '<span class="artwork_title">' . get_the_title() . '</span>';
           $artworkBack .= '</div>';
         } else if ($category === 'sleeve') {
           $artworkSleeve .= '<div class="single_art">';
             $artworkSleeve .= get_the_post_thumbnail(null, array(160,160));
+            $artworkSleeve .= '<span class="artwork_title">' . get_the_title() . '</span>';
           $artworkSleeve .= '</div>';
         }
 

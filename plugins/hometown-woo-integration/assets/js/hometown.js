@@ -80,11 +80,6 @@ function hometown_init() {
 
   });
 
-  $('.step_2_shirt_designs figure').unbind().click(function() {
-    $('.step_2_shirt_designs').fadeTo(200, .4);
-    $(this).parent().fadeTo(100, 1);
-  });
-
 }
 
 
@@ -94,7 +89,7 @@ function hometown_shirt_opacity() {
   $('.step_2_shirt_designs').fadeTo(100, .4);
   $('.step_2_shirt_designs:first').fadeTo(100, 1);
 
-  hometown_init();
+  artwork_init();
 
 }
 
