@@ -20,11 +20,6 @@
   display: none;
 }
 
-.shirt_design {
-  width: 33%;
-  float: left;
-}
-
 .mfp-content {
   line-height: 0;
   width: 100%;
@@ -69,4 +64,10 @@
   width: 100%;
   clear:both;
   overflow: hidden;
+}
+
+.step_2_shirt_designs {
+  width: 33.33%;
+  float: left;
+  display:block;
 }
