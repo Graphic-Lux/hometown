@@ -84,17 +84,6 @@ function hometown_init() {
 
 
 
-function hometown_shirt_opacity() {
-
-  $('.step_2_shirt_designs').fadeTo(100, .4);
-  $('.step_2_shirt_designs:first').fadeTo(100, 1);
-
-  artwork_init();
-
-}
-
-
-
 function hometown_reload_scripts() {
   $("body script").each(function(){
     let oldScript = this.getAttribute("src");

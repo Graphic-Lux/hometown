@@ -67,7 +67,7 @@
 }
 
 .step_2_shirt_designs {
-  width: 33.33%;
+  width: 290px;
   float: left;
   display:block;
 }
@@ -75,4 +75,18 @@
 .shirt_positions {
   overflow: hidden;
   margin-bottom: 40px;
+}
+
+.step_2_content_container.subtype {
+  display: none;
+}
+
+.step_2_shirt_designs figure {
+  position: relative;
+}
+
+.shirt_positions .images .woocommerce-product-gallery__wrapper{
+  display: flex;
+  justify-content: space-evenly;
+  min-width: 830px;
 }

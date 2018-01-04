@@ -82,14 +82,16 @@ function hometown_get_product_variant_images(data) {
 
   $.post(ha_localized_config.ajaxurl, data).done(function(searchResults) {
 
+    $('.step_2_content_container.subtype').fadeIn();
     // console.log(searchResults);
     $('.shirt_positions').html(searchResults).fadeIn();
 
-    hometown_shirt_opacity();
+    artwork_init();
 
   });
 
 }
+
 
 function hometown_set_user_size_options(data) {
   $.post(ha_localized_config.ajaxurl, data).done(function(userMetaResults) {
