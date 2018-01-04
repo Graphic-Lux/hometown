@@ -106,7 +106,6 @@ function hometown_step_1_func( $atts ){
     <div class="product_slider_wrap"></div>
     <div class="product_grid_wrap"></div>
   </div>
-<!--  <a href="#/" class="continue_button" id="continue_1" data-product-id="" data-product-variant-id="">CONTINUE &rarr;</a>-->
 </div> <!-- step_1 -->
   <?php
 
@@ -144,6 +143,7 @@ function hometown_step_2_func() {
           <?php hometown_get_artwork(); ?>
         </div>
       </div>
+        <a href="#/" class="continue_button" id="continue_2">CONTINUE &rarr;</a>
     </div>
 
   </div>
@@ -177,9 +177,8 @@ function hometown_step_3_func() {
 
       </div>
       <div class="shirt_sizes_wrap">
-        <?php hometown_display_sizes(); ?>
       </div>
-     <a>REVIEW & PURCHASE</a>
+      <a href="#/" class="continue_button" id="continue_3" data-product-id="" data-product-variant-id="" data-product-variation="">REVIEW & PURCHASE</a>
     </div>
   </div>
   <?php

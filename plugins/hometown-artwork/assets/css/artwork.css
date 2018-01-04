@@ -28,6 +28,10 @@
   font-size: 10px;
 }
 
+.product_image_wrap.subtype {
+  display: none;
+}
+
 .full_front {
   display: block;
   left: 0;

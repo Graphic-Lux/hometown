@@ -300,6 +300,10 @@ a.continue_button {
     left: 19px;
 }
 
+.step_2 a.continue_button {
+	top: auto;
+}
+
 /* Mobile Hamburger Menu Only */
 @media only screen and (max-width: 9999999px) and (min-width: 768px) {
 	.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item-avia-special {

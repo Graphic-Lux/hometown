@@ -33,7 +33,8 @@ function ha_load_scripts() {
       'update_order_review'	          => wp_create_nonce('update-order-review'),
       'process_checkout'              => wp_create_nonce('woocommerce-process_checkout'),
       'search_products'               =>  wp_create_nonce('search-products'),
-      'ajaxurl'                       => admin_url( 'admin-ajax.php' )
+      'ajaxurl'                       => admin_url( 'admin-ajax.php' ),
+      'graphic_lux_subdirectory'      => '/home'
   );
 
 

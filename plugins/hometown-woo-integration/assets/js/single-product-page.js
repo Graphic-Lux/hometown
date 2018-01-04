@@ -1,6 +1,7 @@
 $=jQuery;
 
 let pathname = window.location.pathname;
+let graphic_lux_subdirectory = '/home';
 
 $(document).ready(function() {
 
@@ -37,24 +38,11 @@ function hometown_reload_add_to_cart_actions() {
 
     if (pathname.indexOf('predesigned')  > 0) {
 
-      let data = {
-        'action':         'hometown_save_user_meta',
-        'product_id':     product_id,
-        // 'variation_id':   variation_id
-      };
-
-      data.sizes = {};
-
-      $('.sizing_inputs').each(function() {
-        let name = $(this).find('input').attr('name');
-        data.sizes[name] = $(this).find('input').val();
-      });
-
-      hometown_set_user_size_options(data);
+      setSizeData(product_id);
 
     } else if (pathname.indexOf('custom/create')) {
 
-      // console.log(product_id, variation_id);
+      setAddToCartData(product_id, variation_id);
 
       let data = {
         'action': 'hometown_get_product_variant_images',
@@ -92,15 +80,44 @@ function hometown_get_product_variant_images(data) {
 
 }
 
-
 function hometown_set_user_size_options(data) {
   $.post(ha_localized_config.ajaxurl, data).done(function(userMetaResults) {
 
     // console.log(userMetaResults);
-
-    $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
-      window.location.replace('checkout');
-    });
+    if (pathname.indexOf('predesigned') > 0) {
+      $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
+        window.location.replace(graphic_lux_subdirectory+'/checkout');
+      });
+    }
 
   });
+}
+
+function setSizeData(product_id) {
+
+  let data = {
+    'action':         'hometown_save_user_meta',
+    'product_id':     product_id,
+    // 'variation_id':   variation_id
+  };
+
+  data.sizes = {};
+
+  $('.sizing_inputs').each(function() {
+    let name = $(this).find('input').attr('name');
+    data.sizes[name] = $(this).find('input').val();
+  });
+
+  hometown_set_user_size_options(data);
+
+}
+
+
+
+function setAddToCartData(product_id, variation_id) {
+
+  $('#continue_3').attr('data-product-id', product_id);
+  $('#continue_3').attr('data-product-variant-id', variation_id);
+  $('#continue_3').attr('data-product-variation', $('.selectedswatch').data('option'));
+
 }
