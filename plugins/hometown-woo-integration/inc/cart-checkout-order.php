@@ -38,25 +38,34 @@ function hometown_woocommerce_add_to_cart_variable() {
 
 
 
-add_action( 'wp_ajax_hometown_save_imprint_location', 'hometown_save_imprint_location' );
-
-function hometown_save_imprint_location() {
+add_action( 'wp_ajax_hometown_save_custom_order_data', 'hometown_save_custom_order_data' );
+// Add Data in a Custom Session, on ‘Add to Cart’ Button Click
+function hometown_save_custom_order_data() {
 
   //Custom data - Sent Via AJAX post method
   $product_id = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_POST['product_id'] ) );
   $variation_id = $_POST['variation_id'];
-  $front = $_POST['front'];
-  $back = $_POST['back'];
-  $sleeve = $_POST['sleeve'];
 
-  //This is User custom value sent via AJAX
-  $user_custom_data_values = array(
-      "Front"  =>  $front,
-      "Back"   =>  $back,
-      "Sleeve" =>  $sleeve
-  );
   session_start();
-  $_SESSION['wdm_user_custom_data'] = $user_custom_data_values;
+
+  if (isset($_POST['front'])) {
+    $front = $_POST['front'];
+    $back = $_POST['back'];
+    $sleeve = $_POST['sleeve'];
+
+    //This is User custom value sent via AJAX
+    $_SESSION['wdm_user_custom_data'] = array(
+        "Front"  =>  $front,
+        "Back"   =>  $back,
+        "Sleeve" =>  $sleeve
+    );
+  }
+
+  if (isset($_POST['sizes'])) {
+    $_SESSION['wdm_user_custom_data']['sizes'] = $_POST['sizes'];
+//    print_r($_SESSION);
+  }
+
   die();
 
 }
@@ -114,6 +123,8 @@ add_filter('woocommerce_cart_item_price','wdm_add_user_custom_option_from_sessio
 if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
   function wdm_add_user_custom_option_from_session_into_cart($product_name, $values, $cart_item_key ) {
 
+//    print_r($values['wdm_user_custom_data_value']);
+
     /*code to add custom data on Cart & checkout Page*/
     if(count($values['wdm_user_custom_data_value']) > 0)
     {
@@ -121,8 +132,17 @@ if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
       $output .= "<ul class='wdm_options_table' id='" . $values['product_id'] . "'>";
 
       foreach($values['wdm_user_custom_data_value'] as $key => $value) {
+
         $value = ($value === '') ? 'Not selected' : $value;
-        $output .= "<li>" . $key . " imprint location: " . $value . "</li>";
+
+        if (($key === 'Front') || ($key === 'Back') || ($key === 'Sleeve')) {
+          $output .= "<li class='preview_imprint_locations'>" . $key . " imprint location: " . $value . "</li>";
+        } else {
+          foreach ($value as $size => $sizeValue) {
+            $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . "</li>";
+          }
+        }
+
       }
 
       $output .= "</ul></dl>";

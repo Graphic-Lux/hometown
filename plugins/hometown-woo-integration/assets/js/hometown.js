@@ -93,16 +93,7 @@ function hometown_init() {
     $('.step_2_shirt_designs').fadeTo(100, 1);
     $('.product_image_wrap.subtype').fadeIn();
 
-    let data = {
-      action: 'hometown_display_sizes',
-      product_id: $("#continue_3").data('product-id'),
-      variation_id: $("#continue_3").data('product-variant-id')
-    };
-
-    $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
-      $(".shirt_sizes_wrap").html(response).fadeIn();
-      single_product_page_init();
-    });
+    getSizes();
 
   });
 
@@ -118,6 +109,23 @@ function hometown_init() {
 
 
 
+function getSizes() {
+
+  let data = {
+    action: 'hometown_display_sizes',
+    product_id: $("#continue_3").data('product-id'),
+    variation_id: $("#continue_3").data('product-variant-id')
+  };
+
+  $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
+    $(".shirt_sizes_wrap").html(response).fadeIn();
+    single_product_page_init();
+  });
+
+}
+
+
+
 
 function finalizeCustomOrder() {
 
@@ -126,7 +134,7 @@ function finalizeCustomOrder() {
   // MUST BE DONE AFTER CART BECAUSE IT ADDS DATA TO WOOCOMMERCE SESSION
   save_imprint_location();
 
-  setSizeData($("#continue_3").data('product-id'));
+  setSizeData($("#continue_3").data('product-id'), $("#continue_3").data('product-variant-id'));
 
 }
 
@@ -136,7 +144,7 @@ function finalizeCustomOrder() {
 function save_imprint_location() {
 
   let data = {
-    action: 'hometown_save_imprint_location',
+    action: 'hometown_save_custom_order_data',
     product_id: $("#continue_3").data('product-id'),
     variation_id: $("#continue_3").data('product-variant-id'),
     front: $('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').text(),

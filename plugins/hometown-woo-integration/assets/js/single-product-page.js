@@ -46,7 +46,7 @@ function hometown_reload_add_to_cart_actions() {
 
     if (pathname.indexOf('predesigned')  > 0) {
 
-      setSizeData(product_id);
+      setSizeData(product_id, variation_id);
 
     } else if (pathname.indexOf('custom/create')) {
 
@@ -103,12 +103,12 @@ function hometown_set_user_size_options(data) {
   });
 }
 
-function setSizeData(product_id) {
+function setSizeData(product_id, variation_id) {
 
   let data = {
     'action':         'hometown_save_user_meta',
     'product_id':     product_id,
-    // 'variation_id':   variation_id
+    'variation_id':   variation_id
   };
 
   data.sizes = {};
