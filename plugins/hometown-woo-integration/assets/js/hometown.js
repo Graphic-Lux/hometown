@@ -87,17 +87,21 @@ function hometown_init() {
 
   $("#continue_2").unbind().click(function() {
 
+    $('.step_2 .step-holder .custom_step').addClass('done');
+
     $('.artwork_selection').slideUp();
     $('.step_2_shirt_designs').fadeTo(100, 1);
     $('.product_image_wrap.subtype').fadeIn();
 
     let data = {
       action: 'hometown_display_sizes',
-      product_id: $("#continue_3").data('product-id')
+      product_id: $("#continue_3").data('product-id'),
+      variation_id: $("#continue_3").data('product-variant-id')
     };
 
     $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
       $(".shirt_sizes_wrap").html(response).fadeIn();
+      single_product_page_init();
     });
 
   });
@@ -117,6 +121,42 @@ function hometown_init() {
 
 function finalizeCustomOrder() {
 
+  add_variation_to_cart();
+
+  // MUST BE DONE AFTER CART BECAUSE IT ADDS DATA TO WOOCOMMERCE SESSION
+  save_imprint_location();
+
+  setSizeData($("#continue_3").data('product-id'));
+
+}
+
+
+
+
+function save_imprint_location() {
+
+  let data = {
+    action: 'hometown_save_imprint_location',
+    product_id: $("#continue_3").data('product-id'),
+    variation_id: $("#continue_3").data('product-variant-id'),
+    front: $('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').text(),
+    back: $('#back-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').text(),
+    sleeve: $('#sleeve-imprint_location option[value="'+$('#sleeve-imprint_location').val()+'"]').text()
+  };
+
+  $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
+    console.log(response);
+  });
+
+}
+
+
+
+
+function add_variation_to_cart() {
+
+  $('.step_3 .step-holder .custom_step').addClass('done');
+
   let data = {
     action: 'hometown_woocommerce_add_to_cart_variable',
     product_id: $("#continue_3").data('product-id'),
@@ -124,15 +164,14 @@ function finalizeCustomOrder() {
     variation: $("#continue_3").data('product-variation')
   };
 
-  setSizeData(data.product_id);
-
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     console.log(response);
     if (response.result) {
-      window.location.replace(graphic_lux_subdirectory+'/checkout');
+      // window.location.replace(graphic_lux_subdirectory+'/checkout');
     }
   });
 }
+
 
 
 

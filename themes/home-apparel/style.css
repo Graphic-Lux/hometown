@@ -228,7 +228,7 @@ h3.custom_step {
 	width: 105px;
 	display: block;
 	background: #00afef;
-    padding: 25px;
+    padding: 25px 20px;
     float: left;
     text-align: center
 }

@@ -77,7 +77,7 @@
   margin-bottom: 40px;
 }
 
-.step_2_content_container.subtype {
+.step_2_content_container.subtype, .product_image_wrap.subtype {
   display: none;
 }
 
@@ -89,4 +89,14 @@
   display: flex;
   justify-content: space-evenly;
   min-width: 830px;
+}
+
+.done {
+  background: transparent !important;
+  color: #000 !important;
+  border-right: 1px solid #e3e3e3;
+}
+
+.edit_heading:hover {
+  cursor: pointer;
 }

@@ -62,6 +62,7 @@ add_action('wp_enqueue_scripts', 'ha_load_scripts');
 // Requires
 require_once('inc/admin.php');
 require_once('inc/frontend.php');
+require_once('inc/cart-checkout-order.php');
 require_once('inc/shortcode-controller.php');
 
 

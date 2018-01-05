@@ -5,6 +5,15 @@ let graphic_lux_subdirectory = '/home';
 
 $(document).ready(function() {
 
+  single_product_page_init();
+
+
+
+});
+
+
+function single_product_page_init() {
+
   $('.more_sizes').unbind().click(function() {
     $('.bigger_sizes').slideToggle();
   });
@@ -15,9 +24,8 @@ $(document).ready(function() {
     $('.single-product-summary .all_shirt_sizes').remove();
   }
 
-  // $('#avia-woocommerce-css-css').remove();
+}
 
-});
 
 function hometown_reload_add_to_cart_actions() {
 
@@ -41,6 +49,8 @@ function hometown_reload_add_to_cart_actions() {
       setSizeData(product_id);
 
     } else if (pathname.indexOf('custom/create')) {
+
+      $('.step_1 .step-holder .custom_step').addClass('done');
 
       setAddToCartData(product_id, variation_id);
 
