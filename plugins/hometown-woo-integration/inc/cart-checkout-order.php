@@ -123,7 +123,7 @@ add_filter('woocommerce_cart_item_price','wdm_add_user_custom_option_from_sessio
 if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
   function wdm_add_user_custom_option_from_session_into_cart($product_name, $values, $cart_item_key ) {
 
-//    print_r($values['wdm_user_custom_data_value']);
+//    print_r( $values );
 
     /*code to add custom data on Cart & checkout Page*/
     if(count($values['wdm_user_custom_data_value']) > 0)
@@ -139,7 +139,14 @@ if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
           $output .= "<li class='preview_imprint_locations'>" . $key . " imprint location: " . $value . "</li>";
         } else {
           foreach ($value as $size => $sizeValue) {
-            $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . "</li>";
+            if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+              $xxlPricing = (float) get_post_meta( $values['variation_id'], '_xxl_pricing', true );
+              $lineSubtotal = (float) $sizeValue * $xxlPricing;
+              $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $xxlPricing . "/shirt = $" . $lineSubtotal . "</li>";
+            } else {
+              $lineSubtotal = (float) $sizeValue * $values['line_subtotal'];
+              $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $values['line_subtotal'] . "/shirt = $" . $lineSubtotal . "</li>";
+            }
           }
         }
 
@@ -175,4 +182,178 @@ if(!function_exists('wdm_remove_user_custom_data_options_from_cart'))
         unset( $woocommerce->cart->cart_contents[ $key ] );
     }
   }
+}
+
+
+
+
+
+
+// define the woocommerce_cart_item_subtotal callback
+function filter_woocommerce_cart_item_subtotal( $wc, $cart_item, $cart_item_key ) {
+
+
+  $product_subtotal = 0;
+//  unset($_SESSION);
+//  session_start();
+
+  foreach($cart_item['wdm_user_custom_data_value'] as $key => $value) {
+
+
+    if (($key !== 'Front') && ($key !== 'Back') && ($key !== 'Sleeve')) {
+
+      foreach ($value as $size => $sizeValue) {
+
+        if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+          $xxlPricing = (float) get_post_meta( $cart_item['variation_id'], '_xxl_pricing', true );
+          $lineSubtotal = (float) $sizeValue * $xxlPricing;
+
+        } else {
+          $lineSubtotal = (float) $sizeValue * $cart_item['line_subtotal'];
+        }
+
+        $product_subtotal = number_format($product_subtotal + $lineSubtotal, 2);
+
+
+      }
+
+    }
+  }
+
+  $product_id = $cart_item['product_id'];
+
+  $_SESSION['new_prices'][$product_id] = $product_subtotal;
+
+print_r($_SESSION);
+
+
+
+  return (string) '$' . $product_subtotal;
+};
+
+// add the filter
+add_filter( 'woocommerce_cart_item_subtotal', 'filter_woocommerce_cart_item_subtotal', 10, 3 );
+
+
+
+
+
+
+//add_action( 'woocommerce_before_calculate_totals', 'add_custom_price', 10, 1);
+function add_custom_price( $cart_object ) {
+
+  if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+    return;
+
+  $i=0;
+
+  foreach ( $cart_object->get_cart() as $cart_item ) {
+    ## Price calculation ##
+    $price = $cart_item['data']->get_price();
+//    echo $price;
+//    if ($i=0) {
+//      $product_subtotal = 0;
+//    }
+//
+////    print_r($cart_item);
+//
+//    foreach($cart_item['wdm_user_custom_data_value'] as $key => $value) {
+//
+//      if (($key !== 'Front') && ($key !== 'Back') && ($key !== 'Sleeve')) {
+//
+//        foreach ($value as $size => $sizeValue) {
+//
+//          if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+//            $xxlPricing = (float) get_post_meta( $cart_item['variation_id'], '_xxl_pricing', true );
+//            $lineSubtotal = (float) $sizeValue * $xxlPricing;
+//          } else {
+//            echo $price;
+//            $lineSubtotal = (float) $sizeValue * $price;
+//          }
+//
+//          $product_subtotal = $product_subtotal + $lineSubtotal;
+//
+//
+//        }
+//
+//      }
+//
+//    }
+//
+//
+//
+//    $cart_item['data']->set_price( $product_subtotal ); // WC 3.0+
+  }
+
+}
+
+
+
+
+
+
+// CHANGE ORDER TOTAL VALUE WITH XXL+ SIZING
+//add_action('woocommerce_cart_total', 'calculate_totals', 10, 1);
+//
+//function calculate_totals($wc_price){
+////  $new_total = 0;
+//  foreach ( WC()->cart->cart_contents as $key => $value ) {
+////    echo print_r($value);
+////    var_dump($value);
+////    var_dump($key);
+//  }
+//
+//  return wc_price($new_total);
+//}
+
+
+
+
+
+
+
+add_filter( 'woocommerce_get_discounted_price', 'hometown_edit_line_item_price', 10, 1 );
+add_filter( 'woocommerce_adjust_non_base_location_prices', 'hometown_edit_line_item_price', 10, 1 );
+//add_filter( 'woocommerce_get_price_excluding_tax', 'hometown_edit_line_item_price', 10, 1 );
+//add_filter( 'woocommerce_get_price_including_tax', 'hometown_edit_line_item_price', 10, 1 );
+//add_filter( 'woocommerce_tax_round', 'hometown_edit_line_item_price', 10, 1);
+//add_filter( 'woocommerce_product_get_price', 'hometown_edit_line_item_price', 10, 1);
+
+function hometown_edit_line_item_price($price) {
+
+  $product_subtotal = 0;
+
+//  print_r($_SESSION['wdm_user_custom_data']);
+
+//
+//  foreach($cart_item['wdm_user_custom_data_value'] as $key => $value) {
+//
+//
+//    if (($key !== 'Front') && ($key !== 'Back') && ($key !== 'Sleeve')) {
+//
+//      foreach ($value as $size => $sizeValue) {
+//
+//        if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+//          $xxlPricing = (float) get_post_meta( $cart_item['variation_id'], '_xxl_pricing', true );
+//          $lineSubtotal = (float) $sizeValue * $xxlPricing;
+//
+//        } else {
+//          $lineSubtotal = (float) $sizeValue * $cart_item['line_subtotal'];
+//        }
+//
+//        $product_subtotal = $product_subtotal + $lineSubtotal;
+//
+//
+//      }
+//
+//    }
+//
+//
+//  }
+
+
+//  return (string) '$' . number_format($product_subtotal, 2);
+
+
+ return 1;
 }

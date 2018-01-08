@@ -3,22 +3,18 @@ $=jQuery;
 let pathname = window.location.pathname;
 let graphic_lux_subdirectory = '/home';
 
-$(document).ready(function() {
-
-  single_product_page_init();
-
-
-
-});
+$(document).ready(function() {single_product_page_init();});
 
 
 function single_product_page_init() {
 
+  if (pathname.indexOf('predesigned') > 0) {
+    getSizes();
+  }
+
   $('.more_sizes').unbind().click(function() {
     $('.bigger_sizes').slideToggle();
   });
-
-  console.log(pathname);
 
   if (pathname.indexOf('create') > 0) {
     $('.single-product-summary .all_shirt_sizes').remove();
@@ -28,6 +24,14 @@ function single_product_page_init() {
 
 
 function hometown_reload_add_to_cart_actions() {
+
+
+  $('.wcvasquare').unbind().click(function() {
+    if (!$(this).hasClass('selectedswatch')) {
+      getSizes();
+    }
+  });
+
 
   $('.single_add_to_cart_button').unbind().click(function(e) {
 

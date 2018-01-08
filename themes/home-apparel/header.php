@@ -46,8 +46,7 @@ if( strpos($responsive, 'responsive') !== false ) echo '<meta name="viewport" co
  * as styles, scripts, and meta tags.
  */
 
-wp_head();
-
+  wp_head();
 ?>
 
 </head>

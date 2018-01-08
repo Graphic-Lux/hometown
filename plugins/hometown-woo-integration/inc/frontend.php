@@ -255,15 +255,15 @@ function woo_custom_single_add_to_cart_text() {
 
 
 
-add_action( 'woocommerce_after_single_product_summary', 'hometown_sizing_fields', 0 );
-
-function hometown_sizing_fields() {
-
-  hometown_display_sizes();
-
-  return true;
-
-}
+//add_action( 'woocommerce_after_single_product_summary', 'hometown_sizing_fields', 0 );
+//
+//function hometown_sizing_fields() {
+//
+//  hometown_display_sizes();
+//
+//  return true;
+//
+//}
 
 add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 
@@ -271,14 +271,18 @@ function hometown_display_sizes() {
 
   $currentPage = hometownGetPage();
 
-  if ($currentPage === 'create') {
+//  if ($currentPage === 'create') {
     $productID = $_POST['product_id'];
     $variationID = $_POST['variation_id'];
     $itemID = $productID.'_'.$variationID;
-  } else if ($currentPage === 'predesigned') {
-    global $post;
-    $itemID = $post->ID;
-  }
+    $IDForAdditionalSizes = $variationID;
+//  } else if ($currentPage === 'predesigned') {
+//    global $post;
+//    $itemID = $post->ID;
+//    $IDForAdditionalSizes = $post->ID;
+//  }
+
+
 
   ?>
   <div class="all_shirt_sizes">
@@ -310,7 +314,7 @@ function hometown_display_sizes() {
         <input name="XL" type="text" value="<?=$xlData?>"/>
       </div>
     </div>
-    <a class="more_sizes">Need bigger sizes?</a>
+    <a class="more_sizes">*Need bigger sizes?</a>
     <div class="bigger_sizes">
       <div class="sizing_inputs">
         <?php $xxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XXL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XXL', true) : 0; ?>
@@ -327,6 +331,19 @@ function hometown_display_sizes() {
         <label for="4XL">4XL</label>
         <input name="4XL" type="text" value="<?=$xxxxlData?>"/>
       </div>
+      <?php
+      $additionalSizesPrice = get_post_meta( $IDForAdditionalSizes, '_xxl_pricing', true );
+
+      if (isset($additionalSizesPrice)) {
+        ?>
+        <span>* Pricing for XXL-4XL is <?= $additionalSizesPrice ?>/shirt</span>
+        <?php
+      } else {
+        ?>
+        <span>* Price may be more for shirts XXL-4XL.</span>
+        <?php
+      }
+      ?>
     </div>
   </div>
   <?
@@ -378,13 +395,42 @@ function hometownGetPage() {
   } else if (strpos($pathname, 'predesigned')) {
     return 'predesigned';
   } else if (strpos($pathname, 'product')) {
-    return 'predesigned';
+    return 'product';
   } else if (strpos($pathname, 'admin-ajax')) {
     return 'create';
   }
 
 }
 
+
+//add_action('wp_print_styles', 'hometown_deregister', 100);
+//
+//function hometown_deregister() {
+//
+//  $currentPage = hometownGetPage();
+//
+////  echo 'asdf '.$currentPage;
+//
+//  if ($currentPage === 'product') {
+//
+//    global $wp_scripts;
+//    global $wp_styles;
+//    foreach( $wp_styles->queue as $handle ) :
+//      echo ' asdf '.$handle . ' | ';
+//      wp_deregister_style($handle);
+////      wp_deregister_script($handle);
+//    endforeach;
+//
+//    wp_deregister_style('avia-woocommerce-css');
+//    wp_deregister_style('woocommerce-mod-css');
+//
+//    wp_deregister_script('woocommerce-mod');
+//
+//  }
+//
+//
+//
+//}
 
 
 

@@ -100,3 +100,7 @@
 .edit_heading:hover {
   cursor: pointer;
 }
+
+.product-price .woocommerce-Price-amount.amount {
+  display: none;
+}

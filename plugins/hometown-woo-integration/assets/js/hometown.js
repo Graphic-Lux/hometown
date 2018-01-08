@@ -1,5 +1,6 @@
 $=jQuery;
 
+let pathname = window.location.pathname;
 let graphic_lux_subdirectory = '/home';
 
 $(document).ready(function () {
@@ -111,15 +112,33 @@ function hometown_init() {
 
 function getSizes() {
 
-  let data = {
-    action: 'hometown_display_sizes',
-    product_id: $("#continue_3").data('product-id'),
-    variation_id: $("#continue_3").data('product-variant-id')
-  };
+  console.log(pathname);
+  console.log(pathname.indexOf('create') > 0);
 
-  $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
-    $(".shirt_sizes_wrap").html(response).fadeIn();
-    single_product_page_init();
+  let sizeData = {};
+  sizeData.action = 'hometown_display_sizes';
+
+  if (pathname.indexOf('create') > 0) {
+    sizeData.product_id = $("#continue_3").data('product-id');
+    sizeData.variation_id = $("#continue_3").data('product-variant-id');
+  } else {
+    sizeData.product_id = $("input[name='product_id']").val();
+    sizeData.variation_id = $("input[name='variation_id']").val();
+  }
+
+
+  $.post( wc_add_to_cart_params.ajax_url, sizeData, function( response ) {
+
+    if (pathname.indexOf('create') > 0) {
+      $(".shirt_sizes_wrap").html(response).fadeIn();
+      single_product_page_init();
+    } else {
+      $('.product_meta').html(response).fadeIn();
+      $('.more_sizes').unbind().click(function() {
+        $('.bigger_sizes').slideToggle();
+      });
+    }
+
   });
 
 }
