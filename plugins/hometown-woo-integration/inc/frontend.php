@@ -335,9 +335,7 @@ function hometown_display_sizes() {
   </div>
   <?
 
-  if ($currentPage === 'create') {
-    wp_die();
-  }
+  wp_die();
 
 }
 

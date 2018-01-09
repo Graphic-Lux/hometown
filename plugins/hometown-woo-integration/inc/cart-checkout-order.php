@@ -135,12 +135,17 @@ if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
       $output = $product_name . "</a><dl class='variation'>";
       $output .= "<ul class='wdm_options_table' id='" . $values['product_id'] . "'>";
 
+      $product_subtotal = 0;
+      $product = wc_get_product( $values['product_id'] );
+
+      // SET VARIATION ID
       if ($values['variation_id'] == 0) {
-        $product = wc_get_product( $values['product_id'] );
         $variationID = $product->get_children()[0];
       } else {
         $variationID = $values['variation_id'];
       }
+
+      $price = hometown_get_price($product, $variationID);
 
       foreach($values['wdm_user_custom_data_value'] as $key => $value) {
 
@@ -155,8 +160,8 @@ if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
               $lineSubtotal = (float) $sizeValue * $xxlPricing;
               $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $xxlPricing . "/shirt = $" . $lineSubtotal . "</li>";
             } else {
-              $lineSubtotal = (float) $sizeValue * $_SESSION['initial_price'][$variationID];
-              $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $_SESSION['initial_price'][$variationID] . "/shirt = $" . $lineSubtotal . "</li>";
+              $lineSubtotal = (float) $sizeValue * $price;
+              $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $price . "/shirt = $" . $lineSubtotal . "</li>";
             }
           }
         }
@@ -217,25 +222,16 @@ function hometown_custom_prices( $cart_object ) {
     foreach ( $cart_object->get_cart() as $key => $item ) {
 
       $product_subtotal = 0;
+      $product = wc_get_product( $item['product_id'] );
 
       // SET VARIATION ID
       if ($item['variation_id'] == 0) {
-        $product = wc_get_product( $item['product_id'] );
         $variationID = $product->get_children()[0];
       } else {
         $variationID = $item['variation_id'];
       }
 
-      // SET INITIAL PRICE HERE
-      if (!isset($_SESSION['initial_price'][$variationID])) {
-
-        $price = the_product_price($item['data']);
-
-//        $_SESSION['initial_price'][$variationID] = $item['data']->get_price();
-        $_SESSION['initial_price'][$variationID] = $price;
-
-      }
-
+      $price = hometown_get_price($product, $variationID);
 
 
       foreach($item['wdm_user_custom_data_value'] as $itemKey => $customValue) {
@@ -248,7 +244,7 @@ function hometown_custom_prices( $cart_object ) {
               $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
               $lineSubtotal = (float) $sizeValue * $xxlPricing;
             } else {
-              $lineSubtotal = (float) $sizeValue * $_SESSION['initial_price'][$variationID ];
+              $lineSubtotal = (float) $sizeValue * $price;
             }
 
             $product_subtotal += $lineSubtotal;
@@ -274,34 +270,11 @@ function hometown_custom_prices( $cart_object ) {
 
 
 
-function the_product_price($product){
-
-  print_r($product);
-  die();
-  //get the sale price of the product whether it be simple, grouped or variable
-  $sale_price = '<span class="new">'.get_post_meta( get_the_ID(), '_price', true).'</span>';
-  //get the regular price of the product, but of a simple product
-  $regular_price = get_post_meta( get_the_ID(), '_regular_price', true);
-  //oh, the product is variable to $sale_price is empty? Lets get a variation price
-  if ($regular_price == ""){
-    #Step 1: Get product varations
-    $available_variations = $product->get_available_variations();
-    if($available_variations){
-      #Step 2: Get product variation id
-      $variation_id=$available_variations[0]['variation_id']; // Getting the variable id of just the 1st product. You can loop $available_variations to get info about each variation.
-      #Step 3: Create the variable product object
-      $variable_product1= new WC_Product_Variation( $variation_id );
-      #Step 4: You have the data. Have fun :)
-      $regular_price = $variable_product1->regular_price;
-    }
+function hometown_get_price($product, $variationID) {
+  if( $product->is_on_sale() ) {
+    $sale_price = ($product->get_sale_price() == 0) ? get_post_meta($variationID, '_sale_price', true) : $product->get_sale_price();
+    return $sale_price;
   }
-  if(!empty($regular_price)){
-    echo '<span class="old">';
-  }else{
-    echo '<span class="new">';
-  }
-
-  echo $regular_price;
-  echo '</span>';
-  if(!empty($sale_price)){ echo '<span class="new">'. $sale_price .' $</span>';}
+  $regular_price = ($product->get_regular_price() == 0) ? get_post_meta($variationID, '_regular_price', true) : $product->get_regular_price();
+  return $regular_price;
 }
