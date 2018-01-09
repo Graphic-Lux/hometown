@@ -254,33 +254,20 @@ function woo_custom_single_add_to_cart_text() {
 
 
 
-
-//add_action( 'woocommerce_after_single_product_summary', 'hometown_sizing_fields', 0 );
-//
-//function hometown_sizing_fields() {
-//
-//  hometown_display_sizes();
-//
-//  return true;
-//
-//}
-
 add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 
 function hometown_display_sizes() {
 
   $currentPage = hometownGetPage();
 
-//  if ($currentPage === 'create') {
     $productID = $_POST['product_id'];
     $variationID = $_POST['variation_id'];
-    $itemID = $productID.'_'.$variationID;
-    $IDForAdditionalSizes = $variationID;
-//  } else if ($currentPage === 'predesigned') {
-//    global $post;
-//    $itemID = $post->ID;
-//    $IDForAdditionalSizes = $post->ID;
-//  }
+    $itemID = $variationID;
+
+  if ($variationID == 0) {
+    $product = wc_get_product( $productID );
+    $variationID = $product->get_children()[0];
+  }
 
 
 
@@ -332,7 +319,7 @@ function hometown_display_sizes() {
         <input name="4XL" type="text" value="<?=$xxxxlData?>"/>
       </div>
       <?php
-      $additionalSizesPrice = get_post_meta( $IDForAdditionalSizes, '_xxl_pricing', true );
+      $additionalSizesPrice = get_post_meta( $variationID, '_xxl_pricing', true );
 
       if (isset($additionalSizesPrice)) {
         ?>

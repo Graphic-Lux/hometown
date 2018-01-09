@@ -22,6 +22,7 @@ function walqv_adding_scripts() {
   wp_enqueue_style( 'walqv-fancybox', plugins_url( 'assets/css/jquery.fancybox.min.css', __FILE__) );
   wp_enqueue_style('walqv-magnific-popup', plugins_url('assets/css/magnific-popup.css', __FILE__),'','1.0');
   wp_enqueue_style('walqv-main', plugins_url('assets/css/main.css', __FILE__),'','1.0');
+  wp_enqueue_style('font-awesome', 'https://use.fontawesome.com/releases/v5.0.3/css/all.css');
 
   wp_enqueue_script( 'walqv-fancybox', plugins_url( 'assets/js/jquery.fancybox.min.js', __FILE__ ), array( 'jquery' ), '3.1.6', true );
   wp_enqueue_script('walqv-magnific-popup', plugins_url('assets/js/jquery.magnific-popup.min.js', __FILE__),array('jquery'),'1.0', false);

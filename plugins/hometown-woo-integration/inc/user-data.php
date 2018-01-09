@@ -6,7 +6,7 @@ function hometown_save_user_meta() {
 
   $productID = $_POST['product_id'];
   $variationID= $_POST['variation_id'];
-  $itemID = $productID . '_' . $variationID;
+  $itemID = $variationID;
   $user_id = get_current_user_id();
 
   foreach($_POST['sizes'] as $key => $meta_value) {

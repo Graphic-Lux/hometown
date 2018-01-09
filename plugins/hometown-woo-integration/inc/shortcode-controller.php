@@ -14,9 +14,9 @@ function hometown_step_1_func( $atts ){
   <div class="step-holder">
     <h3 class="custom_step">Step 1</h3>
     <h3 class="step_heading">Choose Your Style</h3>
-    <h4 class="edit_heading">Edit</h4>
+    <h4 class="edit_heading" data-step="1">Edit</h4>
   </div>
-  <div class="type">
+  <div class="type step_1_close">
     <a>UNISEX</a>
     <a>MENS</a>
     <a>WOMENS</a>
@@ -51,7 +51,7 @@ function hometown_step_1_func( $atts ){
   }
 
   ?>
-  <div class='subtype shirt_type'>
+  <div class='subtype shirt_type step_1_close'>
     <div class='shirt_slider_wrap'>
       <div class="swiper-container">
         <div class="swiper-wrapper mens-slider shirt-slider">
@@ -135,7 +135,7 @@ function hometown_step_2_func() {
     <div class="step-holder">
         <h3 class="custom_step">Step 2</h3>
         <h3 class="step_heading">Create Your Design</h3>
-        <h4 class="edit_heading">Edit</h4>
+        <h4 class="edit_heading" data-step="2">Edit</h4>
     </div>
     <div class="step_2_content_container subtype">
       <div class="shirt_positions"></div>
@@ -169,7 +169,7 @@ function hometown_step_3_func() {
     <div class="step-holder">
       <h3 class="custom_step">Step 3</h3>
       <h3 class="step_heading">Choose Quantities</h3>
-      <h4 class="edit_heading">Edit</h4>
+      <h4 class="edit_heading" data-step="3">Edit</h4>
     </div>
 
     <div class="product_image_wrap subtype">

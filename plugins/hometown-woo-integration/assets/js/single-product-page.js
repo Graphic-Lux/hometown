@@ -54,6 +54,8 @@ function hometown_reload_add_to_cart_actions() {
 
     } else if (pathname.indexOf('custom/create')) {
 
+      $('.step_1_close').slideUp();
+
       $('.step_1 .step-holder .custom_step').addClass('done');
 
       setAddToCartData(product_id, variation_id);

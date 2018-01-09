@@ -167,12 +167,12 @@
 	z-index: 999;
 }
 .wpb_wl_preview_area .wpb_wl_preview{
-	background: #47C285;
+	/*background: #47C285;*/
+	color: #008dcd!important;
 	-webkit-transition: all 0.2s linear;
 	-moz-transition: all 0.2s linear;
 	-o-transition: all 0.2s linear;
 	transition: all 0.2s linear;
-	color: #fff;
 	font-size: 14px;
 	padding: 8px 10px;
 	border-radius: 3px!important;
