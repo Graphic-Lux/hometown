@@ -131,6 +131,13 @@ if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
       $output = $product_name . "</a><dl class='variation'>";
       $output .= "<ul class='wdm_options_table' id='" . $values['product_id'] . "'>";
 
+      if ($values['variation_id'] == 0) {
+        $product = wc_get_product( $values['product_id'] );
+        $variationID = $product->get_children()[0];
+      } else {
+        $variationID = $values['variation_id'];
+      }
+
       foreach($values['wdm_user_custom_data_value'] as $key => $value) {
 
         $value = ($value === '') ? 'Not selected' : $value;
@@ -140,12 +147,12 @@ if(!function_exists('wdm_add_user_custom_option_from_session_into_cart')) {
         } else {
           foreach ($value as $size => $sizeValue) {
             if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
-              $xxlPricing = (float) get_post_meta( $values['variation_id'], '_xxl_pricing', true );
+              $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
               $lineSubtotal = (float) $sizeValue * $xxlPricing;
               $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $xxlPricing . "/shirt = $" . $lineSubtotal . "</li>";
             } else {
-              $lineSubtotal = (float) $sizeValue * $values['line_subtotal'];
-              $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $values['line_subtotal'] . "/shirt = $" . $lineSubtotal . "</li>";
+              $lineSubtotal = (float) $sizeValue * $_SESSION['initial_price'][$variationID];
+              $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $_SESSION['initial_price'][$variationID] . "/shirt = $" . $lineSubtotal . "</li>";
             }
           }
         }
@@ -189,171 +196,68 @@ if(!function_exists('wdm_remove_user_custom_data_options_from_cart'))
 
 
 
-// define the woocommerce_cart_item_subtotal callback
-function filter_woocommerce_cart_item_subtotal( $wc, $cart_item, $cart_item_key ) {
 
 
-  $product_subtotal = 0;
-//  unset($_SESSION);
-//  session_start();
 
-  foreach($cart_item['wdm_user_custom_data_value'] as $key => $value) {
+add_action( 'woocommerce_before_calculate_totals', 'hometown_custom_prices', 100 );
+function hometown_custom_prices( $cart_object ) {
 
+  global $isProcessed;
 
-    if (($key !== 'Front') && ($key !== 'Back') && ($key !== 'Sleeve')) {
+  if( !WC()->session->__isset( "reload_checkout" )) {
 
-      foreach ($value as $size => $sizeValue) {
+    if (!isset($_SESSION)) {
+      session_start();
+    }
 
-        if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
-          $xxlPricing = (float) get_post_meta( $cart_item['variation_id'], '_xxl_pricing', true );
-          $lineSubtotal = (float) $sizeValue * $xxlPricing;
+    foreach ( $cart_object->get_cart() as $key => $item ) {
 
-        } else {
-          $lineSubtotal = (float) $sizeValue * $cart_item['line_subtotal'];
-        }
+      $product_subtotal = 0;
 
-        $product_subtotal = number_format($product_subtotal + $lineSubtotal, 2);
+      // SET VARIATION ID
+      if ($item['variation_id'] == 0) {
+        $product = wc_get_product( $item['product_id'] );
+        $variationID = $product->get_children()[0];
+      } else {
+        $variationID = $item['variation_id'];
+      }
 
+      // SET INITIAL PRICE HERE
+      if (!isset($_SESSION['initial_price'][$variationID])) {
+
+        $_SESSION['initial_price'][$variationID] = $item['data']->get_price();
 
       }
 
+
+
+      foreach($item['wdm_user_custom_data_value'] as $itemKey => $customValue) {
+
+        if (($itemKey !== 'Front') && ($itemKey !== 'Back') && ($itemKey !== 'Sleeve')) {
+
+          foreach ($customValue as $size => $sizeValue) {
+
+            if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+              $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
+              $lineSubtotal = (float) $sizeValue * $xxlPricing;
+            } else {
+              $lineSubtotal = (float) $sizeValue * $_SESSION['initial_price'][$variationID ];
+            }
+
+            $product_subtotal += $lineSubtotal;
+
+          }
+
+        }
+      }
+
+
+      $item['data']->set_price((float) $product_subtotal);
+//      $item['data']->set_price((float) 0);
     }
+
+    $isProcessed = true;
+
   }
 
-  $product_id = $cart_item['product_id'];
-
-  $_SESSION['new_prices'][$product_id] = $product_subtotal;
-
-print_r($_SESSION);
-
-
-
-  return (string) '$' . $product_subtotal;
-};
-
-// add the filter
-add_filter( 'woocommerce_cart_item_subtotal', 'filter_woocommerce_cart_item_subtotal', 10, 3 );
-
-
-
-
-
-
-//add_action( 'woocommerce_before_calculate_totals', 'add_custom_price', 10, 1);
-function add_custom_price( $cart_object ) {
-
-  if ( is_admin() && ! defined( 'DOING_AJAX' ) )
-    return;
-
-  $i=0;
-
-  foreach ( $cart_object->get_cart() as $cart_item ) {
-    ## Price calculation ##
-    $price = $cart_item['data']->get_price();
-//    echo $price;
-//    if ($i=0) {
-//      $product_subtotal = 0;
-//    }
-//
-////    print_r($cart_item);
-//
-//    foreach($cart_item['wdm_user_custom_data_value'] as $key => $value) {
-//
-//      if (($key !== 'Front') && ($key !== 'Back') && ($key !== 'Sleeve')) {
-//
-//        foreach ($value as $size => $sizeValue) {
-//
-//          if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
-//            $xxlPricing = (float) get_post_meta( $cart_item['variation_id'], '_xxl_pricing', true );
-//            $lineSubtotal = (float) $sizeValue * $xxlPricing;
-//          } else {
-//            echo $price;
-//            $lineSubtotal = (float) $sizeValue * $price;
-//          }
-//
-//          $product_subtotal = $product_subtotal + $lineSubtotal;
-//
-//
-//        }
-//
-//      }
-//
-//    }
-//
-//
-//
-//    $cart_item['data']->set_price( $product_subtotal ); // WC 3.0+
-  }
-
-}
-
-
-
-
-
-
-// CHANGE ORDER TOTAL VALUE WITH XXL+ SIZING
-//add_action('woocommerce_cart_total', 'calculate_totals', 10, 1);
-//
-//function calculate_totals($wc_price){
-////  $new_total = 0;
-//  foreach ( WC()->cart->cart_contents as $key => $value ) {
-////    echo print_r($value);
-////    var_dump($value);
-////    var_dump($key);
-//  }
-//
-//  return wc_price($new_total);
-//}
-
-
-
-
-
-
-
-add_filter( 'woocommerce_get_discounted_price', 'hometown_edit_line_item_price', 10, 1 );
-add_filter( 'woocommerce_adjust_non_base_location_prices', 'hometown_edit_line_item_price', 10, 1 );
-//add_filter( 'woocommerce_get_price_excluding_tax', 'hometown_edit_line_item_price', 10, 1 );
-//add_filter( 'woocommerce_get_price_including_tax', 'hometown_edit_line_item_price', 10, 1 );
-//add_filter( 'woocommerce_tax_round', 'hometown_edit_line_item_price', 10, 1);
-//add_filter( 'woocommerce_product_get_price', 'hometown_edit_line_item_price', 10, 1);
-
-function hometown_edit_line_item_price($price) {
-
-  $product_subtotal = 0;
-
-//  print_r($_SESSION['wdm_user_custom_data']);
-
-//
-//  foreach($cart_item['wdm_user_custom_data_value'] as $key => $value) {
-//
-//
-//    if (($key !== 'Front') && ($key !== 'Back') && ($key !== 'Sleeve')) {
-//
-//      foreach ($value as $size => $sizeValue) {
-//
-//        if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
-//          $xxlPricing = (float) get_post_meta( $cart_item['variation_id'], '_xxl_pricing', true );
-//          $lineSubtotal = (float) $sizeValue * $xxlPricing;
-//
-//        } else {
-//          $lineSubtotal = (float) $sizeValue * $cart_item['line_subtotal'];
-//        }
-//
-//        $product_subtotal = $product_subtotal + $lineSubtotal;
-//
-//
-//      }
-//
-//    }
-//
-//
-//  }
-
-
-//  return (string) '$' . number_format($product_subtotal, 2);
-
-
- return 1;
 }
