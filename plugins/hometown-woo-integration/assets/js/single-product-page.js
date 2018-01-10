@@ -20,6 +20,9 @@ function single_product_page_init() {
     $('.single-product-summary .all_shirt_sizes').remove();
   }
 
+  let continueButton = $('.single_add_to_cart_button').detach();
+  continueButton.appendTo('.single-product-summary');
+
 }
 
 

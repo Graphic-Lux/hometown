@@ -371,7 +371,8 @@ function hometown_body_classes( $classes ) {
 }
 
 
-function hometownGetPage() {
+function hometownGetPage()
+{
 
   $pathname = $_SERVER['REQUEST_URI'];
 
@@ -386,36 +387,3 @@ function hometownGetPage() {
   }
 
 }
-
-
-//add_action('wp_print_styles', 'hometown_deregister', 100);
-//
-//function hometown_deregister() {
-//
-//  $currentPage = hometownGetPage();
-//
-////  echo 'asdf '.$currentPage;
-//
-//  if ($currentPage === 'product') {
-//
-//    global $wp_scripts;
-//    global $wp_styles;
-//    foreach( $wp_styles->queue as $handle ) :
-//      echo ' asdf '.$handle . ' | ';
-//      wp_deregister_style($handle);
-////      wp_deregister_script($handle);
-//    endforeach;
-//
-//    wp_deregister_style('avia-woocommerce-css');
-//    wp_deregister_style('woocommerce-mod-css');
-//
-//    wp_deregister_script('woocommerce-mod');
-//
-//  }
-//
-//
-//
-//}
-
-
-
