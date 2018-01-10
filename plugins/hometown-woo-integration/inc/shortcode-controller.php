@@ -169,7 +169,6 @@ function hometown_step_3_func() {
     <div class="step-holder">
       <h3 class="custom_step">Step 3</h3>
       <h3 class="step_heading">Choose Quantities</h3>
-      <h4 class="edit_heading" data-step="3">Edit</h4>
     </div>
 
     <div class="product_image_wrap subtype">

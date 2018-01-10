@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 
+
+
 ?>
 
 <?php
@@ -87,3 +89,5 @@ if ( post_password_required() ) {
 
 <!-- REGISTER THE NEW ADD_TO_CART ACTIONS FOR THE NEW LIGHTBOX-->
 <script type="text/javascript">$(document).ready(function() {hometown_reload_add_to_cart_actions();});</script>
+
+<?php wp_enqueue_style('content-single-product', HAWI_PLUGIN_URL . 'assets/css/content-single-product.css'); ?>

@@ -323,7 +323,7 @@ function hometown_display_sizes() {
 
       if (isset($additionalSizesPrice)) {
         ?>
-        <span>* Pricing for XXL-4XL is <?= $additionalSizesPrice ?>/shirt</span>
+        <span>* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
         <?php
       } else {
         ?>
