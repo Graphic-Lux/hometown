@@ -39,7 +39,7 @@ function hometown_get_size_data($variationID) {
     if ($data !== '') {
       $sizeData = explode('=', $data);
       $size = $sizeData[0];
-      $quantity = ($sizeData[1] === '') ? 0 : $sizeData[1];
+      $quantity = ($sizeData[1] == '') ? 0 : $sizeData[1];
 
       $sizeArray[$uniqueIdentifier][$size] = $quantity;
     }

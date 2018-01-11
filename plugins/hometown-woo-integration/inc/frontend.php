@@ -301,7 +301,7 @@ function hometown_display_sizes() {
     <div class="bigger_sizes">
       <div class="sizing_inputs">
         <label for="XXL">XXL</label>
-        <input name="XXL" type="text" value="<?=$sizeArray['2XL'];?>"/>
+        <input name="XXL" type="text" value="<?=$sizeArray['XXL'];?>"/>
       </div>
       <div class="sizing_inputs">
         <label for="3XL">3XL</label>
