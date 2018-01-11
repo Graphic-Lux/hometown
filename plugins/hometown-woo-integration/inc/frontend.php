@@ -258,16 +258,18 @@ add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 
 function hometown_display_sizes() {
 
-  $currentPage = hometownGetPage();
-
-    $productID = $_POST['product_id'];
-    $variationID = $_POST['variation_id'];
-    $itemID = $variationID;
+  $productID = $_POST['product_id'];
+  $variationID = $_POST['variation_id'];
 
   if ($variationID == 0) {
     $product = wc_get_product( $productID );
     $variationID = $product->get_children()[0];
   }
+
+  $uniqueIdentifier = $variationID;
+
+  $sizeArray = hometown_get_size_data($variationID);
+  $sizeArray = $sizeArray[$variationID];
 
 
 
@@ -275,48 +277,39 @@ function hometown_display_sizes() {
   <div class="all_shirt_sizes">
     <div class="standard_sizes">
       <div class="sizing_inputs">
-        <?php $xsData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XS', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XS', true) : 0;
-        ?>
         <label for="XS">XS</label>
-        <input name="XS" type="text" value="<?=$xsData?>"/>
+        <input name="XS" type="text" value="<?=$sizeArray['XS'];?>"/>
       </div>
       <div class="sizing_inputs">
-        <?php $sData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'S', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'S', true) : 0; ?>
         <label for="S">S</label>
-        <input name="S" type="text" value="<?=$sData?>"/>
+        <input name="S" type="text" value="<?=$sizeArray['S'];?>"/>
       </div>
       <div class="sizing_inputs">
-        <?php $mData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'M', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'M', true) : 0; ?>
         <label for="M">M</label>
-        <input name="M" type="text" value="<?=$mData?>"/>
+        <input name="M" type="text" value="<?=$sizeArray['M'];?>"/>
       </div>
       <div class="sizing_inputs">
-        <?php $lData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'L', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'L', true) : 0; ?>
         <label for="L">L</label>
-        <input name="L" type="text" value="<?=$lData?>"/>
+        <input name="L" type="text" value="<?=$sizeArray['L'];?>"/>
       </div>
       <div class="sizing_inputs">
-        <?php $xlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XL', true) : 0; ?>
         <label for="XL">XL</label>
-        <input name="XL" type="text" value="<?=$xlData?>"/>
+        <input name="XL" type="text" value="<?=$sizeArray['XL'];?>"/>
       </div>
     </div>
     <a class="more_sizes">*Need bigger sizes?</a>
     <div class="bigger_sizes">
       <div class="sizing_inputs">
-        <?php $xxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XXL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . 'XXL', true) : 0; ?>
         <label for="XXL">XXL</label>
-        <input name="XXL" type="text" value="<?=$xxlData?>"/>
+        <input name="XXL" type="text" value="<?=$sizeArray['2XL'];?>"/>
       </div>
       <div class="sizing_inputs">
-        <?php $xxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . '3XL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . '3XL', true) : 0; ?>
         <label for="3XL">3XL</label>
-        <input name="3XL" type="text" value="<?=$xxxlData?>"/>
+        <input name="3XL" type="text" value="<?=$sizeArray['3XL'];?>"/>
       </div>
       <div class="sizing_inputs">
-        <?php $xxxxlData = (get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . '4XL', true)) ? get_user_meta(get_current_user_id(), 'shirt_sizes-' . $itemID . '-' . '4XL', true) : 0; ?>
         <label for="4XL">4XL</label>
-        <input name="4XL" type="text" value="<?=$xxxxlData?>"/>
+        <input name="4XL" type="text" value="<?=$sizeArray['4XL'];?>"/>
       </div>
       <?php
       $additionalSizesPrice = get_post_meta( $variationID, '_xxl_pricing', true );

@@ -191,7 +191,7 @@ function finalizeCustomOrder() {
 function save_imprint_location() {
 
   let data = {
-    action: 'hometown_save_custom_order_data',
+    action: 'hometown_save_imprint_data',
     product_id: $("#continue_3").data('product-id'),
     variation_id: $("#continue_3").data('product-variant-id'),
     front: $('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').text(),
