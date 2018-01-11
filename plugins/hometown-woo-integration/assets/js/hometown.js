@@ -90,6 +90,7 @@ function hometown_init() {
 
     $('.step_2 .step-holder .custom_step').addClass('done');
 
+    $('#continue_2').fadeOut();
     $('.artwork_selection').slideUp();
     $('.step_2_shirt_designs').fadeTo(100, 1);
     $('.product_image_wrap.subtype').fadeIn();
@@ -120,6 +121,7 @@ function hometown_init() {
       $('.step_2 .step-holder .custom_step').removeClass('done');
 
       $('.artwork_selection').slideDown();
+      $('#continue_2').fadeIn();
       // $('.step_2_shirt_designs').fadeTo(100, 1);
       // $('.product_image_wrap.subtype').fadeIn();
 

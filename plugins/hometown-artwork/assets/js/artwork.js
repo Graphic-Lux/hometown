@@ -1,10 +1,8 @@
 $=jQuery;
 
-// $(document).ready(function() {artwork_init();});
-
 function artwork_init() {
 
-  console.log('artwork init');
+  // console.log('artwork init');
 
   $('.product_image_wrap.subtype').fadeIn();
   $('.step_2_shirt_designs').fadeTo(100, .4);

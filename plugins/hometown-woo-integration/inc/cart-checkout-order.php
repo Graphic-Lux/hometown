@@ -73,10 +73,10 @@ if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
           $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
           $lineSubtotal = (float) $sizeValue * $xxlPricing;
-          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $xxlPricing . "/shirt = $" . $lineSubtotal . "</li>";
+          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . wc_price($xxlPricing) . "/shirt = " . wc_price($lineSubtotal) . "</li>";
         } else {
           $lineSubtotal = (float) $sizeValue * $price;
-          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " * $" . $price . "/shirt = $" . $lineSubtotal . "</li>";
+          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . wc_price($price) . "/shirt = " . wc_price($lineSubtotal) . "</li>";
         }
       }
 

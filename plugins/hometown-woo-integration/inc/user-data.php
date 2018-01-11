@@ -110,26 +110,16 @@ function hometown_get_imprint_data($variationID) {
 
 
 function hometown_woocommerce_order_status_completed( $order_id ) {
+
   error_log( "Order complete for order $order_id", 0 );
 
   $order = new WC_Order( $order_id );
   $items = $order->get_items();
 
-  foreach ($items as $item) {
-
-      $variationID = hometown_get_variation_id($item);
-      $uniqueIdentifier = $variationID;
-
-      $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
-      $shirtSizesMetaKey = 'shirt_sizes-' . $uniqueIdentifier;
-
-      delete_user_meta(get_current_user_id(), $imprintMetaKey);
-      delete_user_meta(get_current_user_id(), $shirtSizesMetaKey);
-
-  }
+  hometown_delete_all_user_meta($items);
 
 }
-add_action( 'woocommerce_order_status_completed', 'hometown_woocommerce_order_status_completed', 10, 1 );
+add_action( 'woocommerce_thankyou', 'hometown_woocommerce_order_status_completed', 10, 1 );
 
 
 
@@ -160,6 +150,25 @@ function hometown_after_remove_product($cart_item_key) {
 }
 add_action( 'woocommerce_remove_cart_item', 'hometown_after_remove_product' );
 
+
+
+
+function hometown_delete_all_user_meta($items) {
+
+  foreach ($items as $item) {
+
+    $variationID = hometown_get_variation_id($item);
+    $uniqueIdentifier = $variationID;
+
+    $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
+    $shirtSizesMetaKey = 'shirt_sizes-' . $uniqueIdentifier;
+
+    delete_user_meta(get_current_user_id(), $imprintMetaKey);
+    delete_user_meta(get_current_user_id(), $shirtSizesMetaKey);
+
+  }
+
+}
 
 
 
