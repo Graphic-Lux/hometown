@@ -27,7 +27,6 @@ function hometown_save_user_meta() {
 function hometown_get_size_data($variationID) {
 
   $uniqueIdentifier = $variationID;
-  $user_id = get_current_user_id();
 
   $sizeArray = hometown_get_size_array();
   $meta_key = 'shirt_sizes-' . $uniqueIdentifier;
@@ -35,18 +34,25 @@ function hometown_get_size_data($variationID) {
   $sizeKeyValueCSV = get_user_meta(get_current_user_id(), $meta_key, true);
   $sizeKeyValues = explode(',', $sizeKeyValueCSV);
 
+  $sizeArrayData[$uniqueIdentifier] = [];
+
   foreach($sizeKeyValues as $data) {
     if ($data !== '') {
       $sizeData = explode('=', $data);
       $size = $sizeData[0];
       $quantity = ($sizeData[1] == '') ? 0 : $sizeData[1];
 
-      $sizeArray[$uniqueIdentifier][$size] = $quantity;
+      $sizeArrayData[$uniqueIdentifier][$size] = $quantity;
+    } else {
+      foreach ($sizeArray as $size) {
+        $sizeArrayData[$uniqueIdentifier][$size] = 0;
+      }
+      break;
     }
 
   }
 
-  return $sizeArray;
+  return $sizeArrayData;
 
 }
 

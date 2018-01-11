@@ -346,18 +346,22 @@ add_filter( 'woocommerce_is_sold_individually', 'wc_remove_all_quantity_fields',
 add_filter( 'body_class','hometown_body_classes' );
 function hometown_body_classes( $classes ) {
 
-  $pathname = $_SERVER['REQUEST_URI'];
+  $page = hometownGetPage();
 
-  if (strpos($pathname, 'create')) {
+  if ($page === 'create') {
     $classes[] = 'custom-create-page';
-  } else if (strpos($pathname, 'predesigned')) {
+  } else if ($page === 'predesigned') {
     $classes[] = 'predesigned';
   }
-  $classes[] = 'product-template-default';
+
+  if (($page === 'create') || ($page === 'predesigned')) {
+    $classes[] = 'product-template-default';
 //  $classes[] = 'single';
-  $classes[] = 'single-product';
-  $classes[] = 'woocommerce';
-  $classes[] = 'woocommerce-page';
+    $classes[] = 'single-product';
+    $classes[] = 'woocommerce';
+    $classes[] = 'woocommerce-page';
+  }
+
 
   return $classes;
 
