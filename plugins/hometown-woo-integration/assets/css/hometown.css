@@ -78,7 +78,7 @@
 }
 
 .step_2_content_container.subtype, .product_image_wrap.subtype {
-  display: none;
+  /*display: none;*/
 }
 
 .step_2_shirt_designs figure {

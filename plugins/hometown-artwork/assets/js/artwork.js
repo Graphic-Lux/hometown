@@ -37,6 +37,21 @@ function artwork_init() {
       apply_artwork_to_shirt($(this).clone(), $(this).parent().parent().attr('class').split('artwork-')[1]);
   });
 
+  $('#front-color_input').wheelColorPicker();
+  $('#back-color_input').wheelColorPicker();
+  $('#sleeve-color_input').wheelColorPicker();
+
+
+  $('.hometown_custom_color_selector .hometown_color_wheel').unbind().click(function() {
+
+    let img = $(this).find('img');
+    let orientation = img.attr('class');
+
+    console.log(orientation);
+
+    $('#'+orientation+'-color_input').wheelColorPicker('show');
+
+  });
 
 
 }

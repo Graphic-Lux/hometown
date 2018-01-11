@@ -128,3 +128,52 @@
   filter: FlipH;
   -ms-filter: "FlipH";
 }
+
+.hometown_custom_color_selector .hometown_color_wheel img {
+  width: 18px;
+  height: 18px;
+  margin-left: 0px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.hometown_custom_color_selector .hometown_color_wheel {
+  float: left;
+  /*width: 18px;*/
+  /*height: 18px;*/
+  margin-left: 2px;
+}
+
+.hometown_custom_color_selector .hometown_color_swatch {
+  border: 1px solid #ededed;
+  width: 18px;
+  height: 15px;
+  float: left;
+  margin: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hometown_custom_color_selector .green_swatch {
+  background: green;
+}
+
+.hometown_custom_color_selector .blue_swatch {
+  background: blue;
+}
+
+.hometown_custom_color_selector .red_swatch {
+  background: red;
+}
+
+.hometown_custom_color_selector .yellow_swatch {
+  background: yellow;
+}
+
+.hometown_custom_color_selector .white_swatch {
+  background: white;
+}
+
+.jQWCP-wWidget {
+  z-index: 1;
+}

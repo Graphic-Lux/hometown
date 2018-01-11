@@ -34,22 +34,27 @@ function hometown_get_artwork() {
           $artworkFront .= '<div class="single_art">';
             $artworkFront .= get_the_post_thumbnail(null, array(160,160));
             $artworkFront .= '<span class="artwork_title">' . get_the_title() . '</span>';
+            $artworkFront .= custom_color_selector($categoryDataArray, $category);
           $artworkFront .= '</div>';
         } else if ($category === 'back') {
           $artworkBack .= '<div class="single_art">';
-           $artworkBack .= get_the_post_thumbnail(null, array(160,160));
-           $artworkBack .= '<span class="artwork_title">' . get_the_title() . '</span>';
+            $artworkBack .= get_the_post_thumbnail(null, array(160,160));
+            $artworkBack .= '<span class="artwork_title">' . get_the_title() . '</span>';
+            $artworkBack .= custom_color_selector($categoryDataArray, $category);
           $artworkBack .= '</div>';
         } else if ($category === 'sleeve') {
           $artworkSleeve .= '<div class="single_art">';
             $artworkSleeve .= get_the_post_thumbnail(null, array(160,160));
             $artworkSleeve .= '<span class="artwork_title">' . get_the_title() . '</span>';
+            $artworkSleeve .= custom_color_selector($categoryDataArray, $category);
           $artworkSleeve .= '</div>';
         }
 
       }
 
     endwhile;
+
+
 
     $artworkFront .= "</div>";
     $artworkBack .= "</div>";
@@ -65,5 +70,33 @@ function hometown_get_artwork() {
 
   echo $artwork;
   wp_reset_postdata();
+
+}
+
+function custom_color_selector($categoryDataArray, $orientation) {
+
+  foreach($categoryDataArray as $categoryData) {
+
+    if ($categoryData->slug === 'custom-color') {
+
+      $customColorOutput = '<div class="hometown_custom_color_selector">';
+
+        $customColorOutput .= '<div class="hometown_color_swatch green_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch blue_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch red_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch yellow_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch white_swatch"></div>';
+
+        $customColorOutput .= '<div class="hometown_color_wheel">';
+          $customColorOutput .= '<img src="'.HAA_PLUGIN_URL.'assets/img/color-wheel.png" class="'.$orientation.'" />';
+          $customColorOutput .= '<input type="text" name="'.$orientation.'-color" id="'.$orientation.'-color_input" class="color_input" value="#ff0000" />';
+        $customColorOutput .= '</div>';
+
+      $customColorOutput .= '</div>';
+
+      return $customColorOutput;
+    }
+
+  }
 
 }
