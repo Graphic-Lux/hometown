@@ -4,9 +4,7 @@
 add_action( 'wp_ajax_hometown_save_user_meta', 'hometown_save_user_meta' );
 function hometown_save_user_meta() {
 
-  $variationID= $_POST['variation_id'];
-  $uniqueIdentifier = $variationID;
-  $user_id = get_current_user_id();
+  $uniqueIdentifier = $_POST['variation_id'];
   $sizeCSV = '';
 
   foreach($_POST['sizes'] as $key => $meta_value) {
@@ -15,10 +13,13 @@ function hometown_save_user_meta() {
 
   $meta_key = 'shirt_sizes-' . $uniqueIdentifier;
   $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
-  update_user_meta( $user_id, $meta_key, $sizeCSV, $prev_value );
 
-  return true;
-
+  wp_send_json(array(
+      'action' => 'save_imprint_data',
+      'result' => (update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value )),
+      'newID'  => update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value )
+  ));
+  wp_die();
 }
 
 
@@ -34,7 +35,14 @@ function hometown_get_size_data($variationID) {
   $sizeKeyValueCSV = get_user_meta(get_current_user_id(), $meta_key, true);
   $sizeKeyValues = explode(',', $sizeKeyValueCSV);
 
-  $sizeArrayData[$uniqueIdentifier] = [];
+  if (in_array('5XL', $sizeArray)) {
+    array_splice($sizeKeyValues, 9);
+  } else {
+    array_splice($sizeKeyValues, 8);
+  }
+
+
+  $sizeArrayData[$uniqueIdentifier] = array();
 
   foreach($sizeKeyValues as $data) {
     if ($data !== '') {
@@ -60,30 +68,33 @@ function hometown_get_size_data($variationID) {
 
 
 function hometown_get_size_array() {
-  return ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL'];
+  return array('XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL');
 }
 
 
 
 
-add_action( 'wp_ajax_hometown_save_custom_order_data', 'hometown_save_imprint_data' );
+add_action( 'wp_ajax_hometown_save_imprint_data', 'hometown_save_imprint_data' );
 // Add Data in a Custom Session, on ‘Add to Cart’ Button Click
 function hometown_save_imprint_data() {
 
-  $variationID = $_POST['variation_id'];
-  $uniqueIdentifier = $variationID;
+  $uniqueIdentifier = $_POST['variation_id'];
 
-  $front = $_POST['front'];
-  $back = $_POST['back'];
-  $sleeve = $_POST['sleeve'];
+  $front = (isset($_POST['front'])) ? 'Front='.$_POST['front'] : '';
+  $back = (isset($_POST['back'])) ? 'Back='.$_POST['back'] : '';
+  $sleeve = (isset($_POST['sleeve'])) ? 'Sleeve='.$_POST['sleeve'] : '';
 
   $meta_key = 'imprint_locations-' . $uniqueIdentifier;
-  $imprintCSV = 'Front='.$front.','.'Back='.$back.','.'Sleeve='.$sleeve;
+  $imprintCSV = $front.','.$back.','.$sleeve;
 
   $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
-  update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value );
 
-  die();
+  wp_send_json(array(
+      'action' => 'save_imprint_data',
+      'result' => (update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value )),
+      'newID'  => update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value )
+  ));
+  wp_die();
 
 }
 
@@ -98,7 +109,7 @@ function hometown_get_imprint_data($variationID) {
 
   $imprintDataKeyValues = explode(',', $imprintCSV);
 
-  $imprintArray[$uniqueIdentifier] = [];
+  $imprintArray[$uniqueIdentifier] = array();
 
   foreach ($imprintDataKeyValues as $imprintKeyValue) {
     if ($imprintKeyValue !== '') {
@@ -185,7 +196,8 @@ function hometown_get_variation_id($item) {
 
   // SET VARIATION ID
   if ($item['variation_id'] == 0) {
-    $variationID = $product->get_children()[0];
+    $productChild = $product->get_children();
+    $variationID = $productChild[0];
   } else {
     $variationID = $item['variation_id'];
   }

@@ -139,8 +139,8 @@
 
 .hometown_custom_color_selector .hometown_color_wheel {
   float: left;
-  /*width: 18px;*/
-  /*height: 18px;*/
+  width: 18px;
+  height: 18px;
   margin-left: 2px;
 }
 

@@ -263,7 +263,8 @@ function hometown_display_sizes() {
 
   if ($variationID == 0) {
     $product = wc_get_product( $productID );
-    $variationID = $product->get_children()[0];
+    $productChild = $product->get_children();
+    $variationID = $productChild[0];
   }
 
   $uniqueIdentifier = $variationID;

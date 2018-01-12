@@ -78,7 +78,7 @@
 }
 
 .step_2_content_container.subtype, .product_image_wrap.subtype {
-  /*display: none;*/
+  display: none;
 }
 
 .step_2_shirt_designs figure {
@@ -103,5 +103,9 @@
 }
 
 .product-price .woocommerce-Price-amount.amount {
+  display: none;
+}
+
+#continue_3 {
   display: none;
 }

@@ -1,15 +1,15 @@
 <?php
 
-add_action( 'wp_ajax_hometown_woocommerce_add_to_cart_variable', 'hometown_woocommerce_add_to_cart_variable' );
+add_action( 'wp_ajax_hometown_woocommerce_add_to_cart_variation', 'hometown_woocommerce_add_to_cart_variation' );
 
-function hometown_woocommerce_add_to_cart_variable() {
+function hometown_woocommerce_add_to_cart_variation() {
 
   ob_start();
 
   $product_id = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $_POST['product_id'] ) );
   $quantity = 1;
   $variation_id = $_POST['variation_id'];
-  $variation  = array('color' => $_POST['variation']);
+//  $variation  = array('color' => $_POST['variation']);
   $variation = false;
   $passed_validation = apply_filters( 'woocommerce_add_to_cart_validation', true, $product_id, $quantity );
 
@@ -18,6 +18,7 @@ function hometown_woocommerce_add_to_cart_variable() {
   if ( $passed_validation && WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation  ) ) {
 
     $return = array(
+        'action'       => 'add to cart',
         'result'       => true
     );
 
@@ -26,6 +27,7 @@ function hometown_woocommerce_add_to_cart_variable() {
   } else {
 
     $return = array(
+        'action'       => 'add to cart',
         'result'       => false
     );
 
@@ -56,10 +58,11 @@ if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
 
     if (count($imprintArray[$variationID]) > 0) {
       foreach ($imprintArray[$variationID] as $imprintLocation => $imprintValue) {
-        $output .= "<li class='preview_imprint_locations'>" . $imprintLocation . " imprint location: " . $imprintValue . "</li>";
+        if ($imprintValue != '') {
+          $output .= "<li class='preview_imprint_locations'>" . $imprintLocation . " imprint location: " . $imprintValue . "</li>";
+        }
       }
     }
-
 
     $sizeData = hometown_get_size_data($variationID);
 
@@ -69,14 +72,17 @@ if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
 
       $price = hometown_get_price($product, $variationID);
 
+
+
       foreach($sizeData[$variationID] as $size => $sizeValue) {
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
-          $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
-          $lineSubtotal = (float) $sizeValue * $xxlPricing;
-          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . wc_price($xxlPricing) . "/shirt = " . wc_price($lineSubtotal) . "</li>";
+          $xxlPricing = '$'.number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
+          $lineSubtotal = '$'.number_format($sizeValue * $xxlPricing, 2);
+          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . $xxlPricing . "/shirt = " . $lineSubtotal . "</li>";
         } else {
-          $lineSubtotal = (float) $sizeValue * $price;
-          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . wc_price($price) . "/shirt = " . wc_price($lineSubtotal) . "</li>";
+          $lineSubtotal = '$'.number_format($sizeValue * $price, 2);
+          $shirtPriceOutput = '$'.number_format($price, 2);
+          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . $shirtPriceOutput . "/shirt = " . $lineSubtotal . "</li>";
         }
       }
 

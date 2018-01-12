@@ -142,8 +142,8 @@ function hometown_init() {
 
 function getSizes() {
 
-  console.log(pathname);
-  console.log(pathname.indexOf('create') > 0);
+  // console.log(pathname);
+  // console.log(pathname.indexOf('create') > 0);
 
   let sizeData = {};
   sizeData.action = 'hometown_display_sizes';
@@ -192,17 +192,24 @@ function finalizeCustomOrder() {
 
 function save_imprint_location() {
 
+  let frontImprintLocation = ($('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').val() == 0) ? null : $('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').text();
+
+  let backImprintLocation = ($('#back-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').val() == 0) ? null : $('#back-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').text();
+
+  let sleeveImprintLocation = ($('#sleeve-imprint_location option[value="'+$('#sleeve-imprint_location').val()+'"]').val() == 0) ? null : $('#sleeve-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').text();
+
+
   let data = {
     action: 'hometown_save_imprint_data',
     product_id: $("#continue_3").data('product-id'),
     variation_id: $("#continue_3").data('product-variant-id'),
-    front: $('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').text(),
-    back: $('#back-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').text(),
-    sleeve: $('#sleeve-imprint_location option[value="'+$('#sleeve-imprint_location').val()+'"]').text()
+    front: frontImprintLocation,
+    back: backImprintLocation,
+    sleeve: sleeveImprintLocation
   };
 
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
-    console.log(response);
+    // console.log(response);
   });
 
 }
@@ -215,7 +222,7 @@ function add_variation_to_cart() {
   $('.step_3 .step-holder .custom_step').addClass('done');
 
   let data = {
-    action: 'hometown_woocommerce_add_to_cart_variable',
+    action: 'hometown_woocommerce_add_to_cart_variation',
     product_id: $("#continue_3").data('product-id'),
     variation_id: $("#continue_3").data('product-variant-id'),
     variation: $("#continue_3").data('product-variation')
@@ -224,7 +231,9 @@ function add_variation_to_cart() {
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     console.log(response);
     if (response.result) {
-      window.location.replace(graphic_lux_subdirectory+'/checkout');
+      // window.location.replace(graphic_lux_subdirectory+'/checkout');
+    } else {
+      confirm('Error adding product to cart.');
     }
   });
 }
