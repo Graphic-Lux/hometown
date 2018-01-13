@@ -109,3 +109,7 @@
 #continue_3 {
   display: none;
 }
+
+.size_qty {
+  border: none !important;
+}

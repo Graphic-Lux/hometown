@@ -8,6 +8,7 @@ function hometown_save_user_meta() {
   $sizeCSV = '';
 
   foreach($_POST['sizes'] as $key => $meta_value) {
+    $meta_value = preg_replace( '/[^0-9]/', '', $meta_value );
     $sizeCSV .= $key.'='.$meta_value.',';
   }
 
@@ -15,9 +16,10 @@ function hometown_save_user_meta() {
   $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
 
   wp_send_json(array(
-      'action' => 'save_imprint_data',
+      'action' => 'save_size_data',
       'result' => (update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value )),
-      'newID'  => update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value )
+      'newID'  => update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value ),
+      'value'  => $sizeCSV
   ));
   wp_die();
 }

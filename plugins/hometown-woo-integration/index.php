@@ -56,6 +56,14 @@ function ha_load_scripts() {
     wp_enqueue_script( 'wc-single-product' );
   }
 
+  if (is_cart() || is_checkout()) {
+    wp_register_script('hometown-cart', HAWI_PLUGIN_URL . 'assets/js/cart.js', array('jquery'), '1', true);
+    wp_enqueue_script( 'hometown-cart' );
+  }
+
+//  wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css');
+//  wp_enqueue_script( 'bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js', array('jquery'), '4.0.0-beta.3', true );
+
 }
 add_action('wp_enqueue_scripts', 'ha_load_scripts');
 

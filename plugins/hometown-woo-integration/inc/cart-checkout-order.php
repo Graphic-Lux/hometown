@@ -41,9 +41,8 @@ function hometown_woocommerce_add_to_cart_variation() {
 
 
 
-
-add_filter('woocommerce_checkout_cart_item_quantity','hometown_add_user_custom_option_from_session_into_cart',1,3);
-add_filter('woocommerce_cart_item_price','hometown_add_user_custom_option_from_session_into_cart',1,3);
+//add_filter('woocommerce_checkout_cart_item_quantity','hometown_add_user_custom_option_from_session_into_cart',1,3);
+add_filter('woocommerce_cart_item_name','hometown_add_user_custom_option_from_session_into_cart',1,3);
 if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
   function hometown_add_user_custom_option_from_session_into_cart($product_name, $values, $cart_item_key ) {
 
@@ -52,17 +51,34 @@ if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
     $variationID = hometown_get_variation_id($values);
 
     $output = $product_name . "</a><dl class='variation'>";
-    $output .= "<ul class='wdm_options_table' id='" . $values['product_id'] . "'>";
+
+    $output .= '<div class="container">';
+    $output .= '<table class="table table-borderless wdm_options_table" id="' . $values['product_id'] . '">';
+    $output .= '<thead>
+                  <tr>
+                    <th>Shirt Orientation</th>
+                    <th>Imprint Location</th>
+                    <th>Artwork</th>
+                  </tr>
+                </thead>
+                <tbody>';
 
     $imprintArray = hometown_get_imprint_data($variationID);
 
     if (count($imprintArray[$variationID]) > 0) {
       foreach ($imprintArray[$variationID] as $imprintLocation => $imprintValue) {
         if ($imprintValue != '') {
-          $output .= "<li class='preview_imprint_locations'>" . $imprintLocation . " imprint location: " . $imprintValue . "</li>";
+          $output .= "<tr class='preview_imprint_locations'>";
+          $output .= "<td>" . $imprintLocation . "</td>";
+          $output .= "<td>" . $imprintValue . "</td>";
+          $output .= "</tr>";
         }
       }
     }
+
+    $output .= '</tbody>
+                </table>
+              </div>';
 
     $sizeData = hometown_get_size_data($variationID);
 
@@ -70,28 +86,74 @@ if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
     if(count($sizeData[$variationID]) > 0)
     {
 
+      $output .= '<table class="table table-borderless wdm_options_table" id="' . $values['product_id'] . '">';
+      $output .= '<thead>
+                  <tr>
+                    <th></th>
+                    <th>QTY</th>
+                    <th>Each</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>';
+
       $price = hometown_get_price($product, $variationID);
 
+      $miniCartProcessed = false;
 
+      foreach($sizeData[$variationID] as $size => $qty) {
 
-      foreach($sizeData[$variationID] as $size => $sizeValue) {
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+
           $xxlPricing = '$'.number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
-          $lineSubtotal = '$'.number_format($sizeValue * $xxlPricing, 2);
-          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . $xxlPricing . "/shirt = " . $lineSubtotal . "</li>";
+          $lineSubtotal = '$'.number_format($qty * $xxlPricing, 2);
+
+          $output .= "<tr class='preview_sizes'>";
+            $output .= '<td>' . $size . '</td>';
+
+            // ESCAPE MINI CART
+            if ($miniCartProcessed) {
+              $output .= '<td>' . $qty . '</td>';
+            } else {
+              $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$values['product_id'].'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
+            }
+
+            $output .= '<td>' . $xxlPricing . '</td>';
+            $output .= '<td>' . $lineSubtotal . '</td>';
+          $output .= '</tr>';
+
         } else {
-          $lineSubtotal = '$'.number_format($sizeValue * $price, 2);
+          $lineSubtotal = '$'.number_format($qty * $price, 2);
           $shirtPriceOutput = '$'.number_format($price, 2);
-          $output .= "<li class='preview_sizes'>" . $size . ": " . $sizeValue . " x " . $shirtPriceOutput . "/shirt = " . $lineSubtotal . "</li>";
+
+          $output .= "<tr class='preview_sizes'>";
+            $output .= '<td>' . $size . '</td>';
+
+            // ESCAPE MINI CART
+            if ($miniCartProcessed) {
+              $output .= '<td>' . $qty . '</td>';
+            } else {
+              $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$values['product_id'].'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
+            }
+
+            $output .= '<td>' . $shirtPriceOutput . '</td>';
+            $output .= '<td>' . $lineSubtotal . '</td>';
+          $output .= '</tr>';
+
         }
       }
 
-      $output .= "</ul></dl>";
+      $output .= '</tbody>
+                </table>
+              </div>';
 
-      return $output;
     } else {
       return $product_name;
     }
+
+
+    $output .= "</dl>";
+    return $output;
 
   }
 
@@ -124,13 +186,13 @@ function hometown_custom_prices( $cart_object ) {
       $price = hometown_get_price($product, $variationID);
 
 
-      foreach ($productSizeData as $size => $sizeValue) {
+      foreach ($productSizeData as $size => $qty) {
 
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
           $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
-          $lineSubtotal = (float) $sizeValue * $xxlPricing;
+          $lineSubtotal = (float) $qty * $xxlPricing;
         } else {
-          $lineSubtotal = (float) $sizeValue * $price;
+          $lineSubtotal = (float) $qty * $price;
         }
 
         $product_subtotal += $lineSubtotal;
@@ -162,3 +224,16 @@ function hometown_get_price($product, $variationID) {
   $regular_price = ($product->get_regular_price() == 0) ? get_post_meta($variationID, '_regular_price', true) : $product->get_regular_price();
   return $regular_price;
 }
+
+
+
+
+
+
+
+// AJAX REFRESH MINI CART
+function hometown_ajax_refresh_cart() {
+  echo do_shortcode('[woocommerce_cart]');
+  exit;
+}
+add_filter( 'wp_ajax_hometown_ajax_refresh_cart', 'hometown_ajax_refresh_cart' );

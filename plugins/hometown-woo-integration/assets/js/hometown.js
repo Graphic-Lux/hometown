@@ -134,7 +134,6 @@ function hometown_init() {
   });
 
 
-
 }
 
 
@@ -143,14 +142,14 @@ function hometown_init() {
 function getSizes() {
 
   // console.log(pathname);
-  // console.log(pathname.indexOf('create') > 0);
+  console.log(pathname.indexOf('create') > 0);
 
   let sizeData = {};
   sizeData.action = 'hometown_display_sizes';
 
   if (pathname.indexOf('create') > 0) {
-    sizeData.product_id = $("#continue_3").data('product-id');
-    sizeData.variation_id = $("#continue_3").data('product-variant-id');
+    sizeData.product_id = $("#continue_3").attr('data-product-id');
+    sizeData.variation_id = $("#continue_3").attr('data-product-variant-id');
   } else {
     sizeData.product_id = $("input[name='product_id']").val();
     sizeData.variation_id = $("input[name='variation_id']").val();
@@ -231,7 +230,7 @@ function add_variation_to_cart() {
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     console.log(response);
     if (response.result) {
-      // window.location.replace(graphic_lux_subdirectory+'/checkout');
+      window.location.replace(graphic_lux_subdirectory+'/checkout');
     } else {
       confirm('Error adding product to cart.');
     }
@@ -239,6 +238,83 @@ function add_variation_to_cart() {
 }
 
 
+
+
+
+
+
+
+
+function hometown_get_product_variant_images(data) {
+
+  console.log(data);
+
+  $.post(ha_localized_config.ajaxurl, data).done(function(searchResults) {
+
+    $('.step_2_content_container.subtype').fadeIn();
+    // console.log(searchResults);
+    $('.shirt_positions').html(searchResults).fadeIn();
+
+    artwork_init();
+
+  });
+
+}
+
+function hometown_set_user_size_options(data) {
+
+  $.post(ha_localized_config.ajaxurl, data).done(function(userMetaResults) {
+
+    // console.log(userMetaResults);
+    if (pathname.indexOf('predesigned') > 0) {
+      $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
+        window.location.replace(graphic_lux_subdirectory+'/checkout');
+      });
+    } else if (pathname.indexOf('cart') || pathname.indexOf('checkout') > 0) {
+
+      // UPDATE CART
+      $.post(
+          woocommerce_params.ajax_url,
+          {'action': 'hometown_ajax_refresh_cart'},
+          function(result) {
+            $('.entry-content').html(result);
+          }
+      );
+
+    }
+
+  });
+
+}
+
+function setSizeData(product_id, variation_id) {
+
+  let data = {
+    'action':         'hometown_save_user_meta',
+    'product_id':     product_id,
+    'variation_id':   variation_id
+  };
+
+  data.sizes = {};
+
+  $('.size_qty').each(function () {
+    let name = $(this).attr('name');
+    data.sizes[name] = $(this).val();
+  });
+
+  hometown_set_user_size_options(data);
+
+}
+
+
+
+function setAddToCartData(product_id, variation_id) {
+
+  $('#continue_3').attr('data-product-id', product_id);
+  $('#continue_3').attr('data-product-variant-id', variation_id);
+  $('#continue_3').attr('data-product-variation', $('.selectedswatch').data('option'));
+
+}
 
 
 function hometown_reload_scripts() {
@@ -254,4 +330,7 @@ function hometown_reload_scripts() {
     }
   });
 }
+
+
+
 

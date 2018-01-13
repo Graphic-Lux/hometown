@@ -89,7 +89,7 @@ function custom_color_selector($categoryDataArray, $orientation) {
 
         $customColorOutput .= '<div class="hometown_color_wheel">';
           $customColorOutput .= '<img src="'.HAA_PLUGIN_URL.'assets/img/color-wheel.png" class="'.$orientation.'" />';
-          $customColorOutput .= '<input type="text" name="'.$orientation.'-color" id="'.$orientation.'-color_input" class="color_input" value="#ff0000" />';
+          $customColorOutput .= '<input type="hidden" name="'.$orientation.'-color" id="'.$orientation.'-color_input" class="color_input" value="#ff0000" />';
         $customColorOutput .= '</div>';
 
       $customColorOutput .= '</div>';
