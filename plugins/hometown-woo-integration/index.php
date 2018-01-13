@@ -72,6 +72,7 @@ require_once('inc/admin.php');
 require_once('inc/frontend.php');
 require_once('inc/user-data.php');
 require_once('inc/cart-checkout-order.php');
+require_once('inc/admin-order-details.php');
 require_once('inc/shortcode-controller.php');
 
 

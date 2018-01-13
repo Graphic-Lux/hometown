@@ -153,7 +153,7 @@ function hometown_after_remove_product($cart_item_key) {
 
     if ($item['key'] === $cart_item_key) {
 
-      $variationID = hometown_get_variation_id($item);
+      $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
       $uniqueIdentifier = $variationID;
 
       $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
@@ -176,7 +176,7 @@ function hometown_delete_all_user_meta($items) {
 
   foreach ($items as $item) {
 
-    $variationID = hometown_get_variation_id($item);
+    $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
     $uniqueIdentifier = $variationID;
 
     $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
@@ -192,18 +192,15 @@ function hometown_delete_all_user_meta($items) {
 
 
 
-function hometown_get_variation_id($item) {
+function hometown_get_variation_id($variationID, $productID) {
 
-  $product = wc_get_product( $item['product_id'] );
+  $product = wc_get_product( $productID );
 
-  // SET VARIATION ID
-  if ($item['variation_id'] == 0) {
+  if ($variationID == 0) {
     $productChild = $product->get_children();
-    $variationID = $productChild[0];
+    return $productChild[0];
   } else {
-    $variationID = $item['variation_id'];
+    return $variationID;
   }
-
-  return $variationID;
 
 }
