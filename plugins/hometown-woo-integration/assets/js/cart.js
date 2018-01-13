@@ -1,5 +1,11 @@
 $=jQuery;
 
+$(document).ready(function() {
+  if ($('#menu-item-shop').length > 0) {
+    $('#menu-item-shop').remove();
+  }
+});
+
 function hometown_cart_init() {
 
   $('.size_qty').unbind().change(function() {
@@ -9,7 +15,5 @@ function hometown_cart_init() {
   if ($('#menu-item-shop').length > 0) {
     $('#menu-item-shop').remove();
   }
-
-
 
 }

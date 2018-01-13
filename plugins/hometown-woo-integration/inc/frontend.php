@@ -118,7 +118,8 @@ function hometown_get_product_variant_images() {
       );
 
 
-      $filename = end(explode('/', parse_url($full_size_image[0])['path']));
+      $fullSizeImage = parse_url($full_size_image[0]);
+      $filename = end(explode('/', $fullSizeImage['path']));
 
       $filenameParts = explode('-', $filename);
       $shirtGender = $filenameParts[0];
@@ -266,8 +267,6 @@ function hometown_display_sizes() {
     $productChild = $product->get_children();
     $variationID = $productChild[0];
   }
-
-  $uniqueIdentifier = $variationID;
 
   $sizeArray = hometown_get_size_data($variationID);
   $sizeArray = $sizeArray[$variationID];

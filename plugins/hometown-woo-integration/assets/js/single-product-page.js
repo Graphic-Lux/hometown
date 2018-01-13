@@ -8,7 +8,7 @@ $(document).ready(function() {single_product_page_init();});
 
 function single_product_page_init() {
 
-  if (pathname.indexOf('predesigned') > 0) {
+  if (pathname.indexOf('predesigned') !== -1) {
     getSizes();
   }
 

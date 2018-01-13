@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 function hometown_init() {
 
-  console.log('hometown init');
+  // console.log('hometown init');
 
 
   // STEP 1

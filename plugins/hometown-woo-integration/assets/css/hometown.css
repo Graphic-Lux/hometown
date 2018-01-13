@@ -113,3 +113,7 @@
 .size_qty {
   border: none !important;
 }
+
+.restore-item {
+  display: none;
+}
