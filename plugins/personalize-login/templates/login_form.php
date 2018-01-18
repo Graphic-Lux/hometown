@@ -23,7 +23,7 @@
 		wp_login_form(
 			array(
 				'label_username' => __( 'Email', 'personalize-login' ),
-				'label_log_in' => __( 'Sign In', 'personalize-login' ),
+				'label_log_in' => __( 'Login', 'personalize-login' ),
 				'redirect' => $attributes['redirect'],
 			)
 		);
