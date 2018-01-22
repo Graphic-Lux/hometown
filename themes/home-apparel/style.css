@@ -149,7 +149,7 @@ input#wp-submit {
 }
 
 .login-form-container {
-    padding: 25px 25px 85px 25px;
+    padding: 25px 25px 25px 25px;
     background: #fff;
 }
 
@@ -302,6 +302,21 @@ a.continue_button {
 
 .step_2 a.continue_button {
 	top: auto;
+}
+
+.wpb_wl_preview_area .wpb_wl_preview {
+    position: relative;
+    top: 20px;
+    left: 60px;
+}
+
+#top .product div.images img.emoji {
+    display: none !important;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger:before {
+    top: 13px;
+    position: relative;
 }
 
 /* Mobile Hamburger Menu Only */
