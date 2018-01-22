@@ -39,6 +39,11 @@ function artwork_init() {
     apply_artwork_to_shirt($(this).clone(), $(this).parent().parent().attr('class').split('artwork-')[1]);
   });
 
+  // CLICK ARTWORK TO PLACE ON T-SHIRT
+  $(".single_art svg").unbind().click(function () {
+    apply_artwork_to_shirt($(this).clone(), $(this).parent().parent().attr('class').split('artwork-')[1]);
+  });
+
   // $('#front-color_input').wheelColorPicker();
   // $('#back-color_input').wheelColorPicker();
   // $('#sleeve-color_input').wheelColorPicker();
@@ -144,6 +149,23 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
     $(artClone).addClass(shirtOrientation + '-selected_art');
     $(artClone).addClass(imprintLocation);
     $('#' + shirtOrientation).append(artClone);
+
+    // TODO: SUMNER SAVE ARTWORK SELECTION TO USER META
+    let data = {
+      action: 'hometown_save_imprint_artwork',
+      product_id: $("#continue_3").data('product-id'),
+      variation_id: $("#continue_3").data('product-variant-id'),
+      front: frontImprintArtworkURL,
+      frontColor: frontImprintArtworkColor,
+      back: backImprintArtworkURL,
+      backColor: backImprintArtworkColor,
+      sleeve: sleeveImprintAtrworkURL
+      sleeveColor: sleeveImprintAtrworkColor
+    };
+
+    $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
+      // console.log(response);
+    });
 
   } else {
 
