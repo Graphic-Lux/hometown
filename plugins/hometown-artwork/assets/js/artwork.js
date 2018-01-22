@@ -44,80 +44,72 @@ function artwork_init() {
     apply_artwork_to_shirt($(this).clone(), $(this).parent().parent().attr('class').split('artwork-')[1]);
   });
 
-  // $('#front-color_input').wheelColorPicker();
-  // $('#back-color_input').wheelColorPicker();
-  // $('#sleeve-color_input').wheelColorPicker();
-
-  // $('#front-color_input').spectrum();
-  // $('#back-color_input').spectrum();
-  // $('#sleeve-color_input').spectrum();
-
-
-  // $('.hometown_custom_color_selector .hometown_color_wheel').unbind().click(function() {
-  //
-  //   let img = $(this).find('img');
-  //   let orientation = img.attr('class');
-  //
-  //   console.log(orientation);
-
-  //$('#'+orientation+'-color_input').wheelColorPicker('show');
-
-  // $('#'+orientation+'-color_input').spectrum({
-  //   preferredFormat: "hex",
-  //   clickoutFiresChange: true,
-  //   showButtons: false,
-  //   move: function(color) {
-  //     $("svg g").css("fill", color.toHexString());
-  //   }
-  // });
-
-  //   return false;
-  //
-  //});
-
 
 }
 
 
 /**
- * Initailize the color input by adding data attributes and calling spectrum.js
+ * Initailize the color input by adding data attributes to each artwork orientation
  *
  * @return void
  *
  */
 function color_input_init() {
 
+  let orientation;
+
   let colorInputSVG;
   let colorInputSelector;
 
-  // Assign ID's to each SVG
-  $('.single_art svg').each(function (i) {
-    colorInputSVG = $(this);
-    colorInputSVG.attr('data-svg', i);
+  // Assign ID's to each front SVG
+  $('.hometown_artwork .single_art').each(function (i) {
+
+    orientation = $(this).parent().attr('class').split('artwork-')[1];
+
+    colorInputSVG = $(this).find('svg').attr('data-svg', i);
+
+    colorInputSelector = $(this).find('.hometown_color_wheel input.color_input').attr('data-color-selector', i);
+
+    apply_color_to_svg(colorInputSVG, colorInputSelector, orientation, i );
   });
 
-  // Find all color inputs
-  $('.hometown_custom_color_selector .hometown_color_wheel input.color_input').each(function (i) {
-    colorInputSelector = $(this);
+}
 
-    // Assign ID's to the color inputs
-    colorInputSelector.attr('data-color-selector', i);
+/**
+ * Apply the color to the svg
+ *
+ * @param svg - the svg element relative to it's orientation
+ * @param selector - the color selector relative to it's orientation
+ * @param orientation - the orientation of the artwork, so we can change the cloned artwork
+ * @param id - the data key value of the artwork
+ *
+ * @return void
+ *
+ */
+function apply_color_to_svg(svg, selector, orientation, id) {
+  selector.spectrum({
+    preferredFormat: "hex",
+    showInput: true,
+    clickoutFiresChange: true,
+    showButtons: false,
+    showAlpha: true,
+    move: function (color) {
+      // Give svg a color data value (hex)
+      svg.attr('data-color-val', color.toHexString());
 
-    // Initialize color selection tool
-    $('[data-color-selector="' + i + '"]').spectrum({
-      preferredFormat: "hex",
-      showInput: true,
-      allowEmpty: true,
-      clickoutFiresChange: true,
-      showButtons: false,
-      showAlpha: true,
-      move: function (color) {
-        // Assign color to the SVG element based on movement in the color selection tool
-        $('[data-svg="' + i + '"]').find('g').css("fill", color);
-        $('[data-svg="' + i + '"]').find('path').css("fill", color);
+      // Assign color to the SVG element based on movement in the color selection tool
+      svg.find('g').css("fill", color);
+      svg.find('path').css("fill", color);
 
+      // If there is a clone, change it's color too
+      if( $('figure#' + orientation).find($('[data-svg="' + id + '"]')).length ) {
+        let clone = $('figure#' + orientation);
+
+        clone.find('g').css("fill", color);
+        clone.find('path').css("fill", color);
       }
-    });
+
+    }
   });
 
 }
@@ -159,7 +151,7 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
       frontColor: frontImprintArtworkColor,
       back: backImprintArtworkURL,
       backColor: backImprintArtworkColor,
-      sleeve: sleeveImprintAtrworkURL
+      sleeve: sleeveImprintAtrworkURL,
       sleeveColor: sleeveImprintAtrworkColor
     };
 
