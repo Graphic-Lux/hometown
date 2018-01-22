@@ -4,7 +4,14 @@
   /*height: 150px;*/
 }
 
-.hometown_artwork img {
+.shirt_artwork svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hometown_artwork img,
+.hometown_artwork svg {
   padding: 10px 10px 10px 0px;
 }
 
@@ -20,7 +27,8 @@
   cursor: pointer
 }
 
-.single_art img {
+.single_art img,
+.single_art svg {
   display:block;
 }
 
@@ -137,6 +145,17 @@
   cursor: pointer;
 }
 
+.hometown_custom_color_selector .hometown_color_wheel button {
+  width: 18px;
+  height: 18px;
+  margin-left: 0px;
+  padding: 0px;
+  cursor: pointer;
+  background-size: 18px 18px !important;
+  background-repeat: no-repeat !important;
+  border: none;
+}
+
 .hometown_custom_color_selector .hometown_color_wheel {
   float: left;
   width: 18px;
@@ -176,4 +195,9 @@
 
 .jQWCP-wWidget {
   z-index: 1;
+}
+
+.jQWCP-slider-wrapper, .jQWCP-wPreview {
+  visibility: unset !important;
+  position: relative !important;
 }
