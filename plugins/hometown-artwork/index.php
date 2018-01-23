@@ -25,9 +25,6 @@ function ha_artwork_load_scripts() {
   wp_enqueue_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.js', array('jquery'), false, true);
 
   // color picker plug-in
-  //wp_enqueue_style('wheel-color-picker', HAA_PLUGIN_URL . 'assets/jquery.wheelcolorpicker-2.2.0/css/wheelcolorpicker.css');
-  //wp_enqueue_script('wheel-color-picker', HAA_PLUGIN_URL . 'assets/jquery.wheelcolorpicker-2.2.0/jquery.wheelcolorpicker.js', array('jquery'), false, true);
-
 	wp_enqueue_style('spectrum-wheel-color-picker', HAA_PLUGIN_URL . 'assets/spectrum/spectrum.css');
   wp_enqueue_script('spectrum-wheel-color-picker', HAA_PLUGIN_URL . 'assets/spectrum/spectrum.js', array('jquery'), false, true);
 }

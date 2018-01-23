@@ -192,12 +192,3 @@
 .hometown_custom_color_selector .white_swatch {
   background: white;
 }
-
-.jQWCP-wWidget {
-  z-index: 1;
-}
-
-.jQWCP-slider-wrapper, .jQWCP-wPreview {
-  visibility: unset !important;
-  position: relative !important;
-}

@@ -74,7 +74,6 @@ function force_inline_svg() {
         if(typeof imgClass !== 'undefined') {
           $svg = $svg.attr('class', imgClass+' replaced-svg');
         }
-
         // Add the image url as a data attribute
         $svg.attr('data-img-url', imgURL);
 
@@ -95,7 +94,7 @@ function force_inline_svg() {
 }
 
 /**
- * Initailize the color input by adding data attributes to each artwork orientation
+ * Initialize the color input by adding data attributes to each artwork orientation
  *
  * @return void
  *
