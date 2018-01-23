@@ -1,13 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gerhard
- * Date: 1/22/18
- * Time: 11:02 AM
- */
 
 add_action( 'wp_ajax_hometown_save_imprint_artwork', 'hometown_save_imprint_artwork' );
-// Add Data in a Custom Session, on ‘Add to Cart’ Button Click
+/**
+ * Save the imprint artwork to the database
+ *
+ * return @void
+ */
 function hometown_save_imprint_artwork() {
   echo 'asdf';
 
