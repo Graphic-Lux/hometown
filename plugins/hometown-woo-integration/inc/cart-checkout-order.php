@@ -144,21 +144,13 @@ add_filter( 'wp_ajax_hometown_ajax_refresh_cart', 'hometown_ajax_refresh_cart' )
 
 
 
+function hometown_display_imprint_data($productID, $variationID) {
 
-function hometown_display_user_meta($product, $variationID) {
-  
-  $productID = $product->get_id();
-  $variationID = hometown_get_variation_id($variationID, $productID);
   $imprintArray = hometown_get_imprint_data($variationID);
-
-  $output = '';
-
-  $output .= '<div class="container">';
-
 
   if (count($imprintArray[$variationID]) > 0) {
 
-    $output .= '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
+    $output = '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
     $output .= '<thead>
                     <tr>
                       <th>Shirt Orientation</th>
@@ -177,10 +169,22 @@ function hometown_display_user_meta($product, $variationID) {
         $output .= "</tr>";
       }
     }
+
     $output .= '</tbody>
                 </table>';
+
+    return $output;
+
+  } else {
+    return '';
   }
 
+}
+
+
+
+
+function hometown_display_size_data($product, $productID, $variationID) {
 
   $sizeData = hometown_get_size_data($variationID);
 
@@ -188,7 +192,7 @@ function hometown_display_user_meta($product, $variationID) {
   if(count($sizeData[$variationID]) > 0)
   {
 
-    $output .= '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
+    $output = '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
     $output .= '<thead>
                   <tr>
                     <th></th>
@@ -217,7 +221,7 @@ function hometown_display_user_meta($product, $variationID) {
 //        if ($miniCartProcessed) {
 //          $output .= '<td>' . $qty . '</td>';
 //        } else {
-          $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
+        $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
 //        }
 
         $output .= '<td>' . $xxlPricing . '</td>';
@@ -235,7 +239,7 @@ function hometown_display_user_meta($product, $variationID) {
 //        if ($miniCartProcessed) {
 //          $output .= '<td>' . $qty . '</td>';
 //        } else {
-          $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
+        $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
 //        }
 
         $output .= '<td>' . $shirtPriceOutput . '</td>';
@@ -249,10 +253,26 @@ function hometown_display_user_meta($product, $variationID) {
                 </table>
               </div>';
 
+    return $output;
+
   } else {
-//    return $product->get_name();
+    return $product->get_name();
   }
 
+}
+
+
+
+
+
+function hometown_display_user_meta($product, $variationID) {
+
+  $productID = $product->get_id();
+  $variationID = hometown_get_variation_id($variationID, $productID);
+
+  $output = '';
+  $output .= hometown_display_imprint_data($productID, $variationID);
+  $output .= hometown_display_size_data($product, $productID, $variationID);
   return $output;
 
 }

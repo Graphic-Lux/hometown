@@ -230,7 +230,7 @@ function add_variation_to_cart() {
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     console.log(response);
     if (response.result) {
-      window.location.replace(graphic_lux_subdirectory+'/checkout');
+      window.location.replace(graphic_lux_subdirectory+'/cart');
     } else {
       confirm('Error adding product to cart.');
     }
@@ -268,7 +268,7 @@ function hometown_set_user_size_options(data) {
     // console.log(userMetaResults);
     if (pathname.indexOf('predesigned') > 0) {
       $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
-        window.location.replace(graphic_lux_subdirectory+'/checkout');
+        // window.location.replace(graphic_lux_subdirectory+'/cart');
       });
     } else if (pathname.indexOf('cart') || pathname.indexOf('checkout') > 0) {
 
@@ -298,8 +298,10 @@ function setSizeData(product_id, variation_id) {
   data.sizes = {};
 
   $('.size_qty').each(function () {
-    let name = $(this).attr('name');
-    data.sizes[name] = $(this).val();
+    if ($(this).data('product-variant-id') !== '') {
+      let name = $(this).attr('name');
+      data.sizes[name] = $(this).val();
+    }
   });
 
   hometown_set_user_size_options(data);
