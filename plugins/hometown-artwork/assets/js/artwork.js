@@ -256,13 +256,6 @@ function save_artwork_to_user_meta() {
   }
   let sleeveImgColor = ( $('figure#sleeve .sleeve-selected_art').attr('data-color-val') == null ) ? 'No custom color' : $('figure#sleeve .sleeve-selected_art').attr('data-color-val');
 
-  // console.log("fronturl " + frontImgURL);
-  // console.log("frontcolor " + frontImgColor);
-  // console.log("backurl " + backImgURL);
-  // console.log("baclcolor " + backImgColor);
-  // console.log("sleeveurl " + sleeveImgURL);
-  // console.log("sleeveColor " + sleeveImgColor);
-
   // // TODO: SAVE ARTWORK SELECTION TO USER META
   let data = {
     action: 'hometown_save_imprint_artwork',
@@ -278,9 +271,10 @@ function save_artwork_to_user_meta() {
 
   console.log(data, ha_artwork_config.ajaxurl);
 
-  $.post( ha_artwork_config.ajaxurl, data, function( response ) {
-    // console.log(response);
+  $.post( ha_artwork_config.ajaxurl, JSON.stringify(data)).done( function( response ) {
+    console.log(response);
   });
+
 }
 
 
