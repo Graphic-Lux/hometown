@@ -248,23 +248,29 @@ function save_artwork_to_user_meta() {
   }
   let sleeveImgColor = ( $('figure#sleeve .sleeve-selected_art').attr('data-color-val') == null ) ? 'No custom color' : $('figure#sleeve .sleeve-selected_art').attr('data-color-val');
 
-  // // TODO: SAVE ARTWORK SELECTION TO USER META
-  let data = {
-    action: 'hometown_save_imprint_artwork',
-    product_id: $("#continue_3").data('product-id'),
-    variation_id: $("#continue_3").data('product-variant-id'),
-    frontURL: frontImgURL,
-    frontColor: frontImgColor,
-    backURL: backImgURL,
-    backColor: backImgColor,
-    sleeveURL: sleeveImgURL,
-    sleeveColor: sleeveImgColor
+  let product_id = $("#continue_3").data('product-id');
+  let variation_id = $("#continue_3").data('product-variant-id');
+
+  let artworkData = {
+    "action": "hometown_save_imprint_artwork",
+    "product_id": product_id,
+    "variation_id": variation_id,
+    "frontURL": frontImgURL,
+    "frontColor": frontImgColor,
+    "backURL": backImgURL,
+    "backColor": backImgColor,
+    "sleeveURL": sleeveImgURL,
+    "sleeveColor": sleeveImgColor
   };
 
-  console.log(data, ha_artwork_config.ajaxurl);
+  console.log(JSON.stringify(artworkData));
 
-  $.post( ha_artwork_config.ajaxurl, JSON.stringify(data)).done( function( response ) {
-    console.log(response);
+  $.ajax({
+    type: "POST",
+    contentType: "application/json",
+    url: ha_artwork_config.ajaxurl,
+    data: artworkData,
+    dataType: "json"
   });
 
 }

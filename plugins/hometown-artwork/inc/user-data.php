@@ -7,7 +7,7 @@ add_action( 'wp_ajax_hometown_save_imprint_artwork', 'hometown_save_imprint_artw
  * return @void
  */
 function hometown_save_imprint_artwork() {
-  echo 'asdf'; die();
+
 	$uniqueIdentifier = $_POST['variation_id'];
 
 	$frontURL    = ( isset( $_POST['frontURL'] ) ) ? 'FrontURL=' . $_POST['frontURL'] : '';
@@ -19,8 +19,6 @@ function hometown_save_imprint_artwork() {
 
 	$meta_key   = 'imprint_artwork-' . $uniqueIdentifier;
 	$imprintCSV = $frontURL . ',' . $frontColor . ',' . $backURL . ',' . $backColor . ',' . $sleeveURL . ',' . $sleeveColor;
-
-	echo $imprintCSV;die();
 
 	$prev_value = get_user_meta( get_current_user_id(), $meta_key, true );
 
