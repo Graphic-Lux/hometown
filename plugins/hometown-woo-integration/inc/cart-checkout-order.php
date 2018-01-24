@@ -42,15 +42,40 @@ function hometown_woocommerce_add_to_cart_variation() {
 
 
 //add_filter('woocommerce_checkout_cart_item_quantity','hometown_add_user_custom_option_from_session_into_cart',1,3);
-add_filter('woocommerce_cart_item_name','hometown_add_user_custom_option_from_session_into_cart',1,3);
-if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
-  function hometown_add_user_custom_option_from_session_into_cart($product_name, $values, $cart_item_key ) {
+add_filter('woocommerce_cart_item_name','hometown_add_user_sizes_and_imprint_data_into_cart_name',1,3);
+if(!function_exists('hometown_add_user_sizes_and_imprint_data_into_cart_name')) {
+  function hometown_add_user_sizes_and_imprint_data_into_cart_name($product_name, $values, $cart_item_key ) {
+
+    if (is_checkout()) {
+      $product = wc_get_product( $values['product_id'] );
+
+      $variationID = hometown_get_variation_id($values['variation_id'],$values['product_id']);
+
+      $output = $product_name . "<dl class='variation'>";
+
+      $output .= hometown_display_user_meta($product, $variationID);
+
+      $output .= "</dl>";
+
+      return $output;
+    } else {
+      return $product_name . "<dl class='variation'>";
+    }
+
+  }
+
+}
+
+
+add_filter('woocommerce_cart_item_quantity','hometown_add_user_sizes_and_imprint_data_into_cart_quantity',1,3);
+if(!function_exists('hometown_add_user_sizes_and_imprint_data_into_cart_quantity')) {
+  function hometown_add_user_sizes_and_imprint_data_into_cart_quantity($qty, $cart_item_key, $values ) {
 
     $product = wc_get_product( $values['product_id'] );
 
     $variationID = hometown_get_variation_id($values['variation_id'],$values['product_id']);
 
-    $output = $product_name . "<dl class='variation'>";
+    $output = "<dl class='variation'>";
 
     $output .= hometown_display_user_meta($product, $variationID);
 
@@ -67,9 +92,7 @@ if(!function_exists('hometown_add_user_custom_option_from_session_into_cart')) {
 
 
 
-
-
-add_action( 'woocommerce_before_calculate_totals', 'hometown_custom_prices', 100 );
+add_action( 'woocommerce_before_calculate_totals', 'hometown_custom_prices', 10 );
 function hometown_custom_prices( $cart_object ) {
 
   global $isProcessed;
@@ -101,8 +124,6 @@ function hometown_custom_prices( $cart_object ) {
         $product_subtotal += $lineSubtotal;
 
       }
-
-
 
       $item['data']->set_price((float) $product_subtotal);
 

@@ -34,7 +34,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 				<th class="product-thumbnail">&nbsp;</th>
 				<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
 <!--				<th class="product-price">--><?php //_e( 'Price', 'woocommerce' ); ?><!--</th>-->
-<!--				<th class="product-quantity">--><?php //_e( 'Quantity', 'woocommerce' ); ?><!--</th>-->
+				<th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
 				<th class="product-subtotal"><?php _e( 'Total', 'woocommerce' ); ?></th>
 			</tr>
 		</thead>
@@ -97,22 +97,22 @@ do_action( 'woocommerce_before_cart' ); ?>
 							?>
 <!--						</td>-->
 
-<!--						<td class="product-quantity" data-title="--><?php //esc_attr_e( 'Quantity', 'woocommerce' ); ?><!--">-->
+						<td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
 							<?php
-//								if ( $_product->is_sold_individually() ) {
-//									$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
-//								} else {
-//									$product_quantity = woocommerce_quantity_input( array(
-//										'input_name'  => "cart[{$cart_item_key}][qty]",
-//										'input_value' => $cart_item['quantity'],
-//										'max_value'   => $_product->get_max_purchase_quantity(),
-//										'min_value'   => '0',
-//									), $_product, false );
-//								}
-//
-//								echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item );
+								if ( $_product->is_sold_individually() ) {
+									$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
+								} else {
+									$product_quantity = woocommerce_quantity_input( array(
+										'input_name'  => "cart[{$cart_item_key}][qty]",
+										'input_value' => $cart_item['quantity'],
+										'max_value'   => $_product->get_max_purchase_quantity(),
+										'min_value'   => '0',
+									), $_product, false );
+								}
+
+								echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item );
 							?>
-<!--						</td>-->
+						</td>
 
 						<td class="product-subtotal" data-title="<?php esc_attr_e( 'Total', 'woocommerce' ); ?>">
 							<?php

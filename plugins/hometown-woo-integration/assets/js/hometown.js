@@ -268,7 +268,7 @@ function hometown_set_user_size_options(data) {
     // console.log(userMetaResults);
     if (pathname.indexOf('predesigned') > 0) {
       $.post('?wc-ajax=add_to_cart', {product_id : data.product_id, quantity: 1}).done(function(addToCartResults) {
-        // window.location.replace(graphic_lux_subdirectory+'/cart');
+        window.location.replace(graphic_lux_subdirectory+'/cart');
       });
     } else if (pathname.indexOf('cart') || pathname.indexOf('checkout') > 0) {
 
