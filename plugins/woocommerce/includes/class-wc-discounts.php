@@ -85,7 +85,7 @@ class WC_Discounts {
 			$item->object        = $cart_item;
 			$item->product       = $cart_item['data'];
 			$item->quantity      = $cart_item['quantity'];
-			$item->price         = wc_add_number_precision_deep( $item->product->get_price() ) * $item->quantity;
+			$item->price         = wc_add_number_precision_deep( $item->product->get_price() * $item->quantity );
 			$this->items[ $key ] = $item;
 		}
 
@@ -369,7 +369,7 @@ class WC_Discounts {
 				}
 			}
 
-			$discount       = min( $discounted_price, $discount );
+			$discount       = wc_cart_round_discount( min( $discounted_price, $discount ), 0 );
 			$cart_total     = $cart_total + $price_to_discount;
 			$total_discount = $total_discount + $discount;
 			$applied_count  = $applied_count + $apply_quantity;
@@ -611,8 +611,7 @@ class WC_Discounts {
 	 * @return bool
 	 */
 	protected function validate_coupon_minimum_amount( $coupon ) {
-		$subtotal = wc_remove_number_precision( array_sum( wp_list_pluck( $this->items, 'price' ) ) );
-
+		$subtotal = wc_remove_number_precision( $this->get_object_subtotal() );
 		if ( $coupon->get_minimum_amount() > 0 && apply_filters( 'woocommerce_coupon_validate_minimum_amount', $coupon->get_minimum_amount() > $subtotal, $coupon, $subtotal ) ) {
 			/* translators: %s: coupon minimum amount */
 			throw new Exception( sprintf( __( 'The minimum spend for this coupon is %s.', 'woocommerce' ), wc_price( $coupon->get_minimum_amount() ) ), 108 );
@@ -630,8 +629,7 @@ class WC_Discounts {
 	 * @return bool
 	 */
 	protected function validate_coupon_maximum_amount( $coupon ) {
-		$subtotal = wc_remove_number_precision( array_sum( wp_list_pluck( $this->items, 'price' ) ) );
-
+		$subtotal = wc_remove_number_precision( $this->get_object_subtotal() );
 		if ( $coupon->get_maximum_amount() > 0 && apply_filters( 'woocommerce_coupon_validate_maximum_amount', $coupon->get_maximum_amount() < $subtotal, $coupon ) ) {
 			/* translators: %s: coupon maximum amount */
 			throw new Exception( sprintf( __( 'The maximum spend for this coupon is %s.', 'woocommerce' ), wc_price( $coupon->get_maximum_amount() ) ), 112 );
@@ -843,6 +841,21 @@ class WC_Discounts {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the object subtotal
+	 *
+	 * @return int
+	 */
+	protected function get_object_subtotal() {
+		if ( is_a( $this->object, 'WC_Cart' ) ) {
+			return wc_add_number_precision( $this->object->get_displayed_subtotal() );
+		} elseif ( is_a( $this->object, 'WC_Order' ) ) {
+			return wc_add_number_precision( $this->object->get_subtotal() );
+		} else {
+			return array_sum( wp_list_pluck( $this->items, 'price' ) );
+		}
 	}
 
 	/**

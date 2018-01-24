@@ -57,10 +57,10 @@ function force_inline_svg() {
   $('img.force-inline-svg').filter(function(){
     return this.src.match(/.*\.svg$/);
   }).each(function(){
-    const $img = $(this);
-    const imgID = $img.attr('id');
-    const imgClass = $img.attr('class');
-    const imgURL = $img.attr('src');
+    let $img = $(this);
+    let imgID = $img.attr('id');
+    let imgClass = $img.attr('class');
+    let imgURL = $img.attr('src');
 
       $.get(imgURL, function(data) {
         // Get the SVG tag, ignore the rest
@@ -106,7 +106,7 @@ function color_input_init() {
   let colorInputSVG;
   let colorInputSelector;
 
-  // Assign ID's to each front SVG
+  // Assign ID's to each img
   $('.hometown_artwork .single_art').each(function (i) {
 
     orientation = $(this).parent().attr('class').split('artwork-')[1];
@@ -151,12 +151,11 @@ function apply_color_to_svg(svg, selector, orientation, id) {
       svg.find('g').css("fill", hexColor);
       svg.find('path').css("fill", hexColor);
 
+
       // If artwork is on a shirt, change it's color too
       if( $('figure#' + orientation).find($('[data-svg="' + id + '"]')).length ) {
-        let clone = $('figure#' + orientation);
+        apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
 
-        clone.find('g').css("fill", hexColor);
-        clone.find('path').css("fill", hexColor);
       }
 
     }
@@ -164,7 +163,15 @@ function apply_color_to_svg(svg, selector, orientation, id) {
 
 }
 
-
+/**
+ * Apply artwork to the shirt
+ *
+ * @param artClone - the cloned image element that is placed on the shirt
+ * @param shirtOrientation - the location of the artwork on the shirt
+ *
+ * @return void
+ *
+ */
 function apply_artwork_to_shirt(artClone, shirtOrientation) {
 
   let imprintLocation = $("#" + shirtOrientation + "-imprint_location").val();
@@ -192,22 +199,7 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
     $(artClone).addClass(imprintLocation);
     $('#' + shirtOrientation).append(artClone);
 
-    // TODO: SUMNER SAVE ARTWORK SELECTION TO USER META
-    let data = {
-      action: 'hometown_save_imprint_artwork',
-      product_id: $("#continue_3").data('product-id'),
-      variation_id: $("#continue_3").data('product-variant-id'),
-      front: $('figure#front').data('data-img-url'),
-      frontColor: $('figure#front').data('data-color'),
-      back: $('figure#back').data('data-img-url'),
-      backColor: $('figure#back').data('data-color'),
-      sleeve: $('figure#sleeve').data('data-img-url'),
-      sleeveColor: $('figure#sleeve').data('data-color')
-    };
-
-    $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
-      console.log(response);
-    });
+    save_artwork_to_user_meta();
 
   } else {
 
@@ -215,6 +207,73 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
 
   }
 
+}
+
+/**
+ * Save the image src and custom color of each image orientation to the user meta table
+ *
+ * @return void
+ *
+ */
+function save_artwork_to_user_meta() {
+  let frontImgURL;
+  let backImgURL;
+  let sleeveImgURL;
+
+  // Front image data
+  if ( $('figure#front').has('img.front-selected_art').length ) {
+    frontImgURL = $('figure#front img.front-selected_art').attr('src');
+  } else if ( $('figure#front').has('svg.front-selected_art').length ) {
+    frontImgURL = $('figure#front svg.front-selected_art').attr('data-img-url');
+  } else {
+    frontImgURL = 'noImage';
+  }
+  let frontImgColor = ( $('figure#front .front-selected_art').attr('data-color-val') == null ) ? 'noCustomColor' : $('figure#front .front-selected_art').attr('data-color-val');
+
+  // Back Image data
+  if ( $('figure#back').has('img.back-selected_art').length ) {
+    backImgURL = $('figure#back img.back-selected_art').attr('src');
+  } else if ( $('figure#back').has('svg.back-selected_art').length ) {
+    backImgURL = $('figure#back svg.back-selected_art').attr('data-img-url');
+  } else {
+    backImgURL = 'noImage';
+  }
+  let backImgColor = ( $('figure#back .back-selected_art').attr('data-color-val') == null ) ? 'noCustomColor' : $('figure#back .back-selected_art').attr('data-color-val');
+
+  // Sleeve Image data
+  if ( $('figure#sleeve').has('img.sleeve-selected_art').length ) {
+    sleeveImgURL = $('figure#sleeve img.sleeve-selected_art').attr('src');
+  } else if ( $('figure#sleeve').has('svg.sleeve-selected_art').length ) {
+    sleeveImgURL = $('figure#sleeve svg.sleeve-selected_art').attr('data-img-url');
+  } else {
+    sleeveImgURL = 'noImage';
+  }
+  let sleeveImgColor = ( $('figure#sleeve .sleeve-selected_art').attr('data-color-val') == null ) ? 'noCustomColor' : $('figure#sleeve .sleeve-selected_art').attr('data-color-val');
+
+  console.log("fronturl " + frontImgURL);
+  console.log("frontcolor " + frontImgColor);
+  console.log("backurl " + backImgURL);
+  console.log("baclcolor " + backImgColor);
+  console.log("sleeveurl " + sleeveImgURL);
+  console.log("sleeveColor " + sleeveImgColor);
+
+  // // TODO: SAVE ARTWORK SELECTION TO USER META
+  // let data = {
+  //   action: 'hometown_save_imprint_artwork',
+  //   product_id: $("#continue_3").data('product-id'),
+  //   variation_id: $("#continue_3").data('product-variant-id'),
+  //   frontURL: frontImgURL,
+  //   frontColor: frontImgColor,
+  //   backURL: backImgURL,
+  //   backColor: backImgColor,
+  //   sleeveURL: sleeveImgURL,
+  //   sleeveColorURL: sleeveImgColor
+  // };
+  //
+  // $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
+  //   console.log(response);
+  //
+  // });
 }
 
 

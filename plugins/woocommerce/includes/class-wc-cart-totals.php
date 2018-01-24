@@ -710,6 +710,7 @@ final class WC_Cart_Totals {
 
 		$this->cart->set_subtotal( $this->get_total( 'items_subtotal' ) );
 		$this->cart->set_subtotal_tax( $this->get_total( 'items_subtotal_tax' ) );
+
 	}
 
 	/**
