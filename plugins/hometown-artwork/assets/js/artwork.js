@@ -1,6 +1,6 @@
 $ = jQuery;
 
-// Convert svg's to inline elements
+// Convert svg's to inline elements before artwork is initialized
 force_inline_svg();
 
 function artwork_init() {
@@ -151,13 +151,21 @@ function apply_color_to_svg(svg, selector, orientation, id) {
       svg.find('g').css("fill", hexColor);
       svg.find('path').css("fill", hexColor);
 
-
       // If artwork is on a shirt, change it's color too
+      if( $('figure#' + orientation).find($('[data-svg="' + id + '"]')).length ) {
+        let clone = $('figure#' + orientation);
+
+        clone.find('g').css("fill", hexColor);
+        clone.find('path').css("fill", hexColor);
+      }
+
+    },
+    change: function (color){
+      // Apply the artwork on once color wheel is closed the clone
       if( $('figure#' + orientation).find($('[data-svg="' + id + '"]')).length ) {
         apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
 
       }
-
     }
   });
 
