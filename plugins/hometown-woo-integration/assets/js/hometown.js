@@ -265,6 +265,8 @@ function hometown_get_product_variant_images(data) {
 
 function hometown_set_user_size_options(data) {
 
+  // console.log(data);
+
   $.post(ha_localized_config.ajaxurl, data).done(function(userMetaResults) {
 
     // console.log(userMetaResults);
@@ -292,15 +294,15 @@ function hometown_set_user_size_options(data) {
 function setSizeData(product_id, variation_id) {
 
   let data = {
-    'action':         'hometown_save_user_meta',
+    'action':         'hometown_save_user_sizes',
     'product_id':     product_id,
     'variation_id':   variation_id
   };
 
   data.sizes = {};
 
-  $('.size_qty').each(function () {
-    if ($(this).data('product-variant-id') !== '') {
+  $('.size_qty').each(function() {
+    if ($(this).attr('data-product-variant-id') === data.variation_id) {
       let name = $(this).attr('name');
       data.sizes[name] = $(this).val();
     }

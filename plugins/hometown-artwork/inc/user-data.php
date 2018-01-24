@@ -21,7 +21,6 @@ function hometown_save_imprint_artwork() {
 	$imprintCSV = $frontURL . ',' . $frontColor . ',' . $backURL . ',' . $backColor . ',' . $sleeveURL . ',' . $sleeveColor;
 
 	$prev_value = get_user_meta( get_current_user_id(), $meta_key, true );
-
 	$newID = update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value );
 
 	wp_send_json( array(

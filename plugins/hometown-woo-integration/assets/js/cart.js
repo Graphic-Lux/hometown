@@ -1,11 +1,6 @@
 $=jQuery;
 
-$(document).ready(function() {
-  // if ($('#menu-item-shop').length > 0) {
-  //   $('#menu-item-shop').remove();
-  // }
-  hometown_cart_init()
-});
+// THIS FUNCTION GETS INITIALIZED AT THE END OF CART.PHP
 
 function hometown_cart_init() {
 
