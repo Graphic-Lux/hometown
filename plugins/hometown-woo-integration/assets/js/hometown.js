@@ -182,6 +182,8 @@ function finalizeCustomOrder() {
   // MUST BE DONE AFTER CART BECAUSE IT ADDS DATA TO WOOCOMMERCE SESSION
   save_imprint_location();
 
+  save_artwork_to_user_meta();
+
   setSizeData($("#continue_3").data('product-id'), $("#continue_3").data('product-variant-id'));
 
 }
@@ -230,7 +232,7 @@ function add_variation_to_cart() {
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     console.log(response);
     if (response.result) {
-      window.location.replace(graphic_lux_subdirectory+'/cart');
+      // window.location.replace(graphic_lux_subdirectory+'/cart');
     } else {
       confirm('Error adding product to cart.');
     }

@@ -91,10 +91,12 @@ function hometown_save_imprint_data() {
 
   $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
 
+  $newID = update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value );
+
   wp_send_json(array(
       'action' => 'save_imprint_data',
-      'result' => (update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value )),
-      'newID'  => update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value )
+      'result' => ($newID),
+      'newID'  => $newID
   ));
   wp_die();
 
@@ -157,9 +159,11 @@ function hometown_after_remove_product($cart_item_key) {
       $uniqueIdentifier = $variationID;
 
       $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
+      $imprintArtworkMetaKey = 'imprint_artwork-' . $uniqueIdentifier;
       $shirtSizesMetaKey = 'shirt_sizes-' . $uniqueIdentifier;
 
       delete_user_meta(get_current_user_id(), $imprintMetaKey);
+      delete_user_meta(get_current_user_id(), $imprintArtworkMetaKey);
       delete_user_meta(get_current_user_id(), $shirtSizesMetaKey);
 
     }
@@ -180,9 +184,11 @@ function hometown_delete_all_user_meta($items) {
     $uniqueIdentifier = $variationID;
 
     $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
+    $imprintArtworkMetaKey = 'imprint_artwork-' . $uniqueIdentifier;
     $shirtSizesMetaKey = 'shirt_sizes-' . $uniqueIdentifier;
 
     delete_user_meta(get_current_user_id(), $imprintMetaKey);
+    delete_user_meta(get_current_user_id(), $imprintArtworkMetaKey);
     delete_user_meta(get_current_user_id(), $shirtSizesMetaKey);
 
   }
