@@ -113,8 +113,7 @@ function hometown_custom_prices( $cart_object ) {
 
 
       foreach ($productSizeData as $size => $qty) {
-
-        if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+        if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
           $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
           $lineSubtotal = (float) $qty * $xxlPricing;
         } else {
@@ -226,26 +225,21 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
     $price = hometown_get_price($product, $variationID);
 
-//    $miniCartProcessed = false;
-
     foreach($sizeData[$variationID] as $size => $qty) {
 
-      if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL')) {
+      if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
 
-        $xxlPricing = '$'.number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
-        $lineSubtotal = '$'.number_format($qty * $xxlPricing, 2);
+        $xxlNumber = number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
+        $xxlPrice = '$'.$xxlNumber;
+        $xxlSubtotal = $qty * $xxlNumber;
+        $lineSubtotal = '$'.number_format($xxlSubtotal, 2);
 
         $output .= "<tr class='preview_sizes'>";
         $output .= '<td>' . $size . '</td>';
 
-        // ESCAPE MINI CART
-//        if ($miniCartProcessed) {
-//          $output .= '<td>' . $qty . '</td>';
-//        } else {
         $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
-//        }
 
-        $output .= '<td>' . $xxlPricing . '</td>';
+        $output .= '<td>' . $xxlPrice . '</td>';
         $output .= '<td>' . $lineSubtotal . '</td>';
         $output .= '</tr>';
 
@@ -256,12 +250,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
         $output .= "<tr class='preview_sizes'>";
         $output .= '<td>' . $size . '</td>';
 
-        // ESCAPE MINI CART
-//        if ($miniCartProcessed) {
-//          $output .= '<td>' . $qty . '</td>';
-//        } else {
         $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
-//        }
 
         $output .= '<td>' . $shirtPriceOutput . '</td>';
         $output .= '<td>' . $lineSubtotal . '</td>';

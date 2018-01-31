@@ -1,8 +1,8 @@
 <?php
 
 // WE WANT ONLY LOGGED IN USERS TO BE ALLOWED TO DO THIS
-add_action( 'wp_ajax_hometown_save_user_meta', 'hometown_save_user_meta' );
-function hometown_save_user_meta() {
+add_action( 'wp_ajax_hometown_save_user_sizes', 'hometown_save_user_sizes' );
+function hometown_save_user_sizes() {
 
   $uniqueIdentifier = $_POST['variation_id'];
   $sizeCSV = '';
