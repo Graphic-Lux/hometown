@@ -37,4 +37,5 @@ function ha_artwork_load_scripts() {
 }
 
 require('admin/cpt.php');
+require('inc/user-data.php');
 require('frontend/frontend.php');

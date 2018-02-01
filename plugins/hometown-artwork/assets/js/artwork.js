@@ -299,15 +299,17 @@ function save_artwork_to_user_meta() {
     "sleeveColor": sleeveImgColor
   };
 
-  console.log(JSON.stringify(artworkData));
+  // $.ajax({
+  //   type: "POST",
+  //   contentType: "application/json",
+  //   url: ha_artwork_config.ajaxurl,
+  //   data: artworkData,
+  //   dataType: "json"
+  // });
 
-  $.ajax({
-    type: "POST",
-    // contentType: "application/json",
-    url: ha_artwork_config.ajaxurl,
-    // data: artworkData,
-    // dataType: "json"
-  });
+  $.post( ha_artwork_config.ajaxurl, artworkData, function(result) {
+    console.log(result);
+  } );
 
 }
 
