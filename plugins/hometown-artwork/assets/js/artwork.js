@@ -116,7 +116,7 @@ function color_input_init() {
 
     colorInputSelector = $(this).find('.hometown_color_wheel input.color_input').attr('data-color-selector', i);
 
-    apply_color_to_svg(colorInputSVG, colorInputSelector, colorInputSwatch, orientation, i);
+    apply_color_to_svg(i, colorInputSVG, colorInputSwatch, colorInputSelector, orientation);
   });
 
 }
@@ -124,16 +124,16 @@ function color_input_init() {
 /**
  * Apply the color to the svg from the color selector and from predefined palette swatch
  *
- * @param svg - the svg element relative to it's data key value
- * @param selector - the color selector relative to it's data key value
- * @param swatch - the color swatch relative to it's data key value
- * @param orientation - the orientation of the artwork, so we can change the cloned artwork
  * @param id - the data key value of the artwork
+ * @param svg - the svg element relative to it's data key value
+ * @param swatch - the color swatch relative to it's data key value
+ * @param selector - the color selector relative to it's data key value
+ * @param orientation - the orientation of the artwork, so we can change the cloned artwork
  *
  * @return void
  *
  */
-function apply_color_to_svg(svg, selector, swatch, orientation, id) {
+function apply_color_to_svg(id, svg, swatch, selector, orientation) {
   let hexColor;
 
   // Color Swatches
@@ -147,7 +147,11 @@ function apply_color_to_svg(svg, selector, swatch, orientation, id) {
     svg.find('g').css("fill", swatchColor);
     svg.find('path').css("fill", swatchColor);
 
-    console.log(svg);
+    // If artwork is on a shirt, change it's color too
+    if ($('figure#' + orientation).find($('[data-svg="' + id + '"]')).length) {
+      apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
+
+    }
 
   });
 
