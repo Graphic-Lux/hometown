@@ -1,6 +1,6 @@
 $ = jQuery;
 
-// Convert svg's to inline elements before artwork is initialized
+// Convert svg's to inline elements
 force_inline_svg();
 
 function artwork_init() {
@@ -54,41 +54,41 @@ function artwork_init() {
  *
  */
 function force_inline_svg() {
-  $('img.force-inline-svg').filter(function(){
+  $('img.force-inline-svg').filter(function () {
     return this.src.match(/.*\.svg$/);
-  }).each(function(){
+  }).each(function () {
     let $img = $(this);
     let imgID = $img.attr('id');
     let imgClass = $img.attr('class');
     let imgURL = $img.attr('src');
 
-      $.get(imgURL, function(data) {
-        // Get the SVG tag, ignore the rest
-        let $svg = $(data).find('svg');
+    $.get(imgURL, function (data) {
+      // Get the SVG tag, ignore the rest
+      let $svg = $(data).find('svg');
 
-        // Add replaced image's ID to the new SVG
-        if(typeof imgID !== 'undefined') {
-          $svg = $svg.attr('id', imgID);
-        }
-        // Add replaced image's classes to the new SVG
-        if(typeof imgClass !== 'undefined') {
-          $svg = $svg.attr('class', imgClass+' replaced-svg');
-        }
-        // Add the image url as a data attribute
-        $svg.attr('data-img-url', imgURL);
+      // Add replaced image's ID to the new SVG
+      if (typeof imgID !== 'undefined') {
+        $svg = $svg.attr('id', imgID);
+      }
+      // Add replaced image's classes to the new SVG
+      if (typeof imgClass !== 'undefined') {
+        $svg = $svg.attr('class', imgClass + ' replaced-svg');
+      }
+      // Add the image url as a data attribute
+      $svg.attr('data-img-url', imgURL);
 
-        // Remove any invalid XML tags as per http://validator.w3.org
-        $svg = $svg.removeAttr('xmlns:a');
+      // Remove any invalid XML tags as per http://validator.w3.org
+      $svg = $svg.removeAttr('xmlns:a');
 
-        // Check if the viewport is set, if the viewport is not set the SVG wont't scale.
-        if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
-          $svg.attr(`viewBox 0 0  ${$svg.attr('height')} ${$svg.attr('width')}`);
-        }
+      // Check if the viewport is set, if the viewport is not set the SVG wont't scale.
+      if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
+        $svg.attr(`viewBox 0 0  ${$svg.attr('height')} ${$svg.attr('width')}`);
+      }
 
-        // Replace image with new SVG
-        $img.replaceWith($svg);
+      // Replace image with new SVG
+      $img.replaceWith($svg);
 
-      }, 'xml');
+    }, 'xml');
   });
 
 }
@@ -100,10 +100,9 @@ function force_inline_svg() {
  *
  */
 function color_input_init() {
-
   let orientation;
-
   let colorInputSVG;
+  let colorInputSwatch;
   let colorInputSelector;
 
   // Assign ID's to each img
@@ -113,28 +112,46 @@ function color_input_init() {
 
     colorInputSVG = $(this).find('svg').attr('data-svg', i);
 
+    colorInputSwatch = $(this).find('.hometown_color_swatch').attr('data-color-selector', i);
+
     colorInputSelector = $(this).find('.hometown_color_wheel input.color_input').attr('data-color-selector', i);
 
-    apply_color_to_svg(colorInputSVG, colorInputSelector, orientation, i );
+    apply_color_to_svg(colorInputSVG, colorInputSelector, colorInputSwatch, orientation, i);
   });
 
 }
 
 /**
- * Apply the color to the svg
+ * Apply the color to the svg from the color selector and from predefined palette swatch
  *
  * @param svg - the svg element relative to it's data key value
  * @param selector - the color selector relative to it's data key value
+ * @param swatch - the color swatch relative to it's data key value
  * @param orientation - the orientation of the artwork, so we can change the cloned artwork
  * @param id - the data key value of the artwork
  *
  * @return void
  *
  */
-function apply_color_to_svg(svg, selector, orientation, id) {
-
+function apply_color_to_svg(svg, selector, swatch, orientation, id) {
   let hexColor;
 
+  // Color Swatches
+  swatch.unbind().click(function () {
+    let swatchColor = rgb2hex($(this).css("background-color"));
+
+    // Give svg a color data value (hex)
+    svg.attr('data-color-val', swatchColor);
+
+    // Assign color to the SVG element
+    svg.find('g').css("fill", swatchColor);
+    svg.find('path').css("fill", swatchColor);
+
+    console.log(svg);
+
+  });
+
+  // Color Selector
   selector.spectrum({
     preferredFormat: "hex",
     showInput: true,
@@ -151,24 +168,32 @@ function apply_color_to_svg(svg, selector, orientation, id) {
       svg.find('g').css("fill", hexColor);
       svg.find('path').css("fill", hexColor);
 
+
       // If artwork is on a shirt, change it's color too
-      if( $('figure#' + orientation).find($('[data-svg="' + id + '"]')).length ) {
-        let clone = $('figure#' + orientation);
-
-        clone.find('g').css("fill", hexColor);
-        clone.find('path').css("fill", hexColor);
-      }
-
-    },
-    change: function (color){
-      // Apply the artwork on once color wheel is closed the clone
-      if( $('figure#' + orientation).find($('[data-svg="' + id + '"]')).length ) {
+      if ($('figure#' + orientation).find($('[data-svg="' + id + '"]')).length) {
         apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
 
       }
+
     }
   });
 
+}
+
+/**
+ * Function to convert rgb format to a hex color
+ *
+ * @param orig - the original color
+ *
+ * @return string
+ *
+ */
+function rgb2hex(orig){
+  let rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+  return (rgb && rgb.length === 4) ? "#" +
+    ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+    ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+    ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
 }
 
 /**
@@ -227,34 +252,34 @@ function save_artwork_to_user_meta() {
   let sleeveImgURL;
 
   // Front image data
-  if ( $('figure#front').has('img.front-selected_art').length ) {
+  if ($('figure#front').has('img.front-selected_art').length) {
     frontImgURL = $('figure#front img.front-selected_art').attr('src');
-  } else if ( $('figure#front').has('svg.front-selected_art').length ) {
+  } else if ($('figure#front').has('svg.front-selected_art').length) {
     frontImgURL = $('figure#front svg.front-selected_art').attr('data-img-url');
   } else {
     frontImgURL = null;
   }
-  let frontImgColor = ( $('figure#front .front-selected_art').attr('data-color-val') == null ) ? 'No custom color' : $('figure#front .front-selected_art').attr('data-color-val');
+  let frontImgColor = ($('figure#front .front-selected_art').attr('data-color-val') == null) ? 'No custom color' : $('figure#front .front-selected_art').attr('data-color-val');
 
   // Back Image data
-  if ( $('figure#back').has('img.back-selected_art').length ) {
+  if ($('figure#back').has('img.back-selected_art').length) {
     backImgURL = $('figure#back img.back-selected_art').attr('src');
-  } else if ( $('figure#back').has('svg.back-selected_art').length ) {
+  } else if ($('figure#back').has('svg.back-selected_art').length) {
     backImgURL = $('figure#back svg.back-selected_art').attr('data-img-url');
   } else {
     backImgURL = null;
   }
-  let backImgColor = ( $('figure#back .back-selected_art').attr('data-color-val') == null ) ? 'No custom color' : $('figure#back .back-selected_art').attr('data-color-val');
+  let backImgColor = ($('figure#back .back-selected_art').attr('data-color-val') == null) ? 'No custom color' : $('figure#back .back-selected_art').attr('data-color-val');
 
   // Sleeve Image data
-  if ( $('figure#sleeve').has('img.sleeve-selected_art').length ) {
+  if ($('figure#sleeve').has('img.sleeve-selected_art').length) {
     sleeveImgURL = $('figure#sleeve img.sleeve-selected_art').attr('src');
-  } else if ( $('figure#sleeve').has('svg.sleeve-selected_art').length ) {
+  } else if ($('figure#sleeve').has('svg.sleeve-selected_art').length) {
     sleeveImgURL = $('figure#sleeve svg.sleeve-selected_art').attr('data-img-url');
   } else {
     sleeveImgURL = null;
   }
-  let sleeveImgColor = ( $('figure#sleeve .sleeve-selected_art').attr('data-color-val') == null ) ? 'No custom color' : $('figure#sleeve .sleeve-selected_art').attr('data-color-val');
+  let sleeveImgColor = ($('figure#sleeve .sleeve-selected_art').attr('data-color-val') == null) ? 'No custom color' : $('figure#sleeve .sleeve-selected_art').attr('data-color-val');
 
   let product_id = $("#continue_3").data('product-id');
   let variation_id = $("#continue_3").data('product-variant-id');

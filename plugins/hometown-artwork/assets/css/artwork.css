@@ -174,21 +174,21 @@
 }
 
 .hometown_custom_color_selector .green_swatch {
-  background: green;
+  background: #008000;
 }
 
 .hometown_custom_color_selector .blue_swatch {
-  background: blue;
+  background: #0000ff;
 }
 
 .hometown_custom_color_selector .red_swatch {
-  background: red;
+  background: #ff0000;
 }
 
 .hometown_custom_color_selector .yellow_swatch {
-  background: yellow;
+  background: #ffff00;
 }
 
 .hometown_custom_color_selector .white_swatch {
-  background: white;
+  background: #ffffff;
 }
