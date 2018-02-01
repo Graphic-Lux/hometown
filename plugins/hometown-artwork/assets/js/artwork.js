@@ -7,7 +7,6 @@ function artwork_init() {
 
   //console.log('artwork init');
 
-  $('.product_image_wrap.subtype').fadeIn();
   $('.step_2_shirt_designs').fadeTo(100, .4);
   $('.step_2_shirt_designs figure').removeClass('selected');
   $('.step_2_shirt_designs:first').fadeTo(100, 1);
@@ -304,10 +303,10 @@ function save_artwork_to_user_meta() {
 
   $.ajax({
     type: "POST",
-    contentType: "application/json",
+    // contentType: "application/json",
     url: ha_artwork_config.ajaxurl,
-    data: artworkData,
-    dataType: "json"
+    // data: artworkData,
+    // dataType: "json"
   });
 
 }

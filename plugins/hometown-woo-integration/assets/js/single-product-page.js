@@ -61,8 +61,6 @@ function hometown_reload_add_to_cart_actions() {
 
       $('.step_1 .step-holder .custom_step').addClass('done');
 
-      $('#continue_3').fadeIn();
-
       setAddToCartData(product_id, variation_id);
 
       let data = {
@@ -78,8 +76,6 @@ function hometown_reload_add_to_cart_actions() {
       hometown_get_product_variant_images(data);
 
     }
-
-
 
   });
 }

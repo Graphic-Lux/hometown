@@ -278,38 +278,38 @@ function hometown_display_sizes() {
     <div class="standard_sizes">
       <div class="sizing_inputs">
         <label for="XS">XS</label>
-        <input name="XS" type="text" class="size_qty" value="<?=$sizeArray['XS'];?>"/>
+        <input name="XS" type="text" class="size_qty" value="<?=$sizeArray['XS'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <div class="sizing_inputs">
         <label for="S">S</label>
-        <input name="S" type="text" class="size_qty" value="<?=$sizeArray['S'];?>"/>
+        <input name="S" type="text" class="size_qty" value="<?=$sizeArray['S'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <div class="sizing_inputs">
         <label for="M">M</label>
-        <input name="M" type="text" class="size_qty" value="<?=$sizeArray['M'];?>"/>
+        <input name="M" type="text" class="size_qty" value="<?=$sizeArray['M'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <div class="sizing_inputs">
         <label for="L">L</label>
-        <input name="L" type="text" class="size_qty" value="<?=$sizeArray['L'];?>"/>
+        <input name="L" type="text" class="size_qty" value="<?=$sizeArray['L'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <div class="sizing_inputs">
         <label for="XL">XL</label>
-        <input name="XL" type="text" class="size_qty" value="<?=$sizeArray['XL'];?>"/>
+        <input name="XL" type="text" class="size_qty" value="<?=$sizeArray['XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
     </div>
     <a class="more_sizes">*Need bigger sizes?</a>
     <div class="bigger_sizes">
       <div class="sizing_inputs">
         <label for="XXL">XXL</label>
-        <input name="XXL" type="text" class="size_qty" value="<?=$sizeArray['XXL'];?>"/>
+        <input name="XXL" type="text" class="size_qty" value="<?=$sizeArray['XXL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <div class="sizing_inputs">
         <label for="3XL">3XL</label>
-        <input name="3XL" type="text" class="size_qty" value="<?=$sizeArray['3XL'];?>"/>
+        <input name="3XL" type="text" class="size_qty" value="<?=$sizeArray['3XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <div class="sizing_inputs">
         <label for="4XL">4XL</label>
-        <input name="4XL" type="text" class="size_qty" value="<?=$sizeArray['4XL'];?>"/>
+        <input name="4XL" type="text" class="size_qty" value="<?=$sizeArray['4XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
       </div>
       <?php
       $additionalSizesPrice = get_post_meta( $variationID, '_xxl_pricing', true );
