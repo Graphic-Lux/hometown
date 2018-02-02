@@ -31,3 +31,45 @@ function hometown_save_imprint_artwork() {
 	wp_die();
 
 }
+
+
+function hometown_get_imprint_artwork($variationID) {
+
+  $uniqueIdentifier = $variationID;
+  $meta_key   = 'imprint_artwork-' . $uniqueIdentifier;
+
+  $imprintArtworkData = explode(',', get_user_meta( get_current_user_id(), $meta_key, true ));
+
+  $imprintDataArray = array();
+
+  foreach ($imprintArtworkData as $data) {
+
+    $keyValuePair = explode('=', $data);
+    $key = $keyValuePair[0];
+    $value = $keyValuePair[1];
+
+    if (strpos($key, 'Front') !== false) {
+      if (strpos($key, 'Color') !== false) {
+        $imprintDataArray['Front']['color'] = $value;
+      } else {
+        $imprintDataArray['Front']['url'] = $value;
+      }
+    } else if (strpos($key, 'Back') !== false) {
+      if (strpos($key, 'Color') !== false) {
+        $imprintDataArray['Back']['color'] = $value;
+      } else {
+        $imprintDataArray['Back']['url'] = $value;
+      }
+    } else if (strpos($key, 'Sleeve') !== false) {
+      if (strpos($key, 'Color') !== false) {
+        $imprintDataArray['Sleeve']['color'] = $value;
+      } else {
+        $imprintDataArray['Sleeve']['url'] = $value;
+      }
+    }
+
+  }
+
+  return $imprintDataArray;
+
+}

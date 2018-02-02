@@ -180,12 +180,16 @@ function hometown_display_imprint_data($productID, $variationID) {
                   </thead>
                   <tbody>';
 
+    $artworkDataArray = hometown_get_imprint_artwork($variationID);
 
-    foreach ($imprintArray[$variationID] as $imprintLocation => $imprintValue) {
-      if ($imprintValue != '') {
+    print_r($artworkDataArray);
+
+    foreach ($imprintArray[$variationID] as $orientation => $location) {
+      if ($orientation != '') {
         $output .= "<tr class='preview_imprint_locations'>";
-        $output .= "<td>" . $imprintLocation . "</td>";
-        $output .= "<td>" . $imprintValue . "</td>";
+        $output .= "<td>" . $orientation . "</td>";
+        $output .= "<td>" . $location . "</td>";
+        $output .= "<td><img src='" . $artworkDataArray[$orientation]['url'] . "' /></td>";
         $output .= "</tr>";
       }
     }

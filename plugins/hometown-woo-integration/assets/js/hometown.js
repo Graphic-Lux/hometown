@@ -230,7 +230,7 @@ function add_variation_to_cart() {
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     // console.log(response);
     if (response.result) {
-      // window.location.replace(graphic_lux_subdirectory+'/cart');
+      window.location.replace(graphic_lux_subdirectory+'/cart');
     } else {
       confirm('Error adding product to cart.');
     }

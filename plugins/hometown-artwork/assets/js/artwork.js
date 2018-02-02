@@ -299,14 +299,6 @@ function save_artwork_to_user_meta() {
     "sleeveColor": sleeveImgColor
   };
 
-  // $.ajax({
-  //   type: "POST",
-  //   contentType: "application/json",
-  //   url: ha_artwork_config.ajaxurl,
-  //   data: artworkData,
-  //   dataType: "json"
-  // });
-
   $.post( ha_artwork_config.ajaxurl, artworkData, function(result) {
     console.log(result);
   } );
