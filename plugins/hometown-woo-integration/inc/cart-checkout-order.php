@@ -182,8 +182,6 @@ function hometown_display_imprint_data($productID, $variationID) {
 
     $artworkDataArray = hometown_get_imprint_artwork($variationID);
 
-    print_r($artworkDataArray);
-
     foreach ($imprintArray[$variationID] as $orientation => $location) {
       if ($orientation != '') {
         $output .= "<tr class='preview_imprint_locations'>";
