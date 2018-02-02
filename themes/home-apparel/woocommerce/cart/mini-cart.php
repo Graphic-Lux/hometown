@@ -28,7 +28,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 		<?php
 			do_action( 'woocommerce_before_mini_cart_contents' );
 
-      hometown_custom_prices( WC()->cart );
+      hometown_calculate_price( WC()->cart );
 
 			foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 //			  print_r($cart_item);

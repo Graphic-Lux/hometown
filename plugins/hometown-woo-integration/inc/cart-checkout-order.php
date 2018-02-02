@@ -92,8 +92,8 @@ if(!function_exists('hometown_add_user_sizes_and_imprint_data_into_cart_quantity
 
 
 
-add_action( 'woocommerce_before_calculate_totals', 'hometown_custom_prices', 10 );
-function hometown_custom_prices( $cart_object ) {
+add_action( 'woocommerce_before_calculate_totals', 'hometown_calculate_price', 10 );
+function hometown_calculate_price( $cart_object ) {
 
   global $isProcessed;
 
@@ -123,6 +123,8 @@ function hometown_custom_prices( $cart_object ) {
         $product_subtotal += $lineSubtotal;
 
       }
+
+
 
       $item['data']->set_price((float) $product_subtotal);
 
@@ -187,7 +189,11 @@ function hometown_display_imprint_data($productID, $variationID) {
         $output .= "<tr class='preview_imprint_locations'>";
         $output .= "<td>" . $orientation . "</td>";
         $output .= "<td>" . $location . "</td>";
-        $output .= "<td><img src='" . $artworkDataArray[$orientation]['url'] . "' /></td>";
+        $output .= "<td>";
+          $output .= "<img src='" . $artworkDataArray[$orientation]['url'] . "' />";
+          $color = ($artworkDataArray[$orientation]['color'] === 'No custom color') ? '' : $artworkDataArray[$orientation]['color'];
+          $output .= "<input type='hidden' value='" . $color . "' class='custom_svg_color'>";
+        $output .= "</td>";
         $output .= "</tr>";
       }
     }
