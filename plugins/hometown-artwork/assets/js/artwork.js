@@ -5,7 +5,7 @@ force_inline_svg();
 
 function artwork_init() {
 
-  //console.log('artwork init');
+  console.log('artwork init');
 
   $('.step_2_shirt_designs').fadeTo(100, .4);
   $('.step_2_shirt_designs figure').removeClass('selected');
@@ -60,6 +60,7 @@ function force_inline_svg() {
     let imgID = $img.attr('id');
     let imgClass = $img.attr('class');
     let imgURL = $img.attr('src');
+    let imgColor = $img.attr('data-color');
 
     $.get(imgURL, function (data) {
       // Get the SVG tag, ignore the rest
@@ -75,6 +76,10 @@ function force_inline_svg() {
       }
       // Add the image url as a data attribute
       $svg.attr('data-img-url', imgURL);
+
+      // If there is a color attribute, add it to the svg
+      $svg.find('g').css('fill', imgColor);
+      $svg.find('path').css('fill', imgColor);
 
       // Remove any invalid XML tags as per http://validator.w3.org
       $svg = $svg.removeAttr('xmlns:a');
@@ -104,7 +109,7 @@ function color_input_init() {
   let colorInputSwatch;
   let colorInputSelector;
 
-  // Assign ID's to each img
+  // Assign ID's to each img on product customization page
   $('.hometown_artwork .single_art').each(function (i) {
 
     orientation = $(this).parent().attr('class').split('artwork-')[1];

@@ -112,3 +112,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</tfoot>
 </table>
 <script type="text/javascript">$(document).ready(function() {hometown_cart_init();});</script>
+<script type="text/javascript">$(document).ready(function() {force_inline_svg();});</script>

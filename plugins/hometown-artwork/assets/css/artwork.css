@@ -4,10 +4,10 @@
   /*height: 150px;*/
 }
 
-.shirt_artwork svg {
+.shirt_artwork svg.replaced-svg {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 160px;
+  height: 170px;
 }
 
 .hometown_artwork img,
@@ -191,4 +191,10 @@
 
 .hometown_custom_color_selector .white_swatch {
   background: #ffffff;
+}
+
+.woocommerce-cart svg.replaced-svg,
+.woocommerce-checkout svg.replaced-svg {
+  width: 32px;
+  height: auto;
 }

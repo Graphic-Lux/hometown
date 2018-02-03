@@ -165,3 +165,4 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 <?php do_action( 'woocommerce_after_cart' ); ?>
 <script type="text/javascript">$(document).ready(function() {hometown_cart_init();});</script>
+<script type="text/javascript">$(document).ready(function() {force_inline_svg();});</script>
