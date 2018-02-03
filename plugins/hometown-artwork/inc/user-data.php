@@ -73,3 +73,26 @@ function hometown_get_imprint_artwork($variationID) {
   return $imprintDataArray;
 
 }
+
+
+function hometown_get_artwork_price($url) {
+
+  global $wpdb;
+
+  $query = "SELECT ID,post_type FROM `wp_posts` where guid like '%s'";
+  $sql = $wpdb->prepare($query, array($url));
+  $results = $wpdb->get_results($sql);
+
+  foreach($results as $result) {
+    if ($result->post_type === 'attachment') {
+      $parentID = wp_get_post_parent_id( $result->ID );
+      $query = "SELECT meta_value FROM `wp_postmeta` where post_id = %d and meta_key = 'hamf_artwork_price'";
+      $sql = $wpdb->prepare($query, array($parentID));
+      $priceResults = $wpdb->get_results($sql);
+      foreach ($priceResults as $priceResult) {
+        return $priceResult->meta_value;
+      }
+    }
+  }
+
+}

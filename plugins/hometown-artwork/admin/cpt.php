@@ -73,7 +73,7 @@ if ( !class_exists('hometownArtworkMetaFields') ) {
     /**
      * @var  string  $prefix  The prefix for storing custom fields in the postmeta table
      */
-    var $prefix = '_mcf_';
+    var $prefix = 'hamf_';
     /**
      * @var  array  $postTypes  An array of public custom post types, plus the standard "post" and "page" - add the custom types you want to include here
      */
@@ -83,7 +83,7 @@ if ( !class_exists('hometownArtworkMetaFields') ) {
      */
     var $customFields = array(
         array(
-            "name"          => "artwork-price",
+            "name"          => "artwork_price",
             "title"         => "Artwork Price",
             "description"   => "",
             "type"          => "text",
