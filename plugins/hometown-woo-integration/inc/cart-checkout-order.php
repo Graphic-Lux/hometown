@@ -248,7 +248,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
     $output = '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
     $output .= '<thead>
                   <tr>
-                    <th></th>
+                    <th>Size</th>
                     <th>QTY</th>
                     <th>Each</th>
                     <th>Total</th>
@@ -355,4 +355,51 @@ function hometown_display_user_meta($product, $variationID) {
   $output .= hometown_display_size_data($product, $productID, $variationID);
   return $output;
 
+}
+
+
+
+
+
+add_action('woocommerce_add_order_item_meta','hometown_add_values_to_order_item_meta',1,2);
+if(!function_exists('hometown_add_values_to_order_item_meta'))
+{
+  function hometown_add_values_to_order_item_meta($item_id, $values)
+  {
+    global $woocommerce,$wpdb;
+
+    $items = $woocommerce->cart->get_cart();
+
+    $user_custom_values = '<br>';
+
+    foreach($items as $item => $values) {
+      $product =  wc_get_product( $values['data']->get_id());
+
+      $variationID = hometown_get_variation_id($values['data']->get_id(), $values['data']->get_id());
+
+      $user_custom_values .= hometown_display_user_meta($product, $variationID);
+    }
+
+    if(!empty($user_custom_values))
+    {
+      wc_add_order_item_meta($item_id,'Sizes and Artwork',$user_custom_values);
+    }
+  }
+}
+
+add_action('woocommerce_before_cart_item_quantity_zero','hometown_remove_user_custom_data_options_from_cart',1,1);
+if(!function_exists('hometown_remove_user_custom_data_options_from_cart'))
+{
+  function hometown_remove_user_custom_data_options_from_cart($cart_item_key)
+  {
+    global $woocommerce;
+    // Get cart
+    $cart = $woocommerce->cart->get_cart();
+    // For each item in cart, if item is upsell of deleted product, delete it
+    foreach( $cart as $key => $values)
+    {
+      if ( $values['Sizes and Artwork'] == $cart_item_key )
+        unset( $woocommerce->cart->cart_contents[ $key ] );
+    }
+  }
 }
