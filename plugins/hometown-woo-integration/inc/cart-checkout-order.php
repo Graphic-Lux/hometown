@@ -122,23 +122,25 @@ function hometown_calculate_price( $cart_object ) {
         }
       }
 
+      $artTotal = (float) 0.00;
+      $artPriceOutput = '';
+
+      foreach ($artworkPrices as $orientation => $artPrice) {
+        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+        $artTotal += (float) $artPrice;
+      }
+
 
       foreach ($productSizeData as $size => $qty) {
 
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
 
           $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
-          $lineSubtotal = (float) $qty * $xxlPricing;
-          foreach ($artworkPrices as $orientation => $artPrice) {
-            $lineSubtotal = $qty * ($xxlPricing + $artPrice);
-          }
+          $lineSubtotal = $qty * ($xxlPricing + $artTotal);
 
         } else {
 
-          $lineSubtotal = (float) $qty * $price;
-          foreach ($artworkPrices as $orientation => $artPrice) {
-            $lineSubtotal = $qty * ($price + $artPrice);
-          }
+          $lineSubtotal = $qty * ($price + $artTotal);
 
         }
 
@@ -259,7 +261,8 @@ function hometown_display_size_data($product, $productID, $variationID) {
     // GET IMPRINT AND ARTWORK DATA
     $imprintArray = hometown_get_imprint_data($variationID);
     $artworkDataArray = hometown_get_imprint_artwork($variationID);
-    $artworkPrice = 'N/A';
+
+    $artworkPrices = array();
 
     // SET ARTWORK PRICE
     foreach ($imprintArray[$variationID] as $orientation => $location) {
@@ -268,14 +271,22 @@ function hometown_display_size_data($product, $productID, $variationID) {
       }
     }
 
+    $artTotal = (float) 0.00;
+    $artPriceOutput = '';
+
+    foreach ($artworkPrices as $orientation => $artPrice) {
+      $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+      $artTotal += (float) $artPrice;
+    }
+
+
+
     foreach($sizeData[$variationID] as $size => $qty) {
 
       if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
 
         $xxlPriceNumber = (float) number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
         $xxlPrice = '$'.$xxlPriceNumber;
-        $lineSubtotal = (float) $qty * $xxlPriceNumber;
-        $shirtSubtotal = (float) $xxlPriceNumber;
 
         $output .= "<tr class='preview_sizes'>";
         $output .= '<td>' . $size . '</td>';
@@ -284,11 +295,10 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
         $output .= '<td>Ind. shirt: ' . $xxlPrice;
 
-        foreach ($artworkPrices as $orientation => $artPrice) {
-          $output .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
-          $lineSubtotal = $qty * ($xxlPriceNumber+$artPrice);
-          $shirtSubtotal = (float) $xxlPriceNumber + $artPrice;
-        }
+        $output .= $artPriceOutput;
+
+        $lineSubtotal = $qty * ($xxlPriceNumber+$artTotal);
+        $shirtSubtotal = (float) $xxlPriceNumber + $artTotal;
 
         $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
 
@@ -299,9 +309,6 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
       } else {
 
-        $lineSubtotal = (float) $qty * $price;
-        $shirtSubtotal = (float) $price;
-
         $shirtPriceOutput = '$'.number_format($price, 2);
 
         $output .= "<tr class='preview_sizes'>";
@@ -311,12 +318,11 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
         $output .= '<td>Ind. shirt: ' . $shirtPriceOutput;
 
-          foreach ($artworkPrices as $orientation => $artPrice) {
-            $output .= '<br>+ ' . $orientation . ' artwork: $' . number_format($artPrice, 2);
-            $lineSubtotal = $qty * ($price+$artPrice);
-            $shirtSubtotal = (float) $price + $artPrice;
-          }
+        $output .= $artPriceOutput;
 
+        $lineSubtotal = $qty * ($price+$artTotal);
+
+        $shirtSubtotal = (float) $price + $artTotal;
 
         $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
 
