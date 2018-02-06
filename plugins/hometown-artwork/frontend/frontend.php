@@ -31,19 +31,19 @@ function hometown_get_artwork() {
         $category = $categoryData->slug;
 
         if ($category === 'front') {
-          $artworkFront .= '<div class="single_art">';
+          $artworkFront .= '<div class="single_art" data-artwork-id="'.get_the_ID().'">';
             $artworkFront .= get_the_post_thumbnail( null, array( 160,160, 'class' => ' force-inline-svg' ) );
             $artworkFront .= '<span class="artwork_title">' . get_the_title() . '</span>';
             $artworkFront .= custom_color_selector($categoryDataArray, $category);
           $artworkFront .= '</div>';
         } else if ($category === 'back') {
-          $artworkBack .= '<div class="single_art">';
+          $artworkBack .= '<div class="single_art" data-artwork-id="'.get_the_ID().'">';
             $artworkBack .= get_the_post_thumbnail( null, array( 160,160, 'class' => ' force-inline-svg') );
             $artworkBack .= '<span class="artwork_title">' . get_the_title() . '</span>';
             $artworkBack .= custom_color_selector($categoryDataArray, $category);
           $artworkBack .= '</div>';
         } else if ($category === 'sleeve') {
-          $artworkSleeve .= '<div class="single_art">';
+          $artworkSleeve .= '<div class="single_art" data-artwork-id="'.get_the_ID().'">';
             $artworkSleeve .= get_the_post_thumbnail( null, array( 160,160, 'class' => ' force-inline-svg' ) );
             $artworkSleeve .= '<span class="artwork_title">' . get_the_title() . '</span>';
             $artworkSleeve .= custom_color_selector($categoryDataArray, $category);
@@ -88,8 +88,6 @@ function custom_color_selector($categoryDataArray, $orientation) {
         $customColorOutput .= '<div class="hometown_color_swatch white_swatch"></div>';
 
         $customColorOutput .= '<div class="hometown_color_wheel">';
-          //$customColorOutput .= '<img src="'.HAA_PLUGIN_URL.'assets/img/color-wheel.png" class="'.$orientation.'" />';
-          //$customColorOutput .= '<button style="background: url('.HAA_PLUGIN_URL.'assets/img/color-wheel.png)" class="'.$orientation.'" />';
           $customColorOutput .= '<input type="hidden" name="'.$orientation.'-color" id="'.$orientation.'-color_input" class="color_input">';
         $customColorOutput .= '</div>';
 

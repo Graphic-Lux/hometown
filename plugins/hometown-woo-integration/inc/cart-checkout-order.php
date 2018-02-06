@@ -115,12 +115,10 @@ function hometown_calculate_price( $cart_object ) {
       $imprintArray = hometown_get_imprint_data($variationID);
       $artworkDataArray = hometown_get_imprint_artwork($variationID);
 
-      $artworkPrice = 'N/A';
-
       // SET ARTWORK PRICE
       foreach ($imprintArray[$variationID] as $orientation => $location) {
         if ($location != '') {
-          $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['url']), 2);
+          $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
         }
       }
 
@@ -218,7 +216,7 @@ function hometown_display_imprint_data($productID, $variationID) {
           $color = ($artworkDataArray[$orientation]['color'] === 'No custom color') ? '' : $artworkDataArray[$orientation]['color'];
           $output .= "<img src='" . $artworkDataArray[$orientation]['url'] . "' class='force-inline-svg' data-color='".$color."'/>";
         $output .= "</td>";
-        $output .= "<td>$" . number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['url']), 2) . "/shirt</td>";
+        $output .= "<td>$" . number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2) . "/shirt</td>";
         $output .= "</tr>";
       }
     }
@@ -266,7 +264,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
     // SET ARTWORK PRICE
     foreach ($imprintArray[$variationID] as $orientation => $location) {
       if ($location != '') {
-        $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['url']), 2);
+        $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
       }
     }
 
@@ -284,7 +282,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
         $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
 
-        $output .= '<td>Ind. shirt price: ' . $xxlPrice;
+        $output .= '<td>Ind. shirt: ' . $xxlPrice;
 
         foreach ($artworkPrices as $orientation => $artPrice) {
           $output .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
@@ -292,7 +290,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
           $shirtSubtotal = (float) $xxlPriceNumber + $artPrice;
         }
 
-        $output .= "<br><strong>SHIRT TOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
+        $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
 
         $output .= '</td>';
 
@@ -311,7 +309,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
         $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
 
-        $output .= '<td>Ind. shirt price: ' . $shirtPriceOutput;
+        $output .= '<td>Ind. shirt: ' . $shirtPriceOutput;
 
           foreach ($artworkPrices as $orientation => $artPrice) {
             $output .= '<br>+ ' . $orientation . ' artwork: $' . number_format($artPrice, 2);
@@ -320,7 +318,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
           }
 
 
-        $output .= "<br><strong>SHIRT TOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
+        $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
 
         $output .= '</td>';
         $output .= '<td>' . '$'.number_format($lineSubtotal, 2) . '</td>';
@@ -387,19 +385,19 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
   }
 }
 
-add_action('woocommerce_before_cart_item_quantity_zero','hometown_remove_user_custom_data_options_from_cart',1,1);
-if(!function_exists('hometown_remove_user_custom_data_options_from_cart'))
-{
-  function hometown_remove_user_custom_data_options_from_cart($cart_item_key)
-  {
-    global $woocommerce;
-    // Get cart
-    $cart = $woocommerce->cart->get_cart();
-    // For each item in cart, if item is upsell of deleted product, delete it
-    foreach( $cart as $key => $values)
-    {
-      if ( $values['Sizes and Artwork'] == $cart_item_key )
-        unset( $woocommerce->cart->cart_contents[ $key ] );
-    }
-  }
-}
+//add_action('woocommerce_before_cart_item_quantity_zero','hometown_remove_user_custom_data_options_from_cart',1,1);
+//if(!function_exists('hometown_remove_user_custom_data_options_from_cart'))
+//{
+//  function hometown_remove_user_custom_data_options_from_cart($cart_item_key)
+//  {
+//    global $woocommerce;
+//    // Get cart
+//    $cart = $woocommerce->cart->get_cart();
+//    // For each item in cart, if item is upsell of deleted product, delete it
+//    foreach( $cart as $key => $values)
+//    {
+//      if ( $values['Sizes and Artwork'] == $cart_item_key )
+//        unset( $woocommerce->cart->cart_contents[ $key ] );
+//    }
+//  }
+//}

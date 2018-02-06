@@ -35,12 +35,16 @@ function artwork_init() {
 
   // CLICK ARTWORK TO PLACE ON T-SHIRT
   $(".single_art img").unbind().click(function () {
-    apply_artwork_to_shirt($(this).clone(), $(this).parent().parent().attr('class').split('artwork-')[1]);
+    let artClone = $(this).clone();
+    $(artClone).attr('data-artwork-id', $(this).parent().attr('data-artwork-id'));
+    apply_artwork_to_shirt(artClone, $(this).parent().parent().attr('class').split('artwork-')[1]);
   });
 
   // CLICK ARTWORK TO PLACE ON T-SHIRT
   $(".single_art svg").unbind().click(function () {
-    apply_artwork_to_shirt($(this).clone(), $(this).parent().parent().attr('class').split('artwork-')[1]);
+    let artClone = $(this).clone();
+    $(artClone).attr('data-artwork-id', $(this).parent().attr('data-artwork-id'));
+    apply_artwork_to_shirt(artClone, $(this).parent().parent().attr('class').split('artwork-')[1]);
   });
 
 
@@ -292,16 +296,23 @@ function save_artwork_to_user_meta() {
   let product_id = $("#continue_3").data('product-id');
   let variation_id = $("#continue_3").data('product-variant-id');
 
+  let frontArtworkID = parseInt($('figure#front .front-selected_art').attr('data-artwork-id'));
+  let backArtworkID = parseInt($('figure#back .back-selected_art').attr('data-artwork-id'));
+  let sleeveArtworkID = parseInt($('figure#sleeve .sleeve-selected_art').attr('data-artwork-id'));
+
   let artworkData = {
-    "action": "hometown_save_imprint_artwork",
-    "product_id": product_id,
-    "variation_id": variation_id,
-    "frontURL": frontImgURL,
-    "frontColor": frontImgColor,
-    "backURL": backImgURL,
-    "backColor": backImgColor,
-    "sleeveURL": sleeveImgURL,
-    "sleeveColor": sleeveImgColor
+    "action":           "hometown_save_imprint_artwork",
+    "product_id":       product_id,
+    "variation_id":     variation_id,
+    "frontURL":         frontImgURL,
+    "frontColor":       frontImgColor,
+    "frontArtworkID":   frontArtworkID,
+    "backURL":          backImgURL,
+    "backColor":        backImgColor,
+    "backArtworkID":    backArtworkID,
+    "sleeveURL":        sleeveImgURL,
+    "sleeveColor":      sleeveImgColor,
+    "sleeveArtworkID":  sleeveArtworkID
   };
 
   $.post( ha_artwork_config.ajaxurl, artworkData, function(result) {
