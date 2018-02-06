@@ -114,6 +114,7 @@ function hometown_calculate_price( $cart_object ) {
       // GET IMPRINT AND ARTWORK DATA
       $imprintArray = hometown_get_imprint_data($variationID);
       $artworkDataArray = hometown_get_imprint_artwork($variationID);
+
       $artworkPrice = 'N/A';
 
       // SET ARTWORK PRICE

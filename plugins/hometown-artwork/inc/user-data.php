@@ -40,37 +40,50 @@ function hometown_get_imprint_artwork($variationID) {
 
   $imprintArtworkData = explode(',', get_user_meta( get_current_user_id(), $meta_key, true ));
 
-  $imprintDataArray = array();
+  if (count($imprintArtworkData) > 0) {
 
-  foreach ($imprintArtworkData as $data) {
+    $imprintDataArray = array();
 
-    $keyValuePair = explode('=', $data);
-    $key = $keyValuePair[0];
-    $value = $keyValuePair[1];
+    foreach ($imprintArtworkData as $data) {
 
-    if (strpos($key, 'Front') !== false) {
-      if (strpos($key, 'Color') !== false) {
-        $imprintDataArray['Front']['color'] = $value;
-      } else {
-        $imprintDataArray['Front']['url'] = $value;
+      $keyValuePair = explode('=', $data);
+
+      if (count($keyValuePair) > 0) {
+
+        $key = $keyValuePair[0];
+        $value = $keyValuePair[1];
+
+        if (strpos($key, 'Front') !== false) {
+          if (strpos($key, 'Color') !== false) {
+            $imprintDataArray['Front']['color'] = $value;
+          } else {
+            $imprintDataArray['Front']['url'] = $value;
+          }
+        } else if (strpos($key, 'Back') !== false) {
+          if (strpos($key, 'Color') !== false) {
+            $imprintDataArray['Back']['color'] = $value;
+          } else {
+            $imprintDataArray['Back']['url'] = $value;
+          }
+        } else if (strpos($key, 'Sleeve') !== false) {
+          if (strpos($key, 'Color') !== false) {
+            $imprintDataArray['Sleeve']['color'] = $value;
+          } else {
+            $imprintDataArray['Sleeve']['url'] = $value;
+          }
+        }
+
       }
-    } else if (strpos($key, 'Back') !== false) {
-      if (strpos($key, 'Color') !== false) {
-        $imprintDataArray['Back']['color'] = $value;
-      } else {
-        $imprintDataArray['Back']['url'] = $value;
-      }
-    } else if (strpos($key, 'Sleeve') !== false) {
-      if (strpos($key, 'Color') !== false) {
-        $imprintDataArray['Sleeve']['color'] = $value;
-      } else {
-        $imprintDataArray['Sleeve']['url'] = $value;
-      }
+
     }
 
+    return $imprintDataArray;
+
+  } else {
+    return false;
   }
 
-  return $imprintDataArray;
+
 
 }
 
