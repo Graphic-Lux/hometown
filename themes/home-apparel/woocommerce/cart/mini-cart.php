@@ -55,9 +55,9 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 						<?php if ( ! $_product->is_visible() ) : ?>
 							<?php echo str_replace( array( 'http:', 'https:' ), '', $thumbnail ) . $product_name . '&nbsp;'; ?>
 						<?php else : ?>
-							<a href="<?php echo esc_url( $product_permalink ); ?>">
+<!--							<a href="--><?php //echo esc_url( $product_permalink ); ?><!--">-->
 								<?php echo str_replace( array( 'http:', 'https:' ), '', $thumbnail ) . $product_name . '&nbsp;'; ?>
-							</a>
+<!--							</a>-->
 						<?php endif; ?>
 						<?php echo WC()->cart->get_item_data( $cart_item ); ?>
 
