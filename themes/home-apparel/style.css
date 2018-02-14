@@ -238,6 +238,22 @@ h3.step_heading {
     padding-left: 150px;
 }
 
+h4.edit_heading {
+    display: inline;
+    float: right;
+    position: relative;
+    top: -40px;
+    right: 10px;
+}
+
+.step_2_shirt_designs {
+    cursor: pointer;
+}
+
+tr.preview_sizes input.size_qty {
+    border: 1px solid #e3e3e3 !important;
+}
+
 .type {
     width: 100%;
 	display: block;
