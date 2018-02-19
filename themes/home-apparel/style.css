@@ -339,6 +339,10 @@ div table.shop_table td {
     vertical-align: top;
 }
 
+img.force-inline-svg {
+	background: #ccc;
+}
+
 /* Mobile Hamburger Menu Only */
 @media only screen and (max-width: 9999999px) and (min-width: 768px) {
 	.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item-avia-special {
