@@ -8,20 +8,21 @@ function artwork_init() {
   console.log('artwork init');
 
   $('.step_2_shirt_designs').fadeTo(100, .4);
-  $('.step_2_shirt_designs figure').removeClass('selected');
+  $('.step_2_shirt_designs').removeClass('selected');
   $('.step_2_shirt_designs:first').fadeTo(100, 1);
-  $('.step_2_shirt_designs figure:first').addClass('selected');
+  $('.step_2_shirt_designs:first').addClass('selected');
 
   // Initialize color inputs
   color_input_init();
 
-  $('.step_2_shirt_designs figure').unbind().click(function () {
-    $('.step_2_shirt_designs').fadeTo(200, .4);
+  $('.step_2_shirt_designs').unbind().click(function () {
+
     $('.step_2_shirt_designs').removeClass('selected');
-    $(this).parent().fadeTo(100, 1);
+    $('.step_2_shirt_designs').fadeTo(200, .4);
+    $(this).fadeTo(100, 1);
     $(this).addClass('selected');
 
-    let orientation = $(this).attr('id');
+    let orientation = $(this).find('figure').attr('id');
 
     artwork_display(orientation);
 
