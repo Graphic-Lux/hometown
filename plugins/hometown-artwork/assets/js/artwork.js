@@ -159,7 +159,6 @@ function apply_color_to_svg(id, svg, swatch, selector, orientation) {
     // If artwork is on a shirt, change it's color too
     if ($('figure#' + orientation).find($('[data-svg="' + id + '"]')).length) {
       apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
-
     }
 
   });
@@ -247,7 +246,13 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
 
   } else {
 
-    alert('Please select an imprint location for the artwork using the dropdown.');
+    // alert('Please select an imprint location for the artwork using the dropdown.');
+
+    $('#'+shirtOrientation+'-imprint_location').bounce({
+      interval: 100,
+      distance: 10,
+      times: 5
+    });
 
   }
 
@@ -329,3 +334,33 @@ function artwork_display(orientation) {
   $('.artwork-' + orientation).show();
 
 }
+
+
+
+(function($){
+  $.fn.bounce = function(settings) {
+    if(typeof settings.interval == 'undefined'){
+      settings.interval = 100;
+    }
+
+    if(typeof settings.distance == 'undefined'){
+      settings.distance = 10;
+    }
+
+    if(typeof settings.times == 'undefined'){
+      settings.times = 4;
+    }
+
+    if(typeof settings.complete == 'undefined'){
+      settings.complete = function(){};
+    }
+
+    $(this).css('position','relative');
+
+    for(var iter=0; iter<(settings.times+1); iter++){
+      $(this).animate({ top:((iter%2 == 0 ? settings.distance : settings.distance * -1)) }, settings.interval);
+    }
+
+    $(this).animate({ top: 0}, settings.interval, settings.complete);
+  };
+})(jQuery);
