@@ -232,7 +232,7 @@ function add_variation_to_cart() {
     if (response.result) {
       window.location.replace(graphic_lux_subdirectory+'/cart');
     } else {
-      confirm('Error adding product to cart.');
+      confirm('Error adding product to cart. Cannot add the same t-shirt and color combination to the cart more than once.');
     }
   });
 }

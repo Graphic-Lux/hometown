@@ -145,7 +145,7 @@ function hometown_step_2_func() {
           <?php hometown_get_artwork(); ?>
         </div>
       </div>
-        <a href="#/" class="continue_button" id="continue_2">CONTINUE &rarr;</a>
+        <a href="#/" class="continue_button" id="continue_2">NEXT &rarr;</a>
     </div>
 
   </div>
