@@ -161,7 +161,7 @@ function hometown_get_product_variant_images() {
             $middleHTML_dropdown .= "<option value='0'>Choose Back Imprint Location</option>";
             $middleHTML_dropdown .= "<option value='full_back'>CENTERED - Full Imprint</option>";
             $middleHTML_dropdown .= "<option value='upper_back'>Upper Back</option>";
-            $middleHTML_dropdown .= "<option value='lower_back'>Lower Back</option>";
+//            $middleHTML_dropdown .= "<option value='lower_back'>Lower Back</option>";
           $middleHTML_dropdown .= "</select>";
 
           $main_images_middle .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $middleHTML, $id );

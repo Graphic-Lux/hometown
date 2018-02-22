@@ -35,7 +35,7 @@ function hometown_reload_add_to_cart_actions() {
     }
   });
 
-
+  // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
 
     e.preventDefault();
@@ -58,6 +58,8 @@ function hometown_reload_add_to_cart_actions() {
     } else if (pathname.indexOf('custom/create')) {
 
       $('.step_1_close').slideUp();
+
+      $('.artwork_selection').slideDown();
 
       $('.step_1 .step-holder .custom_step').addClass('done');
 

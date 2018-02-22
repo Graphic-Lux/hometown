@@ -232,7 +232,7 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
     $('.' + shirtOrientation + '-selected_art').remove();
     // console.log(artClone);
 
-    //artClone.removeClass('full_front mid_chest pocket full_back upper_back lower_back left_sleeve right_sleeve');
+    artClone.removeClass('full_front mid_chest pocket full_back upper_back lower_back left_sleeve right_sleeve');
 
     if (imprintLocation === 'right_sleeve') {
       $('#' + shirtOrientation + ' img').addClass('reflect');
