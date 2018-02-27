@@ -32,9 +32,9 @@ do_action( 'woocommerce_before_cart' ); ?>
 			<tr>
 				<th class="product-remove">&nbsp;</th>
 				<th class="product-thumbnail">&nbsp;</th>
-				<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
+<!--				<th class="product-name">--><?php //_e( 'Product', 'woocommerce' ); ?><!--</th>-->
 <!--				<th class="product-price">--><?php //_e( 'Price', 'woocommerce' ); ?><!--</th>-->
-				<th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
+				<th class="product-info"><?php _e( 'Info', 'woocommerce' ); ?></th>
 				<th class="product-subtotal"><?php _e( 'Total', 'woocommerce' ); ?></th>
 			</tr>
 		</thead>
@@ -66,30 +66,13 @@ do_action( 'woocommerce_before_cart' ); ?>
 						<td class="product-thumbnail">
 							<?php
 								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-
-								if ( ! $product_permalink ) {
-									echo $thumbnail;
-								} else {
-									printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail );
-								}
+                echo $thumbnail;
 							?>
 						</td>
 
-						<td class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>">
-							<?php
-
-              echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;';
-
-
-								// Meta data
-								echo WC()->cart->get_item_data( $cart_item );
-
-								// Backorder notification
-								if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-									echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>';
-								}
-							?>
-						</td>
+<!--						<td class="product-name" data-title="--><?php //esc_attr_e( 'Product', 'woocommerce' ); ?><!--">-->
+<!---->
+<!--						</td>-->
 
 <!--						<td class="product-price" data-title="--><?php //esc_attr_e( 'Price', 'woocommerce' ); ?><!--">-->
 							<?php
@@ -97,7 +80,22 @@ do_action( 'woocommerce_before_cart' ); ?>
 							?>
 <!--						</td>-->
 
-						<td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
+						<td class="product-info" data-title="<?php esc_attr_e( 'Info', 'woocommerce' ); ?>">
+
+              <?php
+
+              echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;';
+
+
+              // Meta data
+              echo WC()->cart->get_item_data( $cart_item );
+
+              // Backorder notification
+              if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+                echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>';
+              }
+              ?>
+
 							<?php
 								if ( $_product->is_sold_individually() ) {
 									$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );

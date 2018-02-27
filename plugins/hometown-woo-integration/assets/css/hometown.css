@@ -116,3 +116,13 @@
 .restore-item {
   display: none;
 }
+
+.product-thumbnail {
+  width: 25%;
+}
+
+table.cart img {
+  width: 120px;
+  margin: 0 auto;
+  display: block;
+}
