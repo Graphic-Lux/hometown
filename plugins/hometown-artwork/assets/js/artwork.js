@@ -246,8 +246,6 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
 
   } else {
 
-    // alert('Please select an imprint location for the artwork using the dropdown.');
-
     $('#'+shirtOrientation+'-imprint_location').bounce({
       interval: 100,
       distance: 10,
