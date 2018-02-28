@@ -43,7 +43,7 @@ function hometown_get_imprint_artwork($variationID) {
 
   $imprintArtworkData = explode(',', get_user_meta( get_current_user_id(), $meta_key, true ));
 
-  if (count($imprintArtworkData) > 0) {
+  if ($imprintArtworkData[0] !== '') {
 
     $imprintDataArray = array();
 

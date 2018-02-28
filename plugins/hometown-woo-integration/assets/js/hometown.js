@@ -135,6 +135,12 @@ function hometown_init() {
   });
 
 
+  if ($('.woocommerce-order-overview__order.order').length > 0) {
+    var orderNumberClone = $('.woocommerce-order-overview__order.order').html();
+    $('.avia_codeblock ').prepend(orderNumberClone+'<br>');
+  }
+
+
 }
 
 

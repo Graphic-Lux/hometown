@@ -115,21 +115,24 @@ function hometown_calculate_price( $cart_object ) {
       $imprintArray = hometown_get_imprint_data($variationID);
       $artworkDataArray = hometown_get_imprint_artwork($variationID);
 
-      // SET ARTWORK PRICE
-      foreach ($imprintArray[$variationID] as $orientation => $location) {
-        if ($location != '') {
-          $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+      if ($artworkDataArray) {
+        // SET ARTWORK PRICE
+        foreach ($imprintArray[$variationID] as $orientation => $location) {
+          if ($location != '') {
+            $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+          }
         }
+
+        $artTotal = (float) 0.00;
+        $artPriceOutput = '';
+
+        foreach ($artworkPrices as $orientation => $artPrice) {
+          $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+          $artTotal += (float) $artPrice;
+        }
+      } else {
+        $artTotal = (float) 0.00;
       }
-
-      $artTotal = (float) 0.00;
-      $artPriceOutput = '';
-
-      foreach ($artworkPrices as $orientation => $artPrice) {
-        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
-        $artTotal += (float) $artPrice;
-      }
-
 
       foreach ($productSizeData as $size => $qty) {
 

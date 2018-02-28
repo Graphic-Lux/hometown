@@ -140,7 +140,7 @@ function hometown_woocommerce_order_status_completed( $order_id ) {
   hometown_delete_all_user_meta($items);
 
 }
-add_action( 'woocommerce_thankyou', 'hometown_woocommerce_order_status_completed', 10, 1 );
+//add_action( 'woocommerce_thankyou', 'hometown_woocommerce_order_status_completed', 10, 1 );
 
 
 
