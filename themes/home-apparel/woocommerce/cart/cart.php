@@ -65,9 +65,16 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 						<td class="product-thumbnail">
 							<?php
-								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-                echo $thumbnail;
-							?>
+
+              $image = wp_get_attachment_image_src( get_post_thumbnail_id( $_product->get_ID() ), 'single-post-thumbnail' );
+              ?>
+
+              <img src="<?php  echo $image[0]; ?>" data-id="<?php echo $_product->get_ID() ?>">
+              <?php
+
+//								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+//                echo $thumbnail;
+?>
 						</td>
 
 <!--						<td class="product-name" data-title="--><?php //esc_attr_e( 'Product', 'woocommerce' ); ?><!--">-->
