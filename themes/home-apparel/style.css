@@ -208,6 +208,18 @@ div .products .product a.wcvaswatchinput, div .products .product a.wcvaswatchinp
     display: initial;
 }
 
+.page-id-588 .woocommerce-order {
+	display: none;
+}
+
+#content-width {
+	max-width: 1210px;
+    margin: 0 auto;
+    clear: both;
+    border: solid 1px #eaeaea !important;
+    background-color: #fff;
+}
+
 /* Create Custom */
 
 .step-holder {
