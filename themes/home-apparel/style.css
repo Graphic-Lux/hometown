@@ -212,14 +212,26 @@ div .products .product a.wcvaswatchinput, div .products .product a.wcvaswatchinp
 	display: none;
 }
 
-#content-width {
+#content-width .container {
 	max-width: 1210px;
-    margin: 0 auto;
-    clear: both;
+    padding: 0px 0px;
     border: solid 1px #eaeaea !important;
     background-color: #fff;
 }
 
+#content-width .container .content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+table.cart img.force-inline-svg {
+    width: 80px;
+}
+
+.woocommerce-cart svg.replaced-svg, .woocommerce-checkout svg.replaced-svg {
+    width: 80px;
+    background: #ededed;
+}
 /* Create Custom */
 
 .step-holder {
