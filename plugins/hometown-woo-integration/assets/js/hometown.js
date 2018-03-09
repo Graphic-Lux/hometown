@@ -3,7 +3,11 @@ $=jQuery;
 let pathname = window.location.pathname;
 let graphic_lux_subdirectory = '/home';
 
-$(document).ready(function () {
+$(document).ready(function () { hometown_init();});
+
+
+
+function hometown_init() {
 
   //initialize swiper when document ready
   var mySwiper = new Swiper ('.swiper-container', {
@@ -13,14 +17,6 @@ $(document).ready(function () {
     slidesPerView: 5,
     autoResize: true
   });
-
-  hometown_init();
-
-});
-
-
-
-function hometown_init() {
 
   // console.log('hometown init');
 
