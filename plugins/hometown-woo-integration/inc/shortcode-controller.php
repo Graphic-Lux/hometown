@@ -140,7 +140,7 @@ function hometown_step_2_func() {
     <div class="step_2_content_container subtype">
       <div class="shirt_positions"></div>
       <div class="artwork_selection">
-        <h4>Choose Your Artwork</h4>
+        <h4>Select Your Imprint Artwork & Color</h4>
         <div class="artwork_slider">
           <?php hometown_get_artwork(); ?>
         </div>
