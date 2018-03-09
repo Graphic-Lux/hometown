@@ -368,7 +368,11 @@ div table.shop_table td {
     vertical-align: top;
 }
 
-img.force-inline-svg {
+.single_art {
+	margin-right: 5px;
+}
+
+.single_art svg {
 	background: #ccc;
 }
 

@@ -292,8 +292,11 @@ function hometown_display_sizes() {
 
 
   ?>
+  
   <div class="all_shirt_sizes">
+	 
     <div class="standard_sizes">
+	     <h2>Choose Your Sizes</h2>
       <div class="sizing_inputs">
         <label for="XS">XS</label>
         <input name="XS" type="text" class="size_qty" value="<?=$sizeArray['XS'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
