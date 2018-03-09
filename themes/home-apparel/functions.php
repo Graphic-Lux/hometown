@@ -66,8 +66,8 @@ function woo_debug_bottom() {
 	echo 'bottom';
 }
 
-add_action( 'woocommerce_before_checkout_form', 'woo_debug_top', 5 );
-add_action( 'woocommerce_before_checkout_billing_form', 'woo_debug_bottom', 5 );
+//add_action( 'woocommerce_before_checkout_form', 'woo_debug_top', 5 );
+//add_action( 'woocommerce_before_checkout_billing_form', 'woo_debug_bottom', 5 );
 
 
 /** Add Custom Tab In Account Area */
