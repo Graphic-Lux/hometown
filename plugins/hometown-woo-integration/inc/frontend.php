@@ -248,7 +248,7 @@ add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_single_ad
 
 function woo_custom_single_add_to_cart_text() {
 
-  return __( 'Continue', 'woocommerce' );
+  return __( 'SELECT THIS PRODUCT', 'woocommerce' );
 
 }
 
