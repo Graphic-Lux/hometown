@@ -132,3 +132,7 @@ table.cart img {
   text-align: center;
   display: block;
 }
+
+.step-holder h4.edit_heading {
+  display: none;
+}

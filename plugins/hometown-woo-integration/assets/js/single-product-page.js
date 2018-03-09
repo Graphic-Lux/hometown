@@ -63,6 +63,8 @@ function hometown_reload_add_to_cart_actions() {
 
       $('.step_1 .step-holder .custom_step').addClass('done');
 
+      $('.step_1 .step-holder .edit_heading').fadeIn();
+
       setAddToCartData(product_id, variation_id);
 
       let data = {

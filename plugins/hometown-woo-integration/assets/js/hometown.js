@@ -90,6 +90,8 @@ function hometown_init() {
 
     $('.step_2 .step-holder .custom_step').addClass('done');
 
+    $('.step_2 .step-holder .edit_heading').fadeIn();
+
     $('#continue_2').fadeOut();
     $('.artwork_selection').slideUp();
     $('.step_2_shirt_designs').fadeTo(100, 1);
