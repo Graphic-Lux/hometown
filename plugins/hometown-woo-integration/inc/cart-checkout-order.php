@@ -143,7 +143,7 @@ function hometown_calculate_price( $cart_object ) {
         $artPriceOutput = '';
 
         foreach ($artworkPrices as $orientation => $artPrice) {
-          $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+//          $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
           $artTotal += (float) $artPrice;
         }
       } else {
@@ -297,7 +297,7 @@ function hometown_display_size_data($product, $productID, $variationID, $screen)
       $artPriceOutput = '';
 
       foreach ($artworkPrices as $orientation => $artPrice) {
-        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+//        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
         $artTotal += (float) $artPrice;
       }
 
@@ -323,14 +323,15 @@ function hometown_display_size_data($product, $productID, $variationID, $screen)
           $output .= '<td>'.$qty.'</td>';
         }
 
-        $output .= '<td>Ind. shirt: ' . $xxlPrice;
+        $output .= '<td>';
+        //$output .= 'Ind. shirt: ' . $xxlPrice;
 
         $output .= $artPriceOutput;
 
         $lineSubtotal = $qty * ($xxlPriceNumber+$artTotal);
         $shirtSubtotal = (float) $xxlPriceNumber + $artTotal;
 
-        $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
+        $output .= "$".number_format($shirtSubtotal, 2);
 
         $output .= '</td>';
 
@@ -350,7 +351,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen)
           $output .= '<td>'.$qty.'</td>';
         }
 
-        $output .= '<td>Ind. shirt: ' . $shirtPriceOutput;
+        $output .= '<td>';
+        //$output .= 'Ind. shirt: ' . $shirtPriceOutput;
 
         $output .= $artPriceOutput;
 
@@ -358,7 +360,7 @@ function hometown_display_size_data($product, $productID, $variationID, $screen)
 
         $shirtSubtotal = (float) $price + $artTotal;
 
-        $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
+        $output .= "$".number_format($shirtSubtotal, 2);
 
         $output .= '</td>';
         $output .= '<td>' . '$'.number_format($lineSubtotal, 2) . '</td>';
