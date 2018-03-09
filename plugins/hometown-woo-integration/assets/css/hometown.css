@@ -126,3 +126,9 @@ table.cart img {
   margin: 0 auto;
   display: block;
 }
+
+.click_to_edit_product {
+  font-size: 8px;
+  text-align: center;
+  display: block;
+}

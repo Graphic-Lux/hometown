@@ -137,6 +137,8 @@ function hometown_get_product_variant_images() {
           $leftHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $leftHTML .= '</figure>';
 
+          $leftHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+
           // CREATE DROPDOWN
           $leftHTML_dropdown = "<select name='front-imprint_location' class='imprint_location_dropdown' id='front-imprint_location'>";
             $leftHTML_dropdown .= "<option value='0'>Choose Front Imprint Location</option>";
@@ -157,6 +159,8 @@ function hometown_get_product_variant_images() {
           $middleHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $middleHTML .= '</figure>';
 
+          $middleHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+
           $middleHTML_dropdown = "<select name='back-imprint_location' class='imprint_location_dropdown' id='back-imprint_location'>";
             $middleHTML_dropdown .= "<option value='0'>Choose Back Imprint Location</option>";
             $middleHTML_dropdown .= "<option value='full_back'>CENTERED - Full Imprint</option>";
@@ -176,6 +180,8 @@ function hometown_get_product_variant_images() {
             $rightHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
             $rightHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
             $rightHTML .= '</figure>';
+
+            $rightHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
 
             if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
               $rightHTML_dropdown = "<select name='sleeve-imprint_location' class='imprint_location_dropdown' id='sleeve-imprint_location'>";
