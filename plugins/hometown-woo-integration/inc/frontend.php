@@ -142,9 +142,15 @@ function hometown_get_product_variant_images() {
           // CREATE DROPDOWN
           $leftHTML_dropdown = "<select name='front-imprint_location' class='imprint_location_dropdown' id='front-imprint_location'>";
             $leftHTML_dropdown .= "<option value='0'>Choose Front Imprint Location</option>";
-            $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
-            $leftHTML_dropdown .= "<option value='mid_chest'>Mid Chest</option>";
-            $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+            if ($shirtType === 'polo') {
+              $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+            } else if ($shirtType === 'hat') {
+              $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
+            } else {
+              $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
+              $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+              $leftHTML_dropdown .= "<option value='centered'>Centered</option>";
+            }
           $leftHTML_dropdown .= "</select>";
 
           // PUT IMAGE INTO WOOCOMMERCE HTML FILTER
@@ -154,23 +160,29 @@ function hometown_get_product_variant_images() {
 
       } else if ($shirtOrientation === 'back') {
 
-        $main_images_middle = "<div class='step_2_shirt_designs'>";
-          $middleHTML  = '<figure id="'.$shirtOrientation.'"data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide ">';
-          $middleHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
+        if (($shirtType === 'longsleeve') || ($shirtType === 'tee') || ($shirtType === 'tank') || ($shirtType === 'polo')) {
+
+          $main_images_middle = "<div class='step_2_shirt_designs'>";
+          $middleHTML = '<figure id="' . $shirtOrientation . '"data-thumb="' . esc_url($thumbnail[0]) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide ">';
+          $middleHTML .= wp_get_attachment_image($id, 'shop_single', false, $attributes);
           $middleHTML .= '</figure>';
 
           $middleHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
 
           $middleHTML_dropdown = "<select name='back-imprint_location' class='imprint_location_dropdown' id='back-imprint_location'>";
+          if ($shirtType === 'polo') {
+            $middleHTML_dropdown .= "<option value='0'>No Imprint Available</option>";
+          } else {
             $middleHTML_dropdown .= "<option value='0'>Choose Back Imprint Location</option>";
-            $middleHTML_dropdown .= "<option value='full_back'>CENTERED - Full Imprint</option>";
-            $middleHTML_dropdown .= "<option value='upper_back'>Upper Back</option>";
-//            $middleHTML_dropdown .= "<option value='lower_back'>Lower Back</option>";
+            $middleHTML_dropdown .= "<option value='full_back'>Full Back</option>";
+          }
           $middleHTML_dropdown .= "</select>";
 
-          $main_images_middle .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $middleHTML, $id );
+          $main_images_middle .= apply_filters('woocommerce_single_product_image_thumbnail_html', $middleHTML, $id);
           $main_images_middle .= $middleHTML_dropdown;
-        $main_images_middle .= "</div>";
+          $main_images_middle .= "</div>";
+
+        }
 
       } else if ($shirtOrientation === 'sleeve') {
 
@@ -186,9 +198,9 @@ function hometown_get_product_variant_images() {
             if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
               $rightHTML_dropdown = "<select name='sleeve-imprint_location' class='imprint_location_dropdown' id='sleeve-imprint_location'>";
                 $rightHTML_dropdown .= "<option value='0'>Choose Side Imprint Location</option>";
-                $rightHTML_dropdown .= "<option value='left_sleeve'>Left Sleeve</option>";
-                $rightHTML_dropdown .= "<option value='right_sleeve'>Right Sleeve</option>";
-                $rightHTML_dropdown .= "<option value='both'>Both Sleeves</option>";
+                $rightHTML_dropdown .= "<option value='left_sleeve'>Left Arm</option>";
+                $rightHTML_dropdown .= "<option value='right_sleeve'>Right Arm</option>";
+//                $rightHTML_dropdown .= "<option value='both'>Both Sleeves</option>";
               $rightHTML_dropdown .= "</select>";
             }
 
