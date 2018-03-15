@@ -8,10 +8,6 @@ $(document).ready(function() {single_product_page_init();});
 
 function single_product_page_init() {
 
-  if (pathname.indexOf('predesigned') !== -1) {
-    getSizes();
-  }
-
   $('.more_sizes').unbind().click(function() {
     $('.bigger_sizes').slideToggle();
   });
@@ -23,20 +19,33 @@ function single_product_page_init() {
   let continueButton = $('.single_add_to_cart_button').detach();
   continueButton.appendTo('.single-product-summary');
 
+
+
 }
 
 
 function hometown_reload_add_to_cart_actions() {
 
-
   $('.wcvasquare').unbind().click(function() {
     if (!$(this).hasClass('selectedswatch')) {
-      getSizes();
+      if (document.location.pathname.indexOf("/predesigned/") !== -1) {
+        getSizes();
+      }
     }
   });
 
   // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
+
+    if (!$('.variations .wcvasquare').hasClass('selectedswatch')) {
+      $('.variations .swatchinput').bounce({
+        interval: 100,
+        distance: 10,
+        times: 5
+      });
+      console.log('bouncing');
+      return false;
+    }
 
     e.preventDefault();
 

@@ -413,12 +413,12 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
 
     foreach($items as $item => $values) {
       $product =  wc_get_product( $values['data']->get_id());
-      $child = $values['data']->get_children();
-      $variationID = $child[0];
-
-      $user_custom_values .= hometown_display_user_meta($product, $variationID, 'order');
+      $children = $values['data']->get_children();
+      foreach ($children as $child) {
+        $variationID = $child[0];
+        $user_custom_values .= hometown_display_user_meta($product, $variationID, 'order');
+      }
     }
-
 
     if(!empty($user_custom_values))
     {
