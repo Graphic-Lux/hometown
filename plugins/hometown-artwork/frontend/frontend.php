@@ -134,11 +134,12 @@ function custom_color_selector($categoryData, $orientation) {
 
       $customColorOutput = '<div class="hometown_custom_color_selector">';
 
-        $customColorOutput .= '<div class="hometown_color_swatch green_swatch"></div>';
-        $customColorOutput .= '<div class="hometown_color_swatch blue_swatch"></div>';
         $customColorOutput .= '<div class="hometown_color_swatch red_swatch"></div>';
-        $customColorOutput .= '<div class="hometown_color_swatch yellow_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch blue_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch green_swatch"></div>';
         $customColorOutput .= '<div class="hometown_color_swatch white_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch grey_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch black_swatch"></div>';
 
         $customColorOutput .= '<div class="hometown_color_wheel">';
           $customColorOutput .= '<input type="hidden" name="'.$orientation.'-color" id="'.$orientation.'-color_input" class="color_input">';

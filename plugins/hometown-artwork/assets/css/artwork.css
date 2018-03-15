@@ -85,24 +85,28 @@
   cursor: pointer;
 }
 
-.hometown_custom_color_selector .green_swatch {
-  background: #008000;
-}
-
-.hometown_custom_color_selector .blue_swatch {
-  background: #0000ff;
-}
-
 .hometown_custom_color_selector .red_swatch {
   background: #ff0000;
 }
 
-.hometown_custom_color_selector .yellow_swatch {
-  background: #ffff00;
+.hometown_custom_color_selector .blue_swatch {
+  background: #148dd3;
+}
+
+.hometown_custom_color_selector .green_swatch {
+  background: #2fd13e;
 }
 
 .hometown_custom_color_selector .white_swatch {
   background: #ffffff;
+}
+
+.hometown_custom_color_selector .grey_swatch {
+  background: #cccccc;
+}
+
+.hometown_custom_color_selector .black_swatch {
+  background: #000000;
 }
 
 .woocommerce-cart svg.replaced-svg,
