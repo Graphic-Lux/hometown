@@ -61,7 +61,7 @@ function hometown_get_size_data($variationID) {
     }
 
   }
-
+//  print_r($sizeArrayData);
   return $sizeArrayData;
 
 }

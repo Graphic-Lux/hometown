@@ -306,12 +306,11 @@ function hometown_display_size_data($product, $productID, $variationID, $screen)
       $artPriceOutput = '';
     }
 
-
     foreach($sizeData[$variationID] as $size => $qty) {
 
       if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
 
-        $xxlPriceNumber = (float) number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
+        $xxlPriceNumber = (float) number_format((float) get_post_meta( $variationID, '_xxl_pricing', true ), 2);
         $xxlPrice = '$'.$xxlPriceNumber;
 
         $output .= "<tr class='preview_sizes'>";
@@ -414,11 +413,12 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
 
     foreach($items as $item => $values) {
       $product =  wc_get_product( $values['data']->get_id());
+      $child = $values['data']->get_children();
+      $variationID = $child[0];
 
-      $variationID = hometown_get_variation_id($values['data']->get_id(), $values['data']->get_id());
-
-      $user_custom_values .= hometown_display_user_meta($product, $variationID, 'cart');
+      $user_custom_values .= hometown_display_user_meta($product, $variationID, 'order');
     }
+
 
     if(!empty($user_custom_values))
     {
