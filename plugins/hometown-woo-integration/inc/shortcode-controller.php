@@ -180,6 +180,7 @@ function hometown_step_3_func() {
       </div>
       <div class="shirt_sizes_wrap">
         <h4 class="shirt_sizes_header">Shirt Sizes</h4>
+        <?php hometown_display_sizes(); ?>
       </div>
       <a href="#/" class="continue_button" id="continue_3" data-product-id="" data-product-variant-id="" data-product-variation="">REVIEW & PURCHASE</a>
     </div>

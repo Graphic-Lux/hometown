@@ -49,7 +49,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 				if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 					$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
 					?>
-					<tr class="woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+					<tr class="woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>" data-unique-key="<?= $cart_item['unique_key'];?>">
 
 						<td class="product-remove">
 							<?php
@@ -70,22 +70,7 @@ do_action( 'woocommerce_before_cart' ); ?>
               ?>
 
               <img src="<?php  echo $image[0]; ?>" data-id="<?php echo $_product->get_ID() ?>">
-              <?php
 
-//								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-//                echo $thumbnail;
-?>
-						</td>
-
-<!--						<td class="product-name" data-title="--><?php //esc_attr_e( 'Product', 'woocommerce' ); ?><!--">-->
-<!---->
-<!--						</td>-->
-
-<!--						<td class="product-price" data-title="--><?php //esc_attr_e( 'Price', 'woocommerce' ); ?><!--">-->
-							<?php
-//								echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
-							?>
-<!--						</td>-->
 
 						<td class="product-info" data-title="<?php esc_attr_e( 'Info', 'woocommerce' ); ?>">
 

@@ -277,19 +277,11 @@ add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 
 function hometown_display_sizes() {
 
-  $productID = $_POST['product_id'];
-  $variationID = $_POST['variation_id'];
+  $productID = get_the_ID();
 
-  if ($variationID == 0) {
-    $product = wc_get_product( $productID );
-    $productChild = $product->get_children();
-    $variationID = $productChild[0];
-  }
-
-  $sizeArray = hometown_get_size_data($variationID);
-  $sizeArray = $sizeArray[$variationID];
-
-
+  $product = wc_get_product( $productID );
+  $productChild = $product->get_children();
+  $variationID = $productChild[0];
 
   ?>
   
@@ -299,59 +291,77 @@ function hometown_display_sizes() {
 	     <h2>Choose Your Sizes</h2>
       <div class="sizing_inputs">
         <label for="XS">XS</label>
-        <input name="XS" type="text" class="size_qty" value="<?=$sizeArray['XS'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="XS" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="S">S</label>
-        <input name="S" type="text" class="size_qty" value="<?=$sizeArray['S'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="S" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="M">M</label>
-        <input name="M" type="text" class="size_qty" value="<?=$sizeArray['M'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="M" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="L">L</label>
-        <input name="L" type="text" class="size_qty" value="<?=$sizeArray['L'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="L" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="XL">XL</label>
-        <input name="XL" type="text" class="size_qty" value="<?=$sizeArray['XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="XL" type="text" class="size_qty" value="0"/>
       </div>
     </div>
     <a class="more_sizes">*Need bigger sizes?</a>
     <div class="bigger_sizes">
       <div class="sizing_inputs">
         <label for="XXL">XXL</label>
-        <input name="XXL" type="text" class="size_qty" value="<?=$sizeArray['XXL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="XXL" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="3XL">3XL</label>
-        <input name="3XL" type="text" class="size_qty" value="<?=$sizeArray['3XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="3XL" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="4XL">4XL</label>
-        <input name="4XL" type="text" class="size_qty" value="<?=$sizeArray['4XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="4XL" type="text" class="size_qty" value="0"/>
       </div>
       <?php
-      $additionalSizesPrice = get_post_meta( $variationID, '_xxl_pricing', true );
 
-      if (isset($additionalSizesPrice)) {
-        ?>
-        <span>* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
-        <?php
-      } else {
-        ?>
-        <span>* Price may be more for shirts XXL-4XL.</span>
-        <?php
+      if (hometownGetReferrer() === 'predesigned') {
+        display_additional_sizes_price($variationID);
       }
+
       ?>
     </div>
   </div>
   <?
+}
 
-  wp_die();
+
+
+add_action('wp_ajax_display_additional_sizes_price', 'display_additional_sizes_price');
+function display_additional_sizes_price($variationID) {
+
+  if (isset($variationID)) {
+    $uniqueID = $variationID;
+  } else {
+    $uniqueID = $_POST['variation_id'];
+  }
+
+  $additionalSizesPrice = get_post_meta( $uniqueID, '_xxl_pricing', true );
+
+  if (isset($additionalSizesPrice)) {
+    ?>
+    <span>* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
+    <?php
+  } else {
+    ?>
+    <span>* Price may be more for shirts XXL-4XL.</span>
+    <?php
+  }
 
 }
+
+
 
 
 /**
@@ -404,5 +414,19 @@ function hometownGetPage()
     return 'create';
   }
 
+}
+
+function hometownGetReferrer() {
+  $pathname = $_SERVER["HTTP_REFERER"];
+
+  if (strpos($pathname, 'create')) {
+    return 'create';
+  } else if (strpos($pathname, 'predesigned')) {
+    return 'predesigned';
+  } else if (strpos($pathname, 'product')) {
+    return 'product';
+  } else if (strpos($pathname, 'admin-ajax')) {
+    return 'create';
+  }
 }
 

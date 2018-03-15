@@ -1,10 +1,23 @@
 <?php
 
+function hometown_store_unique_cart_key($data) {
+  add_user_meta(get_current_user_id(), 'unique_cart_key', $data['unique_key']);
+}
+
+
+add_action( 'wp_ajax_hometown_get_unique_cart_key', 'hometown_get_unique_cart_key' );
+function hometown_get_unique_cart_key() {
+  wp_send_json( get_user_meta(get_current_user_id(), 'unique_cart_key', true));
+}
+
+
+
+
 // WE WANT ONLY LOGGED IN USERS TO BE ALLOWED TO DO THIS
 add_action( 'wp_ajax_hometown_save_user_sizes', 'hometown_save_user_sizes' );
 function hometown_save_user_sizes() {
 
-  $uniqueIdentifier = $_POST['variation_id'];
+  $uniqueIdentifier = $_POST['unique_cart_key'];
   $sizeCSV = '';
 
   foreach($_POST['sizes'] as $key => $meta_value) {
@@ -14,6 +27,8 @@ function hometown_save_user_sizes() {
 
   $meta_key = 'shirt_sizes-' . $uniqueIdentifier;
   $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
+
+  delete_user_meta(get_current_user_id(), 'unique_cart_key');
 
   wp_send_json(array(
       'action' => 'save_size_data',
@@ -27,9 +42,7 @@ function hometown_save_user_sizes() {
 
 
 
-function hometown_get_size_data($variationID) {
-
-  $uniqueIdentifier = $variationID;
+function hometown_get_size_data($uniqueIdentifier) {
 
   $sizeArray = hometown_get_size_array();
   $meta_key = 'shirt_sizes-' . $uniqueIdentifier;
@@ -80,7 +93,7 @@ add_action( 'wp_ajax_hometown_save_imprint_data', 'hometown_save_imprint_data' )
 // Add Data in a Custom Session, on ‘Add to Cart’ Button Click
 function hometown_save_imprint_data() {
 
-  $uniqueIdentifier = $_POST['variation_id'];
+  $uniqueIdentifier = $_POST['unique_cart_key'];
 
   $front = (isset($_POST['front'])) ? 'Front='.$_POST['front'] : '';
   $back = (isset($_POST['back'])) ? 'Back='.$_POST['back'] : '';
@@ -104,9 +117,8 @@ function hometown_save_imprint_data() {
 
 
 
-function hometown_get_imprint_data($variationID) {
+function hometown_get_imprint_data($uniqueIdentifier) {
 
-  $uniqueIdentifier = $variationID;
   $meta_key = 'imprint_locations-' . $uniqueIdentifier;
 
   $imprintCSV = get_user_meta(get_current_user_id(), $meta_key, true);
@@ -155,8 +167,7 @@ function hometown_after_remove_product($cart_item_key) {
 
     if ($item['key'] === $cart_item_key) {
 
-      $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
-      $uniqueIdentifier = $variationID;
+      $uniqueIdentifier = $item['unique_key'];
 
       $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
       $imprintArtworkMetaKey = 'imprint_artwork-' . $uniqueIdentifier;
@@ -180,8 +191,7 @@ function hometown_delete_all_user_meta($items) {
 
   foreach ($items as $item) {
 
-    $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
-    $uniqueIdentifier = $variationID;
+    $uniqueIdentifier = $item['unique_key'];
 
     $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
     $imprintArtworkMetaKey = 'imprint_artwork-' . $uniqueIdentifier;
