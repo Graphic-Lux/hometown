@@ -35,7 +35,7 @@ function hometown_woocommerce_add_to_cart_variation() {
 
   }
 
-  die();
+  wp_die();
 }
 
 
@@ -123,12 +123,14 @@ function hometown_calculate_price( $cart_object ) {
       $price = hometown_get_price($product, $variationID);
 
       // GET IMPRINT AND ARTWORK DATA
-      $imprintArray = hometown_get_imprint_data($variationID);
-      $artworkDataArray = hometown_get_imprint_artwork($variationID);
+      $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
+      $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
+
+      $artworkPrices = array();
 
       if ($artworkDataArray) {
         // SET ARTWORK PRICE
-        foreach ($imprintArray[$variationID] as $orientation => $location) {
+        foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
           if ($location != '') {
             $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
           }
@@ -204,11 +206,11 @@ add_filter( 'wp_ajax_hometown_ajax_refresh_cart', 'hometown_ajax_refresh_cart' )
 
 
 
-function hometown_display_imprint_data($productID, $variationID) {
+function hometown_display_imprint_data($productID, $variationID, $uniqueIdentifier) {
 
-  $imprintArray = hometown_get_imprint_data($variationID);
+  $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
 
-  if (count($imprintArray[$variationID]) > 0) {
+  if (count($imprintArray[$uniqueIdentifier]) > 0) {
 
     $output = '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
     $output .= '<thead>
@@ -221,9 +223,9 @@ function hometown_display_imprint_data($productID, $variationID) {
                   </thead>
                   <tbody>';
 
-    $artworkDataArray = hometown_get_imprint_artwork($variationID);
+    $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
 
-    foreach ($imprintArray[$variationID] as $orientation => $location) {
+    foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
       if ($location != '') {
         $output .= "<tr class='preview_imprint_locations'>";
         $output .= "<td>" . $orientation . "</td>";
@@ -273,8 +275,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
     $price = hometown_get_price($product, $variationID);
 
     // GET IMPRINT AND ARTWORK DATA
-    $imprintArray = hometown_get_imprint_data($variationID);
-    $artworkDataArray = hometown_get_imprint_artwork($variationID);
+    $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
+    $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
 
 
     if ($artworkDataArray) {
@@ -282,7 +284,7 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
       $artworkPrices = array();
 
       // SET ARTWORK PRICE
-      foreach ($imprintArray[$variationID] as $orientation => $location) {
+      foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
         if ($location != '') {
           $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
         }

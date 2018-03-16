@@ -76,7 +76,7 @@
   margin-bottom: 40px;
 }
 
-.step_2_content_container.subtype, .product_image_wrap.subtype {
+.step_2_content_container.subtype, .choose_sizes.subtype {
   display: none;
 }
 
@@ -136,4 +136,9 @@ table.cart img {
 
 .step-holder h4.edit_heading {
   display: none;
+}
+
+#xxl_pricing {
+  display: block;
+  clear: both;
 }

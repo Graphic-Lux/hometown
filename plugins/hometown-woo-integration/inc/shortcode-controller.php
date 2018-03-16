@@ -171,13 +171,7 @@ function hometown_step_3_func() {
       <h3 class="step_heading">Choose Your Sizes</h3>
     </div>
 
-    <div class="product_image_wrap subtype">
-      <div class="product_image">
-
-      </div>
-      <div class="product_thumbnails">
-
-      </div>
+    <div class="choose_sizes subtype">
       <div class="shirt_sizes_wrap">
         <h4 class="shirt_sizes_header">Shirt Sizes</h4>
         <?php hometown_display_sizes(); ?>

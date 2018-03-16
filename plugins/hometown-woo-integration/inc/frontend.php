@@ -277,18 +277,16 @@ add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 
 function hometown_display_sizes() {
 
-  $productID = get_the_ID();
-
-  $product = wc_get_product( $productID );
-  $productChild = $product->get_children();
-  $variationID = $productChild[0];
-
   ?>
   
   <div class="all_shirt_sizes">
 	 
     <div class="standard_sizes">
-	     <h2>Choose Your Sizes</h2>
+      <?php
+      if (hometownGetReferrer() === 'predesigned') {
+        ?> <h2>Choose Your Sizes</h2> <?php
+      }
+      ?>
       <div class="sizing_inputs">
         <label for="XS">XS</label>
         <input name="XS" type="text" class="size_qty" value="0"/>
@@ -327,13 +325,23 @@ function hometown_display_sizes() {
       <?php
 
       if (hometownGetReferrer() === 'predesigned') {
+
+        $productID = get_the_ID();
+
+        $product = wc_get_product( $productID );
+        $productChild = $product->get_children();
+        $variationID = $productChild[0];
+
         display_additional_sizes_price($variationID);
+
       }
 
       ?>
+      <div id="pricing"></div>
     </div>
   </div>
   <?
+//  wp_die();
 }
 
 
@@ -341,23 +349,26 @@ function hometown_display_sizes() {
 add_action('wp_ajax_display_additional_sizes_price', 'display_additional_sizes_price');
 function display_additional_sizes_price($variationID) {
 
-  if (isset($variationID)) {
-    $uniqueID = $variationID;
-  } else {
+  if ($variationID === '') {
     $uniqueID = $_POST['variation_id'];
+  } else {
+    $uniqueID = $variationID;
   }
+
 
   $additionalSizesPrice = get_post_meta( $uniqueID, '_xxl_pricing', true );
 
   if (isset($additionalSizesPrice)) {
     ?>
-    <span>* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
+    <span id="xxl_pricing">* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
     <?php
   } else {
     ?>
-    <span>* Price may be more for shirts XXL-4XL.</span>
+    <span id="xxl_pricing">* Price may be more for shirts XXL-4XL.</span>
     <?php
   }
+
+  wp_die();
 
 }
 

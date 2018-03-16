@@ -18,8 +18,6 @@ function hometown_init() {
     autoResize: true
   });
 
-  // console.log('hometown init');
-
 
   // STEP 1
   // SLIDER VIEWING
@@ -91,16 +89,16 @@ function hometown_init() {
     $('#continue_2').fadeOut();
     $('.artwork_selection').slideUp();
     $('.step_2_shirt_designs').fadeTo(100, 1);
-    $('.product_image_wrap.subtype').fadeIn();
+    $('.choose_sizes.subtype').fadeIn();
     $('#continue_3').fadeIn();
 
-    getSizes();
+    display_additional_sizes_price();
 
   });
 
   $("#continue_3").unbind().click(function(e) {
     e.preventDefault();
-    finalizeCustomOrder();
+    add_variation_to_cart();
   });
 
 
@@ -146,78 +144,23 @@ function display_additional_sizes_price() {
 
   let sizeData = {};
   sizeData.action = 'display_additional_sizes_price';
+  sizeData.product_id = $("#continue_3").attr('data-product-id');
+  sizeData.variation_id = $("#continue_3").attr('data-product-variant-id');
 
-  if (pathname.indexOf('create') > 0) {
-    sizeData.product_id = $("#continue_3").attr('data-product-id');
-    sizeData.variation_id = $("#continue_3").attr('data-product-variant-id');
-  }
+  console.log(sizeData);
 
   $.post( wc_add_to_cart_params.ajax_url, sizeData, function( response ) {
 
-    if (pathname.indexOf('create') > 0) {
-      $(".shirt_sizes_wrap").html(response).fadeIn();
+      $("#pricing").html(response).fadeIn();
       single_product_page_init();
-    } else {
-      $('.product_meta').html(response).fadeIn();
-      $('.more_sizes').unbind().click(function() {
-        $('.bigger_sizes').slideToggle();
-      });
-    }
 
   });
 }
 
 
-function getSizes() {
-
-  let sizeData = {};
-  sizeData.action = 'hometown_display_sizes';
-
-  if (pathname.indexOf('create') > 0) {
-    sizeData.product_id = $("#continue_3").attr('data-product-id');
-    sizeData.variation_id = $("#continue_3").attr('data-product-variant-id');
-  } else {
-    sizeData.product_id = $("input[name='product_id']").val();
-    sizeData.variation_id = $("input[name='variation_id']").val();
-  }
 
 
-  $.post( wc_add_to_cart_params.ajax_url, sizeData, function( response ) {
-
-    if (pathname.indexOf('create') > 0) {
-      $(".shirt_sizes_wrap").html(response).fadeIn();
-      single_product_page_init();
-    } else {
-      $('.product_meta').html(response).fadeIn();
-      $('.more_sizes').unbind().click(function() {
-        $('.bigger_sizes').slideToggle();
-      });
-    }
-
-  });
-
-}
-
-
-
-
-function finalizeCustomOrder() {
-
-  add_variation_to_cart();
-
-  // MUST BE DONE AFTER CART BECAUSE IT ADDS DATA TO WOOCOMMERCE SESSION
-  save_imprint_location();
-
-  save_artwork_to_user_meta();
-
-  setSizeData(null, $('#continue_3').attr('data-product-id', product_id));
-
-}
-
-
-
-
-function save_imprint_location() {
+function save_imprint_location(uniqueCartKey) {
 
   let frontImprintLocation = ($('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').val() == 0) ? null : $('#front-imprint_location option[value="'+$('#front-imprint_location').val()+'"]').text();
 
@@ -230,6 +173,7 @@ function save_imprint_location() {
     action: 'hometown_save_imprint_data',
     product_id: $("#continue_3").data('product-id'),
     variation_id: $("#continue_3").data('product-variant-id'),
+    unique_cart_key: uniqueCartKey,
     front: frontImprintLocation,
     back: backImprintLocation,
     sleeve: sleeveImprintLocation
@@ -258,9 +202,27 @@ function add_variation_to_cart() {
   $.post( wc_add_to_cart_params.ajax_url, data, function( response ) {
     // console.log(response);
     if (response.result) {
-      window.location.replace(graphic_lux_subdirectory+'/cart');
+
+      let uniqueCartData = {
+        'action': 'hometown_get_unique_cart_key'
+      };
+
+      // GET UNIQUE CART DATA
+      $.post(ha_localized_config.ajaxurl, uniqueCartData).done(function(uniqueCartKey) {
+
+        save_imprint_location(uniqueCartKey);
+
+        save_artwork_to_user_meta(uniqueCartKey);
+
+        setSizeData(uniqueCartKey);
+
+        // window.location.replace(graphic_lux_subdirectory+'/cart');
+
+      });
+
+      //
     } else {
-      confirm('Error adding product to cart. Cannot add the same t-shirt and color combination to the cart more than once.');
+      confirm('Error adding product to cart.');
     }
   });
 }
@@ -355,26 +317,41 @@ function hometown_set_user_size_options(sizeData) {
 
 
 
-function setSizeData(uniqueCartKey, productID) {
+function setSizeData(uniqueCartKey) {
 
-  console.log(uniqueCartKey);
+  // console.log(uniqueCartKey);
 
   let sizeData = {};
   sizeData.sizes = {};
 
   if (uniqueCartKey !== null) {
 
-    sizeData.action = 'hometown_save_user_sizes';
-    sizeData.unique_cart_key = uniqueCartKey;
+    if (pathname.indexOf('create') >= 0) {
 
-    $('.size_qty').each(function() {
-      if ($(this).attr('data-unique-cart-key') === uniqueCartKey) {
+      sizeData.action = 'hometown_save_user_sizes';
+      sizeData.unique_cart_key = uniqueCartKey;
+      $('.size_qty').each(function() {
         let name = $(this).attr('name');
         sizeData.sizes[name] = parseInt($(this).val());
-      }
-    });
+      });
 
-    updateSizes(sizeData);
+      updateSizes(sizeData);
+
+    } else {
+      sizeData.action = 'hometown_save_user_sizes';
+      sizeData.unique_cart_key = uniqueCartKey;
+
+      $('.size_qty').each(function() {
+        if ($(this).attr('data-unique-cart-key') === uniqueCartKey) {
+          let name = $(this).attr('name');
+          sizeData.sizes[name] = parseInt($(this).val());
+        }
+      });
+
+      updateSizes(sizeData);
+    }
+
+
 
   } else {
 
@@ -384,23 +361,18 @@ function setSizeData(uniqueCartKey, productID) {
       sizeData.sizes[name] = parseInt($(this).val());
     });
 
-    hometown_set_user_size_options(sizeData, productID);
+    hometown_set_user_size_options(sizeData);
 
   }
-
-
-
 
 }
 
 
+
+
 function updateSizes(sizeData) {
 
-  console.log('here');
-
   $.post(ha_localized_config.ajaxurl, sizeData).done(function(userMetaResults) {
-
-    console.log ((pathname.indexOf('cart') || pathname.indexOf('checkout') >= 0));
 
     if (pathname.indexOf('cart') || pathname.indexOf('checkout') >= 0) {
 

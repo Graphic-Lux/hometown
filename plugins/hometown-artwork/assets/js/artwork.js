@@ -264,7 +264,7 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
  * @return void
  *
  */
-function save_artwork_to_user_meta() {
+function save_artwork_to_user_meta(uniqueCartKey) {
   let frontImgURL;
   let backImgURL;
   let sleeveImgURL;
@@ -310,6 +310,7 @@ function save_artwork_to_user_meta() {
     "action":           "hometown_save_imprint_artwork",
     "product_id":       product_id,
     "variation_id":     variation_id,
+    "unique_cart_key":  uniqueCartKey,
     "frontURL":         frontImgURL,
     "frontColor":       frontImgColor,
     "frontArtworkID":   frontArtworkID,

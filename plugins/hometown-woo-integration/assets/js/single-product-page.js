@@ -24,21 +24,6 @@ function single_product_page_init() {
 
 function hometown_reload_add_to_cart_actions() {
 
-  // $('.variations .wcvasquare').unbind().click(function() {
-  //   if (!$(this).hasClass('selectedswatch')) {
-  //     if (document.location.pathname.indexOf("/predesigned/") !== -1) {
-  //       getSizes();
-  //     }
-  //   }
-  // });
-  //
-  // if ($('.variations .wcvasquare').hasClass('selectedswatch')) {
-  //   if (document.location.pathname.indexOf("/predesigned/") !== -1) {
-  //     console.log('get sizes');
-  //     getSizes();
-  //   }
-  // }
-
   // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
 
@@ -67,7 +52,7 @@ function hometown_reload_add_to_cart_actions() {
 
     if (pathname.indexOf('predesigned')  > 0) {
 
-      setSizeData(null, $('.single_add_to_cart_button').attr('data-product-id', product_id));
+      setSizeData(null);
 
     } else if (pathname.indexOf('custom/create')) {
 
