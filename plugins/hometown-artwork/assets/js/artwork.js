@@ -119,7 +119,9 @@ function color_input_init() {
   // Assign ID's to each img on product customization page
   $('.hometown_artwork .single_art').each(function (i) {
 
-    orientation = $(this).parent().attr('class').split('artwork-')[1];
+    orientation = $(this).attr('data-orientation');
+
+    console.log(orientation);
 
     colorInputSVG = $(this).find('svg').attr('data-svg', i);
 
@@ -146,7 +148,7 @@ function color_input_init() {
  */
 function apply_color_to_svg(id, svg, swatch, selector, orientation) {
   let hexColor;
-
+  console.log(orientation);
   // Color Swatches
   swatch.unbind().click(function () {
     let swatchColor = rgb2hex($(this).css("background-color"));
@@ -182,9 +184,9 @@ function apply_color_to_svg(id, svg, swatch, selector, orientation) {
       svg.find('g').css("fill", hexColor);
       svg.find('path').css("fill", hexColor);
 
-
       // If artwork is on a shirt, change it's color too
       if ($('figure#' + orientation).find($('[data-svg="' + id + '"]')).length) {
+        console.log("true");
         apply_artwork_to_shirt($(svg).clone(), $(svg).closest('.single_art').attr('data-orientation'));
 
       }
