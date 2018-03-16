@@ -90,6 +90,9 @@ if ( post_password_required() ) {
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
 
+<a class="lightbox_nav left ajax-popup-link" href=""><i class="fas fa-chevron-left"></i></a>
+<a class="lightbox_nav right ajax-popup-link" href=""><i class="fas fa-chevron-right"></i></a>
+
 <!-- REGISTER THE NEW ADD_TO_CART ACTIONS FOR THE NEW LIGHTBOX-->
 <script type="text/javascript">$(document).ready(function() {hometown_reload_add_to_cart_actions();});</script>
 

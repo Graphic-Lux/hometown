@@ -143,3 +143,33 @@ table.cart img {
   display: block;
   clear: both;
 }
+
+.mfp-inline-holder .mfp-content, .mfp-ajax-holder .mfp-content {
+  width:75% !important;
+}
+
+.woocommerce-product-gallery__trigger {
+  display: none;
+}
+
+.lightbox_nav {
+  font-size: 6em;
+  color: grey;
+  position: fixed;
+  top: 45%;
+  z-index: 9999;
+  transition: 0.5s color;
+  display:none;
+}
+
+.lightbox_nav:hover {
+  color: #008dcd;
+}
+
+.lightbox_nav.right {
+  right: 3%
+}
+
+.lightbox_nav.left {
+  left: 3%;
+}

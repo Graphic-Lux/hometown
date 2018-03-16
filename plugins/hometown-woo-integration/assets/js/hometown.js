@@ -404,19 +404,3 @@ function setAddToCartData(product_id, variation_id) {
   $('#continue_3').attr('data-product-variation', $('.selectedswatch').data('option'));
 
 }
-
-
-function hometown_reload_scripts() {
-  $("body script").each(function(){
-    let oldScript = this.getAttribute("src");
-    if (oldScript !== 'null') {
-      $(this).remove();
-      let newScript;
-      newScript = document.createElement('script');
-      newScript.type = 'text/javascript';
-      newScript.src = oldScript;
-      document.getElementsByTagName("body")[0].appendChild(newScript);
-    }
-  });
-}
-

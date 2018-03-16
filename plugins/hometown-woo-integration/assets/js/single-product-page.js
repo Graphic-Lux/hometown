@@ -24,6 +24,8 @@ function single_product_page_init() {
 
 function hometown_reload_add_to_cart_actions() {
 
+  lightbox_arrows();
+
   // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
 
