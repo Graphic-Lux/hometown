@@ -4,15 +4,19 @@ function woocommerce_ajax_lightbox_quickview() {
     $('.ajax-popup-link').magnificPopup({
       type: 'ajax',
       modal: true,
-      settings: {
-        cache: true
-      },
+      // settings: {
+      //   cache: true
+      // },
       callbacks: {
         open: function() {
           $('.mfp-content').append('<div id="fb-root"><button title="Close (Esc)" type="button" class="mfp-close">×</button></div>');
         },
         close: function () {
           $('.ajax-popup-link').unbind();
+        },
+        ajaxContentAdded: function() {
+          // Ajax content is loaded and appended to DOM
+          $('.pswp').remove();
         }
       }
     });
@@ -37,20 +41,45 @@ function lightbox_arrows() {
     $('.lightbox_nav.left').fadeIn();
   }
 
-  if ($('.mfp-wrap').length > 1) {
-    let oldWrap = $('.mfp-wrap')[0];
+}
 
-    $(oldWrap).remove();
-  }
+function refresh_lightbox_arrow_func() {
+
+  $('.lightbox_nav').unbind().click(function(e) {
+
+    $('.mfp-close').click();
+
+    e.preventDefault();
+
+    console.log('pre');
+
+    $(this).magnificPopup({
+      type: 'ajax',
+      modal: true,
+      // settings: {
+      //   cache: true
+      // },
+      callbacks: {
+        open: function() {
+          $('.mfp-content').append('<div id="fb-root"><button title="Close (Esc)" type="button" class="mfp-close">×</button></div>');
+        },
+        close: function () {
+          $('.ajax-popup-link').unbind();
+        },
+        ajaxContentAdded: function() {
+          // Ajax content is loaded and appended to DOM
+          $('.pswp').remove();
+        }
+      }
+    }).magnificPopup('open');
+
+    console.log('post');
 
 
+  });
 
 }
 
 woocommerce_ajax_lightbox_quickview();
 
 
-// $('.lightbox_nav').unbind().click(function() {
-//   $('.mfp-close').click();
-//   woocommerce_ajax_lightbox_quickview();
-// });

@@ -478,3 +478,8 @@ li.product:hover .wpb_wl_preview{
 .mfp-close {
 	color: black !important;
 }
+
+.mfp-content {
+	max-height: 800px;
+	height: 800px;
+}

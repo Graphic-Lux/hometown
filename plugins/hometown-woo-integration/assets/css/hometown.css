@@ -148,9 +148,19 @@ table.cart img {
   width:75% !important;
 }
 
-.woocommerce-product-gallery__trigger {
-  display: none;
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger {
+  display: none !important;
 }
+
+.single-product .template-shop {
+  padding: 30px;
+}
+
+.single_variation_wrap {
+  margin: 0px !important;
+}
+
+
 
 .lightbox_nav {
   font-size: 6em;
