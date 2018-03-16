@@ -2,17 +2,22 @@
 /**
  * WooCommerce API Settings
  *
- * @author   WooThemes
+ * @author   Automattic
  * @category Admin
  * @package  WooCommerce/Admin
- * @version  2.4.0
+ * @version  3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( 'WC_Settings_Rest_API', false ) ) :
+/**
+ * Settings for API.
+ */
+if ( class_exists( 'WC_Settings_Rest_API', false ) ) {
+	return new WC_Settings_Rest_API();
+}
 
 /**
  * WC_Settings_Rest_API.
@@ -50,34 +55,36 @@ class WC_Settings_Rest_API extends WC_Settings_Page {
 	/**
 	 * Get settings array.
 	 *
-	 * @param string $current_section
+	 * @param string $current_section Current section slug.
 	 * @return array
 	 */
 	public function get_settings( $current_section = '' ) {
 		$settings = array();
 
 		if ( '' === $current_section ) {
-			$settings = apply_filters( 'woocommerce_settings_rest_api', array(
-				array(
-					'title' => __( 'General options', 'woocommerce' ),
-					'type'  => 'title',
-					'desc'  => '',
-					'id'    => 'general_options',
-				),
+			$settings = apply_filters(
+				'woocommerce_settings_rest_api', array(
+					array(
+						'title' => __( 'General options', 'woocommerce' ),
+						'type'  => 'title',
+						'desc'  => '',
+						'id'    => 'general_options',
+					),
 
-				array(
-					'title'   => __( 'API', 'woocommerce' ),
-					'desc'    => __( 'Enable the REST API', 'woocommerce' ),
-					'id'      => 'woocommerce_api_enabled',
-					'type'    => 'checkbox',
-					'default' => 'yes',
-				),
+					array(
+						'title'   => __( 'Legacy API', 'woocommerce' ),
+						'desc'    => __( 'Enable the legacy REST API', 'woocommerce' ),
+						'id'      => 'woocommerce_api_enabled',
+						'type'    => 'checkbox',
+						'default' => 'no',
+					),
 
-				array(
-					'type' => 'sectionend',
-					'id' => 'general_options',
-				),
-			) );
+					array(
+						'type' => 'sectionend',
+						'id'   => 'general_options',
+					),
+				)
+			);
 		}
 
 		return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings, $current_section );
@@ -86,28 +93,15 @@ class WC_Settings_Rest_API extends WC_Settings_Page {
 	/**
 	 * Form method.
 	 *
-	 * @param  string $method
+	 * @param  string $method Method name.
 	 *
 	 * @return string
 	 */
 	public function form_method( $method ) {
 		global $current_section;
 
-		if ( 'webhooks' == $current_section ) {
-			if ( isset( $_GET['edit-webhook'] ) ) {
-				$webhook_id = absint( $_GET['edit-webhook'] );
-				$webhook    = new WC_Webhook( $webhook_id );
-
-				if ( 'trash' != $webhook->post_data->post_status ) {
-					return 'post';
-				}
-			}
-
-			return 'get';
-		}
-
-		if ( 'keys' == $current_section ) {
-			if ( isset( $_GET['create-key'] ) || isset( $_GET['edit-key'] ) ) {
+		if ( 'keys' === $current_section ) {
+			if ( isset( $_GET['create-key'] ) || isset( $_GET['edit-key'] ) ) { // WPCS: input var okay, CSRF ok.
 				return 'post';
 			}
 
@@ -121,10 +115,10 @@ class WC_Settings_Rest_API extends WC_Settings_Page {
 	 * Notices.
 	 */
 	private function notices() {
-		if ( isset( $_GET['section'] ) && 'webhooks' == $_GET['section'] ) {
+		if ( isset( $_GET['section'] ) && 'webhooks' === $_GET['section'] ) { // WPCS: input var okay, CSRF ok.
 			WC_Admin_Webhooks::notices();
 		}
-		if ( isset( $_GET['section'] ) && 'keys' == $_GET['section'] ) {
+		if ( isset( $_GET['section'] ) && 'keys' === $_GET['section'] ) { // WPCS: input var okay, CSRF ok.
 			WC_Admin_API_Keys::notices();
 		}
 	}
@@ -135,7 +129,7 @@ class WC_Settings_Rest_API extends WC_Settings_Page {
 	public function output() {
 		global $current_section;
 
-		if ( 'webhooks' == $current_section ) {
+		if ( 'webhooks' === $current_section ) {
 			WC_Admin_Webhooks::page_output();
 		} elseif ( 'keys' === $current_section ) {
 			WC_Admin_API_Keys::page_output();
@@ -151,13 +145,15 @@ class WC_Settings_Rest_API extends WC_Settings_Page {
 	public function save() {
 		global $current_section;
 
-		if ( apply_filters( 'woocommerce_rest_api_valid_to_save', ! in_array( $current_section, array( 'keys', 'webhooks' ) ) ) ) {
+		if ( apply_filters( 'woocommerce_rest_api_valid_to_save', ! in_array( $current_section, array( 'keys', 'webhooks' ), true ) ) ) {
 			$settings = $this->get_settings();
 			WC_Admin_Settings::save_fields( $settings );
+
+			if ( $current_section ) {
+				do_action( 'woocommerce_update_options_' . $this->id . '_' . $current_section );
+			}
 		}
 	}
 }
-
-endif;
 
 return new WC_Settings_Rest_API();

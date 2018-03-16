@@ -129,6 +129,10 @@
 .price {
 	del {
 		opacity: .5;
+		display: inline-block;
+	}
+	ins {
+		display: inline-block;
 	}
 }
 
@@ -910,6 +914,18 @@ button.pswp__button--zoom:hover {
 			border-color: #000;
 			background: #000;
 		}
+	}
+}
+
+.woocommerce-no-js {
+	form.woocommerce-form-login,
+	form.woocommerce-form-coupon {
+		display: block !important;
+	}
+	.woocommerce-form-login-toggle,
+	.woocommerce-form-coupon-toggle,
+	.showcoupon {
+		display: none !important;
 	}
 }
 

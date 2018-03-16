@@ -84,29 +84,25 @@ function hometown_add_user_sizes_and_imprint_data_into_cart_quantity($qty, $cart
 add_filter('woocommerce_display_item_meta','hometown_customize_woo_order_item_meta',1,3);
 function hometown_customize_woo_order_item_meta($html, $item, $args) {
 
-  $html = '';
-
-  $product = wc_get_product( $item['product_id'] );
-  $variationID = hometown_get_variation_id($item['variation_id'],$item['product_id']);
-
-  $uniqueIdentifier = $item['unique_key'];
-
   $output = "<dl class='variation'>";
-//d($item->get_formatted_meta_data());
+
   foreach ( $item->get_formatted_meta_data() as $meta_id => $meta ) {
-//    d($meta);
-   $output .= $meta->value;
-//    $value = $args['autop'] ? wp_kses_post( $meta->display_value ) : wp_kses_post( make_clickable( trim( $meta->display_value ) ) );
-//    $strings[] = '<strong class="wc-item-meta-label">' . wp_kses_post( $meta->display_key ) . ':</strong> ' . $value;
+    $output .= $meta->value;
   }
 
-//  $output .= hometown_display_user_meta($product, $variationID, 'order', $uniqueIdentifier);
   $output .= "</dl>";
 
   return $output;
 
 }
 
+add_action('woocommerce_before_order_itemmeta', 'hometown_customize_woo_admin_order_screen');
+
+function hometown_customize_woo_admin_order_screen($meta_id) {
+
+  echo wc_get_order_item_meta($meta_id, 'Sizes and Artwork', true);
+
+}
 
 
 
@@ -410,24 +406,16 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
 {
   function hometown_add_values_to_order_item_meta($item_id, $values)
   {
-    global $woocommerce,$wpdb;
-
-    $items = $woocommerce->cart->get_cart();
 
     $user_custom_values = '<br>';
 
-    foreach($items as $item => $values) {
+    $product =  wc_get_product( $values['data']->get_id());
+    $user_custom_values .= hometown_display_user_meta($product, $values['variation_id'], 'order', $values['unique_key']);
 
-      $product =  wc_get_product( $values['data']->get_id());
-      $user_custom_values .= hometown_display_user_meta($product, $values['variation_id'], 'order', $values['unique_key']);
-
-      if(!empty($user_custom_values))
-      {
-        wc_add_order_item_meta($item_id,'Sizes and Artwork',$user_custom_values);
-      }
-
+    if(!empty($user_custom_values))
+    {
+      wc_add_order_item_meta($item_id,'Sizes and Artwork',$user_custom_values);
     }
-
 
   }
 }

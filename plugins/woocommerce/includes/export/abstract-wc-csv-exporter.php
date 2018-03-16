@@ -2,8 +2,6 @@
 /**
  * Handles CSV export.
  *
- * @author   Automattic
- * @category Admin
  * @package  WooCommerce/Export
  * @version  3.1.0
  */
@@ -23,6 +21,13 @@ abstract class WC_CSV_Exporter {
 	 * @var string
 	 */
 	protected $export_type = '';
+
+	/**
+	 * Filename to export to.
+	 *
+	 * @var string
+	 */
+	protected $filename = 'wc-export.csv';
 
 	/**
 	 * Batch limit.
@@ -69,7 +74,7 @@ abstract class WC_CSV_Exporter {
 	/**
 	 * Prepare data that will be exported.
 	 */
-	abstract function prepare_data_to_export();
+	abstract public function prepare_data_to_export();
 
 	/**
 	 * Return an array of supported column names and ids.
@@ -166,7 +171,7 @@ abstract class WC_CSV_Exporter {
 	 */
 	public function send_headers() {
 		if ( function_exists( 'gc_enable' ) ) {
-			gc_enable();
+			gc_enable(); // phpcs:ignore PHPCompatibility.PHP.NewFunctions.gc_enableFound
 		}
 		if ( function_exists( 'apache_setenv' ) ) {
 			@apache_setenv( 'no-gzip', 1 ); // @codingStandardsIgnoreLine
@@ -184,12 +189,21 @@ abstract class WC_CSV_Exporter {
 	}
 
 	/**
+	 * Set filename to export to.
+	 *
+	 * @param  string $filename Filename to export to.
+	 */
+	public function set_filename( $filename ) {
+		$this->filename = sanitize_file_name( str_replace( '.csv', '', $filename ) . '.csv' );
+	}
+
+	/**
 	 * Generate and return a filename.
 	 *
 	 * @return string
 	 */
 	public function get_filename() {
-		return sanitize_file_name( 'wc-' . $this->export_type . '-export-' . date_i18n( 'Y-m-d', current_time( 'timestamp' ) ) . '.csv' );
+		return sanitize_file_name( apply_filters( "woocommerce_{$this->export_type}_export_get_filename", $this->filename ) );
 	}
 
 	/**
@@ -221,7 +235,7 @@ abstract class WC_CSV_Exporter {
 	protected function export_column_headers() {
 		$columns    = $this->get_column_names();
 		$export_row = array();
-		$buffer     = fopen( 'php://output', 'w' );
+		$buffer     = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 		ob_start();
 
 		foreach ( $columns as $column_id => $column_name ) {
@@ -254,7 +268,7 @@ abstract class WC_CSV_Exporter {
 	 */
 	protected function export_rows() {
 		$data   = $this->get_data_to_export();
-		$buffer = fopen( 'php://output', 'w' );
+		$buffer = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 		ob_start();
 
 		array_walk( $data, array( $this, 'export_row' ), $buffer );
@@ -296,7 +310,7 @@ abstract class WC_CSV_Exporter {
 	 * @return int
 	 */
 	public function get_limit() {
-		return $this->limit;
+		return apply_filters( "woocommerce_{$this->export_type}_export_batch_limit", $this->limit, $this );
 	}
 
 	/**
@@ -363,9 +377,14 @@ abstract class WC_CSV_Exporter {
 			$data = $data ? 1 : 0;
 		}
 
-		$data     = (string) urldecode( $data );
-		$encoding = mb_detect_encoding( $data, 'UTF-8, ISO-8859-1', true );
-		$data     = 'UTF-8' === $encoding ? $data : utf8_encode( $data );
+		$use_mb = function_exists( 'mb_convert_encoding' );
+		$data   = (string) urldecode( $data );
+
+		if ( $use_mb ) {
+			$encoding = mb_detect_encoding( $data, 'UTF-8, ISO-8859-1', true );
+			$data     = 'UTF-8' === $encoding ? $data : utf8_encode( $data );
+		}
+
 		return $this->escape_data( $data );
 	}
 
@@ -428,7 +447,7 @@ abstract class WC_CSV_Exporter {
 	 * @return string
 	 */
 	protected function implode_values( $values ) {
-		$values_to_implode  = array();
+		$values_to_implode = array();
 
 		foreach ( $values as $value ) {
 			$value               = (string) is_scalar( $value ) ? $value : '';

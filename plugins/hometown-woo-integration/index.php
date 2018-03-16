@@ -67,6 +67,13 @@ function ha_load_scripts() {
 }
 add_action('wp_enqueue_scripts', 'ha_load_scripts');
 
+
+add_action('admin_enqueue_scripts', 'hometown_woo_admin_scripts');
+
+function hometown_woo_admin_scripts() {
+  wp_enqueue_style('hometown', HAWI_PLUGIN_URL . 'assets/css/woo-admin.css');
+}
+
 // Requires
 require_once('inc/admin.php');
 require_once('inc/frontend.php');
