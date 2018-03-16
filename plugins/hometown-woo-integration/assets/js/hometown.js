@@ -216,11 +216,10 @@ function add_variation_to_cart() {
 
         setSizeData(uniqueCartKey);
 
-        // window.location.replace(graphic_lux_subdirectory+'/cart');
+        window.location.replace(graphic_lux_subdirectory+'/cart');
 
       });
 
-      //
     } else {
       confirm('Error adding product to cart.');
     }

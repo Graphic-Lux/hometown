@@ -384,7 +384,6 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 function hometown_display_user_meta($product, $variationID, $screen, $uniqueIdentifier) {
 
   $productID = $product->get_id();
-  $variationID = hometown_get_variation_id($variationID, $productID);
 
   $output = '';
   $output .= hometown_display_imprint_data($productID, $variationID, $uniqueIdentifier);
@@ -407,17 +406,13 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
     $items = $woocommerce->cart->get_cart();
 
     $user_custom_values = '<br>';
-
     foreach($items as $item => $values) {
-      $product =  wc_get_product( $values['data']->get_id());
-      $children = $values['data']->get_children();
-      $uniqueIdentifier = $values['unique_key'];
 
-      foreach ($children as $child) {
-        $variationID = $child[0];
-        $user_custom_values .= hometown_display_user_meta($product, $variationID, 'order', $uniqueIdentifier);
-      }
+      $product =  wc_get_product( $values['data']->get_id());
+      $user_custom_values .= hometown_display_user_meta($product, $values['variation_id'], 'order', $values['unique_key']);
+
     }
+//echo $user_custom_values; die();
 
     if(!empty($user_custom_values))
     {

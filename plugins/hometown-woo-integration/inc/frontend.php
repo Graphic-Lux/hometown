@@ -368,7 +368,9 @@ function display_additional_sizes_price($variationID) {
     <?php
   }
 
-  wp_die();
+  if (hometownGetReferrer() === 'create') {
+    wp_die();
+  }
 
 }
 
