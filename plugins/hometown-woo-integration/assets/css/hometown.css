@@ -164,7 +164,7 @@ table.cart img {
 
 .lightbox_nav {
   font-size: 6em;
-  color: grey;
+  color: #cccccc !important;
   position: fixed;
   top: 45%;
   z-index: 9999;
