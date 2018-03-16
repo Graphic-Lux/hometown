@@ -387,6 +387,11 @@ function wc_remove_all_quantity_fields( $return, $product ) {
 }
 add_filter( 'woocommerce_is_sold_individually', 'wc_remove_all_quantity_fields', 10, 2 );
 
+add_filter('woocommerce_return_to_shop_redirect', 'hometown_return_to_shop_link');
+function hometown_return_to_shop_link() {
+  return $_SERVER['HTTP_HOST']. '/landing-page';
+}
+
 
 
 add_filter( 'body_class','hometown_body_classes' );
