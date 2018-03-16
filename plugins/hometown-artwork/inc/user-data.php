@@ -8,7 +8,7 @@ add_action( 'wp_ajax_hometown_save_imprint_artwork', 'hometown_save_imprint_artw
  */
 function hometown_save_imprint_artwork() {
 
-	$uniqueIdentifier = $_POST['variation_id'];
+	$uniqueIdentifier = $_POST['unique_cart_key'];
 
 	$frontURL    = ( isset( $_POST['frontURL'] ) ) ? 'FrontURL=' . $_POST['frontURL'] : '';
 	$frontColor  = ( isset( $_POST['frontColor'] ) ) ? 'FrontColor=' . $_POST['frontColor'] : '';
@@ -36,14 +36,13 @@ function hometown_save_imprint_artwork() {
 }
 
 
-function hometown_get_imprint_artwork($variationID) {
+function hometown_get_imprint_artwork($uniqueIdentifier) {
 
-  $uniqueIdentifier = $variationID;
   $meta_key   = 'imprint_artwork-' . $uniqueIdentifier;
 
   $imprintArtworkData = explode(',', get_user_meta( get_current_user_id(), $meta_key, true ));
 
-  if (count($imprintArtworkData) > 0) {
+  if ($imprintArtworkData[0] !== '') {
 
     $imprintDataArray = array();
 
@@ -91,6 +90,62 @@ function hometown_get_imprint_artwork($variationID) {
 
 
 }
+
+
+
+add_action( 'wp_ajax_hometown_save_imprint_data', 'hometown_save_imprint_data' );
+// Add Data in a Custom Session, on ‘Add to Cart’ Button Click
+function hometown_save_imprint_data() {
+
+  $uniqueIdentifier = $_POST['unique_cart_key'];
+
+  $front = (isset($_POST['front'])) ? 'Front='.$_POST['front'] : '';
+  $back = (isset($_POST['back'])) ? 'Back='.$_POST['back'] : '';
+  $sleeve = (isset($_POST['sleeve'])) ? 'Sleeve='.$_POST['sleeve'] : '';
+
+  $meta_key = 'imprint_locations-' . $uniqueIdentifier;
+  $imprintCSV = $front.','.$back.','.$sleeve;
+
+  $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
+
+  $newID = update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value );
+
+  wp_send_json(array(
+      'action' => 'save_imprint_data',
+      'result' => ($newID),
+      'newID'  => $newID
+  ));
+  wp_die();
+
+}
+
+
+
+function hometown_get_imprint_data($uniqueIdentifier) {
+
+  $meta_key = 'imprint_locations-' . $uniqueIdentifier;
+
+  $imprintCSV = get_user_meta(get_current_user_id(), $meta_key, true);
+
+  $imprintDataKeyValues = explode(',', $imprintCSV);
+
+  $imprintArray[$uniqueIdentifier] = array();
+
+  foreach ($imprintDataKeyValues as $imprintKeyValue) {
+    if ($imprintKeyValue !== '') {
+      $imprintData = explode('=', $imprintKeyValue);
+      $key = $imprintData[0];
+      $value = $imprintData[1];
+      $imprintArray[$uniqueIdentifier][$key] = $value;
+    }
+  }
+
+  return $imprintArray;
+
+}
+
+
+
 
 
 function hometown_get_artwork_price($artworkPostID) {

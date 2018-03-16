@@ -41,7 +41,11 @@ function mytheme_custom_scripts(){
 }
 add_action( 'wp_enqueue_scripts', 'mytheme_custom_scripts' );
 
-
+// Update CSS within in Admin
+function admin_style() {
+  wp_enqueue_style('admin-styles', get_stylesheet_directory_uri().'/admin.css');
+}
+add_action('admin_enqueue_scripts', 'admin_style');
 //  Product Slider 6 Columns //
 
 add_filter('avia_load_shortcodes', 'avia_include_shortcode_template', 15, 1);
@@ -62,8 +66,8 @@ function woo_debug_bottom() {
 	echo 'bottom';
 }
 
-add_action( 'woocommerce_before_checkout_form', 'woo_debug_top', 5 );
-add_action( 'woocommerce_before_checkout_billing_form', 'woo_debug_bottom', 5 );
+//add_action( 'woocommerce_before_checkout_form', 'woo_debug_top', 5 );
+//add_action( 'woocommerce_before_checkout_billing_form', 'woo_debug_bottom', 5 );
 
 
 /** Add Custom Tab In Account Area */

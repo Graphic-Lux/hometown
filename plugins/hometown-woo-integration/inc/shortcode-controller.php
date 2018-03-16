@@ -140,7 +140,7 @@ function hometown_step_2_func() {
     <div class="step_2_content_container subtype">
       <div class="shirt_positions"></div>
       <div class="artwork_selection">
-        <h4>Choose Your Artwork</h4>
+        <h4>Select Your Imprint Artwork & Color</h4>
         <div class="artwork_slider">
           <?php hometown_get_artwork(); ?>
         </div>
@@ -168,18 +168,13 @@ function hometown_step_3_func() {
   <div class="step_3">
     <div class="step-holder">
       <h3 class="custom_step">Step 3</h3>
-      <h3 class="step_heading">Choose Quantities</h3>
+      <h3 class="step_heading">Choose Your Sizes</h3>
     </div>
 
-    <div class="product_image_wrap subtype">
-      <div class="product_image">
-
-      </div>
-      <div class="product_thumbnails">
-
-      </div>
+    <div class="choose_sizes subtype">
       <div class="shirt_sizes_wrap">
         <h4 class="shirt_sizes_header">Shirt Sizes</h4>
+        <?php hometown_display_sizes(); ?>
       </div>
       <a href="#/" class="continue_button" id="continue_3" data-product-id="" data-product-variant-id="" data-product-variation="">REVIEW & PURCHASE</a>
     </div>
@@ -200,15 +195,6 @@ add_shortcode( 'hometown_step_3', 'hometown_step_3_func' );
 
 function product_grid_and_slider_func( $atts ){
 
-//  $mensArgs = array( 'post_type' => 'product', 'posts_per_page' => 10, 'product_cat' => 'mens' );
-//  $womensArgs = array( 'post_type' => 'product', 'posts_per_page' => 10, 'product_cat' => 'womens' );
-//  $youthArgs = array( 'post_type' => 'product', 'posts_per_page' => 10, 'product_cat' => 'youth' );
-//  $loop = new WP_Query( $mensArgs );
-//
-////  print_r($loop);
-//
-//  $tees = array();
-
 
   ?>
   <div class="subtype">
@@ -222,45 +208,6 @@ function product_grid_and_slider_func( $atts ){
   </div>
   <?php
 
-    // MENS
-//    echo '<div class="swiper-wrapper mens">';
-//
-//      while ( $loop->have_posts() ) : $loop->the_post();
-//
-//      global $product;
-//      $product_cats = wp_get_post_terms( get_the_ID(), 'product_cat' );
-//
-////      print_r($product_cats);
-//
-//      if ( $product_cats && ! is_wp_error ( $product_cats ) ){
-//
-//        foreach($product_cats as $cat) {
-//
-//          if (strtolower($cat->slug) === 'mens') {
-//            array_push($mensAndUnisex, $product);
-//          } else if (strtolower($cat->name) === 'womens') {
-//            array_push($womens, $product);
-//          } else if (strtolower($cat->name) === 'youth') {
-//            array_push($youth, $product);
-//          }
-//
-//        }
-//
-//      }
-//
-//      echo '<br /><a href="'.get_permalink().'">' . woocommerce_get_product_thumbnail().' '.get_the_title().'</a>';
-//
-//      endwhile;
-//    echo '</div>';
-//
-//
-//
-//
-//
-//
-//
-//  echo '</div>';
-//  wp_reset_query();
 
 }
 add_shortcode( 'hometown_products', 'product_grid_and_slider_func' );

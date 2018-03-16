@@ -1,10 +1,23 @@
 <?php
 
+function hometown_store_unique_cart_key($data) {
+  add_user_meta(get_current_user_id(), 'unique_cart_key', $data['unique_key']);
+}
+
+
+add_action( 'wp_ajax_hometown_get_unique_cart_key', 'hometown_get_unique_cart_key' );
+function hometown_get_unique_cart_key() {
+  wp_send_json( get_user_meta(get_current_user_id(), 'unique_cart_key', true));
+}
+
+
+
+
 // WE WANT ONLY LOGGED IN USERS TO BE ALLOWED TO DO THIS
 add_action( 'wp_ajax_hometown_save_user_sizes', 'hometown_save_user_sizes' );
 function hometown_save_user_sizes() {
 
-  $uniqueIdentifier = $_POST['variation_id'];
+  $uniqueIdentifier = $_POST['unique_cart_key'];
   $sizeCSV = '';
 
   foreach($_POST['sizes'] as $key => $meta_value) {
@@ -14,6 +27,8 @@ function hometown_save_user_sizes() {
 
   $meta_key = 'shirt_sizes-' . $uniqueIdentifier;
   $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
+
+  delete_user_meta(get_current_user_id(), 'unique_cart_key');
 
   wp_send_json(array(
       'action' => 'save_size_data',
@@ -27,9 +42,7 @@ function hometown_save_user_sizes() {
 
 
 
-function hometown_get_size_data($variationID) {
-
-  $uniqueIdentifier = $variationID;
+function hometown_get_size_data($uniqueIdentifier) {
 
   $sizeArray = hometown_get_size_array();
   $meta_key = 'shirt_sizes-' . $uniqueIdentifier;
@@ -61,7 +74,7 @@ function hometown_get_size_data($variationID) {
     }
 
   }
-
+//  print_r($sizeArrayData);
   return $sizeArrayData;
 
 }
@@ -76,57 +89,7 @@ function hometown_get_size_array() {
 
 
 
-add_action( 'wp_ajax_hometown_save_imprint_data', 'hometown_save_imprint_data' );
-// Add Data in a Custom Session, on ‘Add to Cart’ Button Click
-function hometown_save_imprint_data() {
 
-  $uniqueIdentifier = $_POST['variation_id'];
-
-  $front = (isset($_POST['front'])) ? 'Front='.$_POST['front'] : '';
-  $back = (isset($_POST['back'])) ? 'Back='.$_POST['back'] : '';
-  $sleeve = (isset($_POST['sleeve'])) ? 'Sleeve='.$_POST['sleeve'] : '';
-
-  $meta_key = 'imprint_locations-' . $uniqueIdentifier;
-  $imprintCSV = $front.','.$back.','.$sleeve;
-
-  $prev_value = get_user_meta(get_current_user_id(), $meta_key, true);
-
-  $newID = update_user_meta( get_current_user_id(), $meta_key, $imprintCSV, $prev_value );
-
-  wp_send_json(array(
-      'action' => 'save_imprint_data',
-      'result' => ($newID),
-      'newID'  => $newID
-  ));
-  wp_die();
-
-}
-
-
-
-function hometown_get_imprint_data($variationID) {
-
-  $uniqueIdentifier = $variationID;
-  $meta_key = 'imprint_locations-' . $uniqueIdentifier;
-
-  $imprintCSV = get_user_meta(get_current_user_id(), $meta_key, true);
-
-  $imprintDataKeyValues = explode(',', $imprintCSV);
-
-  $imprintArray[$uniqueIdentifier] = array();
-
-  foreach ($imprintDataKeyValues as $imprintKeyValue) {
-    if ($imprintKeyValue !== '') {
-      $imprintData = explode('=', $imprintKeyValue);
-      $key = $imprintData[0];
-      $value = $imprintData[1];
-      $imprintArray[$uniqueIdentifier][$key] = $value;
-    }
-  }
-
-  return $imprintArray;
-
-}
 
 
 
@@ -140,7 +103,7 @@ function hometown_woocommerce_order_status_completed( $order_id ) {
   hometown_delete_all_user_meta($items);
 
 }
-add_action( 'woocommerce_thankyou', 'hometown_woocommerce_order_status_completed', 10, 1 );
+//add_action( 'woocommerce_thankyou', 'hometown_woocommerce_order_status_completed', 10, 1 );
 
 
 
@@ -155,8 +118,7 @@ function hometown_after_remove_product($cart_item_key) {
 
     if ($item['key'] === $cart_item_key) {
 
-      $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
-      $uniqueIdentifier = $variationID;
+      $uniqueIdentifier = $item['unique_key'];
 
       $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
       $imprintArtworkMetaKey = 'imprint_artwork-' . $uniqueIdentifier;
@@ -180,8 +142,7 @@ function hometown_delete_all_user_meta($items) {
 
   foreach ($items as $item) {
 
-    $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
-    $uniqueIdentifier = $variationID;
+    $uniqueIdentifier = $item['unique_key'];
 
     $imprintMetaKey = 'imprint_locations-' . $uniqueIdentifier;
     $imprintArtworkMetaKey = 'imprint_artwork-' . $uniqueIdentifier;

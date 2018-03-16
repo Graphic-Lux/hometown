@@ -1,0 +1,10 @@
+.wpb_wl_preview_area .wpb_wl_preview {
+  width: 100%;
+  display: block !important;
+  padding: 55px 45px;
+  margin-top: -93px;
+}
+
+div .products .product a, div .products .product a img {
+  overflow: inherit;
+}

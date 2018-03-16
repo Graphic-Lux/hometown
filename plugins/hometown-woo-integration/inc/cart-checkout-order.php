@@ -35,7 +35,7 @@ function hometown_woocommerce_add_to_cart_variation() {
 
   }
 
-  die();
+  wp_die();
 }
 
 
@@ -48,13 +48,11 @@ if(!function_exists('hometown_add_user_sizes_and_imprint_data_into_cart_name')) 
 
     if (is_checkout()) {
       $product = wc_get_product( $values['product_id'] );
-
       $variationID = hometown_get_variation_id($values['variation_id'],$values['product_id']);
+      $uniqueIdentifier = $values['unique_key'];
 
       $output = $product_name . "<dl class='variation'>";
-
-      $output .= hometown_display_user_meta($product, $variationID);
-
+      $output .= hometown_display_user_meta($product, $variationID, 'cart', $uniqueIdentifier);
       $output .= "</dl>";
 
       return $output;
@@ -68,25 +66,37 @@ if(!function_exists('hometown_add_user_sizes_and_imprint_data_into_cart_name')) 
 
 
 add_filter('woocommerce_cart_item_quantity','hometown_add_user_sizes_and_imprint_data_into_cart_quantity',1,3);
-if(!function_exists('hometown_add_user_sizes_and_imprint_data_into_cart_quantity')) {
-  function hometown_add_user_sizes_and_imprint_data_into_cart_quantity($qty, $cart_item_key, $values ) {
+function hometown_add_user_sizes_and_imprint_data_into_cart_quantity($qty, $cart_item_key, $values ) {
 
-    $product = wc_get_product( $values['product_id'] );
+  $product = wc_get_product( $values['product_id'] );
+  $variationID = hometown_get_variation_id($values['variation_id'],$values['product_id']);
+  $uniqueIdentifier = $values['unique_key'];
 
-    $variationID = hometown_get_variation_id($values['variation_id'],$values['product_id']);
+  $output = "<dl class='variation'>";
+  $output .= hometown_display_user_meta($product, $variationID, 'cart', $uniqueIdentifier);
+  $output .= "</dl>";
 
-    $output = "<dl class='variation'>";
-
-    $output .= hometown_display_user_meta($product, $variationID);
-
-    $output .= "</dl>";
-
-    return $output;
-
-  }
+  return $output;
 
 }
 
+
+add_filter('woocommerce_display_item_meta','hometown_customize_woo_order_item_meta',1,3);
+function hometown_customize_woo_order_item_meta($html, $item, $args) {
+
+//  $html = "";
+
+  $product = wc_get_product( $item['product_id'] );
+  $variationID = hometown_get_variation_id($item['variation_id'],$item['product_id']);
+  $uniqueIdentifier = $item['unique_key'];
+
+  $output = "<dl class='variation'>";
+  $output .= hometown_display_user_meta($product, $variationID, 'order', $uniqueIdentifier);
+  $output .= "</dl>";
+
+  return $output;
+
+}
 
 
 
@@ -106,30 +116,36 @@ function hometown_calculate_price( $cart_object ) {
 
       $product = wc_get_product( $item['product_id'] );
       $variationID = hometown_get_variation_id($item['variation_id'], $item['product_id']);
+      $uniqueIdentifier = $item['unique_key'];
 
-      $sizeData = hometown_get_size_data($variationID);
-      $productSizeData = $sizeData[$variationID];
+      $sizeData = hometown_get_size_data($uniqueIdentifier);
+      $productSizeData = $sizeData[$uniqueIdentifier];
       $price = hometown_get_price($product, $variationID);
 
       // GET IMPRINT AND ARTWORK DATA
-      $imprintArray = hometown_get_imprint_data($variationID);
-      $artworkDataArray = hometown_get_imprint_artwork($variationID);
+      $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
+      $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
 
-      // SET ARTWORK PRICE
-      foreach ($imprintArray[$variationID] as $orientation => $location) {
-        if ($location != '') {
-          $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+      $artworkPrices = array();
+
+      if ($artworkDataArray) {
+        // SET ARTWORK PRICE
+        foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
+          if ($location != '') {
+            $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+          }
         }
+
+        $artTotal = (float) 0.00;
+        $artPriceOutput = '';
+
+        foreach ($artworkPrices as $orientation => $artPrice) {
+//          $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+          $artTotal += (float) $artPrice;
+        }
+      } else {
+        $artTotal = (float) 0.00;
       }
-
-      $artTotal = (float) 0.00;
-      $artPriceOutput = '';
-
-      foreach ($artworkPrices as $orientation => $artPrice) {
-        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
-        $artTotal += (float) $artPrice;
-      }
-
 
       foreach ($productSizeData as $size => $qty) {
 
@@ -190,11 +206,11 @@ add_filter( 'wp_ajax_hometown_ajax_refresh_cart', 'hometown_ajax_refresh_cart' )
 
 
 
-function hometown_display_imprint_data($productID, $variationID) {
+function hometown_display_imprint_data($productID, $variationID, $uniqueIdentifier) {
 
-  $imprintArray = hometown_get_imprint_data($variationID);
+  $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
 
-  if (count($imprintArray[$variationID]) > 0) {
+  if (count($imprintArray[$uniqueIdentifier]) > 0) {
 
     $output = '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
     $output .= '<thead>
@@ -207,9 +223,9 @@ function hometown_display_imprint_data($productID, $variationID) {
                   </thead>
                   <tbody>';
 
-    $artworkDataArray = hometown_get_imprint_artwork($variationID);
+    $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
 
-    foreach ($imprintArray[$variationID] as $orientation => $location) {
+    foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
       if ($location != '') {
         $output .= "<tr class='preview_imprint_locations'>";
         $output .= "<td>" . $orientation . "</td>";
@@ -237,12 +253,12 @@ function hometown_display_imprint_data($productID, $variationID) {
 
 
 
-function hometown_display_size_data($product, $productID, $variationID) {
+function hometown_display_size_data($product, $productID, $variationID, $screen, $uniqueIdentifier) {
 
-  $sizeData = hometown_get_size_data($variationID);
+  $sizeData = hometown_get_size_data($uniqueIdentifier);
 
   /*code to add custom data on Cart & checkout Page*/
-  if(count($sizeData[$variationID]) > 0)
+  if(count($sizeData[$uniqueIdentifier]) > 0)
   {
 
     $output = '<table class="table table-borderless wdm_options_table" id="' . $productID . '">';
@@ -259,48 +275,59 @@ function hometown_display_size_data($product, $productID, $variationID) {
     $price = hometown_get_price($product, $variationID);
 
     // GET IMPRINT AND ARTWORK DATA
-    $imprintArray = hometown_get_imprint_data($variationID);
-    $artworkDataArray = hometown_get_imprint_artwork($variationID);
+    $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
+    $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
 
-    $artworkPrices = array();
 
-    // SET ARTWORK PRICE
-    foreach ($imprintArray[$variationID] as $orientation => $location) {
-      if ($location != '') {
-        $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+    if ($artworkDataArray) {
+
+      $artworkPrices = array();
+
+      // SET ARTWORK PRICE
+      foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
+        if ($location != '') {
+          $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+        }
       }
+
+      $artTotal = (float) 0.00;
+      $artPriceOutput = '';
+
+      foreach ($artworkPrices as $orientation => $artPrice) {
+//        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
+        $artTotal += (float) $artPrice;
+      }
+
+    } else {
+      $artTotal = (float) 0.00;
+      $artPriceOutput = '';
     }
 
-    $artTotal = (float) 0.00;
-    $artPriceOutput = '';
-
-    foreach ($artworkPrices as $orientation => $artPrice) {
-      $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
-      $artTotal += (float) $artPrice;
-    }
-
-
-
-    foreach($sizeData[$variationID] as $size => $qty) {
+    foreach($sizeData[$uniqueIdentifier] as $size => $qty) {
 
       if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
 
-        $xxlPriceNumber = (float) number_format(get_post_meta( $variationID, '_xxl_pricing', true ), 2);
+        $xxlPriceNumber = (float) number_format((float) get_post_meta( $variationID, '_xxl_pricing', true ), 2);
         $xxlPrice = '$'.$xxlPriceNumber;
 
         $output .= "<tr class='preview_sizes'>";
         $output .= '<td>' . $size . '</td>';
 
-        $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
+        if ($screen === 'cart') {
+          $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" data-unique-cart-key="'.$uniqueIdentifier.'" class="size_qty" value="' . $qty . '" /></td>';
+        } else {
+          $output .= '<td>'.$qty.'</td>';
+        }
 
-        $output .= '<td>Ind. shirt: ' . $xxlPrice;
+        $output .= '<td>';
+        //$output .= 'Ind. shirt: ' . $xxlPrice;
 
         $output .= $artPriceOutput;
 
         $lineSubtotal = $qty * ($xxlPriceNumber+$artTotal);
         $shirtSubtotal = (float) $xxlPriceNumber + $artTotal;
 
-        $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
+        $output .= "$".number_format($shirtSubtotal, 2);
 
         $output .= '</td>';
 
@@ -314,9 +341,14 @@ function hometown_display_size_data($product, $productID, $variationID) {
         $output .= "<tr class='preview_sizes'>";
         $output .= '<td>' . $size . '</td>';
 
-        $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" class="size_qty" value="' . $qty . '" /></td>';
+        if ($screen === 'cart') {
+          $output .= '<td><input type="text" name="'.$size.'" data-product-id="'.$productID.'" data-product-variant-id="'.$variationID.'" data-unique-cart-key="'.$uniqueIdentifier.'" class="size_qty" value="' . $qty . '" /></td>';
+        } else {
+          $output .= '<td>'.$qty.'</td>';
+        }
 
-        $output .= '<td>Ind. shirt: ' . $shirtPriceOutput;
+        $output .= '<td>';
+        //$output .= 'Ind. shirt: ' . $shirtPriceOutput;
 
         $output .= $artPriceOutput;
 
@@ -324,7 +356,7 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
         $shirtSubtotal = (float) $price + $artTotal;
 
-        $output .= "<br><strong>SUBTOTAL: $".number_format($shirtSubtotal, 2) . "</strong>";
+        $output .= "$".number_format($shirtSubtotal, 2);
 
         $output .= '</td>';
         $output .= '<td>' . '$'.number_format($lineSubtotal, 2) . '</td>';
@@ -349,14 +381,13 @@ function hometown_display_size_data($product, $productID, $variationID) {
 
 
 
-function hometown_display_user_meta($product, $variationID) {
+function hometown_display_user_meta($product, $variationID, $screen, $uniqueIdentifier) {
 
   $productID = $product->get_id();
-  $variationID = hometown_get_variation_id($variationID, $productID);
 
   $output = '';
-  $output .= hometown_display_imprint_data($productID, $variationID);
-  $output .= hometown_display_size_data($product, $productID, $variationID);
+  $output .= hometown_display_imprint_data($productID, $variationID, $uniqueIdentifier);
+  $output .= hometown_display_size_data($product, $productID, $variationID, $screen, $uniqueIdentifier);
   return $output;
 
 }
@@ -375,14 +406,13 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
     $items = $woocommerce->cart->get_cart();
 
     $user_custom_values = '<br>';
-
     foreach($items as $item => $values) {
+
       $product =  wc_get_product( $values['data']->get_id());
+      $user_custom_values .= hometown_display_user_meta($product, $values['variation_id'], 'order', $values['unique_key']);
 
-      $variationID = hometown_get_variation_id($values['data']->get_id(), $values['data']->get_id());
-
-      $user_custom_values .= hometown_display_user_meta($product, $variationID);
     }
+//echo $user_custom_values; die();
 
     if(!empty($user_custom_values))
     {
@@ -391,19 +421,32 @@ if(!function_exists('hometown_add_values_to_order_item_meta'))
   }
 }
 
-//add_action('woocommerce_before_cart_item_quantity_zero','hometown_remove_user_custom_data_options_from_cart',1,1);
-//if(!function_exists('hometown_remove_user_custom_data_options_from_cart'))
-//{
-//  function hometown_remove_user_custom_data_options_from_cart($cart_item_key)
-//  {
-//    global $woocommerce;
-//    // Get cart
-//    $cart = $woocommerce->cart->get_cart();
-//    // For each item in cart, if item is upsell of deleted product, delete it
-//    foreach( $cart as $key => $values)
-//    {
-//      if ( $values['Sizes and Artwork'] == $cart_item_key )
-//        unset( $woocommerce->cart->cart_contents[ $key ] );
-//    }
-//  }
-//}
+
+
+/*
+ * @desc Force individual cart item
+ */
+function hometown_force_individual_cart_items( $cart_item_data, $product_id ){
+
+  $unique_cart_item_key = md5( microtime().rand() );
+  $cart_item_data['unique_key'] = $unique_cart_item_key;
+  hometown_store_unique_cart_key($cart_item_data);
+
+  return $cart_item_data;
+
+}
+
+add_filter( 'woocommerce_add_cart_item_data','hometown_force_individual_cart_items', 10, 2 );
+
+
+
+/*
+ * @desc Remove quantity selector in all product type
+ */
+function hometown_remove_all_quantity_fields( $return, $product ) {
+
+  return true;
+
+}
+
+add_filter( 'woocommerce_is_sold_individually', 'hometown_remove_all_quantity_fields', 10, 2 );

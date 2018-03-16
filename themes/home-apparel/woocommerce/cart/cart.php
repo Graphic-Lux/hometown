@@ -32,9 +32,9 @@ do_action( 'woocommerce_before_cart' ); ?>
 			<tr>
 				<th class="product-remove">&nbsp;</th>
 				<th class="product-thumbnail">&nbsp;</th>
-				<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
+<!--				<th class="product-name">--><?php //_e( 'Product', 'woocommerce' ); ?><!--</th>-->
 <!--				<th class="product-price">--><?php //_e( 'Price', 'woocommerce' ); ?><!--</th>-->
-				<th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
+				<th class="product-info"><?php _e( 'Info', 'woocommerce' ); ?></th>
 				<th class="product-subtotal"><?php _e( 'Total', 'woocommerce' ); ?></th>
 			</tr>
 		</thead>
@@ -49,7 +49,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 				if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 					$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
 					?>
-					<tr class="woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+					<tr class="woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>" data-unique-key="<?= $cart_item['unique_key'];?>">
 
 						<td class="product-remove">
 							<?php
@@ -65,39 +65,29 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 						<td class="product-thumbnail">
 							<?php
-								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
 
-								if ( ! $product_permalink ) {
-									echo $thumbnail;
-								} else {
-									printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail );
-								}
-							?>
-						</td>
+              $image = wp_get_attachment_image_src( get_post_thumbnail_id( $_product->get_ID() ), 'single-post-thumbnail' );
+              ?>
 
-						<td class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>">
-							<?php
+              <img src="<?php  echo $image[0]; ?>" data-id="<?php echo $_product->get_ID() ?>">
+
+
+						<td class="product-info" data-title="<?php esc_attr_e( 'Info', 'woocommerce' ); ?>">
+
+              <?php
 
               echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;';
 
 
-								// Meta data
-								echo WC()->cart->get_item_data( $cart_item );
+              // Meta data
+              echo WC()->cart->get_item_data( $cart_item );
 
-								// Backorder notification
-								if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-									echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>';
-								}
-							?>
-						</td>
+              // Backorder notification
+              if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
+                echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>';
+              }
+              ?>
 
-<!--						<td class="product-price" data-title="--><?php //esc_attr_e( 'Price', 'woocommerce' ); ?><!--">-->
-							<?php
-//								echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
-							?>
-<!--						</td>-->
-
-						<td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
 							<?php
 								if ( $_product->is_sold_individually() ) {
 									$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
@@ -137,7 +127,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 						</div>
 					<?php } ?>
 
-					<input type="submit" class="button" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>" />
+<!--					<input type="submit" class="button" name="update_cart" value="--><?php //esc_attr_e( 'Update cart', 'woocommerce' ); ?><!--" />-->
 
 					<?php do_action( 'woocommerce_cart_actions' ); ?>
 

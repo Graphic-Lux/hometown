@@ -6,86 +6,140 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function hometown_get_artwork() {
 
-  $args2 = array(
+
+  ////////////// FRONT ARTWORK
+
+  $frontArtworkArgs = array(
       'post_type'             => 'Artwork',
       'post_status'           => 'publish',
-      'ignore_sticky_posts'   => 1,
-      'posts_per_page'        => '6',
+      'posts_per_page'        => 99,
+      'category'              => 40,
   );
 
-  $artwork = '<div class="swiper-container shirt_artwork">';
+  $artworkFront = '<div class="swiper-container shirt_artwork artwork-front">';
 
-  $loop = new WP_Query( $args2 );
+  $postslist = get_posts( $frontArtworkArgs );
 
-  $artworkFront = '<div class="swiper-wrapper hometown_artwork artwork-front">';
-  $artworkBack = '<div class="swiper-wrapper hometown_artwork artwork-back">';
-  $artworkSleeve = '<div class="swiper-wrapper hometown_artwork artwork-sleeve">';
+  $artworkFront .= '<div class="swiper-wrapper hometown_artwork">';
 
-  if ( $loop->have_posts() ) {
-    while ( $loop->have_posts() ) : $loop->the_post();
+  foreach($postslist as $post) :
+    setup_postdata($post);
 
-      $categoryDataArray = get_the_category();
+    $artworkFront .= '<div class="single_art" data-artwork-id="' . $post->ID . '" data-orientation="front">';
+    $artworkFront .= get_the_post_thumbnail($post, array(160, 160, 'class' => ' force-inline-svg'));
+    $artworkFront .= '<span class="artwork_title">' . get_the_title($post) . '</span>';
 
+      $categoryDataArray = get_the_category($post);
       foreach($categoryDataArray as $categoryData) {
-
-        $category = $categoryData->slug;
-
-        if ($category === 'front') {
-          $artworkFront .= '<div class="single_art" data-artwork-id="'.get_the_ID().'">';
-            $artworkFront .= get_the_post_thumbnail( null, array( 160,160, 'class' => ' force-inline-svg' ) );
-            $artworkFront .= '<span class="artwork_title">' . get_the_title() . '</span>';
-            $artworkFront .= custom_color_selector($categoryDataArray, $category);
-          $artworkFront .= '</div>';
-        } else if ($category === 'back') {
-          $artworkBack .= '<div class="single_art" data-artwork-id="'.get_the_ID().'">';
-            $artworkBack .= get_the_post_thumbnail( null, array( 160,160, 'class' => ' force-inline-svg') );
-            $artworkBack .= '<span class="artwork_title">' . get_the_title() . '</span>';
-            $artworkBack .= custom_color_selector($categoryDataArray, $category);
-          $artworkBack .= '</div>';
-        } else if ($category === 'sleeve') {
-          $artworkSleeve .= '<div class="single_art" data-artwork-id="'.get_the_ID().'">';
-            $artworkSleeve .= get_the_post_thumbnail( null, array( 160,160, 'class' => ' force-inline-svg' ) );
-            $artworkSleeve .= '<span class="artwork_title">' . get_the_title() . '</span>';
-            $artworkSleeve .= custom_color_selector($categoryDataArray, $category);
-          $artworkSleeve .= '</div>';
-        }
-
+        $artworkFront .= custom_color_selector($categoryData, $categoryData->slug);
       }
 
-    endwhile;
+    $artworkFront .= '</div>';
+
+  endforeach;
+  wp_reset_postdata();
+
+
+  $artworkFront .= "</div>"; // swiper-wrapper
+  $artworkFront .= "</div>"; // swiper-container
 
 
 
-    $artworkFront .= "</div>";
-    $artworkBack .= "</div>";
-    $artworkSleeve .= "</div>";
 
-    $artwork .= $artworkFront . $artworkBack . $artworkSleeve;
+  ////////////// BACK ARTWORK
 
-  } else {
-    echo __( 'No products found' );
-  }
+  $backArtworkArgs = array(
+      'post_type'             => 'Artwork',
+      'post_status'           => 'publish',
+      'posts_per_page'        => 99,
+      'category'              => 41,
+  );
 
-  $artwork .= '</div>';
+  $artworkBack = '<div class="swiper-container shirt_artwork artwork-back">';
+
+  $postslist = get_posts( $backArtworkArgs );
+
+  $artworkBack .= '<div class="swiper-wrapper hometown_artwork">';
+
+  foreach($postslist as $post) :
+    setup_postdata($post);
+
+    $artworkBack .= '<div class="single_art" data-artwork-id="' . $post->ID . '" data-orientation="back">';
+    $artworkBack .= get_the_post_thumbnail($post, array(160, 160, 'class' => ' force-inline-svg'));
+    $artworkBack .= '<span class="artwork_title">' . get_the_title($post) . '</span>';
+
+    $categoryDataArray = get_the_category($post);
+      foreach($categoryDataArray as $categoryData) {
+        $artworkBack .= custom_color_selector($categoryData, $categoryData->slug);
+      }
+
+    $artworkBack .= '</div>';
+
+  endforeach;
+  wp_reset_postdata();
+
+
+  $artworkBack .= "</div>"; // swiper-wrapper
+  $artworkBack .= "</div>"; // swiper-container
+
+
+
+
+  /////////////// SLEEVE ARTWORK
+
+  $sleeveArtworkArgs = array(
+      'post_type'             => 'Artwork',
+      'post_status'           => 'publish',
+      'posts_per_page'        => 99,
+      'category'              => 42,
+  );
+
+  $artworkSleeve = '<div class="swiper-container shirt_artwork artwork-sleeve">';
+
+  $postslist = get_posts( $sleeveArtworkArgs );
+
+  $artworkSleeve .= '<div class="swiper-wrapper hometown_artwork">';
+
+  foreach ($postslist as $post) :
+    setup_postdata($post);
+
+    $artworkSleeve .= '<div class="single_art" data-artwork-id="' . $post->ID . '" data-orientation="sleeve">';
+    $artworkSleeve .= get_the_post_thumbnail($post, array(160, 160, 'class' => ' force-inline-svg'));
+    $artworkSleeve .= '<span class="artwork_title">' . get_the_title($post) . '</span>';
+
+      $categoryDataArray = get_the_category($post);
+      foreach($categoryDataArray as $categoryData) {
+        $artworkSleeve .= custom_color_selector($categoryData, $categoryData->slug);
+      }
+
+    $artworkSleeve .= '</div>';
+
+  endforeach;
+  wp_reset_postdata();
+
+  $artworkSleeve .= "</div>"; // swiper-wrapper
+  $artworkSleeve .= "</div>"; // swiper-container
+
+
+  $artwork = $artworkFront . $artworkBack . $artworkSleeve;
 
   echo $artwork;
-  wp_reset_postdata();
+
 
 }
 
-function custom_color_selector($categoryDataArray, $orientation) {
-
-  foreach($categoryDataArray as $categoryData) {
+function custom_color_selector($categoryData, $orientation) {
 
     if ($categoryData->slug === 'custom-color') {
 
       $customColorOutput = '<div class="hometown_custom_color_selector">';
 
-        $customColorOutput .= '<div class="hometown_color_swatch green_swatch"></div>';
-        $customColorOutput .= '<div class="hometown_color_swatch blue_swatch"></div>';
         $customColorOutput .= '<div class="hometown_color_swatch red_swatch"></div>';
-        $customColorOutput .= '<div class="hometown_color_swatch yellow_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch blue_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch green_swatch"></div>';
         $customColorOutput .= '<div class="hometown_color_swatch white_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch grey_swatch"></div>';
+        $customColorOutput .= '<div class="hometown_color_swatch black_swatch"></div>';
 
         $customColorOutput .= '<div class="hometown_color_wheel">';
           $customColorOutput .= '<input type="hidden" name="'.$orientation.'-color" id="'.$orientation.'-color_input" class="color_input">';
@@ -95,7 +149,5 @@ function custom_color_selector($categoryDataArray, $orientation) {
 
       return $customColorOutput;
     }
-
-  }
 
 }

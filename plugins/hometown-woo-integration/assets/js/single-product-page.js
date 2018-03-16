@@ -8,10 +8,6 @@ $(document).ready(function() {single_product_page_init();});
 
 function single_product_page_init() {
 
-  if (pathname.indexOf('predesigned') !== -1) {
-    getSizes();
-  }
-
   $('.more_sizes').unbind().click(function() {
     $('.bigger_sizes').slideToggle();
   });
@@ -28,15 +24,18 @@ function single_product_page_init() {
 
 function hometown_reload_add_to_cart_actions() {
 
-
-  $('.wcvasquare').unbind().click(function() {
-    if (!$(this).hasClass('selectedswatch')) {
-      getSizes();
-    }
-  });
-
-
+  // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
+
+    if (!$('.variations .wcvasquare').hasClass('selectedswatch')) {
+      $('.variations .swatchinput').bounce({
+        interval: 100,
+        distance: 10,
+        times: 5
+      });
+      console.log('bouncing');
+      return false;
+    }
 
     e.preventDefault();
 
@@ -53,13 +52,17 @@ function hometown_reload_add_to_cart_actions() {
 
     if (pathname.indexOf('predesigned')  > 0) {
 
-      setSizeData(product_id, variation_id);
+      setSizeData(null);
 
     } else if (pathname.indexOf('custom/create')) {
 
       $('.step_1_close').slideUp();
 
+      $('.artwork_selection').slideDown();
+
       $('.step_1 .step-holder .custom_step').addClass('done');
+
+      $('.step_1 .step-holder .edit_heading').fadeIn();
 
       setAddToCartData(product_id, variation_id);
 

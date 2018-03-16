@@ -137,12 +137,20 @@ function hometown_get_product_variant_images() {
           $leftHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
           $leftHTML .= '</figure>';
 
+          $leftHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+
           // CREATE DROPDOWN
           $leftHTML_dropdown = "<select name='front-imprint_location' class='imprint_location_dropdown' id='front-imprint_location'>";
             $leftHTML_dropdown .= "<option value='0'>Choose Front Imprint Location</option>";
-            $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
-            $leftHTML_dropdown .= "<option value='mid_chest'>Mid Chest</option>";
-            $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+            if ($shirtType === 'polo') {
+              $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+            } else if ($shirtType === 'hat') {
+              $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
+            } else {
+              $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
+              $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+              $leftHTML_dropdown .= "<option value='centered'>Centered</option>";
+            }
           $leftHTML_dropdown .= "</select>";
 
           // PUT IMAGE INTO WOOCOMMERCE HTML FILTER
@@ -152,21 +160,29 @@ function hometown_get_product_variant_images() {
 
       } else if ($shirtOrientation === 'back') {
 
-        $main_images_middle = "<div class='step_2_shirt_designs'>";
-          $middleHTML  = '<figure id="'.$shirtOrientation.'"data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide ">';
-          $middleHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
+        if (($shirtType === 'longsleeve') || ($shirtType === 'tee') || ($shirtType === 'tank') || ($shirtType === 'polo')) {
+
+          $main_images_middle = "<div class='step_2_shirt_designs'>";
+          $middleHTML = '<figure id="' . $shirtOrientation . '"data-thumb="' . esc_url($thumbnail[0]) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide ">';
+          $middleHTML .= wp_get_attachment_image($id, 'shop_single', false, $attributes);
           $middleHTML .= '</figure>';
 
+          $middleHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+
           $middleHTML_dropdown = "<select name='back-imprint_location' class='imprint_location_dropdown' id='back-imprint_location'>";
+          if ($shirtType === 'polo') {
+            $middleHTML_dropdown .= "<option value='0'>No Imprint Available</option>";
+          } else {
             $middleHTML_dropdown .= "<option value='0'>Choose Back Imprint Location</option>";
-            $middleHTML_dropdown .= "<option value='full_back'>CENTERED - Full Imprint</option>";
-            $middleHTML_dropdown .= "<option value='upper_back'>Upper Back</option>";
-            $middleHTML_dropdown .= "<option value='lower_back'>Lower Back</option>";
+            $middleHTML_dropdown .= "<option value='full_back'>Full Back</option>";
+          }
           $middleHTML_dropdown .= "</select>";
 
-          $main_images_middle .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $middleHTML, $id );
+          $main_images_middle .= apply_filters('woocommerce_single_product_image_thumbnail_html', $middleHTML, $id);
           $main_images_middle .= $middleHTML_dropdown;
-        $main_images_middle .= "</div>";
+          $main_images_middle .= "</div>";
+
+        }
 
       } else if ($shirtOrientation === 'sleeve') {
 
@@ -177,12 +193,14 @@ function hometown_get_product_variant_images() {
             $rightHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
             $rightHTML .= '</figure>';
 
+            $rightHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+
             if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
               $rightHTML_dropdown = "<select name='sleeve-imprint_location' class='imprint_location_dropdown' id='sleeve-imprint_location'>";
                 $rightHTML_dropdown .= "<option value='0'>Choose Side Imprint Location</option>";
-                $rightHTML_dropdown .= "<option value='left_sleeve'>Left Sleeve</option>";
-                $rightHTML_dropdown .= "<option value='right_sleeve'>Right Sleeve</option>";
-                $rightHTML_dropdown .= "<option value='both'>Both Sleeves</option>";
+                $rightHTML_dropdown .= "<option value='left_sleeve'>Left Arm</option>";
+                $rightHTML_dropdown .= "<option value='right_sleeve'>Right Arm</option>";
+//                $rightHTML_dropdown .= "<option value='both'>Both Sleeves</option>";
               $rightHTML_dropdown .= "</select>";
             }
 
@@ -248,7 +266,7 @@ add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_single_ad
 
 function woo_custom_single_add_to_cart_text() {
 
-  return __( 'Continue', 'woocommerce' );
+  return __( 'SELECT THIS PRODUCT', 'woocommerce' );
 
 }
 
@@ -259,78 +277,104 @@ add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 
 function hometown_display_sizes() {
 
-  $productID = $_POST['product_id'];
-  $variationID = $_POST['variation_id'];
-
-  if ($variationID == 0) {
-    $product = wc_get_product( $productID );
-    $productChild = $product->get_children();
-    $variationID = $productChild[0];
-  }
-
-  $sizeArray = hometown_get_size_data($variationID);
-  $sizeArray = $sizeArray[$variationID];
-
-
-
   ?>
+  
   <div class="all_shirt_sizes">
+	 
     <div class="standard_sizes">
+      <?php
+      if (hometownGetReferrer() === 'predesigned') {
+        ?> <h2>Choose Your Sizes</h2> <?php
+      }
+      ?>
       <div class="sizing_inputs">
         <label for="XS">XS</label>
-        <input name="XS" type="text" class="size_qty" value="<?=$sizeArray['XS'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="XS" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="S">S</label>
-        <input name="S" type="text" class="size_qty" value="<?=$sizeArray['S'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="S" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="M">M</label>
-        <input name="M" type="text" class="size_qty" value="<?=$sizeArray['M'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="M" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="L">L</label>
-        <input name="L" type="text" class="size_qty" value="<?=$sizeArray['L'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="L" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="XL">XL</label>
-        <input name="XL" type="text" class="size_qty" value="<?=$sizeArray['XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="XL" type="text" class="size_qty" value="0"/>
       </div>
     </div>
     <a class="more_sizes">*Need bigger sizes?</a>
     <div class="bigger_sizes">
       <div class="sizing_inputs">
         <label for="XXL">XXL</label>
-        <input name="XXL" type="text" class="size_qty" value="<?=$sizeArray['XXL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="XXL" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="3XL">3XL</label>
-        <input name="3XL" type="text" class="size_qty" value="<?=$sizeArray['3XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="3XL" type="text" class="size_qty" value="0"/>
       </div>
       <div class="sizing_inputs">
         <label for="4XL">4XL</label>
-        <input name="4XL" type="text" class="size_qty" value="<?=$sizeArray['4XL'];?>" data-product-id="<?=$productID?>" data-product-variant-id="<?=$variationID?>" />
+        <input name="4XL" type="text" class="size_qty" value="0"/>
       </div>
       <?php
-      $additionalSizesPrice = get_post_meta( $variationID, '_xxl_pricing', true );
 
-      if (isset($additionalSizesPrice)) {
-        ?>
-        <span>* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
-        <?php
-      } else {
-        ?>
-        <span>* Price may be more for shirts XXL-4XL.</span>
-        <?php
+      if (hometownGetReferrer() === 'predesigned') {
+
+        $productID = get_the_ID();
+
+        $product = wc_get_product( $productID );
+        $productChild = $product->get_children();
+        $variationID = $productChild[0];
+
+        display_additional_sizes_price($variationID);
+
       }
+
       ?>
+      <div id="pricing"></div>
     </div>
   </div>
   <?
+//  wp_die();
+}
 
-  wp_die();
+
+
+add_action('wp_ajax_display_additional_sizes_price', 'display_additional_sizes_price');
+function display_additional_sizes_price($variationID) {
+
+  if ($variationID === '') {
+    $uniqueID = $_POST['variation_id'];
+  } else {
+    $uniqueID = $variationID;
+  }
+
+
+  $additionalSizesPrice = get_post_meta( $uniqueID, '_xxl_pricing', true );
+
+  if (isset($additionalSizesPrice)) {
+    ?>
+    <span id="xxl_pricing">* Pricing for XXL-4XL is <?= wc_price($additionalSizesPrice) ?>/shirt</span>
+    <?php
+  } else {
+    ?>
+    <span id="xxl_pricing">* Price may be more for shirts XXL-4XL.</span>
+    <?php
+  }
+
+  if (hometownGetReferrer() === 'create') {
+    wp_die();
+  }
 
 }
+
+
 
 
 /**
@@ -383,5 +427,19 @@ function hometownGetPage()
     return 'create';
   }
 
+}
+
+function hometownGetReferrer() {
+  $pathname = $_SERVER["HTTP_REFERER"];
+
+  if (strpos($pathname, 'create')) {
+    return 'create';
+  } else if (strpos($pathname, 'predesigned')) {
+    return 'predesigned';
+  } else if (strpos($pathname, 'product')) {
+    return 'product';
+  } else if (strpos($pathname, 'admin-ajax')) {
+    return 'create';
+  }
 }
 

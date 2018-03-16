@@ -77,7 +77,7 @@
   margin-bottom: 40px;
 }
 
-.step_2_content_container.subtype, .product_image_wrap.subtype {
+.step_2_content_container.subtype, .choose_sizes.subtype {
   display: none;
 }
 
@@ -116,4 +116,30 @@
 
 .restore-item {
   display: none;
+}
+
+.product-thumbnail {
+  width: 25%;
+}
+
+table.cart img {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.click_to_edit_product {
+  font-size: 8px;
+  text-align: center;
+  display: block;
+  letter-spacing: .3em;
+}
+
+.step-holder h4.edit_heading {
+  display: none;
+}
+
+#xxl_pricing {
+  display: block;
+  clear: both;
 }

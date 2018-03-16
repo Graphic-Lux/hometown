@@ -7,6 +7,8 @@ function artwork_init() {
 
   console.log('artwork init');
 
+  artwork_display('front');
+
   $('.step_2_shirt_designs').fadeTo(100, .4);
   $('.step_2_shirt_designs').removeClass('selected');
   $('.step_2_shirt_designs:first').fadeTo(100, 1);
@@ -38,14 +40,14 @@ function artwork_init() {
   $(".single_art img").unbind().click(function () {
     let artClone = $(this).clone();
     $(artClone).attr('data-artwork-id', $(this).parent().attr('data-artwork-id'));
-    apply_artwork_to_shirt(artClone, $(this).parent().parent().attr('class').split('artwork-')[1]);
+    apply_artwork_to_shirt(artClone, $(this).closest('.single_art').attr('data-orientation'));
   });
 
   // CLICK ARTWORK TO PLACE ON T-SHIRT
   $(".single_art svg").unbind().click(function () {
     let artClone = $(this).clone();
     $(artClone).attr('data-artwork-id', $(this).parent().attr('data-artwork-id'));
-    apply_artwork_to_shirt(artClone, $(this).parent().parent().attr('class').split('artwork-')[1]);
+    apply_artwork_to_shirt(artClone, $(this).closest('.single_art').attr('data-orientation'));
   });
 
 
@@ -158,7 +160,7 @@ function apply_color_to_svg(id, svg, swatch, selector, orientation) {
 
     // If artwork is on a shirt, change it's color too
     if ($('figure#' + orientation).find($('[data-svg="' + id + '"]')).length) {
-      apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
+      apply_artwork_to_shirt($(svg).clone(), $(svg).closest('.single_art').attr('data-orientation'));
     }
 
   });
@@ -183,7 +185,7 @@ function apply_color_to_svg(id, svg, swatch, selector, orientation) {
 
       // If artwork is on a shirt, change it's color too
       if ($('figure#' + orientation).find($('[data-svg="' + id + '"]')).length) {
-        apply_artwork_to_shirt($(svg).clone(), $(svg).parent().parent().attr('class').split('artwork-')[1]);
+        apply_artwork_to_shirt($(svg).clone(), $(svg).closest('.single_art').attr('data-orientation'));
 
       }
 
@@ -232,7 +234,7 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
     $('.' + shirtOrientation + '-selected_art').remove();
     // console.log(artClone);
 
-    //artClone.removeClass('full_front mid_chest pocket full_back upper_back lower_back left_sleeve right_sleeve');
+    artClone.removeClass('full_front mid_chest pocket full_back upper_back lower_back left_sleeve right_sleeve');
 
     if (imprintLocation === 'right_sleeve') {
       $('#' + shirtOrientation + ' img').addClass('reflect');
@@ -245,8 +247,6 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
     $('#' + shirtOrientation).append(artClone);
 
   } else {
-
-    // alert('Please select an imprint location for the artwork using the dropdown.');
 
     $('#'+shirtOrientation+'-imprint_location').bounce({
       interval: 100,
@@ -264,7 +264,7 @@ function apply_artwork_to_shirt(artClone, shirtOrientation) {
  * @return void
  *
  */
-function save_artwork_to_user_meta() {
+function save_artwork_to_user_meta(uniqueCartKey) {
   let frontImgURL;
   let backImgURL;
   let sleeveImgURL;
@@ -310,6 +310,7 @@ function save_artwork_to_user_meta() {
     "action":           "hometown_save_imprint_artwork",
     "product_id":       product_id,
     "variation_id":     variation_id,
+    "unique_cart_key":  uniqueCartKey,
     "frontURL":         frontImgURL,
     "frontColor":       frontImgColor,
     "frontArtworkID":   frontArtworkID,
@@ -330,7 +331,7 @@ function save_artwork_to_user_meta() {
 
 function artwork_display(orientation) {
 
-  $('.hometown_artwork').hide();
+  $('.shirt_artwork').hide();
   $('.artwork-' + orientation).show();
 
 }

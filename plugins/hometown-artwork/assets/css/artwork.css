@@ -40,94 +40,6 @@
   display: none;
 }
 
-.full_front {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 100px;
-  width: 100px;
-  z-index: 1;
-  position: absolute;
-  margin: -285px auto 0 auto;
-}
-
-.mid_chest {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 75px;
-  width: 75px;
-  z-index: 1;
-  position: absolute;
-  margin: -285px auto 0 auto;
-}
-
-.pocket {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 40px;
-  width: 40px;
-  z-index: 1;
-  position: absolute;
-  margin: -300px 92px 0 auto;
-}
-
-.full_back {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 100px;
-  width: 100px;
-  z-index: 1;
-  position: absolute;
-  margin: -320px auto 0 auto;
-}
-
-.upper_back {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 100px;
-  width: 100px;
-  z-index: 1;
-  position: absolute;
-  margin: -325px auto 0 auto;
-}
-
-.lower_back {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 100px;
-  width: 100px;
-  z-index: 1;
-  position: absolute;
-  margin: -300px auto 0 auto;
-}
-
-.left_sleeve, .both {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 25px;
-  width: 25px;
-  z-index: 1;
-  position: absolute;
-  margin: -265px 45px 0 auto;
-}
-
-.right_sleeve {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 25px;
-  width: 25px;
-  z-index: 1;
-  position: absolute;
-  margin: -265px 0 0 45px;
-}
-
 .reflect {
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
@@ -173,24 +85,28 @@
   cursor: pointer;
 }
 
-.hometown_custom_color_selector .green_swatch {
-  background: #008000;
-}
-
-.hometown_custom_color_selector .blue_swatch {
-  background: #0000ff;
-}
-
 .hometown_custom_color_selector .red_swatch {
   background: #ff0000;
 }
 
-.hometown_custom_color_selector .yellow_swatch {
-  background: #ffff00;
+.hometown_custom_color_selector .blue_swatch {
+  background: #148dd3;
+}
+
+.hometown_custom_color_selector .green_swatch {
+  background: #2fd13e;
 }
 
 .hometown_custom_color_selector .white_swatch {
   background: #ffffff;
+}
+
+.hometown_custom_color_selector .grey_swatch {
+  background: #cccccc;
+}
+
+.hometown_custom_color_selector .black_swatch {
+  background: #000000;
 }
 
 .woocommerce-cart svg.replaced-svg,
