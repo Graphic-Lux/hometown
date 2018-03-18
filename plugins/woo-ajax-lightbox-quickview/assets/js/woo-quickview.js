@@ -1,4 +1,7 @@
+
+
 function woocommerce_ajax_lightbox_quickview() {
+  let popup = ".mfp-content";
   (function($) {
 
     $('.ajax-popup-link').magnificPopup({
@@ -13,10 +16,18 @@ function woocommerce_ajax_lightbox_quickview() {
         },
         close: function () {
           $('.ajax-popup-link').unbind();
+
+          $(popup).removeClass("fade-in");
         },
         ajaxContentAdded: function() {
           // Ajax content is loaded and appended to DOM
           $('.pswp').remove();
+          $(popup).css('opacity', '0');
+          setTimeout(function(){
+             $(popup).addClass("fade-in");
+             $(popup).css("opacity", "1");
+          }, 1500);
+
         }
       }
     });
@@ -79,7 +90,6 @@ function refresh_lightbox_arrow_func() {
   });
 
 }
-
 woocommerce_ajax_lightbox_quickview();
 
 

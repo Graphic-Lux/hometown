@@ -5,8 +5,6 @@ let graphic_lux_subdirectory = '/home';
 
 $(document).ready(function () { hometown_init();});
 
-
-
 function hometown_init() {
 
   //initialize swiper when document ready
@@ -70,7 +68,6 @@ function hometown_init() {
         $('.product_grid_wrap').html(searchResults).fadeIn();
         woocommerce_ajax_lightbox_quickview();
         $('.subtype.product').fadeIn();
-
       });
 
     });

@@ -44,7 +44,6 @@ function ha_load_scripts() {
 
     wp_register_script('swiper', HAWI_PLUGIN_URL . 'assets/js/Swiper-3.4.2/dist/js/swiper.jquery.min.js', array('jquery'), '1', false);
     wp_register_script('hometown', HAWI_PLUGIN_URL . 'assets/js/hometown.js', array('jquery'), '1', false);
-
     wp_localize_script('hometown', 'ha_localized_config', $data);
 
     wp_enqueue_script('swiper');

@@ -1,9 +1,42 @@
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: .5s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .single_shirt {
   background: #0EB6EC;
   text-align: center;
   padding: 20px 35px;
   height: 155px;
   margin: 0 10px;
+}
+
+.custom-create-page .single-product-summary {
+  min-height: 592px;
+}
+
+ #wrap_all {
+  min-height: 652px;
+}
+
+.custom-create-page .woocommerce-tabs {
+  min-height: 264px;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-viewport {
+  height: auto !important;
 }
 
 .hovered {

@@ -5,7 +5,6 @@ let graphic_lux_subdirectory = '/home';
 
 $(document).ready(function() {single_product_page_init();});
 
-
 function single_product_page_init() {
 
   $('.more_sizes').unbind().click(function() {
