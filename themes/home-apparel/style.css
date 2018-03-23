@@ -245,6 +245,12 @@ a.continue_shopping_link {
 .main_color .woocommerce-MyAccount-content a {
 	color: #0282b0;
 }
+
+.shirt_title {
+	text-transform: uppercase;
+    font-family: "UniversLT57Condensed";
+    font-size: 12px;
+}
 /* Create Custom */
 
 .step-holder {
