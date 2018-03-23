@@ -387,7 +387,7 @@ add_filter( 'woocommerce_is_sold_individually', 'wc_remove_all_quantity_fields',
 
 add_filter('woocommerce_return_to_shop_redirect', 'hometown_return_to_shop_link');
 function hometown_return_to_shop_link() {
-  return $_SERVER['HTTP_HOST']. '/landing-page';
+  return get_site_url() . '/landing-page';
 }
 
 

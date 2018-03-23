@@ -93,9 +93,27 @@ function hometown_init() {
 
   });
 
+
+
   $("#continue_3").unbind().click(function(e) {
+
     e.preventDefault();
-    add_variation_to_cart();
+
+    $('.size_qty').each(function() {
+
+      if (parseInt($(this).val()) !== 0) {
+        add_variation_to_cart();
+      }
+
+    });
+
+    $('.size_qty').bounce({
+      interval: 100,
+      distance: 8,
+      times: 5
+    });
+    return false;
+
   });
 
 
@@ -116,8 +134,6 @@ function hometown_init() {
 
       $('.artwork_selection').slideDown();
       $('#continue_2').fadeIn();
-      // $('.step_2_shirt_designs').fadeTo(100, 1);
-      // $('.product_image_wrap.subtype').fadeIn();
 
     } else if (step === 3) {
 

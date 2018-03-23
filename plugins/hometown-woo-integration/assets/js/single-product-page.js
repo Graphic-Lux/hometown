@@ -34,7 +34,7 @@ function hometown_reload_add_to_cart_actions() {
         distance: 10,
         times: 5
       });
-      console.log('bouncing');
+      // console.log('bouncing');
       return false;
     }
 

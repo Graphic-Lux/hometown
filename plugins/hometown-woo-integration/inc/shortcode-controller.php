@@ -59,10 +59,13 @@ function hometown_step_1_func( $atts ){
 
           foreach($mensAndUnisex as $mensAndUnisexShirt) {
             $style = explode("$url"."mens-",$mensAndUnisexShirt);
-            $style = explode('.png', $style[1])[0];
+            $style = explode('.png', $style[1]);
+            $style = $style[0];
             echo "<div class='single_shirt swiper-slide' id='$style' data-type='mens'>";
               echo "<img src='$mensAndUnisexShirt' class='$style' />";
+              echo "<span class='shirt_title'>".strtoupper($style)."<span>";
             echo '</div>';
+
           }
 
         ?>
@@ -73,9 +76,11 @@ function hometown_step_1_func( $atts ){
 
           foreach($womens as $womensShirt) {
             $style = explode("$url"."womens-",$womensShirt);
-            $style = explode('.png', $style[1])[0];
+            $style = explode('.png', $style[1]);
+            $style = $style[0];
             echo "<div class='single_shirt swiper-slide' id='$style' data-type='womens'>";
               echo "<img src='$womensShirt' class='$style' />";
+              echo "<span class='shirt_title'>".strtoupper($style)."<span>";
             echo '</div>';
           }
 
@@ -87,9 +92,11 @@ function hometown_step_1_func( $atts ){
 
           foreach($youth as $youthShirt) {
             $style = explode("$url"."youth-",$youthShirt);
-            $style = explode('.png', $style[1])[0];
+            $style = explode('.png', $style[1]);
+            $style = $style[0];
             echo "<div class='single_shirt swiper-slide' id='$style' data-type='youth'>";
               echo "<img src='$youthShirt' class='$style' />";
+              echo "<span class='shirt_title'>".strtoupper($style)."<span>";
             echo '</div>';
           }
 

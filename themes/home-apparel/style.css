@@ -321,7 +321,8 @@ tr.preview_sizes input.size_qty {
 div.single_shirt {
 	cursor: pointer;
 	border: 8px solid #0EB6EC;
-	height: 182px;
+	/*height: 182px;*/
+  height: 200px;
 	max-width: 200px;
 }
 

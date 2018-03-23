@@ -18,9 +18,19 @@
 .single_shirt {
   background: #0EB6EC;
   text-align: center;
-  padding: 20px 35px;
+  /*padding: 20px 35px;*/
+  padding: 10px 35px;
   height: 155px;
   margin: 0 10px;
+}
+
+.shirt_title {
+  display: block;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  color: #333;
 }
 
 .custom-create-page .single-product-summary {
