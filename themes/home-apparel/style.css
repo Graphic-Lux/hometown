@@ -236,6 +236,15 @@ table.cart img.force-inline-svg {
     width: 80px;
     background: #ededed;
 }
+
+a.continue_shopping_link {	    
+	position: relative;
+    top: -20px;
+}
+
+.main_color .woocommerce-MyAccount-content a {
+	color: #0282b0;
+}
 /* Create Custom */
 
 .step-holder {
