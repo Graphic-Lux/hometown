@@ -103,8 +103,6 @@ function hometown_get_product_variant_images() {
 
   $loop = 0;
 
-  d($image_ids);
-
   if ( 0 < count( $image_ids ) ) {
     // Build html.
     foreach ( $image_ids as $id ) {
