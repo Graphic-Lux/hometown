@@ -252,6 +252,10 @@ a.continue_shopping_link {
     font-size: 12px;
     bottom: -13px;
 }
+
+/*.table.table-borderless.wdm_options_table th:last-child, .table.table-borderless.wdm_options_table td:last-child {
+	display: none;
+}*/
 /* Create Custom */
 
 .step-holder {
