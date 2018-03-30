@@ -61,7 +61,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 						<?php endif; ?>
 						<?php echo WC()->cart->get_item_data( $cart_item ); ?>
 
-            <?php echo $cart_item['data']->get_price(); ?>
+            <?php echo '$' . number_format_i18n($cart_item['data']->get_price(), 2); ?>
             <?php
               $attributeData = $_product->get_variation_attributes();
 

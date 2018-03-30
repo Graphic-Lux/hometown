@@ -223,7 +223,6 @@ function hometown_display_imprint_data($productID, $variationID, $uniqueIdentifi
                       <th>Shirt Orientation</th>
                       <th>Imprint Location</th>
                       <th>Artwork</th>
-                      <th>Price</th>
                     </tr>
                   </thead>
                   <tbody>';
@@ -239,7 +238,7 @@ function hometown_display_imprint_data($productID, $variationID, $uniqueIdentifi
           $color = ($artworkDataArray[$orientation]['color'] === 'No custom color') ? '' : $artworkDataArray[$orientation]['color'];
           $output .= "<img src='" . $artworkDataArray[$orientation]['url'] . "' class='force-inline-svg' data-color='".$color."'/>";
         $output .= "</td>";
-        $output .= "<td>$" . number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2) . "/shirt</td>";
+//        $output .= "<td>$" . number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2) . "/shirt</td>";
         $output .= "</tr>";
       }
     }
