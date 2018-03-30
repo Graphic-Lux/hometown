@@ -12,7 +12,8 @@
 
 .hometown_artwork img,
 .hometown_artwork svg {
-  padding: 10px 10px 10px 0px;
+  min-width: 160px;
+  /*padding: 10px 10px 10px 0px;*/
 }
 
 .swiper-wrapper.artwork-back, .swiper-wrapper.artwork-sleeve {
