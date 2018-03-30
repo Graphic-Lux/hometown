@@ -68,6 +68,32 @@
   max-width: 1000px;
 }
 
+.shirt_view:hover {
+  cursor: pointer;
+}
+
+.product_slider_wrap {
+  display: none;
+}
+
+.product_grid_wrap {
+  display: block;
+}
+
+.product_grid_wrap .products .product, .product_slider_wrap .products .product {
+  width: 20%;
+  margin: 0;
+  padding: 5px;
+}
+
+.product_grid_wrap .products .product.last, .product_slider_wrap .products .product.last {
+  margin: 0 !important;
+}
+
+#top .inner_product_header {
+  min-height: 235px !important;
+}
+
 .mfp-content p {
   line-height: 1em !important;
 }

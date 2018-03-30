@@ -24,6 +24,17 @@ function hometown_init() {
     $(this).hide();
   });
 
+  $('.shirt_view').unbind().click(function (e) {
+
+    e.preventDefault();
+
+    $(".shirt_view").toggleText('SLIDER VIEW', 'GRID VIEW');
+    $('.product_slider_wrap').toggle();
+    $('.product_grid_wrap').toggle();
+
+
+  });
+
   $('.type a').unbind().click(function (e) {
 
     $('.type a').removeClass('hovered');
@@ -66,8 +77,28 @@ function hometown_init() {
       $.get(ha_localized_config.ajaxurl, data).done(function(searchResults) {
 
         $('.product_grid_wrap').html(searchResults).fadeIn();
+        $('.product_slider_wrap').html(searchResults);
+
+        // CHANGE TO DIV FOR SLIDER COMPATABILITY
+        $('.product_slider_wrap .shirt_style_options').changeElementType('div');
+        $('.product_slider_wrap .shirt_style_options li').changeElementType('div');
+
+
+        $('.product_grid_wrap ul').removeClass('swiper-wrapper');
+        $('.product_grid_wrap ul li').removeClass('swiper-slide');
+
+
+        var productSwiper = new Swiper ('.product_slider_wrap', {
+          // Optional parameters
+          direction: 'horizontal',
+          loop: false,
+          slidesPerView: 5,
+          autoResize: true
+        });
+
         woocommerce_ajax_lightbox_quickview();
         $('.subtype.product').fadeIn();
+
       });
 
     });
@@ -91,6 +122,10 @@ function hometown_init() {
 
     display_additional_sizes_price();
 
+    $('html, body').animate({
+      scrollTop: $(".step_3").offset().top
+    }, 2000);
+
   });
 
 
@@ -99,20 +134,29 @@ function hometown_init() {
 
     e.preventDefault();
 
+    let sizeQA = [];
+
     $('.size_qty').each(function() {
 
       if (parseInt($(this).val()) !== 0) {
         add_variation_to_cart();
+        return false;
+      } else {
+        sizeQA.push($(this).val());
       }
 
     });
 
-    $('.size_qty').bounce({
-      interval: 100,
-      distance: 8,
-      times: 5
-    });
-    return false;
+    // IF ALL SIZES ARE 0, BOUNCE SIZE BOXES FOR REMINDER
+    if (sizeQA.length === 8) {
+      $('.size_qty').bounce({
+        interval: 100,
+        distance: 8,
+        times: 5
+      });
+      return false;
+    }
+
 
   });
 
@@ -417,3 +461,41 @@ function setAddToCartData(product_id, variation_id) {
   $('#continue_3').attr('data-product-variation', $('.selectedswatch').data('option'));
 
 }
+
+
+
+
+jQuery.fn.extend({
+  toggleText: function (a, b){
+    var that = this;
+    if (that.text() != a && that.text() != b){
+      that.text(a);
+    }
+    else
+    if (that.text() == a){
+      that.text(b);
+    }
+    else
+    if (that.text() == b){
+      that.text(a);
+    }
+    return this;
+  }
+});
+
+(function($) {
+  $.fn.changeElementType = function(newType) {
+    var attrs = {};
+    if (!(this[0] && this[0].attributes))
+      return;
+
+    $.each(this[0].attributes, function(idx, attr) {
+      attrs[attr.nodeName] = attr.nodeValue;
+    });
+    this.replaceWith(function() {
+      return $("<" + newType + "/>", attrs).append($(this).contents());
+    });
+  }
+})(jQuery);
+
+

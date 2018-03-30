@@ -111,7 +111,7 @@ function hometown_step_1_func( $atts ){
 
   <div class="subtype product">
     <a class="shirt_view">GRID VIEW</a>
-    <div class="product_slider_wrap"></div>
+    <div class="product_slider_wrap swiper-container"></div>
     <div class="product_grid_wrap"></div>
   </div>
 </div> <!-- step_1 -->

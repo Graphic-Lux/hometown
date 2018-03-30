@@ -448,3 +448,9 @@ function hometown_remove_all_quantity_fields( $return, $product ) {
 }
 
 add_filter( 'woocommerce_is_sold_individually', 'hometown_remove_all_quantity_fields', 10, 2 );
+
+
+add_action('woocommerce_before_checkout_form', 'add_continue_shopping_link');
+function add_continue_shopping_link() {
+  echo '<a class="continue_shopping_link" href="'.get_site_url().'/landing-page">&larr; Continue shopping</a>';
+}

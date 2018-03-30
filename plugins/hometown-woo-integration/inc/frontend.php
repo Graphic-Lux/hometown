@@ -44,21 +44,24 @@ function hometown_get_products_by_category() {
     );
 
     ?>
-    <ul class="products">
-      <?php
-      $loop = new WP_Query( $args2 );
-      if ( $loop->have_posts() ) {
-        while ( $loop->have_posts() ) : $loop->the_post();
-          if (get_post_meta(get_the_ID(),'_custom_product', true) === 'yes') {
-            wc_get_template_part( 'content', 'product' );
-          }
-        endwhile;
-      } else {
-        echo __( 'No products found' );
-      }
-      wp_reset_postdata();
-      ?>
-    </ul><!--.products-->
+
+
+      <ul class="products shirt_style_options swiper-wrapper">
+        <?php
+        $loop = new WP_Query( $args2 );
+        if ( $loop->have_posts() ) {
+          while ( $loop->have_posts() ) : $loop->the_post();
+            if (get_post_meta(get_the_ID(),'_custom_product', true) === 'yes') {
+                wc_get_template_part( 'content', 'product' );
+            }
+          endwhile;
+        } else {
+          echo __( 'No products found' );
+        }
+        wp_reset_postdata();
+        ?>
+      </ul><!--.products-->
+
     <?php
     wp_die();
 
