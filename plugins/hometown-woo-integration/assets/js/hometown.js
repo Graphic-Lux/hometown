@@ -26,6 +26,24 @@ function hometown_init() {
 
   $('.shirt_view').unbind().click(function (e) {
 
+    jQuery.fn.extend({
+      toggleText: function (a, b){
+        var that = this;
+        if (that.text() != a && that.text() != b){
+          that.text(a);
+        }
+        else
+        if (that.text() == a){
+          that.text(b);
+        }
+        else
+        if (that.text() == b){
+          that.text(a);
+        }
+        return this;
+      }
+    });
+
     e.preventDefault();
 
     $(".shirt_view").toggleText('SLIDER VIEW', 'GRID VIEW');
@@ -78,11 +96,6 @@ function hometown_init() {
 
         $('.product_grid_wrap').html(searchResults).fadeIn();
         $('.product_slider_wrap').html(searchResults);
-
-        // CHANGE TO DIV FOR SLIDER COMPATABILITY
-        $('.product_slider_wrap .shirt_style_options').changeElementType('div');
-        $('.product_slider_wrap .shirt_style_options li').changeElementType('div');
-
 
         $('.product_grid_wrap ul').removeClass('swiper-wrapper');
         $('.product_grid_wrap ul li').removeClass('swiper-slide');
@@ -192,6 +205,7 @@ function hometown_init() {
     var orderNumberClone = $('.woocommerce-order-overview__order.order').html();
     $('.avia_codeblock ').prepend(orderNumberClone+'<br>');
   }
+
 
 
 }
@@ -461,41 +475,4 @@ function setAddToCartData(product_id, variation_id) {
   $('#continue_3').attr('data-product-variation', $('.selectedswatch').data('option'));
 
 }
-
-
-
-
-jQuery.fn.extend({
-  toggleText: function (a, b){
-    var that = this;
-    if (that.text() != a && that.text() != b){
-      that.text(a);
-    }
-    else
-    if (that.text() == a){
-      that.text(b);
-    }
-    else
-    if (that.text() == b){
-      that.text(a);
-    }
-    return this;
-  }
-});
-
-(function($) {
-  $.fn.changeElementType = function(newType) {
-    var attrs = {};
-    if (!(this[0] && this[0].attributes))
-      return;
-
-    $.each(this[0].attributes, function(idx, attr) {
-      attrs[attr.nodeName] = attr.nodeValue;
-    });
-    this.replaceWith(function() {
-      return $("<" + newType + "/>", attrs).append($(this).contents());
-    });
-  }
-})(jQuery);
-
 

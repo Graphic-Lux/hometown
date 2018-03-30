@@ -33,9 +33,8 @@ if ( empty( $product ) || ! $product->is_visible() ) {
   return;
 }
 
-
 ?>
-<li class="<?php $allClasses = get_post_class(); foreach ($allClasses as $class) { echo $class . " "; } ?>group swiper-slide">
+<li <?php post_class('swiper-slide'); ?>>
 	<?php
 	/**
 	 * woocommerce_before_shop_loop_item hook.

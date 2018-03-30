@@ -188,7 +188,9 @@
 	color: #fff;
 	text-decoration: none;
 }
-li.product:hover .wpb_wl_preview{
+li.product:hover .wpb_wl_preview,
+.products .product:hover .wpb_wl_preview
+{
 	visibility: visible;
 	opacity: 1
 }
@@ -464,7 +466,7 @@ li.product:hover .wpb_wl_preview{
  * FlexSlider FIX 
  */
 
-.wpb_wl_images .flexslider .slides > li {
+.wpb_wl_images .flexslider .slides > li, .wpb_wl_images .flexslider .slides > .product {
 	display: block;
 }
 .wpb_wl_images .flexslider {
