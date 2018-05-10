@@ -52,6 +52,13 @@ class WC_Stripe_Customer {
 	 * @param [type] $id [description]
 	 */
 	public function set_id( $id ) {
+		// Backwards compat for customer ID stored in array format. (Pre 3.0)
+		if ( is_array( $id ) && isset( $id['customer_id'] ) ) {
+			$id = $id['customer_id'];
+
+			update_user_meta( $this->get_user_id(), '_stripe_customer_id', $id );
+		}
+
 		$this->id = wc_clean( $id );
 	}
 
@@ -84,39 +91,6 @@ class WC_Stripe_Customer {
 	 */
 	public function set_customer_data( $data ) {
 		$this->customer_data = $data;
-	}
-
-	/**
-	 * Get data from the Stripe API about this customer
-	 */
-	public function get_customer_data() {
-		$this->customer_data = get_transient( 'stripe_customer_' . $this->get_id() );
-
-		if ( empty( $this->customer_data ) && $this->get_id() && false === $this->customer_data ) {
-			$response = WC_Stripe_API::request( array(), 'customers/' . $this->get_id() );
-
-			if ( empty( $response->error ) ) {
-				$this->set_customer_data( $response );
-				set_transient( 'stripe_customer_' . $this->get_id(), $response, HOUR_IN_SECONDS * 48 );
-			}
-		}
-
-		return $this->customer_data;
-	}
-
-	/**
-	 * Get default card/source
-	 * @return string
-	 */
-	public function get_default_source() {
-		$data   = $this->get_customer_data();
-		$source = '';
-
-		if ( $data ) {
-			$source = $data->default_source;
-		}
-
-		return $source;
 	}
 
 	/**
@@ -168,6 +142,21 @@ class WC_Stripe_Customer {
 	}
 
 	/**
+	 * Checks to see if error is of invalid request
+	 * error and it is no such customer.
+	 *
+	 * @since 4.1.2
+	 * @param array $error
+	 */
+	public function is_no_such_customer_error( $error ) {
+		return (
+			$error &&
+			'invalid_request_error' === $error->type &&
+			preg_match( '/No such customer/i', $error->message )
+		);
+	}
+
+	/**
 	 * Add a source for this stripe customer.
 	 * @param string $source_id
 	 * @param bool $retry
@@ -182,11 +171,13 @@ class WC_Stripe_Customer {
 			'source' => $source_id,
 		), 'customers/' . $this->get_id() . '/sources' );
 
+		$wc_token = false;
+
 		if ( ! empty( $response->error ) ) {
 			// It is possible the WC user once was linked to a customer on Stripe
 			// but no longer exists. Instead of failing, lets try to create a
 			// new customer.
-			if ( preg_match( '/No such customer/i', $response->error->message ) ) {
+			if ( $this->is_no_such_customer_error( $response->error ) ) {
 				delete_user_meta( $this->get_user_id(), '_stripe_customer_id' );
 				$this->create_customer();
 				return $this->add_source( $source_id, false );
@@ -244,7 +235,7 @@ class WC_Stripe_Customer {
 	}
 
 	/**
-	 * Get a customers saved sources using their Stripe ID. Cached.
+	 * Get a customers saved sources using their Stripe ID.
 	 *
 	 * @param  string $customer_id
 	 * @return array
@@ -256,20 +247,16 @@ class WC_Stripe_Customer {
 
 		$sources = get_transient( 'stripe_sources_' . $this->get_id() );
 
-		if ( false === $sources ) {
-			$response = WC_Stripe_API::request( array(
-				'limit'       => 100,
-			), 'customers/' . $this->get_id() . '/sources', 'GET' );
+		$response = WC_Stripe_API::request( array(
+			'limit'       => 100,
+		), 'customers/' . $this->get_id() . '/sources', 'GET' );
 
-			if ( ! empty( $response->error ) ) {
-				return array();
-			}
+		if ( ! empty( $response->error ) ) {
+			return array();
+		}
 
-			if ( is_array( $response->data ) ) {
-				$sources = $response->data;
-			}
-
-			set_transient( 'stripe_sources_' . $this->get_id(), $sources, HOUR_IN_SECONDS * 24 );
+		if ( is_array( $response->data ) ) {
+			$sources = $response->data;
 		}
 
 		return empty( $sources ) ? array() : $sources;

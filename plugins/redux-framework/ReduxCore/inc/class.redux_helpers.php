@@ -502,9 +502,12 @@
                     if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
                         $sysinfo['wp_remote_get']       = 'true';
                         $sysinfo['wp_remote_get_error'] = '';
-                    } else {
+                    } elseif( is_wp_error( $response ) ) {
                         $sysinfo['wp_remote_get']       = 'false';
                         $sysinfo['wp_remote_get_error'] = $response->get_error_message();
+                    } else {
+                        $sysinfo['wp_remote_get']       = 'false';
+                        $sysinfo['wp_remote_get_error'] = $response['response']['code'] . (isset($response['response']['message']) ? $response['response']['message'] : '');
                     }
                 }
 
@@ -588,7 +591,6 @@
             }
 
             private static function getReduxTemplates( $custom_template_path ) {
-                $filesystem         = Redux_Filesystem::get_instance();
                 $template_paths     = array( 'ReduxFramework' => ReduxFramework::$_dir . 'templates/panel' );
                 $scanned_files      = array();
                 $found_files        = array();
@@ -656,6 +658,7 @@
 
             public static function get_template_version( $file ) {
                 $filesystem = Redux_Filesystem::get_instance();
+
                 // Avoid notices if file does not exist
                 if ( ! file_exists( $file ) ) {
                     return '';
