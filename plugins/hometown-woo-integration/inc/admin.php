@@ -25,7 +25,7 @@ function variation_settings_fields( $loop, $variation_data, $variation ) {
           'id'          => '_xxl_pricing[' . $variation->ID . ']',
           'label'       => __( 'XXL+ Pricing', 'woocommerce' ),
           'desc_tip'    => 'true',
-          'placeholder' => '19.95',
+          'placeholder' => 'Required!',
           'description' => __( 'Enter the price of XXL+ t-shirts that will be more expensive than the XS-XL shirts.', 'woocommerce' ),
           'value'       => get_post_meta( $variation->ID, '_xxl_pricing', true )
       )

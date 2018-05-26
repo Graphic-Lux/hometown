@@ -169,7 +169,9 @@ function hometown_calculate_price( $cart_object ) {
 
       }
 
+      $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
 
+      $product_subtotal = $product_subtotal - ($product_subtotal * $bulkDiscount);
 
       $item['data']->set_price((float) $product_subtotal);
 
@@ -181,6 +183,38 @@ function hometown_calculate_price( $cart_object ) {
 
 }
 
+
+function ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier) {
+
+  $totalSizeCount = 0;
+
+  foreach($sizeData[$uniqueIdentifier] as $size => $sizeAmount) {
+    $totalSizeCount += (int) $sizeAmount;
+  }
+
+  // BULK QTY DISCOUNTS
+  if (($totalSizeCount >= 2) && ($totalSizeCount <= 9)) {
+    $bulkDiscount = 0.3;
+  } else if (($totalSizeCount >= 10) && ($totalSizeCount <= 15)) {
+    $bulkDiscount = 0.5;
+  } else if (($totalSizeCount >= 16) && ($totalSizeCount <= 24)) {
+    $bulkDiscount = 0.6;
+  } else if (($totalSizeCount >= 25) && ($totalSizeCount <= 47)) {
+    $bulkDiscount = 0.70;
+  } else if (($totalSizeCount >= 48) && ($totalSizeCount <= 74)) {
+    $bulkDiscount = 0.75;
+  } else if (($totalSizeCount >= 75) && ($totalSizeCount <= 99)) {
+    $bulkDiscount = 0.775;
+  } else if (($totalSizeCount >= 100) && ($totalSizeCount <= 149)) {
+    $bulkDiscount = 0.8;
+  } else if ($totalSizeCount >= 150) {
+    $bulkDiscount = 0.8;
+  } else {
+    $bulkDiscount = 1;
+  }
+
+  return $bulkDiscount;
+}
 
 
 
@@ -235,8 +269,8 @@ function hometown_display_imprint_data($productID, $variationID, $uniqueIdentifi
         $output .= "<td>" . $orientation . "</td>";
         $output .= "<td>" . $location . "</td>";
         $output .= "<td>";
-          $color = ($artworkDataArray[$orientation]['color'] === 'No custom color') ? '' : $artworkDataArray[$orientation]['color'];
-          $output .= "<img src='" . $artworkDataArray[$orientation]['url'] . "' class='force-inline-svg' data-color='".$color."'/>";
+        $color = ($artworkDataArray[$orientation]['color'] === 'No custom color') ? '' : $artworkDataArray[$orientation]['color'];
+        $output .= "<img src='" . $artworkDataArray[$orientation]['url'] . "' class='force-inline-svg' data-color='".$color."'/>";
         $output .= "</td>";
 //        $output .= "<td>$" . number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2) . "/shirt</td>";
         $output .= "</tr>";
