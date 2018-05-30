@@ -137,7 +137,7 @@ function hometown_calculate_price( $cart_object ) {
         // SET ARTWORK PRICE
         foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
           if ($location != '') {
-            $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+            $artworkPrices[$orientation] = (float) number_format((float) hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
           }
         }
 
