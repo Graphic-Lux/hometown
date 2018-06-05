@@ -40,7 +40,9 @@ function hometown_get_products_by_category() {
                 'terms'         => array($style, $type),
                 'operator'      => 'AND' // Possible values are 'IN', 'NOT IN', 'AND'.
             )
-        )
+        ),
+        'orderby'         =>  'menu_order',
+        'order'           =>  'ASC',
     );
 
     ?>
