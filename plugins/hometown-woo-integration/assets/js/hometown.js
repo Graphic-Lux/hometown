@@ -26,34 +26,34 @@ function hometown_init() {
 
 
   // TOGGLE BETWEEN SLIDER AND GRID VIEW
-  // $('.shirt_view').unbind().click(function (e) {
-  //
-  //   jQuery.fn.extend({
-  //     toggleText: function (a, b){
-  //       var that = this;
-  //       if (that.text() != a && that.text() != b){
-  //         that.text(a);
-  //       }
-  //       else
-  //       if (that.text() == a){
-  //         that.text(b);
-  //       }
-  //       else
-  //       if (that.text() == b){
-  //         that.text(a);
-  //       }
-  //       return this;
-  //     }
-  //   });
-  //
-  //   e.preventDefault();
-  //
-  //   $(".shirt_view").toggleText('SLIDER VIEW', 'GRID VIEW');
-  //   $('.product_slider_wrap').toggle();
-  //   $('.product_grid_wrap').toggle();
-  //
-  //
-  // });
+  $('.shirt_view').unbind().click(function (e) {
+
+    jQuery.fn.extend({
+      toggleText: function (a, b){
+        var that = this;
+        if (that.text() != a && that.text() != b){
+          that.text(a);
+        }
+        else
+        if (that.text() == a){
+          that.text(b);
+        }
+        else
+        if (that.text() == b){
+          that.text(a);
+        }
+        return this;
+      }
+    });
+
+    e.preventDefault();
+
+    $(".shirt_view").toggleText('SLIDER VIEW', 'GRID VIEW');
+    $('.product_slider_wrap').toggle();
+    $('.product_grid_wrap').toggle();
+
+
+  });
 
 
 
