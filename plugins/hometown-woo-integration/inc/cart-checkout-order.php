@@ -324,7 +324,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
       // SET ARTWORK PRICE
       foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
         if ($location != '') {
-          $artworkPrices[$orientation] = (float) number_format(hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+          $artworkPrice = (float) hometown_get_artwork_price($artworkDataArray[$orientation]['id']);
+          $artworkPrices[$orientation] = (float) number_format($artworkPrice, 2);
         }
       }
 
