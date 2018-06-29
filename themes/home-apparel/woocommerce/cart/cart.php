@@ -24,7 +24,7 @@ wc_print_notices();
 
 do_action( 'woocommerce_before_cart' ); ?>
 
-<a class="continue_shopping_link" href="<?=get_site_url()?>/landing-page">&larr; Continue shopping</a>
+<a class="continue_shopping_link button" href="<?=get_site_url()?>/landing-page">&larr; Continue shopping</a>
 
 <form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 	<?php do_action( 'woocommerce_before_cart_table' ); ?>
@@ -145,6 +145,8 @@ do_action( 'woocommerce_before_cart' ); ?>
 	<?php do_action( 'woocommerce_after_cart_table' ); ?>
 </form>
 
+<a class="continue_shopping_link button" href="<?=get_site_url()?>/landing-page">&larr; Continue shopping</a>
+
 <div class="cart-collaterals">
 	<?php
 		/**
@@ -158,5 +160,6 @@ do_action( 'woocommerce_before_cart' ); ?>
 </div>
 
 <?php do_action( 'woocommerce_after_cart' ); ?>
+
 <script type="text/javascript">$(document).ready(function() {hometown_cart_init();});</script>
 <script type="text/javascript">$(document).ready(function() {force_inline_svg();});</script>
