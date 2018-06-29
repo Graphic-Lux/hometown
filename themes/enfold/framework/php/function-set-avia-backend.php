@@ -70,24 +70,134 @@ if(!class_exists('avia_update_helper'))
 			
 			$this->theme_version = $theme->get('Version');
 			$this->option_key = $theme->get('Name').'_version';
-			$this->db_version = get_option($this->option_key, '1');
+			$this->db_version = get_option($this->option_key, '0');
 			
 		}
 		
 		//provide a hook for update functions and update the version number
 		function update_version()
 		{
-			if(version_compare($this->theme_version, $this->db_version, ">"))
+			//if we are on a new installation do not do any updates to the db
+			if($this->db_version == "0")
+			{
+				update_option($this->option_key, $this->theme_version);
+			}
+			else if(version_compare($this->theme_version, $this->db_version, ">"))
 			{		
 				do_action('ava_trigger_updates', $this->db_version, $this->theme_version);
 				update_option($this->option_key, $this->theme_version);
 				do_action('ava_after_theme_update');
 			}
+	
 			
-			// update_option($this->option_key, "1"); // for testing
+			// update_option($this->option_key, "3"); // for testing
 		}
 	}
 }
+
+
+if( ! function_exists( 'avia_backend_admin_notice' ) )
+{
+	/**
+	 * Allows to display a simple admin notice based on the content of the options field avia_admin_notice
+	 * 
+	 * @since 4.3
+	 * @added_by Kriesi
+	 */
+	function avia_backend_admin_notice()
+	{
+		global $avia_config;
+		
+		$notice = get_option('avia_admin_notice');
+		
+		if(!empty($notice) )
+		{
+			//older admin notices that are no longer represented in our array are removed
+			if(!isset($avia_config['admin_notices'][$notice]))
+			{
+				delete_option('avia_admin_notice');
+			}
+			else
+			{
+				$nonce  = wp_create_nonce( "avia_admin_notice" );
+				$notice = $avia_config['admin_notices'][$notice];
+				$output = "";
+				
+				//the notice
+				$output .= '<div class="notice notice-'.$notice['class'].' avia-admin-notice is-dismissible">';
+				$output .= '<p>'.$notice['msg'].'</p>';
+				$output .= '</div>';
+				echo $output;
+				
+				
+				//a simple script that lets us ajax close the notice permanentley
+				?>
+				<script>
+					(function($){	
+					    "use strict";
+					    $(document).ready(function(){ 
+						    $('body').on('click', '.avia-admin-notice .notice-dismiss', function(e){
+								$.ajax({
+						 		  type: "POST", url: window.ajaxurl,
+						 		  data: "action=avia_ajax_reset_admin_notice&nonce=<?php echo $nonce; ?>",
+						 		});
+							});
+						});
+					})(jQuery);
+				</script>
+				<?php
+			}
+		}
+	}
+
+	//function to reset the notice
+	function avia_backend_reset_admin_notice() {
+		
+		$check = 'avia_admin_notice';
+		check_ajax_referer($check, 'nonce');
+		
+		delete_option('avia_admin_notice');
+		die();
+	}
+	
+	add_action( 'admin_notices', 'avia_backend_admin_notice' , 3);
+	add_action( 'wp_ajax_avia_ajax_reset_admin_notice', 'avia_backend_reset_admin_notice' );
+}
+
+
+
+
+/**
+ * load files from a multidemensional array
+ *
+ * @param array $scripts_to_load the array to pass
+ */
+if(!function_exists('avia_backend_load_scripts_by_option'))
+{
+	function avia_backend_load_scripts_by_option( $scripts_to_load )
+	{
+		foreach ( $scripts_to_load as $path => $includes )
+		{
+			if( $includes )
+			{
+				foreach ( $includes as $include )
+				{
+					switch( $path )
+					{
+					case 'php':
+					include_once( AVIA_PHP.$include.'.php' );
+					break;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
 
 
 /**
@@ -769,10 +879,23 @@ if(!function_exists('avia_backend_get_post_page_cat_name_by_id'))
 */
 if(!function_exists('avia_backend_create_folder'))
 {
-	function avia_backend_create_folder(&$folder, $addindex = true)
+	function avia_backend_create_folder( &$folder, $addindex = true, $make_unique = false )
 	{
-	    if(is_dir($folder) && $addindex == false)
-	        return true;
+		if( false !== $make_unique )
+		{
+			$i = 1;
+			$orig = $folder;
+			while( file_exists( $folder ) )
+			{
+				$folder = $orig . "-{$i}";
+				$i++;
+			}
+		}
+		
+	    if( is_dir( $folder ) && $addindex == false )
+		{
+			return true;
+		}
 
 	//      $oldmask = @umask(0);
 
@@ -797,6 +920,44 @@ if(!function_exists('avia_backend_create_folder'))
 	    return $created;
 	}
 }
+
+/**
+ * Delete a folder and it's content ( including subfolders )
+ * 
+ * @since 4.3
+ * @param string $path 
+ */
+if( ! function_exists( 'avia_backend_delete_folder' ) )
+{
+	function avia_backend_delete_folder( $path )
+	{
+		if( is_dir( $path ) )
+		{
+			$objects = scandir( $path );
+			if( false === $objects )
+			{
+				return;
+			}
+			
+			$objects = array_diff( $objects, array( '.', '..' ) );
+		    foreach ( $objects as $object ) 
+			{
+				$obj = $path . '/' . $object;
+				if( is_dir( $obj ) )
+				{
+					avia_backend_delete_folder( $obj );
+				}
+				else
+				{
+					unlink( $obj );
+				}
+		     }
+		     unset( $objects );
+		     rmdir( $path );
+		}
+	}
+}
+
 
 /*
 * creates a file for the theme framework
@@ -828,6 +989,44 @@ if(!function_exists('avia_backend_create_file'))
 	    return $created;
 	}
 }
+
+if( ! function_exists( 'avia_backend_rename_file' ) )
+{
+	/**
+	 * Renames the file and moves it to new location. If the destination folder does not exist, it is created.
+	 * 
+	 * @since 4.3.1
+	 * @param string $old_file
+	 * @param string $new_file
+	 * @return boolean|WP_Error
+	 */
+	function avia_backend_rename_file( $old_file, $new_file )
+	{
+		$split = pathinfo( $new_file );
+		
+		$folder = $split['dirname'];
+		if( ! avia_backend_create_folder( $folder, false ) )
+		{
+			return new WP_Error( 'filesystem', sprintf( __( 'Unable to create folder %s.', 'avia_framework' ), $folder ) );
+		}
+		
+		if( file_exists( $new_file ) )
+		{
+			if( ! unlink( $new_file ) )
+			{
+				return new WP_Error( 'filesystem', sprintf( __( 'Unable to delete file %s.', 'avia_framework' ), $new_file ) );
+			}
+		}
+		
+		if( ! rename( $old_file, $new_file ) )
+		{
+			return new WP_Error( 'filesystem', sprintf( __( 'Unable to rename/move file %s to %s', 'avia_framework' ), $old_file, $new_file ) );
+		}
+			
+		return true;
+	}
+}
+
 
 if(!function_exists('av_backend_registered_sidebars'))
 {
@@ -922,7 +1121,7 @@ if(!function_exists('avia_backend_admin_bar_menu'))
 				'id' => $avia_page['slug'],
 				'title' => strip_tags($avia_page['title']),
 				'href' => $urlBase."?page=".$avia_page['slug'],
-				'meta' => array('target' => 'blank')
+			//	'meta' => array('target' => 'blank')
 			);
 
 			if($avia_page['slug'] != $avia_page['parent']  )
@@ -931,11 +1130,15 @@ if(!function_exists('avia_backend_admin_bar_menu'))
 				 $menu['href'] = $urlBase."?page=".$avia_page['parent']."#goto_".$avia_page['slug'];
 			}
 
-			if(is_admin()) $menu['meta'] = array('onclick' => 'self.location.replace(encodeURI("'.$menu['href'].'")); window.location.reload(true);  ');
+			if (! is_admin()) {
+                $menu['meta']['target'] = '_blank';
+            }
+
+            /* removed by tinabillinger - breaks theme option links in Safari */
+		    // if(is_admin()) $menu['meta'] = array('onclick' => 'self.location.replace(encodeURI("'.$menu['href'].'")); window.location.reload(true);  ');
 
 			$wp_admin_bar->add_menu($menu);
 		}
 	}
 }
-
 

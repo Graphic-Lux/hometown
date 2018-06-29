@@ -451,6 +451,19 @@ function avia_breadcrumbs( $args = array() ) {
 
 	/* Allow child themes/plugins to filter the trail array. */
 	$trail = apply_filters( 'avia_breadcrumbs_trail', $trail, $args );
+	
+	/**
+	 * Allow to filter trail to return unique links only (href and text)
+	 * 
+	 * @since 4.3.2
+	 * @param boolean
+	 * @param mixed|array $trail
+	 * @return mixed|true
+	 */
+	if( true === apply_filters( 'avf_breadcrumb_trail_unique', true, $trail ) )
+	{
+		$trail = avia_make_unique_breadcrumbs( $trail );
+	}
 
 	/* Connect the breadcrumb trail if there are items in the trail. */
 	if ( is_array( $trail ) ) {
@@ -490,7 +503,7 @@ function avia_breadcrumbs( $args = array() ) {
 		{
 			foreach($trail as $key => &$link)
 			{
-				if("trail_end" == $key) continue;
+				if("trail_end" === $key) continue;
 
 				$link = preg_replace('!rel=".+?"|rel=\'.+?\'|!',"", $link);
 				$link = str_replace('<a ', '<a rel="v:url" property="v:title" ', $link);
@@ -684,3 +697,73 @@ function avia_breadcrumbs_get_term_parents( $parent_id = '', $taxonomy = '' ) {
 	return $trail;
 
 } // End avia_breadcrumbs_get_term_parents()
+
+
+/**
+ * Filters the trail and removes the first entries that have the same href's and link text
+ * Trail must be an array
+ * 
+ * @since 4.3.2
+ * @param mixed|array $trail
+ * @return mixed|array
+ */
+function avia_make_unique_breadcrumbs( $trail )
+{
+	if( ! is_array( $trail ) || empty( $trail ) )
+	{
+		return $trail;
+	}
+	
+	$splitted = array();
+	
+	foreach( $trail as $key => $link ) 
+	{
+		$url = array();
+		$text = array();
+		preg_match( '/href=["\']?([^"\'>]+)["\']?/', $link, $url );
+		preg_match( '/<\s*a[^>]*>([^<]*)<\s*\/\s*a\s*>/', $link, $text );
+		
+		$splitted[] = array( 
+						'url'	=> isset( $url[1] ) ? $url[1] : '',
+						'text'	=> isset( $text[1] ) ? $text[1] : $link
+				);
+	}
+	
+	$last_index = count( $trail );
+	foreach( $splitted as $key => $current ) 
+	{
+		for( $i = $key + 1; $i < $last_index; $i++ )
+		{
+			$check = $splitted[ $i ];
+			
+			//	entry without url we do not remove - normally the last entry
+			if( empty( $check['url'] ) )
+			{
+				continue;
+			}
+			
+			if( ( strcasecmp( $current['url'], $check['url'] ) == 0 ) && ( strcasecmp( $current['text'], $check['text'] ) == 0 ) )
+			{
+				$splitted[ $key ]['delete'] = true;
+				break;
+			}
+		}
+	}
+	
+	$deleted = false;
+	foreach( $splitted as $key => $current )
+	{
+		if( ! empty( $current['delete'] ) && ( true === $current['delete'] ) )
+		{
+			unset( $trail[ $key ] );
+			$deleted = true;
+		}
+	}
+	
+	if( $deleted )
+	{
+		$trail = array_merge( $trail );
+	}
+	
+	return $trail;
+}

@@ -8,17 +8,30 @@ if($builder->disable_drag_drop == true)
 }
 
 $boxes = array(
-    array( 'title' =>$av_default_title, 'id'=>'avia_builder', 'page'=>array('post','portfolio','page','product'), 'context'=>'normal', 'priority'=>'high', 'expandable'=>true ),
+	
+    array( 'title' =>$av_default_title, 'id'=>'avia_builder', 'page'=> Avia_Builder()->get_supported_post_types(), 'context'=>'normal', 'priority'=>'high', 'expandable'=>true ),
+	array( 'title' =>__('Enfold Shortcode Parser','avia_framework' ), 'id'=>'avia_sc_parser', 'page'=> Avia_Builder()->get_supported_post_types(), 'context'=>'normal', 'priority'=>'high', 'expandable'=>false ),
     array( 'title' =>__('Layout','avia_framework' ), 'id'=>'layout', 'page'=>array('portfolio', 'page' , 'post'), 'context'=>'side', 'priority'=>'low'),
     array( 'title' =>__('Additional Portfolio Settings','avia_framework' ), 'id'=>'preview', 'page'=>array('portfolio'), 'context'=>'normal', 'priority'=>'high' ),
     array( 'title' =>__('Breadcrumb Hierarchy','avia_framework' ), 'id'=>'hierarchy', 'page'=>array('portfolio'), 'context'=>'side', 'priority'=>'low'),
 );
 
+/**
+ * used_by:		enfold\config-woocommerce\admin-options.php  avia_woocommerce_product_options()			10
+ */
 $boxes = apply_filters('avf_builder_boxes', $boxes);
 
 
 $elements = array(
-array(
+	
+	array(
+		"slug"          => "avia_sc_parser",
+        "name"          => __("Enfold Shortcode Parser Info Window", 'avia_framework' ),
+        "id"            => "sc_parser_info",
+		"type"          => array( $builder, 'parser_select_panel' )
+		),
+	
+	array(
         "slug"          => "avia_builder",
         "name"          => __("Visual layout editor",'avia_framework'),
         "id"            => "layout_editor",
@@ -39,7 +52,7 @@ array(
                             '   <li>'.__('Press ESC on your keyboard or the Close Button to close popup window.', 'avia_framework' ).'</li>'.
                             '   <li>'.__('Press ENTER on your keyboard or the Save Button to save current state of a popup window', 'avia_framework' ).'</li>'.
                             "</ul>"
-    ),
+		),
 
     array(
         "container_class" => "av_2columns av_col_1 avia-style",
@@ -206,24 +219,32 @@ array(
 
         ),
         
+		/**
+		  * With 4.2.7 adding "page as footer" subtype array must be changed depending on main option settings via filter avf_builder_elements
+		 */
 		array(
 
         "slug"  => "layout",
         "name"  => __("Footer Settings",'avia_framework'),
-        "desc"  => __("Display the footer widgets?",'avia_framework'),
+        "desc"  => __("Display the footer widgets or page?",'avia_framework'),
         "id"    => "footer",
         "type"  => "select",
         "std"   => "",
         "class" => "avia-style",
         "subtype" => array(
-                        __("Default Layout - set in",'avia_framework')." ".THEMENAME." > ". __('Footer','avia_framework') => '',
-                        __('Display the footer widgets & socket','avia_framework')=>'all',
-                        __('Display only the footer widgets (no socket)','avia_framework')=>'nosocket',
-                        __('Display only the socket (no footer widgets)','avia_framework')=>'nofooterwidgets',
-                        __('Don\'t display the socket & footer widgets','avia_framework')=>'nofooterarea'
+						__('Widget based footer options', 'avia_framework') => array(
+								__("Default Layout - set in",'avia_framework')." ".THEMENAME." > ". __('Footer','avia_framework') => '',
+								__('Display the footer widgets & socket','avia_framework')					=> 'all',
+								__('Display only the footer widgets (no socket)','avia_framework')			=> 'nosocket',
+								__('Display only the socket (no footer widgets)','avia_framework')			=> 'nofooterwidgets',
+								__('Don\'t display the socket & footer widgets','avia_framework')			=> 'nofooterarea',
+									),
+						__('Page based Footer options - set in', 'avia_framework') . ' ' . THEMENAME . ' > ' . __('Footer','avia_framework')  => array(		
+								__('Use selected page to display inside footer and socket','avia_framework')	=> 'page_in_footer_socket',
+								__('Use selected page to display inside footer (no socket)','avia_framework')	=> 'page_in_footer'
+									)
                     ),
-
-    ),
+		),
 		
 		
         array(

@@ -1,8 +1,11 @@
 <?php
 /**
- * Sidebar
+ * Widget Area
+ * 
  * Displays one of the registered Widget Areas of the theme
  */
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
 
 if ( !class_exists( 'avia_sc_widgetarea' ) )
 {
@@ -13,6 +16,8 @@ if ( !class_exists( 'avia_sc_widgetarea' ) )
 			 */
 			function shortcode_insert_button()
 			{
+				$this->config['self_closing']	=	'yes';
+				
 				$this->config['name']		= __('Widget Area', 'avia_framework' );
 				$this->config['tab']		= __('Content Elements', 'avia_framework' );
 				$this->config['icon']		= AviaBuilder::$path['imagesURL']."sc-sidebar.png";

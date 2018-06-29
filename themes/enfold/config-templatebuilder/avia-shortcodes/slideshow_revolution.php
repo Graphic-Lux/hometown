@@ -1,4 +1,12 @@
 <?php
+/**
+ * Fullwidth Revolution Slider
+ * 
+ * Display a fullwidth Revolution Slider
+ */
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 if ( !class_exists( 'avia_sc_revolutionslider' ) && function_exists('rev_slider_shortcode'))
 {
   class avia_sc_revolutionslider extends aviaShortcodeTemplate
@@ -10,6 +18,8 @@ if ( !class_exists( 'avia_sc_revolutionslider' ) && function_exists('rev_slider_
 			 */
 			function shortcode_insert_button()
 			{
+				$this->config['self_closing']	=	'yes';
+				
 				$this->config['name']		= __('Fullwidth Revolution Slider', 'avia_framework' );
 				$this->config['tab']		= __('Plugin Additions', 'avia_framework' );
 				$this->config['icon']		= AviaBuilder::$path['imagesURL']."sc-slideshow-layer.png";

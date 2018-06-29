@@ -105,6 +105,7 @@ if(!function_exists('avia_markup_helper'))
                 break;
 
             case 'image':
+		$attributes['itemprop']  = 'ImageObject';
                 $attributes['itemscope'] = 'itemscope';
                 $attributes['itemtype']  = 'https://schema.org/ImageObject';
                 break;

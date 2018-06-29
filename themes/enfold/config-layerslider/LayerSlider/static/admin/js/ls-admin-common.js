@@ -119,14 +119,15 @@ var lsLogo = {
 
 			// Add data-* params to replacement element
 			$.each( $el.data(), function( key, val ) {
+				key = key.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase()
 				$rep.attr('data-'+key, val);
 			});
 
 			// Set default state
-			if($el.prop('checked')) {
-				$rep.addClass('on');
+			if( $el.prop( 'checked' ) ) {
+				$rep.addClass( 'on' );
 			} else {
-				$rep.addClass('off');
+				$rep.addClass( 'off' );
 			}
 		});
 	};
@@ -182,7 +183,6 @@ var lsLogo = {
 	};
 
 }( jQuery ));
-
 
 
 (function( $ ) {
@@ -595,16 +595,16 @@ jQuery(function($) {
 	}
 
 	// About page
-	if( document.location.href.indexOf('page=ls-about') ) {
+	if( document.location.href.indexOf('section=about') !== -1 ) {
 		lsLogo.append( '.layerslider-logo', true );
+		$('.km-tabs').kmTabs();
 	}
 
 
 	// Skin/CSS Editor
-	if(document.location.href.indexOf('ls-skin-editor') != -1 ||
-		document.location.href.indexOf('ls-style-editor') != -1) {
+	if( document.location.href.indexOf('section=skin-editor') !== -1 ) {
 		$('select[name="skin"]').change(function() {
-			document.location.href = 'admin.php?page=ls-skin-editor&skin=' + $(this).children(':selected').val();
+			document.location.href = 'admin.php?page=layerslider-options&section=skin-editor&skin=' + $(this).children(':selected').val();
 		});
 	}
 

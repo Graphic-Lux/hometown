@@ -370,6 +370,7 @@ function avia_nl2br (str, is_xhtml)
 					handle: '>.menu-item-handle:not( .av-no-drag-drop .menu-item-handle )',
 					helper: "clone",
 					scroll: true,
+					cancel: '#aviaLayoutBuilder .avia_sorthandle a, input, textarea, button, select, option',
 					zIndex: 20000, /*must be bigger than fullscreen overlay in fixed pos*/
 					cursorAt: { left: 20 },
 					start: function( event, ui )
@@ -975,6 +976,14 @@ function avia_nl2br (str, is_xhtml)
 				{
                 	text = this.classic_textarea.val(); //entity-test: val() to html()
                 	if(this.tiny_active) text = window.switchEditors._wp_Nop(text);
+					
+					/**
+					 * With WP 4.9 we get an empty 
+					 * <span style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" data-mce-type="bookmark" class="mce_SELRES_start"></span>
+					 * which breaks our backend
+					 */
+					text = text.replace( /<\s*?span\b[^>]*mce_SELRES_start[^>]*>(.*?)<\/span\b[^>]*>/gi, '' );
+
                 	this.secureContent.val(text);
 				}
 			}
@@ -1332,6 +1341,11 @@ function avia_nl2br (str, is_xhtml)
 								if(typeof values[key] == "string")
 								{
 									values[key] = values[key].replace(/'(.+?)'/g,'‘$1’').replace(/'/g,'’');
+									//	Add a unique id to new created elements	
+									if( ( 'av_uid' == key ) && ( '' == $.trim( values[key] ) ) )
+									{
+										values[key] = 'av-' + ( new Date().getTime()).toString(36);
+									}
 								}
 								else if(typeof values[key] == "object")
 								{
@@ -1349,11 +1363,22 @@ function avia_nl2br (str, is_xhtml)
 					var shortcode		= element_container.data('shortcodehandler'),
 						visual_updates	= element_container.find("[data-update_with]"),
 						class_updates	= element_container.find("[data-update_class_with]"),
+						closing_tag		= element_container.data("closing_tag"),
 						visual_key 		= "",
 						visual_el		= "",
 						visual_template	= "",
+						visual_update_object = '',
 						update_html		= "",
 						replace_val		= "";
+				
+						//	check if element must have a closing tag (independent if a content exists)
+						if( ( 'undefined' == typeof force_content_close ) || ( true !== force_content_close ) )
+						{
+							if( ( 'string' == typeof closing_tag ) && ( 'yes' == closing_tag ) )
+							{
+								force_content_close = true;
+							}
+						}
 						
 						if(!element_container.is('.avia-no-visual-updates'))
 						{	
@@ -1366,6 +1391,7 @@ function avia_nl2br (str, is_xhtml)
 								visual_el	= $(this);
 								visual_key	= visual_el.data('update_with');
 								visual_template = visual_el.data('update_template');
+								visual_update_object = visual_el.data('update_object');
 								
 								
 								if(typeof values[visual_key] === "string" || typeof values[visual_key] === "number" || typeof values[visual_key] === "object")
@@ -1385,8 +1411,27 @@ function avia_nl2br (str, is_xhtml)
 										}
 									}
 									
-									//in case an object is passed as replacement only fetch the first entry as replacement value
-									if(typeof replace_val === "object") replace_val = replace_val[0];
+									//in case an object is passed as replacement only fetch the first entry as replacement value by default
+									if(typeof replace_val === "object")
+									{
+										if( visual_update_object && ( 'all-elements' == visual_update_object ) )
+										{
+											var str = '';
+											$.each( replace_val, function( index, val ){
+															if( index > 0 )
+															{
+																str += ', ';
+															}
+															str += val;
+														});
+											replace_val = str;
+										}
+										else 	
+										{
+											replace_val = replace_val[0];
+										}
+
+									}
 									
 									//check for a template
 									if(visual_template)
@@ -1430,7 +1475,17 @@ function avia_nl2br (str, is_xhtml)
 							
 							if(element_container.find(".avia-element-bg-color:eq(0)").length) // set the bg color indicator
 							{
-								var insert_bg_indicator = values.custom_bg || values.background_color || "";
+                                if (values.background == 'bg_color') {
+                                    var insert_bg_indicator = values.custom_bg || values.background_color || "";
+                                }
+                                else if (values.background == 'bg_gradient'){
+                                    if (values.background_gradient_color1 !== "" && values.background_gradient_color2 !== "") {
+                                        var insert_bg_indicator = "linear-gradient(" + values.background_gradient_color1 + ", " +values.background_gradient_color2 + ")";
+                                    }
+                                    else{
+                                        var insert_bg_indicator = "";
+                                    }
+                                }
 								element_container.find(".avia-element-bg-color:eq(0)").css("background",insert_bg_indicator);
 							}
 							

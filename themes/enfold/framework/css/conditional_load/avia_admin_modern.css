@@ -20,7 +20,7 @@
 
 #avia_options_page *{
 -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
-font-size:13px;
+font-size:14px;
 line-height: 1.5em;
 }
 
@@ -424,6 +424,10 @@ background: #0085ba;
 	padding: 12px;
 }
 
+#avia_options_page textarea.av_small_textarea{
+	height:90px;
+}
+
 .inactive_visible .avia_inactive_overlay span{
 	    position: absolute;
   top: 50%;
@@ -520,6 +524,10 @@ right:28px;
 .av-verification-result .av-text-notice.av-notice-error{
 	    background: #23282d;
 	    border:none;
+}
+
+.av-prev-el-notice{
+	margin-top: -25px;
 }
 
 .av-verification-cell{
@@ -706,6 +714,18 @@ div .avia_wpml_language_switch li:hover li:hover{
 
 div .avia_cur_lang{
 	color:#0085ba;
+}
+
+#wpwrap #avia_options_page .avia_section.av_3columns select, #wpwrap #avia_options_page .avia_section.av_3columns input{
+	width: 100%;
+}
+
+#wpwrap #avia_options_page .avia_section.av_3columns, #wpwrap #avia_options_page .avia_section.av_3col{
+    padding: 5px 0 5px 20px;
+}
+
+#wpwrap #avia_options_page .avia_section.av_2columns{
+	padding: 5px 0 5px 20px;
 }
 
 /*  #smaller screens (Portrait)

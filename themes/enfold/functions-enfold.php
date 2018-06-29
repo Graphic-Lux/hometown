@@ -218,13 +218,21 @@ if(!function_exists('avia_ajax_search'))
 	    unset($_REQUEST['action']);
 	    if(empty($_REQUEST['s'])) $_REQUEST['s'] = array_shift(array_values($_REQUEST));
 		if(empty($_REQUEST['s'])) die();
-		
 
-	    $defaults = array('numberposts' => 5, 'post_type' => 'any', 'post_status' => 'publish', 'post_password' => '', 'suppress_filters' => false);
+	    $defaults = array('numberposts' => 5, 'post_type' => 'any', 'post_status' => 'publish', 'post_password' => '', 'suppress_filters' => false, 'results_hide_fields' => '');
+
 	    $_REQUEST['s'] = apply_filters( 'get_search_query', $_REQUEST['s']);
 
 	    $search_parameters 	= array_merge($defaults, $_REQUEST);
-	    $search_query 		= apply_filters('avf_ajax_search_query', http_build_query($search_parameters));
+
+	    if ( $search_parameters['results_hide_fields'] !== '' ) {
+            $search_parameters['results_hide_fields'] = explode(',', $_REQUEST['results_hide_fields']);
+        }
+        else {
+            $search_parameters['results_hide_fields'] = array();
+        }
+
+        $search_query 		= apply_filters('avf_ajax_search_query', http_build_query($search_parameters));
 	    $query_function     = apply_filters('avf_ajax_search_function', 'get_posts', $search_query, $search_parameters, $defaults);
 	    $posts		= (($query_function == 'get_posts') || !function_exists($query_function))  ? get_posts($search_query) : $query_function($search_query, $search_parameters, $defaults);
 	
@@ -275,47 +283,72 @@ if(!function_exists('avia_ajax_search'))
 	    //now we got everything we need to preapre the output
 	    foreach($sorted as $key => $post_type)
 	    {
-	        if(isset($post_type_obj[$key]->labels->name))
-	        {
-                $label = apply_filters('avf_ajax_search_label_names', $post_type_obj[$key]->labels->name);
-	            $output .= "<h4>".$label."</h4>";
-	        }
-	        else
-	        {
-	            $output .= "<hr />";
-	        }
 
-	        foreach($post_type as $post)
+	        // check if post titles are in the hidden fields list
+	        if ( ! in_array('post_titles', $search_parameters['results_hide_fields'] ) )
 	        {
-	            $image = get_the_post_thumbnail( $post->ID, 'thumbnail' );
+                if(isset($post_type_obj[$key]->labels->name))
+                {
+                    $label = apply_filters('avf_ajax_search_label_names', $post_type_obj[$key]->labels->name);
+                    $output .= "<h4>".$label."</h4>";
+                }
+                else
+                {
+                    $output .= "<hr />";
+                }
+            }
 
-	            $extra_class = $image ? "with_image" : "";
-	            $post_type   = $image ? "" : get_post_format($post->ID) != "" ? get_post_format($post->ID) : "standard";
-	            $iconfont    = $image ? "" : av_icon_string($post_type);
+
+	        foreach($post_type as $post) {
+
+
+	            $image = "";
+                $extra_class = "";
+
+                // check if image is in the hidden fields list
+                if (!in_array('image', $search_parameters['results_hide_fields']))
+                {
+                    $image = get_the_post_thumbnail($post->ID, 'thumbnail');
+                    $extra_class = $image ? "with_image" : "";
+                    $post_type = $image ? "" : get_post_format($post->ID) != "" ? get_post_format($post->ID) : "standard";
+                    $iconfont = $image ? "" : av_icon_string($post_type);
+
+                }
+
 	            $excerpt     = "";
 
-	            if(!empty($post->post_excerpt))
-	            {
-	                 $excerpt =  apply_filters( 'avf_ajax_search_excerpt', avia_backend_truncate($post->post_excerpt,70," ","...", true, '', true) );
-	            }
-	            else
-	            {
-	                 $excerpt = apply_filters( 'avf_ajax_search_no_excerpt', get_the_time( $search_messages['time_format'], $post->ID ), $post );
-	            }
+                // check if post meta fields are in the hidden fields list
+                if ( ! in_array('meta', $search_parameters['results_hide_fields'] ) )
+                {
+                    if(!empty($post->post_excerpt))
+                    {
+                        $excerpt =  apply_filters( 'avf_ajax_search_excerpt', avia_backend_truncate($post->post_excerpt,70," ","...", true, '', true) );
+                    }
+                    else
+                    {
+                        $excerpt = apply_filters( 'avf_ajax_search_no_excerpt', get_the_time( $search_messages['time_format'], $post->ID ), $post );
+                    }
+                }
+
 
 	            $link = apply_filters('av_custom_url', get_permalink($post->ID), $post);
 
 	            $output .= "<a class ='ajax_search_entry {$extra_class}' href='".$link."'>";
-	            $output .= "<span class='ajax_search_image' {$iconfont}>";
-	            $output .= $image;
-	            $output .= "</span>";
+
+	            if ($image !== "" || $iconfont) {
+                    $output .= "<span class='ajax_search_image' {$iconfont}>";
+                    $output .= $image;
+                    $output .= "</span>";
+                }
 	            $output .= "<span class='ajax_search_content'>";
 	            $output .= "    <span class='ajax_search_title'>";
 	            $output .=      get_the_title($post->ID);
 	            $output .= "    </span>";
-	            $output .= "    <span class='ajax_search_excerpt'>";
-	            $output .=      $excerpt;
-	            $output .= "    </span>";
+	            if ($excerpt !== '') {
+                    $output .= "    <span class='ajax_search_excerpt'>";
+                    $output .=      $excerpt;
+                    $output .= "    </span>";
+                }
 	            $output .= "</span>";
 	            $output .= "</a>";
 	        }
@@ -533,56 +566,6 @@ if($image)  $tc2     = "            <span class='entry-image'>{$image}</span>";
 }
 
 
-/*
-	disabled as of monday 29th August 2016 - legacy browsers in question are no longer used 
-*/
-if(!function_exists('avia_legacy_websave_fonts'))
-{
-	// add_filter('avia_style_filter', 'avia_legacy_websave_fonts');
-
-	function avia_legacy_websave_fonts($styles)
-	{
-		global $avia_config;
-
-		$os_info 	= avia_get_browser(false);
-		$activate	= false;
-
-		if('windows' == $os_info['platform'] && avia_get_option('websave_windows') == 'active')
-		{
-			if($os_info['shortname'] == 'MSIE' && $os_info['mainversion'] < 9) $activate = true;
-			if($os_info['shortname'] == 'Firefox' && $os_info['mainversion'] < 8) $activate = true;
-			if($os_info['shortname'] == 'Opera' && $os_info['mainversion'] < 11) $activate = true;
-
-			if($activate == true)
-			{
-				foreach ($styles as $key => $style)
-				{
-					if($style['key'] == 'google_webfont')
-					{
-						if (strpos($style['value'], '-websave') !== false)
-						{
-							$websave = explode(',',$style['value']);
-							$websave = strtolower(" ".$websave[0]);
-							$websave = str_replace('"','',$websave);
-							$websave = str_replace("'",'',$websave);
-							$websave = str_replace("-websave",'',$websave);
-
-							$avia_config['font_stack'] .= $websave.'-websave';
-						}
-
-					unset($styles[$key]);
-					}
-				}
-
-			if(empty($avia_config['font_stack'])) $avia_config['font_stack'] = 'arial-websave';
-			}
-		}
-
-		return $styles;
-	}
-}
-
-
 
 
 
@@ -689,30 +672,27 @@ if(!function_exists('avia_get_tracking_code'))
 		global $avia_config;
 
 		$avia_config['analytics_code'] = avia_option('analytics', false, false, true);
+		
+		
 		if(empty($avia_config['analytics_code'])) return;
 
 		if(strpos($avia_config['analytics_code'],'UA-') === 0) // if we only get passed the UA-id create the script for the user (universal tracking code)
 		{
 			$temp = trim($avia_config['analytics_code']);
 			$avia_config['analytics_code'] = "
-			
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src='https://www.googletagmanager.com/gtag/js?id=".$temp."'></script>
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', '".$temp."', 'auto');
-ga('send', 'pageview');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '".$temp."', { 'anonymize_ip': true });
 </script>
 ";
 		}
 		
 		
-		if(strpos($avia_config['analytics_code'],'i,s,o,g,r,a,m') !== false)
-		{
-			add_action('wp_head', 'avia_print_tracking_code', 100000);
-		}
-		else
-		{
-			add_action('wp_footer', 'avia_print_tracking_code', 100000);
-		}
+		add_action('wp_footer', 'avia_print_tracking_code', 100);
 	}
 
 	function avia_print_tracking_code()
@@ -721,7 +701,22 @@ ga('send', 'pageview');
 
 		if(!empty($avia_config['analytics_code']))
 		{
-			echo $avia_config['analytics_code'];
+			//extract UA ID from code
+			$UAID = false;
+			$extra_code = "";
+			preg_match("!UA-[0-9]+-[0-9]+!", $avia_config['analytics_code'], $match);
+			
+			if(!empty($match) && isset($match[0])) $UAID = $match[0];
+			
+			//if we got a valid uaid, add the js cookie check 
+			if($UAID){
+			$extra_code = "
+			<script>
+			if(document.cookie.match(/aviaPrivacyGoogleTrackingDisabled/)){ window['ga-disable-{$UAID}'] = true; }
+			</script>";
+			}
+			
+			echo $extra_code . $avia_config['analytics_code'];
 		}
 	}
 }
@@ -1230,22 +1225,6 @@ if(!function_exists('avia_sidebar_menu'))
 }
 
 
-/*
-function that checks if updates for the theme are available - disabled for the moment because we use the new updater
-
-if(!function_exists('avia_check_updates') && class_exists('avia_update_notifier'))
-{
-	function avia_check_updates()
-	{
-		if(class_exists('avia_update_notifier'))
-        {
-            $avia_update_notifier = new avia_update_notifier('http://www.kriesi.at/themes/wp-content/uploads/avia_xml/'.THEMENAME.'-Updates.xml');
-        }
-	}
-
-	add_action('admin_menu', 'avia_check_updates', 1, 1);
-}
-*/
 
 /*
 show tag archive page for post type - without this code you'll get 404 errors: http://wordpress.org/support/topic/custom-post-type-tagscategories-archive-page
@@ -1557,7 +1536,7 @@ if(!function_exists('avia_generate_stylesheet'))
 	    }
 
 	    $wp_upload_dir  = wp_upload_dir();
-	    $stylesheet_dir = $wp_upload_dir['basedir'].'/dynamic_avia';
+	    $stylesheet_dir = $wp_upload_dir['basedir'] . '/dynamic_avia';
 	    $stylesheet_dir = str_replace('\\', '/', $stylesheet_dir);
 	    $stylesheet_dir = apply_filters('avia_dyn_stylesheet_dir_path',  $stylesheet_dir);
 	    $isdir = avia_backend_create_folder($stylesheet_dir);
@@ -1621,7 +1600,6 @@ function avia_add_favicon()
 { 
 	echo "\n".avia_favicon(avia_get_option('favicon'))."\n";
 }
-
 
 
 
@@ -1898,18 +1876,625 @@ if( ! function_exists( 'av_enable_dev_options' ) )
 	add_action( 'init', 'av_enable_dev_options' );
 }
 
+/**
+ * Adds a copyright field to the upload and edit dialogue of the media manager
+ *
+ * @author tinabillinger
+ * @since 4.3
+ */
+
+
+if( ! function_exists( 'av_attachment_copyright_field_edit' ) )
+{
+    function av_attachment_copyright_field_edit($form_fields, $post)
+    {
+
+        $form_fields['av_copyright_field'] = array(
+            'label' => __('Copyright'),
+            'input' => "text",
+            'value' => get_post_meta( $post->ID, '_avia_attachment_copyright', true ),
+        );
+
+        return $form_fields;
+    }
+    add_filter( 'attachment_fields_to_edit', 'av_attachment_copyright_field_edit', null, 2 );
+}
+
+
+/**
+ * Saves the copyright field created by filter above
+ *
+ * @author tinabillinger
+ * @since 4.3
+ */
+
+
+if( ! function_exists( 'av_attachment_copyright_field_save' ) )
+{
+    function av_attachment_copyright_field_save($post, $attachment)
+    {
+        if ( ! empty( $attachment['av_copyright_field'] ) )
+        {
+            update_post_meta( $post['ID'], '_avia_attachment_copyright', $attachment['av_copyright_field'] );
+        }
+        else {
+            delete_post_meta( $post['ID'], '_avia_attachment_copyright' );
+        }
+        return $post;
+    }
+
+    add_filter( 'attachment_fields_to_save', 'av_attachment_copyright_field_save', null, 2 );
+}
+
+
+/**
+ * Attaches the information from the copyright field to get_the_post_thumbnail()
+ * The added tag is initally hidden by CSS, and can be made visible by choice
+ *
+ * @author tinabillinger
+ * @since 4.3
+ */
+/*
+ * Add 'copyright info to get_the_post_thumbnail()
+ */
+
+if( ! function_exists( 'avia_post_thumbnail_html' ) )
+{
+    function avia_post_thumbnail_html($html, $post_id, $post_thumbnail_id, $size, $attr)
+    {
+        $attachment_id = get_post_thumbnail_id($post_id);
+        $copyright_text = get_post_meta($attachment_id, '_avia_attachment_copyright', true );
+
+        if ($copyright_text) {
+            $html .= "<small class='avia-copyright'>{$copyright_text}</small>";
+        }
+        return $html;
+    }
+    if (! is_admin()){
+        add_filter('post_thumbnail_html', 'avia_post_thumbnail_html', 99, 5);
+    }
+}
+
+
+
+if( ! function_exists( 'av_force_reroute_to_404' ) )
+{
+	/**
+	 * Reroute to 404 if user wants to access a page he is not allowed to
+	 * Currently only a page that is selected to be used as footer
+	 *  
+	 * @since 4.2.7
+	 * @added_by Günter
+	 * @param string $original_template 
+	 * @return string 
+	 */
+	function av_force_reroute_to_404( $original_template )
+	{
+		global $wp_query;
+		
+		
+		$footer_page = avia_get_option( 'footer_page', 0 );
+		$footer_page_active = strpos(avia_get_option( 'display_widgets_socket' ), 'page_in_footer') === 0 ? true : false;
+		
+		$id = get_the_ID();
+		
+		if( ( false === $id ) || ( $footer_page != $id ) || !$footer_page_active )
+		{
+			return $original_template;
+		}
+		
+		if( is_user_logged_in() && current_user_can( 'edit_pages' ) )
+		{
+			return $original_template;
+		}
+		
+		$wp_query->set_404();
+		status_header( 404 );
+		get_template_part( 404 );
+		exit;
+	}
+	
+	add_filter( 'template_include', 'av_force_reroute_to_404', 1, 1 );
+	
+}
+
+/**
+ * Creates a modal window informing the user about the use of cookies on the site
+ * Sets a cookie when the confirm button is clicked, and hides the box.
+ * Resets the cookie once either of the text in the box is changed in theme options
+ *
+ * @author tinabillinger
+ * @since 4.3
+ */
+
+if( ! function_exists( 'av_cookie_consent' ) )
+{
+    function av_cookie_consent(){
+        if(avia_get_option('cookie_consent') == "cookie_consent")
+        {
+        $message = do_shortcode(avia_option('cookie_content', false, false, true));
+        $position = avia_get_option('cookie_position');
+        $buttontext = avia_option('cookie_buttontext', false, false, true);
+
+        $body_layout = avia_option('color-body_style', false, false, true);
+
+        $style = "";
+
+        if ($body_layout == 'av-framed-box') {
+            $frame_width = avia_option('color-frame_width', false, false, true);
+
+            $atts = array(
+                'width' => 'calc(100% - '.($frame_width*2).'px)',
+                'left' => $frame_width,
+                'bottom' => $frame_width,
+                'top' => $frame_width,
+                'left' => $frame_width,
+                'right' => $frame_width,
+            );
+
+            if ($position == 'top' || $position == 'bottom') {
+                $style .= AviaHelper::style_string($atts, 'width', 'width', "");
+                $style .= AviaHelper::style_string($atts, 'left', 'left', "px");
+            }
+
+            if ($position == 'top-left') {
+                $style .= AviaHelper::style_string($atts, 'left', 'left', "px");
+                $style .= AviaHelper::style_string($atts, 'top', 'top', "px");
+            }
+
+            if ($position == 'top-right') {
+                $style .= AviaHelper::style_string($atts, 'right', 'right', "px");
+                $style .= AviaHelper::style_string($atts, 'top', 'top', "px");
+            }
+
+            if ($position == 'bottom-right') {
+                $style .= AviaHelper::style_string($atts, 'right', 'right', "px");
+                $style .= AviaHelper::style_string($atts, 'bottom', 'bottom', "px");
+            }
+
+            if ($position == 'bottom-left') {
+                $style .= AviaHelper::style_string($atts, 'left', 'left', "px");
+                $style .= AviaHelper::style_string($atts, 'bottom', 'bottom', "px");
+            }
+
+            if ($position == 'top') {
+                $style .= AviaHelper::style_string($atts, 'top', 'top', "px");
+            }
+
+            else if ($position == 'bottom') {
+                $style .= AviaHelper::style_string($atts, 'bottom', 'bottom', "px");
+            }
+
+            $style  = AviaHelper::style_string($style);
+        }
+
+        ?>
+
+        <div class='avia-cookie-consent cookiebar-hidden avia-cookiemessage-<?php echo $position; ?>'<?php echo $style; ?>>
+        <div class='container'>
+        <p class="avia_cookie_text"><?php echo $message; ?></p>
+
+        <?php
+        $cookie_contents = $message;
+        if (avia_get_option('cookie_infolink') == "cookie_infolink") :
+
+            $linktext = avia_option('cookie_linktext', false, false, true);
+            $linksource = avia_option('cookie_linksource', false, false, true);
+            $cookie_contents .= $linktext;
+
+            ?>
+            <a class="avia_cookie_infolink" href='<?php echo $linksource; ?>' target='_blank'><?php echo $linktext; ?></a>
+        <?php
+        endif;
+
+        $cookie_contents .= $buttontext;
+        $cookie_contents = md5($cookie_contents);
+		
+		$buttons = avia_get_option('msg_bar_buttons', array());
+		$i = 0;
+		$extra_info = "";
+		foreach($buttons as $button)
+		{
+			$i++;
+			$data  = "";
+			$btn_class = "av-extra-cookie-btn";
+			$label = !empty($button['msg_bar_button_label']) ? $button['msg_bar_button_label'] : "×";
+			$link  = !empty($button['msg_bar_button_link']) && $button['msg_bar_button_action'] == 'link' ? $button['msg_bar_button_link'] : "#";
+			
+			if(empty($button['msg_bar_button_action']))
+			{
+				$btn_class = " avia-cookie-close-bar ";
+				$data = "data-contents='{$cookie_contents}'";
+			}
+			
+			
+			
+			if(!empty($button['msg_bar_button_action']) && $button['msg_bar_button_action'] == 'info_modal')
+			{
+				//$post = get_post( 4214);
+				//$content = Avia_Builder()->compile_post_content( $post );
+				$heading = __( "Cookie and Privacy Settings", 'avia_framework' );
+				$contents = array(
+							
+							array(	'label'		=> __( 'How we use cookies', 'avia_framework' ) , 
+									'content'	=> __( 'We may request cookies to be set on your device. We use cookies to let us know when you visit our websites, how you interact with us, to enrich your user experience, and to customize your relationship with our website. <br><br>Click on the different category headings to find out more. You can also change some of your preferences. Note that blocking some types of cookies may impact your experience on our websites and the services we are able to offer.', 'avia_framework' )),
+
+							array(	'label'		=> __( 'Essential Website Cookies', 'avia_framework' ), 
+									'content'	=> __( 'These cookies are strictly necessary to provide you with services available through our website and to use some of its features. <br><br>Because these cookies are strictly necessary to deliver the website, you cannot refuse them without impacting how our site functions. You can block or delete them by changing your browser settings and force blocking all cookies on this website.', 'avia_framework' )),
+							
+							);
+							
+				$analtics_check = avia_get_option('analytics');			
+				if(!empty( $analtics_check ) )
+				{
+					$contents[] = array(	'label'		=> __( 'Google Analytics Cookies', 'avia_framework' ), 
+											'content'	=> __( 'These cookies collect information that is used either in aggregate form to help us understand how our website is being used or how effective our marketing campaigns are, or to help us customize our website and application for you in order to enhance your experience. <br><br>If you do not want that we track your visist to our site you can disable tracking in your browser here: [av_privacy_google_tracking]', 'avia_framework' ));
+				}
+				
+				$contents[] = array(	'label'		=> __( 'Other external services', 'avia_framework' ), 
+										'content'	=> __( 'We also use different external services like Google Webfonts, Google Maps and external Video providers. Since these providers may collect personal data like your IP address we allow you to block them here. Please be aware that this might heavily reduce the functionality and appearance of our site. Changes will take effect once you reload the page.<br><br>
+
+Google Webfont Settings:					
+[av_privacy_google_webfonts]
+
+Google Map Settings:
+[av_privacy_google_maps]
+
+Vimeo and Youtube video embeds:
+[av_privacy_video_embeds]', 'avia_framework' )
+										);
+				
+				
+				$wp_privacy_page = get_option('wp_page_for_privacy_policy');
+				if(!empty( $wp_privacy_page ))
+				{
+					$contents[] = array(	'label'		=> __( 'Privacy Policy', 'avia_framework' ), 
+											'content'	=> __( 'You can read about our cookies and privacy settings in detail on our Privacy Policy Page. <br><br> [av_privacy_link]', 'avia_framework' ));
+											
+				}
+
+				
+				if(avia_get_option('cookie_info_custom_content') == "cookie_info_custom_content" )
+				{
+					$contents = avia_get_option('cookie_info_content', array());
+					$heading  = str_replace("'", "&apos;", avia_get_option('cookie_info_content_heading', $heading));
+				}
+				
+				$content  = "";
+				foreach($contents as $content_block )
+				{
+					$tablabel    = str_replace("'", "&apos;", $content_block['label']);
+					$content .= "[av_tab title='{$tablabel}' icon_select='no' icon='ue81f' font='entypo-fontello']";
+					$content .= $content_block['content'];
+					$content .= "[/av_tab]";
+				}
+				
+				$btn_class .= " avia-cookie-info-btn ";
+				$extra_info = "<div id='av-consent-extra-info' class='av-inline-modal main_color'>".do_shortcode("
+				
+				[av_heading tag='h3' padding='10' heading='{$heading}' color='' style='blockquote modern-quote' custom_font='' size='' subheading_active='' subheading_size='15' custom_class='' admin_preview_bg='' av-desktop-hide='' av-medium-hide='' av-small-hide='' av-mini-hide='' av-medium-font-size-title='' av-small-font-size-title='' av-mini-font-size-title='' av-medium-font-size='' av-small-font-size='' av-mini-font-size='' margin='10px,0,0,0'][/av_heading]
+
+[av_hr class='custom' height='50' shadow='no-shadow' position='left' custom_border='av-border-thin' custom_width='100%' custom_border_color='' custom_margin_top='0px' custom_margin_bottom='0px' icon_select='no' custom_icon_color='' icon='ue808' font='entypo-fontello' av_uid='av-jhe1dyat' admin_preview_bg='rgb(255, 255, 255)']
+
+[av_tab_container position='sidebar_tab sidebar_tab_left' boxed='noborder_tabs' initial='1' av_uid='av-jhds1skt']
+{$content}
+[/av_tab_container]
+					
+				")."</div>";
+			}
+			
+			echo "<a href='{$link}' class='avia-button avia-cookie-consent-button avia-cookie-consent-button-{$i} {$btn_class}' {$data}>{$label}</a>";
+		}
+		
+		
+		
+        ?>
+        
+        
+        
+
+        </div>
+        </div>
+        
+        <?php
+	    echo $extra_info;
+        }
+    }
+    add_action('wp_footer', 'av_cookie_consent', 3);
+}
+
+
+
+/**
+ * Error 404 - Custom Page
+ * Hooks into the 404_template filter and display the defined 404 page
+ * Does not work with WPML
+ * @author tinabillinger
+ * @since 4.3
+ */
+if( ! function_exists( 'av_error404' ) )
+{
+    function av_error404($template)
+    {
+        // skip if WPML is active
+          if( ! defined('ICL_SITEPRESS_VERSION') && ! defined('ICL_LANGUAGE_CODE')) {
+            if (avia_get_option('error404_custom') == "error404_custom") {
+                global $wp_query;
+                $error404_page = avia_get_option('error404_page');
+                // check if error 404 page is defined
+                if ($error404_page) {
+                    // hook into the query
+                    $wp_query = null;
+                    $wp_query = new WP_Query();
+                    $wp_query->query( 'page_id=' . $error404_page );
+                    $wp_query->the_post();
+                    $template = get_page_template();
+                    rewind_posts();
+                    return $template;
+                }
+            }
+        }
+        
+        return $template;
+        
+    }
+    add_filter( '404_template', 'av_error404', 999 );
+}
+
+
+
+if( ! function_exists( 'av_page_as_footer_message' ) )
+{
+	/**
+	 * Display a notice that a page used as footer cannot be accessed in frontend by non logged in users
+	 * 
+	 * @since 4.2.7
+	 * @added_by Günter
+	 * @param array $params
+	 * @return array
+	 */
+	function av_page_as_footer_message( array $params )
+	{
+		
+		$footer_page = avia_get_option( 'footer_page', 0 );
+		$footer_page_active = strpos(avia_get_option( 'display_widgets_socket' ), 'page_in_footer') === 0 ? true : false;
+
+		$id = isset( $_REQUEST['post'] ) ? $_REQUEST['post'] : 0;
+		
+		if( ( 0 === $id ) || ( $footer_page != $id ) || !$footer_page_active)
+		{
+			return $params;
+		}
+		
+		$note = __( 'This page is currently selected to be displayed as footer. (Set in Enfold &raquo; Footer). Therefore it can not be accessed directly by the general public in your front end. (Logged in users who are able to edit the page can still see it in the frontend)', 'avia_framework' );
+		
+		
+		
+		
+		
+		if( ! empty( $params['note'] ) )
+		{
+			$note .= '<br /><br />';
+		}
+		
+		$params['note'] = $note;
+		$params['noteclass'] = '';
+		
+		return $params;
+	}
+	
+	add_filter( 'avf_builder_button_params', 'av_page_as_footer_message', 10000, 1 );
+}
+
+
+if( ! function_exists( 'av_builder_meta_box_elements_content' ) )
+{
+	/**
+	 * Adjust element content to reflect main option settings
+	 * e.g. with sdding page as footer feature we need to adjust select box content of footer settings
+	 * 
+	 * @since 4.2.7
+	 * @added_by Günter
+	 * @param array $elements
+	 * @return array
+	 */
+	function av_builder_meta_box_elements_content( array $elements )
+	{
+		
+		$footer_options	= avia_get_option( 'display_widgets_socket', 'all' );
+		
+		if( false !== strpos( $footer_options, 'page' ) )
+		{
+			$desc = __( 'Display the footer page?', 'avia_framework' );
+			$subtype = array(
+							__("Default Layout - set in",'avia_framework')." ".THEMENAME." > ". __('Footer','avia_framework') => '',
+							__('Use selected page to display as footer and socket','avia_framework')	=> 'page_in_footer_socket',
+							__('Use selected page to display as footer (no socket)','avia_framework')	=> 'page_in_footer',
+							__('Don\'t display the socket & page','avia_framework')							=> 'nofooterarea'
+						);
+		}
+		else 
+		{
+			$desc = __( 'Display the footer widgets?', 'avia_framework' );
+			$subtype = array(
+							__("Default Layout - set in",'avia_framework')." ".THEMENAME." > ". __('Footer','avia_framework') => '',
+							__('Display the footer widgets & socket','avia_framework')					=> 'all',
+							__('Display only the footer widgets (no socket)','avia_framework')			=> 'nosocket',
+							__('Display only the socket (no footer widgets)','avia_framework')			=> 'nofooterwidgets',
+							__('Don\'t display the socket & footer widgets','avia_framework')			=> 'nofooterarea'
+						);
+		}
+		
+		foreach( $elements as &$element ) 
+		{
+			if( 'footer' == $element['id'] )
+			{
+				$element['desc'] = $desc;
+				$element['subtype'] = $subtype;
+			}		
+		}
+		
+		return $elements;
+	}
+	
+	add_filter( 'avf_builder_elements', 'av_builder_meta_box_elements_content', 10000, 1 );
+}
+
+
+/**
+ * Maintenance Mode
+ * Redirects all requests to a defined 'maintenance' page
+ * Returns a 503 (temporary unavailable) status header
+ *
+ * If WPML active:
+ * Simple to a defined 'maintenance' page,
+ * returns a 302 (temporary redirect) status header
+ *
+ * Logged in users are still able to view the site
+ *
+ * @author tinabillinger
+ * @since 4.3
+ */
+ 
+
+if( ! function_exists( 'av_maintenance_mode' ) )
+{
+    function av_maintenance_mode()
+    {
+        if (avia_get_option('maintenance_mode') == "maintenance_mode") {
+            global $wp_query;
+            $maintenance_page = avia_get_option('maintenance_page');
+            
+            // check if maintenance page is defined
+            if ($maintenance_page) {
+                $maintenance_url = get_permalink($maintenance_page);
+                $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                // make sure site is accessible for logged in users, and the login page is not redirected
+                if ( ($GLOBALS['pagenow'] !== 'wp-login.php') && !current_user_can('edit_published_posts')) {
+                    // avoid infinite loop by making sure that maintenance page is NOT curently viewed
+                    if ($maintenance_url !== $current_url) {
+
+                        // do a simple redirect if WPML or Yoast is active
+                        $use_wp_redirect = false;
+
+                        if( defined('ICL_SITEPRESS_VERSION') && defined('ICL_LANGUAGE_CODE')) {
+                            $use_wp_redirect = true;
+                        }
+
+                        if( (defined('ICL_SITEPRESS_VERSION') && defined('ICL_LANGUAGE_CODE')) || defined('WPSEO_VERSION')) {
+                            $use_wp_redirect = true;
+                        }
+
+                        if( $use_wp_redirect ) {
+                            if (wp_redirect($maintenance_url)) {
+                                exit();
+                            }
+                        }
+                        else {
+                            // hook into the query
+                            $wp_query = null;
+                            $wp_query = new WP_Query();
+                            $wp_query->query('page_id=' . $maintenance_page);
+                            $wp_query->the_post();
+                            $template = get_page_template();
+                            rewind_posts();
+                            status_header(503);
+                            return $template;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    add_action('template_redirect', 'av_maintenance_mode');
+}
+
+
+
+
+/**
+ * Maintenance Mode Admin Bar Info
+ * If maintenance mode is active, an info is displayed in the admin bar
+ *
+ * @author tinabillinger
+ * @since 4.3
+ */
+if( ! function_exists( 'av_maintenance_mode_admin_info' ) ) {
+    function av_maintenance_mode_admin_info($admin_bar)
+    {
+        if (avia_get_option('maintenance_mode') == "maintenance_mode" && avia_get_option('maintenance_page', false)) {
+            $admin_bar->add_menu( array(
+                'id'    => 'av-maintenance',
+                'title' => __('<span style="color:#D54E21 !important;">Maintenance Mode Enabled</span>','avia_framework'),
+                'parent' => 'top-secondary',
+                'href'  => admin_url('admin.php?page=avia#goto_avia'),
+                'meta'  => array(
+                ),
+            ));
+        }
+        
+        return $admin_bar;
+    }
+    add_action('admin_bar_menu', 'av_maintenance_mode_admin_info',100);
+}
+
+
+
+
+if( ! function_exists( 'av_return_100' ) )
+{
+	/**
+	* Sets the default image to 100% quality for more beautiful images when used in conjunction with img optimization plugins
+	*
+	* @since 4.3
+	* @added_by Kriesi
+	*/
+	function av_return_100(){ return 100; }
+	add_filter('jpeg_quality', 'av_return_100');
+	add_filter('wp_editor_set_quality', 'av_return_100');
+}
+
+/**
+ * Post state filter
+ * On the Page Overview screen in the backend ( wp-admin/edit.php?post_type=page ) this functions appends a descriptive post state to a page for easier recognition
+ *
+ * @author Kriesi
+ * @since 4.3.1
+ */
+if( ! function_exists( 'av_post_state' ) ) 
+{
+    function av_post_state( $post_states, $post )
+    {
+	    $link = admin_url('?page=avia#goto_');
+	    $label = __('Change', 'avia_framework' );
+	    
+	    // Maintenance Page
+        if ( avia_get_option('maintenance_page') == $post->ID && avia_get_option('maintenance_mode') == "maintenance_mode") 
+        {
+			$post_states['av_maintain'] = __( 'Active Maintenance Page', 'avia_framework' )." <a href='{$link}avia'><small>({$label})</small></a>";
+		}
+		
+	    // 404 Page
+		if ( avia_get_option('error404_page') == $post->ID && avia_get_option('error404_custom') == "error404_custom") 
+        {
+			$post_states['av_404'] = __( 'Custom 404 Page', 'avia_framework' )." <a href='{$link}avia'><small>({$label})</small></a>";
+		}
+		
+	    // Footer Page
+		if ( avia_get_option( 'footer_page' ) == $post->ID && strpos(avia_get_option( 'display_widgets_socket' ), 'page_in_footer') === 0) 
+        {
+	        $post_states['av_footer'] = __( 'Custom Footer Page', 'avia_framework' )." <a href='{$link}footer'><small>({$label})</small></a>";
+		}
+		
+		return $post_states;
+    }
+    
+    add_filter( 'display_post_states', 'av_post_state' , 10, 2 );
+}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
+		
 

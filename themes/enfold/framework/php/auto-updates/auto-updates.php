@@ -1,5 +1,7 @@
 <?php 
 
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
 if(!function_exists('avia_backend_auto_updater'))
 {
 
@@ -198,7 +200,7 @@ if(!function_exists('avia_backend_auto_updater'))
 			$output 	= "";
 			$version 	= self::get_version();
 			$themename 	= self::get_themename();
-			$parent_string = is_child_theme() ? "Parent Theme (". ucfirst( $themename ).")" : "Theme";
+			$parent_string = is_child_theme() ? "Parent Theme (". ucfirst( $themename ).")" : ucfirst( $themename )." Theme";
 			
 			
 			if(empty($username) || empty($apikey))
@@ -211,7 +213,6 @@ if(!function_exists('avia_backend_auto_updater'))
 				
 				$target  	= network_admin_url('update-core.php?action=do-theme-upgrade');
 				$new		= $update['new_version'];
-				//$themename  = 'Platform'; //testing theme
 				
 				ob_start();
 				wp_nonce_field('upgrade-core');
@@ -221,7 +222,7 @@ if(!function_exists('avia_backend_auto_updater'))
 				
 				$output  = "<div class='avia_backend_theme_updates'>";
 				$output .= "<h3>Update Available!</h3>";
-				$output .= "A new Version (".$new.") of your ".$parent_string." is available! You are using Version ".$version.". <br/>Do you want to update?<br/><br/>";
+				$output .= "A new Version (".$new.") of your ".$parent_string." is available! You are using Version ".$version.". <br/>See what's new in <a href='https://kriesi.at/documentation/enfold/enfold-changelog/' target='_blank'>change log</a>. Do you want to update?<br/><br/>";
 				//$output .= "";
 				$output .= '<span class="avia_style_wrap"><a href="#" data-avia-popup="avia-tmpl-theme-update" class="avia_button">Update Now!</a></span></div>';
 				

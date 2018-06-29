@@ -319,29 +319,10 @@ class avia_font_manager{
 	}
 	
 	
-	//delete a folder
-	function delete_folder($new_name)
+	//delete a folder and contents if they already exist
+	function delete_folder( $new_name )
 	{
-		//delete folder and contents if they already exist
-		if(is_dir($new_name))
-		{
-			$objects = scandir($new_name);
-		     foreach ($objects as $object) {
-		       if ($object != "." && $object != "..")
-		       {
-		         if(is_dir($object))
-		         {
-			         $this->delete_folder($object);
-		         }
-		         else
-		         {
-		         	unlink($new_name."/".$object);
-				 }
-		       }
-		     }
-		     reset($objects);
-		     rmdir($new_name);
-		}
+		avia_backend_delete_folder( $new_name );
 	}
 	
 	

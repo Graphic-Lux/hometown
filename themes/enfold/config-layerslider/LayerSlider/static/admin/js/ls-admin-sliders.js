@@ -1,281 +1,25 @@
 jQuery(function($) {
 
-	var LS_GoogleFontsAPI = {
-
-		results : 0,
-		fontName : null,
-		fontIndex : null,
-
-		init : function() {
-
-			// Prefetch fonts
-			$('.ls-font-search input').focus(function() {
-				LS_GoogleFontsAPI.getFonts();
-			});
-
-			// Search
-			$('.ls-font-search > button').click(function(e) {
-				e.preventDefault();
-				var input = $(this).prev()[0];
-				LS_GoogleFontsAPI.timeout = setTimeout(function() {
-					LS_GoogleFontsAPI.search(input);
-				}, 500);
-			});
-
-			$('.ls-font-search input').keydown(function(e) {
-				if(e.which === 13) {
-					e.preventDefault();
-					var input = this;
-					LS_GoogleFontsAPI.timeout = setTimeout(function() {
-						LS_GoogleFontsAPI.search(input);
-					}, 500);
-				}
-			});
-
-			// Form save
-			$('form.ls-google-fonts').submit(function() {
-				$('ul.ls-font-list li', this).each(function(idx) {
-					$('input', this).each(function() {
-						$(this).attr('name', 'fontsData['+idx+']['+$(this).data('name')+']');
-					});
-				});
-
-				return true;
-			});
-
-			// Select font
-			$('.ls-google-fonts .fonts').on('click', 'li:not(.unselectable)', function() {
-				LS_GoogleFontsAPI.showVariants(this);
-			});
-
-			// Add font event
-			$('.ls-font-search').on('click', 'button.add-font', function(e) {
-				e.preventDefault();
-				LS_GoogleFontsAPI.addFonts(this);
-			});
-
-			// Back to results event
-			$('.ls-google-fonts .variants').on('click', 'button:last', function(e) {
-				e.preventDefault();
-				LS_GoogleFontsAPI.showFonts(this);
-			});
-
-			// Close event
-			$(document).on( 'click', '.ls-overlay', function() {
-
-				if($(this).data('manualclose')) {
-					return false;
-				}
-
-				if($('.ls-pointer').length) {
-					$(this).remove();
-					$('.ls-pointer').children('div.fonts').show().next().hide();
-					$('.ls-pointer').animate({ marginTop : 40, opacity : 0 }, 150, function() {
-						this.style.display = 'none';
-					});
-				}
-			});
-
-			// Remove font
-			$('.ls-font-list').on('click', 'a.remove', function(e) {
-				e.preventDefault();
-				$(this).parent().animate({ height : 0, opacity : 0 }, 300, function() {
-
-					// Add notice if needed
-					if($(this).siblings().length < 2) {
-						$(this).parent().append(
-							$('<li>', { 'class' : 'ls-notice', 'text' : LS_l10n.GFEmptyList })
-						);
-					}
-
-					$(this).remove();
-				});
-			});
-
-			// Add script
-			$('.ls-google-fonts .footer select').change(function() {
-
-				// Prevent adding the placeholder option tag
-				if($('option:selected', this).index() !== 0) {
-
-					// Selected item
-					var item = $('option:selected', this);
-					var hasDuplicate = false;
-
-					// Prevent adding duplicates
-					$('.ls-google-font-scripts input').each(function() {
-						if($(this).val() === item.val()) {
-							hasDuplicate = true;
-							return false;
-						}
-					});
-
-					// Add item
-					if(!hasDuplicate) {
-						var clone = $('.ls-google-font-scripts li:first').clone();
-							clone.find('span').text( item.text() );
-							clone.find('input').val( item.val() );
-							clone.removeClass('ls-hidden').appendTo('.ls-google-font-scripts');
-					}
-
-					// Show the placeholder option tag
-					$('option:first', this).prop('selected', true);
-				}
-			});
-
-			// Remove script
-			$('.ls-google-font-scripts').on('click', 'li a', function(event) {
-				event.preventDefault();
-
-				if($('.ls-google-font-scripts li').length > 2) {
-					$(this).closest('li').remove();
-				} else {
-					alert(LS_l10n.GFEmptyCharset);
-				}
-			});
-		},
-
-		getFonts : function() {
-
-			if(LS_GoogleFontsAPI.results == 0) {
-				var API_KEY = 'AIzaSyC_iL-1h1jz_StV_vMbVtVfh3h2QjVUZ8c';
-				$.getJSON('https://www.googleapis.com/webfonts/v1/webfonts?key=' + API_KEY, function(data) {
-					LS_GoogleFontsAPI.results = data;
-				});
-			}
-		},
-
-		search : function(input) {
-
-			// Hide overlay if any
-			$('.ls-overlay').remove();
-
-			// Get search field
-			var searchValue = $(input).val().toLowerCase();
-
-			// Wait until fonts being fetched
-			if(LS_GoogleFontsAPI.results != 0 && searchValue.length > 2 ) {
-
-				// Search
-				var indexes = [];
-				var found = $.grep(LS_GoogleFontsAPI.results.items, function(obj, index) {
-					if(obj.family.toLowerCase().indexOf(searchValue) !== -1) {
-						indexes.push(index);
-						return true;
-					}
-				});
-
-				// Get list
-				var list = $('.ls-font-search .ls-pointer .fonts ul');
-
-				// Remove previous contents and append new ones
-				list.empty();
-				if(found.length) {
-					for(c = 0; c < found.length; c++) {
-						list.append( $('<li>', { 'data-key' : indexes[c], 'text' : found[c]['family'] }));
-					}
-				} else {
-					list.append($('<li>', { 'class' : 'unselectable' })
-						.append( $('<h4>', { 'text' : 'No results were found' }))
-					);
-				}
-
-				// Show pointer and append overlay
-				$('.ls-font-search .ls-pointer').show().animate({ marginTop : 15, opacity : 1 }, 150);
-				$('<div>', { 'class' : 'ls-overlay dim'}).prependTo('body');
-			}
-		},
-
-		showVariants : function(li) {
-
-			// Get selected font
-			var fontName = $(li).text();
-			var fontIndex = $(li).data('key');
-			var fontObject = LS_GoogleFontsAPI.results.items[fontIndex]['variants'];
-			LS_GoogleFontsAPI.fontName = fontName;
-			LS_GoogleFontsAPI.fontIndex = fontIndex;
-
-			// Get and empty list
-			var list = $(li).closest('div').next().children('ul');
-				list.empty();
-
-
-			// Change header
-			var title = LS_l10n.GFFontVariant.replace('%s', fontName);
-			$(li).closest('.ls-box').children('.header').text(title);
-
-			// Append variants
-			for(c = 0; c < fontObject.length; c++) {
-				list.append( $('<li>', { 'class' : 'unselectable' })
-					.append( $('<input>', { 'type' : 'checkbox'} ))
-					.append( $('<span>', { 'text' : ucFirst(fontObject[c]) }))
-				);
-			}
-
-			// Init checkboxes
-			list.find(':checkbox').customCheckbox();
-
-			// Show variants
-			$(li).closest('.fonts').hide().next().show();
-		},
-
-		showFonts : function(button) {
-			$(button).closest('.ls-box').children('.header').text(LS_l10n.GFFontFamily);
-			$(button).closest('.variants').hide().prev().show();
-		},
-
-		addFonts: function(button) {
-
-			// Get variants
-			var variants = $(button).parent().prev().find('input:checked');
-
-			var apiUrl = [];
-			var urlVariants = [];
-			apiUrl.push(LS_GoogleFontsAPI.fontName.replace(/ /g, '+'));
-
-			if(variants.length) {
-				apiUrl.push(':');
-				variants.each(function() {
-					urlVariants.push( $(this).siblings('span').text().toLowerCase() );
-				});
-				apiUrl.push(urlVariants.join(','));
-			}
-
-			LS_GoogleFontsAPI.appendToFontList( apiUrl.join('') );
-		},
-
-		appendToFontList : function(url) {
-
-			// Empty notice if any
-			$('ul.ls-font-list li.ls-notice').remove();
-
-			var index = $('ul.ls-font-list li').length - 1;
-
-			// Append list item
-			var item = $('ul.ls-font-list li.ls-hidden').clone();
-				item.children('input:text').val(url);
-				item.appendTo('ul.ls-font-list').attr('class', '');
-
-			// Reset search field
-			$('.ls-font-search input').val('');
-
-			// Close pointer
-			$('.ls-overlay').click();
-		}
-	};
 
 	var importModalWindowTimeline = null,
+		importModalWindowTransition = null,
 		importModalThumbnailsTransition = null;
 
-	// Checkboxes
-	$('.ls-global-settings :checkbox').customCheckbox();
-	$('.ls-google-fonts :checkbox').customCheckbox();
 
 	// Tabs
 	$('.km-tabs').kmTabs();
 
-	// Google Fonts API
-	LS_GoogleFontsAPI.init();
+	// Auto-submit filter/search bar when choosing different view mode
+	// from drop-down menus.
+	$('#ls-slider-filters').on('change', 'select', function() {
+		$(this).closest('#ls-slider-filters').submit();
+	});
+
+
+	$('.ls-sliders-grid').on('contextmenu', '.preview', function( e ) {
+		e.preventDefault();
+		$(this).parent().find('.slider-actions').click();
+	});
 
 	$('.ls-sliders-grid').on('click', '.slider-actions', function() {
 
@@ -287,29 +31,34 @@ jQuery(function($) {
 			$item.addClass('ls-opened');
 			$sheet.removeClass('ls-hidden');
 			$('.ls-hover', $item).hide();
-			TweenLite.to($sheet[0], 0.3, {
+			TweenLite.fromTo($sheet[0], 0.3, { x: 0 }, {
 				y: 0
 			});
 	});
 
 	$('.ls-sliders-grid').on('mouseleave', '.slider-item', function() {
 
-		var $this 	= $(this),
-			$item 	= $this.closest('.slider-item'),
-			$sheet 	= $item.find('.slider-actions-sheet');
+		var $this 		= $(this),
+			$item 		= $this.closest('.slider-item'),
+			$sheet		= $('.slider-actions-sheet', $item ),
+			$options 	= $('.ls-export-options', $item );
 
 			if( $item.hasClass('ls-opened') ) {
 
-				$item.removeClass('ls-opened');
+				$item.removeClass('ls-opened').removeClass('ls-export-options-open');
 				$sheet.removeClass('ls-hidden');
 				$('.ls-hover', $item).show();
 
-				TweenLite.to($sheet[0], 0.4, {
-					y: -150
+				TweenLite.to($sheet[0], 0.4, { y: -150 });
+				TweenLite.to($options[0], 0.4, {
+					y: -150,
+					onComplete: function() {
+						$options.hide();
+					}
 				});
 			}
 
-	// Add sliderls-add-slider-template
+	// Add slider
 	}).on('click', '#ls-add-slider-button', function(e) {
 		e.preventDefault();
 
@@ -326,6 +75,21 @@ jQuery(function($) {
 		TweenLite.to( [ $button[0], $sheet[0] ], 0.5, {
 			x: '-=240'
 		});
+
+	// Export options
+	}).on('click', '.ls-export-options-button', function( e ) {
+		e.preventDefault();
+
+		var $item 		= $(this).closest('.slider-item'),
+			$sheet 		= $('.slider-actions-sheet', $item),
+			$options 	= $('.ls-export-options', $item);
+
+
+		$item.addClass('ls-export-options-open');
+		$options.show();
+
+		TweenLite.fromTo($sheet[0], 0.5, { x: 0 }, { x: -240 });
+		TweenLite.fromTo($options[0], 0.5, { x: 240, y: 0 }, { x: 0 });
 	});
 
 
@@ -365,9 +129,10 @@ jQuery(function($) {
 			$('#ls-slider-actions-template a:eq(0)').data('slug', $this.data('slug') );
 
 			$('#ls-slider-actions-template a:eq(1)').attr('href', $this.data('export-url') );
-			$('#ls-slider-actions-template a:eq(2)').attr('href', $this.data('duplicate-url') );
-			$('#ls-slider-actions-template a:eq(3)').attr('href', $this.data('revisions-url') );
-			$('#ls-slider-actions-template a:eq(4)').attr('href', $this.data('remove-url') );
+			$('#ls-slider-actions-template a:eq(2)').attr('href', $this.data('export-html-url') );
+			$('#ls-slider-actions-template a:eq(3)').attr('href', $this.data('duplicate-url') );
+			$('#ls-slider-actions-template a:eq(4)').attr('href', $this.data('revisions-url') );
+			$('#ls-slider-actions-template a:eq(5)').attr('href', $this.data('remove-url') );
 
 
 			setTimeout(function() {
@@ -401,6 +166,44 @@ jQuery(function($) {
 			slug 	= $this.data('slug') || id;
 
 		$modal.find('input.shortcode').val('[layerslider id="'+slug+'"]');
+
+	// HTML export
+	}).on('click', 'a.ls-html-export', function( e ) {
+
+		if( ! window.lsSiteActivation ) {
+			e.preventDefault();
+
+			kmUI.modal.open({
+				title: LS_l10n.SLExportActivationTitle,
+				content: LS_l10n.SLExportActivationContent,
+				width: 800,
+				height: 200,
+				overlayAnimate: 'fade'
+			});
+
+			return false;
+		}
+
+
+
+		if( window.localStorage ) {
+
+			if( ! localStorage.lsExportHTMLWarning ) {
+				localStorage.lsExportHTMLWarning = 0;
+			}
+
+			var counter = parseInt( localStorage.lsExportHTMLWarning ) || 0;
+
+			if( counter < 3 ) {
+
+				localStorage.lsExportHTMLWarning = ++counter;
+
+				if( ! confirm( LS_l10n.SLExportSliderHTML ) ) {
+					e.preventDefault();
+					return false;
+				}
+			}
+		}
 	});
 
 	// Pagivation
@@ -414,8 +217,7 @@ jQuery(function($) {
 
 		event.preventDefault();
 
-		var	$modal,
-			width = jQuery( window ).width();
+		var	$modal;
 
 		// If the Template Store was previously opened on the current page,
 		// just grab the element, do not bother re-appending and setting
@@ -436,7 +238,6 @@ jQuery(function($) {
 			// Append the template & setup the live logo
 			$modal = jQuery( jQuery('#tmpl-import-sliders').text() ).hide().prependTo('body');
 			lsLogo.append( '#ls-import-modal-window .layerslider-logo', true );
-
 
 			// Update last store view date
 			if( $modal.hasClass('has-updates') ) {
@@ -487,32 +288,20 @@ jQuery(function($) {
 					});
 				},
 				onComplete: function(){
-					importModalWindowTimeline.remove( importModalThumbnailsTransition );
+					if( importModalWindowTimeline ) {
+						importModalWindowTimeline.remove( importModalThumbnailsTransition );
+					}
 				},
 				onReverseComplete: function(){
 					jQuery( 'html, body' ).removeClass( 'ls-no-overflow' );
 					jQuery(document).off( 'keyup.LS' );
 					jQuery( '#ls-import-modal-overlay' ).hide();
+					TweenMax.set( jQuery( '#ls-import-modal-window' )[0], { css: { y: -100000 } });
 				},
 				paused: true
 			});
 
 			$(this).data( 'lsModalTimeline', importModalWindowTimeline );
-
-			importModalWindowTimeline.fromTo( $modal[0], 0.75, {
-				autoCSS: false,
-				css: {
-					position: 'fixed',
-					display: 'block',
-					x: width
-				}
-			},{
-				autoCSS: false,
-				css: {
-					x: 0
-				},
-				ease: Quart.easeInOut
-			}, 0 );
 
 			importModalWindowTimeline.fromTo( $('#ls-import-modal-overlay')[0], 0.75, {
 				autoCSS: false,
@@ -548,6 +337,26 @@ jQuery(function($) {
 			}, 0.25 );
 		}
 
+		importModalWindowTimeline.remove( importModalWindowTransition );
+
+		importModalWindowTransition = TweenMax.fromTo( $modal[0], 0.75, {
+			autoCSS: false,
+			css: {
+				position: 'fixed',
+				display: 'block',
+				y: 0,
+				x: jQuery( window ).width()
+			}
+		},{
+			autoCSS: false,
+			css: {
+				x: 0
+			},
+			ease: Quart.easeInOut
+		}, 0 );
+
+		importModalWindowTimeline.add( importModalWindowTransition, 0 );
+
 		importModalWindowTimeline.play();
 	});
 
@@ -573,6 +382,8 @@ jQuery(function($) {
 		jQuery('.button', this).text(LS_l10n.SLUploadSlider).addClass('saving');
 
 	}).on('click', '.ls-open-template-store', function(e) {
+
+		e.preventDefault();
 
 		kmUI.modal.close();
 		kmUI.overlay.close();
@@ -621,30 +432,39 @@ jQuery(function($) {
 		$button.data('text', $button.text() ).text(LS_l10n.working).addClass('saving');
 
 		// Post it
-		$.post( ajaxurl, $(this).serialize(), function(data) {
+		$.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			data: $(this).serialize(),
+			error: function( jqXHR, textStatus, errorThrown ) {
+				alert(LS_l10n.SLActivationError.replace('%s', errorThrown) );
+				$button.removeClass('saving').text( $button.data('text') );
+			},
+			success: function( data ) {
 
-			// Parse response and set message
-			data = $.parseJSON(data);
+				// Parse response and set message
+				data = $.parseJSON(data);
 
-			// Success
-			if(data && ! data.errCode ) {
+				// Success
+				if(data && ! data.errCode ) {
 
-				// Apply activated state to GUI
-				$form.closest('.ls-box').addClass('active');
+					// Apply activated state to GUI
+					$form.closest('.ls-box').addClass('active');
 
-				// Display activation message
-				$('p.note', $form).css('color', '#74bf48').text( data.message );
+					// Display activation message
+					$('p.note', $form).css('color', '#74bf48').text( data.message );
 
-				// Make sure that features requiring activation will
-				// work without refreshing the page.
-				window.lsSiteActivation = true;
+					// Make sure that features requiring activation will
+					// work without refreshing the page.
+					window.lsSiteActivation = true;
 
-			// Alert message (if any)
-			} else if(typeof data.message !== "undefined") {
-				alert(data.message);
+				// Alert message (if any)
+				} else if(typeof data.message !== "undefined") {
+					alert(data.message);
+				}
+
+				$button.removeClass('saving').text( $button.data('text') );
 			}
-
-			$button.removeClass('saving').text( $button.data('text') );
 		});
 	});
 
@@ -687,7 +507,7 @@ jQuery(function($) {
 		}
 	});
 
-	$('.ls-product-banner .unlock').click(function(e) {
+	$('.ls-product-banner .unlock, .ls-show-activation-box').click(function(e) {
 		e.preventDefault();
 
 		var $box 	= $('.ls-product-banner.ls-auto-update'),
@@ -710,27 +530,6 @@ jQuery(function($) {
 			});
 	});
 
-	// Permission form
-	$('#ls-permission-form').submit(function(e) {
-		e.preventDefault();
-		if(confirm(LS_l10n.SLPermissions)) {
-			this.submit();
-		}
-	});
-
-
-	// Google CDN version warning
-	$('#ls_use_custom_jquery').on('click', '.ls-checkbox', function(e) {
-		if( $(this).hasClass('off') ) {
-			if( ! confirm(LS_l10n.SLJQueryConfirm) ) {
-				e.preventDefault();
-				return false;
-
-			}
-
-			alert(LS_l10n.SLJQueryReminder);
-		}
-	});
 
 
 	// News filters
@@ -773,7 +572,7 @@ jQuery(function($) {
 				into: '#ls-import-modal-window',
 				title: LS_l10n.TSImportWarningTitle,
 				content: LS_l10n.TSImportWarningContent,
-				width: 700,
+				width: 800,
 				height: 200,
 				overlayAnimate: 'fade'
 			});
@@ -807,13 +606,16 @@ jQuery(function($) {
 				security: window.lsImportNonce
 			},
 			success: function(data, textStatus, jqXHR) {
-				data = JSON.parse( data );
-				if( data && data.success ) {
+
+				data = data ? JSON.parse( data ) : {};
+
+				if( data.success ) {
 					document.location.href = data.url;
 
-				} else if(data.message) {
+				} else {
+
 					setTimeout(function() {
-						alert(data.message);
+						alert( data.message ? data.message : LS_l10n.SLImportError);
 						setTimeout(function() {
 							kmUI.modal.close();
 							kmUI.overlay.close();
@@ -823,15 +625,6 @@ jQuery(function($) {
 					if( data.reload ) {
 						window.location.reload( true );
 					}
-
-				} else {
-					setTimeout(function() {
-						alert(LS_l10n.SLImportError);
-						setTimeout(function() {
-							kmUI.modal.close();
-							kmUI.overlay.close();
-						}, 1000);
-					}, 600);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -850,6 +643,12 @@ jQuery(function($) {
 			}
 		});
 	});
+
+	if( document.location.hash === '#open-template-store' ) {
+		setTimeout( function() {
+			$('#ls-import-samples-button').click();
+		}, 500);
+	}
 
 });
 

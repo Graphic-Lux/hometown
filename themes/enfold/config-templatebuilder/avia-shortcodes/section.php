@@ -1,7 +1,8 @@
 <?php
 /**
- * COLUMNS
- * Shortcode which creates columns for better content separation
+ * Color Section
+ * 
+ * Shortcode creates a section with unique background image and colors for better content sepearation
  */
 
  // Don't load directly
@@ -16,12 +17,17 @@ if ( !class_exists( 'avia_sc_section' ) )
 			static $section_count = 0;
 			static $add_to_closing = "";
 			static $close_overlay = "";
+			
 
 			/**
 			 * Create the config array for the shortcode button
 			 */
 			function shortcode_insert_button()
 			{
+				$this->config['type']			=	'layout';
+				$this->config['self_closing']	=	'no';
+				$this->config['contains_text']	=	'no';
+				
 				$this->config['name']		= __('Color Section', 'avia_framework' );
 				$this->config['icon']		= AviaBuilder::$path['imagesURL']."sc-section.png";
 				$this->config['tab']		= __('Layout Elements', 'avia_framework' );
@@ -59,7 +65,22 @@ if ( !class_exists( 'avia_sc_section' ) )
 				$data['preview'] 			= !empty($this->config['preview']) ? $this->config['preview'] : 0;
 				
 				$title_id = !empty($args['id']) ? ": ".ucfirst($args['id']) : "";
-				$el_bg = !empty($args['custom_bg']) ? " style='background:".$args['custom_bg'].";'" : ""; 
+
+                // add background color or gradient to indicator
+                $el_bg = "";
+
+                if( empty( $args['background'] ) || ( $args['background'] == 'bg_color' ) )
+                {
+                    $el_bg = !empty($args['custom_bg']) ? " style='background:".$args['custom_bg'].";'" : "";
+                }
+                else {
+                    if ($args['background_gradient_color1'] && $args['background_gradient_color2']) {
+                        $el_bg = "style='background:linear-gradient(".$args['background_gradient_color1'].",".$args['background_gradient_color2'].");'";
+                    }
+                }
+
+
+
 				$hidden_el_active = !empty($args['av_element_hidden_in_editor']) ? "av-layout-element-closed" : "";
 				
     			if(!empty($this->config['modal_on_load']))
@@ -213,9 +234,9 @@ if ( !class_exists( 'avia_sc_section' ) )
 				   array(
 						"name" 	=> __("Section Top Border Styling",'avia_framework' ),
 						"id" 	=> "shadow",
-						"desc"  => __("Chose a border styling for the top of your section",'avia_framework' ),
+						"desc"  => __("Choose a border styling for the top of your section",'avia_framework' ),
 						"type" 	=> "select",
-						"std" 	=> "no-shadow",
+						"std" 	=> "no-border-styling",
 						"subtype" => array( __('Display a simple 1px top border','avia_framework' )	=>'no-shadow',  
 											__('Display a small styling shadow at the top of the section','avia_framework' )	=>'shadow',
 											__('No border styling','avia_framework' )	=>'no-border-styling',
@@ -226,7 +247,7 @@ if ( !class_exists( 'avia_sc_section' ) )
 				    array(
 						"name" 	=> __("Section Bottom Border Styling",'avia_framework' ),
 						"id" 	=> "bottom_border",
-						"desc"  => __("Chose a border styling for the bottom of your section",'avia_framework' ),
+						"desc"  => __("Choose a border styling for the bottom of your section",'avia_framework' ),
 						"type" 	=> "select",
 						"std" 	=> "no-border-styling",
 						"subtype" => array(   
@@ -328,13 +349,65 @@ if ( !class_exists( 'avia_sc_section' ) )
 						"subtype" =>  array_flip($avia_config['color_sets'])
 				    ),
 
-				    array(
-							"name" 	=> __("Custom Background Color", 'avia_framework' ),
-							"desc" 	=> __("Select a custom background color for your Section here. Leave empty if you want to use the background color of the color scheme defined above", 'avia_framework' ),
-							"id" 	=> "custom_bg",
-							"type" 	=> "colorpicker",
-							"std" 	=> "",
-						),
+                    array(
+                        "name" 	=> __("Background",'avia_framework' ),
+                        "desc" 	=> __("Select the type of background for the column.", 'avia_framework' ),
+                        "id" 	=> "background",
+                        "type" 	=> "select",
+                        "std" 	=> "bg_color",
+                        "subtype" => array(
+                            __('Background Color','avia_framework' )=>'bg_color',
+                            __('Background Gradient','avia_framework' ) =>'bg_gradient',
+                        )
+                    ),
+
+                    array(
+                        "name" 	=> __("Custom Background Color", 'avia_framework' ),
+                        "desc" 	=> __("Select a custom background color for this cell here. Leave empty for default color", 'avia_framework' ),
+                        "id" 	=> "custom_bg",
+                        "type" 	=> "colorpicker",
+                        "required" => array('background','equals','bg_color'),
+                        "rgba" 	=> true,
+                        "std" 	=> "",
+                    ),
+
+                    array(
+                        "name" 	=> __("Background Gradient Color 1", 'avia_framework' ),
+                        "desc" 	=> __("Select the first color for the gradient.", 'avia_framework' ),
+                        "id" 	=> "background_gradient_color1",
+                        "type" 	=> "colorpicker",
+                        "container_class" => 'av_third av_third_first',
+                        "required" => array('background','equals','bg_gradient'),
+                        "rgba" 	=> true,
+                        "std" 	=> "",
+                    ),
+                    array(
+                        "name" 	=> __("Background Gradient Color 2", 'avia_framework' ),
+                        "desc" 	=> __("Select the second color for the gradient.", 'avia_framework' ),
+                        "id" 	=> "background_gradient_color2",
+                        "type" 	=> "colorpicker",
+                        "container_class" => 'av_third',
+                        "required" => array('background','equals','bg_gradient'),
+                        "rgba" 	=> true,
+                        "std" 	=> "",
+                    ),
+
+                    array(
+                        "name" 	=> __("Background Gradient Direction",'avia_framework' ),
+                        "desc" 	=> __("Define the gradient direction", 'avia_framework' ),
+                        "id" 	=> "background_gradient_direction",
+                        "type" 	=> "select",
+                        "container_class" => 'av_third',
+                        "std" 	=> "vertical",
+                        "required" => array('background','equals','bg_gradient'),
+                        "subtype" => array(
+                            __('Vertical','avia_framework' )=>'vertical',
+                            __('Horizontal','avia_framework' ) =>'horizontal',
+                            __('Radial','avia_framework' ) =>'radial',
+                            __('Diagonal Top Left to Bottom Right','avia_framework' ) =>'diagonal_tb',
+                            __('Diagonal Bottom Left to Top Right','avia_framework' ) =>'diagonal_bt',
+                        )
+                    ),
 
 					array(
 							"name" 	=> __("Custom Background Image",'avia_framework' ),
@@ -416,7 +489,7 @@ if ( !class_exists( 'avia_sc_section' ) )
 					
 					array(	
 							"name" 	=> __("Hide video on Mobile Devices?", 'avia_framework' ),
-							"desc" 	=> __("You can chose to hide the video entirely on Mobile devices and instead display the Section Background image", 'avia_framework' )."<br/><small>".__("Most mobile devices can't autoplay videos to prevent bandwidth problems for the user", 'avia_framework' ) ."</small>" ,
+							"desc" 	=> __("You can choose to hide the video entirely on Mobile devices and instead display the Section Background image", 'avia_framework' )."<br/><small>".__("Most mobile devices can't autoplay videos to prevent bandwidth problems for the user", 'avia_framework' ) ."</small>" ,
 							"id" 	=> "video_mobile_disabled",
 							"required"=> array('video','not',''),
 							"std" 	=> "",
@@ -587,8 +660,12 @@ array(
 			    								'position' => 'top left', 
 			    								'repeat' => 'no-repeat', 
 			    								'attach' => 'scroll', 
-			    								'color' => 'main_color', 
-			    								'custom_bg' => '', 
+			    								'color' => 'main_color',
+                                                'background'		                => '',
+                                                'custom_bg' => '',
+                                                'background_gradient_color1'		=> '',
+                                                'background_gradient_color2'	   	=> '',
+                                                'background_gradient_direction'	   	=> '',
 			    								'padding'=>'default' , 
 			    								'shadow'=>'shadow', 
 			    								'id'=>'', 
@@ -643,6 +720,41 @@ array(
 				{
 					$attachment = false;
 				}
+
+
+                // background gradient
+
+                $gradient_val = "";
+
+                if ($atts['background'] == 'bg_gradient'){
+                    if ( $atts['background_gradient_color1'] && $atts['background_gradient_color2']) {
+
+                        switch ($atts['background_gradient_direction']) {
+                            case 'vertical':
+                                $gradient_val .= 'linear-gradient(';
+                                break;
+                            case 'horizontal':
+                                $gradient_val .= 'linear-gradient(to right,';
+                                break;
+                            case 'radial':
+                                $gradient_val .= 'radial-gradient(';
+                                break;
+                            case 'diagonal_tb':
+                                $gradient_val .= 'linear-gradient(to bottom right,';
+                                break;
+                            case 'diagonal_bt':
+                                $gradient_val .= 'linear-gradient(45deg,';
+                                break;
+                        }
+
+                        $gradient_val .= $atts['background_gradient_color1'].','.$atts['background_gradient_color2'].')';
+
+                        // Fallback background color for IE9
+                        if($custom_bg == "") $background .= "background-color: {$atts['background_gradient_color1']};";
+
+                    }
+                }
+
 				
 				if($custom_bg != "")
 			    {
@@ -668,7 +780,11 @@ array(
 						$background .= "background-repeat: {$repeat}; ";
 					}
 				
-				     $background .= "background-image: url({$src}); ";
+				     $background .= "background-image: url({$src})";
+					 if ($gradient_val !== '') {
+                         $background .= ", {$gradient_val}";
+                     }
+					 $background .= ";";
 				     $background .= $attach == 'parallax' ? "background-attachment: scroll; " : "background-attachment: {$attach}; ";
 				     $background .= "background-position: {$position}; ";
 				     
@@ -696,6 +812,7 @@ array(
 				else
 				{
 					$attach = "scroll";
+					$background .= "background-image: {$gradient_val}";
 				}
 				
 				
@@ -900,8 +1017,8 @@ if(!function_exists('avia_new_section'))
 	    {
 	    	$cm		 = avia_section_close_markup();
 	    	$output .= "</div></div>{$cm}</div>".avia_sc_section::$add_to_closing.avia_sc_section::$close_overlay."</div>";
+		avia_sc_section::$add_to_closing = '';
 	    	avia_sc_section::$close_overlay = "";
-	    	
 		}
 	    //start new
 	    if($open)

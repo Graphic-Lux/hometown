@@ -1,8 +1,11 @@
 <?php
 /**
  * Textblock
+ * 
  * Shortcode which creates a text element wrapped in a div
  */
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
 
 if ( !class_exists( 'avia_sc_text' ) )
 {
@@ -13,6 +16,8 @@ if ( !class_exists( 'avia_sc_text' ) )
 			 */
 			function shortcode_insert_button()
 			{
+				$this->config['self_closing']	=	'no';
+				
 				$this->config['name']			= __('Text Block', 'avia_framework' );
 				$this->config['tab']			= __('Content Elements', 'avia_framework' );
 				$this->config['icon']			= AviaBuilder::$path['imagesURL']."sc-text_block.png";
@@ -153,19 +158,19 @@ if ( !class_exists( 'avia_sc_text' ) )
 							
 							
 								
-							array(	"name" 	=> __("Font Size for medium sized screens", 'avia_framework' ),
+							array(	"name" 	=> __("Font Size for medium sized screens (between 768px and 989px - eg: Tablet Landscape)", 'avia_framework' ),
 				            "id" 	=> "av-medium-font-size",
 				            "type" 	=> "select",
 				            "subtype" => AviaHtmlHelper::number_array(10,60,1, array( __("Default", 'avia_framework' )=>''), "px"),
 				            "std" => ""),
 				            
-				            array(	"name" 	=> __("Font Size for small screens", 'avia_framework' ),
+				            array(	"name" 	=> __("Font Size for small screens (between 480px and 767px - eg: Tablet Portrait)", 'avia_framework' ),
 				            "id" 	=> "av-small-font-size",
 				            "type" 	=> "select",
 				            "subtype" => AviaHtmlHelper::number_array(10,60,1, array( __("Default", 'avia_framework' )=>''), "px"),
 				            "std" => ""),
 				            
-							array(	"name" 	=> __("Font Size for very small screens", 'avia_framework' ),
+							array(	"name" 	=> __("Font Size for very small screens (smaller than 479px - eg: Smartphone Portrait)", 'avia_framework' ),
 				            "id" 	=> "av-mini-font-size",
 				            "type" 	=> "select",
 				            "subtype" => AviaHtmlHelper::number_array(10,60,1, array( __("Default", 'avia_framework' )=>''), "px"),

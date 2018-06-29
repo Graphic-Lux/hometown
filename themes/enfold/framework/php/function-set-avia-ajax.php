@@ -722,6 +722,7 @@ if(!function_exists('avia_ajax_verify_input'))
 			if(isset($option['id']) && $option['id'] == $_POST['key'] && isset($option['ajax']))
 			{
 				$callback = $option['ajax'];
+				break;
 			}
 		}
 		

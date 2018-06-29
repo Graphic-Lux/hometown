@@ -250,7 +250,7 @@ a.continue_shopping_link {
 	text-transform: uppercase;
     font-family: "UniversLT57Condensed";
     font-size: 12px;
-    bottom: -13px;
+    bottom: 0px;
 }
 
 /*.table.table-borderless.wdm_options_table th:last-child, .table.table-borderless.wdm_options_table td:last-child {
@@ -353,6 +353,18 @@ div.single_shirt:hover {
 
 .product_grid_wrap ul.products li {
 	width: 15%;
+}
+
+.products .product.first {
+    clear: none;
+}
+
+#top .inner_product_header {
+    min-height: 215px;
+}
+
+#top .products .product.last, #top #main .products .product.last {
+	margin: 0 1% 1% 0;
 }
 
 a.continue_button {

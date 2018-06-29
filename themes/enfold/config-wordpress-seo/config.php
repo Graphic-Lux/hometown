@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 /*
  * Adjustments for the Yoast WordPress SEO Plugin
  */
@@ -30,6 +34,8 @@ if(!function_exists('avia_wpseo_deactivate_avia_set_follow'))
 
 /*
  * Yoast SEO takes care of the title. It uses the wp_title() hook and the output data is stored in $wptitle. So just return $wptitle and leave everything else to Yoast.
+ * 
+ * This filter has been deprecated with WP 4.1 - function _wp_render_title_tag() is used instead
  */
 if(!function_exists('avia_wpseo_change_title_adjustment'))
 {
@@ -145,7 +151,7 @@ if(!function_exists('avia_filter_wpseo_sitemap_urlimages'))
 					'source' => 'sid'
 				)
 				*/
-			), $elements, $post_id);
+			), $post_id);
 
 			$ids = avia_extract_shortcodes_attachment_ids($elements, $content);
 

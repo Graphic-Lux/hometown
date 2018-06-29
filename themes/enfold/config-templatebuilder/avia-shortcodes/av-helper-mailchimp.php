@@ -1,6 +1,10 @@
 <?php
+/**
+ * a very small and basic toolset for the for mailchimp 3.0 API, inspired by the mailchimp-for-wp-plugins 2.0 API
+ * 
+ */
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
 
-/*a very small and basic toolset for the for mailchimp 3.0 API, inspired by the mailchimp-for-wp-plugins 2.0 API */
 
 if ( !class_exists( 'av_mailchimp_api' ) )
 {

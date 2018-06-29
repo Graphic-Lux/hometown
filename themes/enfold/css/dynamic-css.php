@@ -68,7 +68,6 @@ if($default_font_size)
 	$output .= "body, body .avia-tooltip {font-size: $default_font_size; }";
 }
 
-
 /*color sets*/
 foreach ($color_set as $key => $colors) // iterates over the color sets: usually $key is either: header_color, main_color, footer_color, socket_color
 {
@@ -117,10 +116,20 @@ $key a:hover, $key h1 a:hover, $key h2 a:hover, $key h3 a:hover, $key h4 a:hover
 color: $secondary;
 }
 
-$key .primary-background, $key .primary-background a, div $key .button, $key #submit, $key input[type='submit'], $key .small-preview:hover, $key .avia-menu-fx, $key .avia-menu-fx .avia-arrow, $key.iconbox_top .iconbox_icon, $key .iconbox_top a.iconbox_icon:hover, $key .avia-data-table th.avia-highlight-col, $key .avia-color-theme-color, $key .avia-color-theme-color:hover, $key .image-overlay .image-overlay-inside:before, $key .comment-count, $key .av_dropcap2, #top #wrap_all $key .av-menu-button-colored > a .avia-menu-text, $key .av-colored-style .av-countdown-cell-inner, .responsive #top $key .av-open-submenu.av-subnav-menu > li > a:hover, #top $key .av-open-submenu.av-subnav-menu li > ul a:hover{
+$key .primary-background, $key .primary-background a, div $key .button, $key #submit, $key input[type='submit'], $key .small-preview:hover, $key .avia-menu-fx, $key .avia-menu-fx .avia-arrow, $key.iconbox_top .iconbox_icon, $key .iconbox_top a.iconbox_icon:hover, $key .avia-data-table th.avia-highlight-col, $key .avia-color-theme-color, $key .avia-color-theme-color:hover, $key .image-overlay .image-overlay-inside:before, $key .comment-count, $key .av_dropcap2, $key .av-colored-style .av-countdown-cell-inner, .responsive #top $key .av-open-submenu.av-subnav-menu > li > a:hover, #top $key .av-open-submenu.av-subnav-menu li > ul a:hover{
 background-color: $primary;
 color:$constant_font;
 border-color:$button_border;
+}
+
+#top #wrap_all $key .av-menu-button-colored > a .avia-menu-text{
+background-color: $primary;
+color:$constant_font;
+border-color:$primary;
+}
+
+#top #wrap_all $key .av-menu-button-colored > a .avia-menu-text:after{
+background-color:$button_border;
 }
 
 #top $key .mobile_menu_toggle{
@@ -189,6 +198,7 @@ border-color:$button_border;
 #top $key .av-masonry-entry.format-quote:hover .av-icon-display{
 color:$primary;
 }
+
 
 
 $key ::-webkit-input-placeholder {color: $meta; }
@@ -298,15 +308,15 @@ $key .ajax_search_excerpt{
 color: $meta;
 }
 
-#top $key .ajax_search_entry:hover{
-background-color:$bg2;
-}
-
 $key .ajax_search_title{
 color: $heading;
 }
 
 $key .ajax_load{
+background-color:$primary;
+}
+
+$key .searchsubmit_wrapper{
 background-color:$primary;
 }
 
@@ -359,6 +369,45 @@ color:$meta;
 
 ";
 
+// timeline
+
+$timeline = avia_backend_calculate_similar_color($border, 'darker', 1);
+$timeline_date = avia_backend_calculate_similar_color($border, 'darker', 4);
+
+$output.= "
+$key .avia-timeline .milestone_icon{
+background-color:$timeline;
+}
+
+$key .avia-timeline .milestone_inner{
+background-color:$timeline;
+}
+
+$key .avia-timeline{
+border-color:$timeline;
+}
+
+$key .av-milestone-icon-wrap:after{
+border-color:$timeline;
+}
+
+$key .avia-timeline .av-milestone-date {
+color:$timeline_date;
+}
+
+$key .avia-timeline .av-milestone-date span{
+background-color:$timeline;
+}
+
+$key .avia-timeline-horizontal .av-milestone-content-wrap footer{
+background-color:$timeline;
+}
+
+$key .av-timeline-nav a span{
+background-color:$timeline;
+}
+
+";
 
 
 
@@ -414,7 +463,6 @@ background-color: $bg;
 }
 
 ";
-
 
 
 //sidebar tab & Tabs shortcode
@@ -478,7 +526,7 @@ background-color: $meta;
 
 
 //pricing table
-$stripe = avia_backend_calculate_similar_color($primary, 'lighter', 2);
+$stripe  = avia_backend_calculate_similar_color($primary, 'lighter', 2);
 $stripe2 = avia_backend_calculate_similar_color($primary, 'lighter', 1);
 
 $output.= "
@@ -525,8 +573,6 @@ $key .theme-color-bar .bar{
 background: $primary;
 }
 
-
-
 $key .mejs-controls .mejs-time-rail .mejs-time-current, $key .mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-current, $key .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current, $key .button.av-sending-button, $key .av-striped-bar .theme-color-bar .bar{
 
 background: $primary;
@@ -547,6 +593,29 @@ $key .progress{
 background-color:$bg2;
 }
 
+";
+
+
+
+// ajax search shortcode
+
+$output.= "
+$key .searchform_element_results .ajax_search_entry,
+$key .searchform_element_results .ajax_search_title,
+$key.searchform_element_results .ajax_search_entry,
+$key.searchform_element_results .ajax_search_title{
+color: $primary;
+}
+
+$key .searchform_element_results .ajax_search_excerpt,
+$key.searchform_element_results .ajax_search_excerpt{
+color: $meta;
+}
+
+$key .searchform_element_results .ajax_search_image,
+$key.searchform_element_results .ajax_search_image{
+color: $meta;
+}
 ";
 
 /*contact form send button*/
@@ -698,6 +767,7 @@ background-color:$bg2;
 			}
 			";
 		}
+		
 			
 		if(!empty($avia_config['backend_colors']['menu_transparent']))
 		{
@@ -877,7 +947,6 @@ div.avia-popup button.mfp-arrow-left:before { ".av_icon_css_string('prev_big')."
 $output = preg_replace('/\r|\n|\t/', '', $output);
 
 //todo: if the style are generated for the wordpress header call the generating script, otherwise create a simple css file and link to that file
-
 
 $avia_config['style'] = array(
 

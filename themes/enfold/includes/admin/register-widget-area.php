@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 // global $wp_registered_sidebars;
 #########################################
 	
@@ -62,7 +66,7 @@
 	//dynamic widgets
 	
 	#footer
-	$footer_columns = avia_get_option('footer_columns','5');
+	$footer_columns = avia_get_option( 'footer_columns', '5' );
 	
 	for ($i = 1; $i <= $footer_columns; $i++)
 	{

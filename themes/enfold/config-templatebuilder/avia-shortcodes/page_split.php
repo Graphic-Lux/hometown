@@ -1,6 +1,8 @@
 <?php
 /**
  * Page Split Element
+ * 
+ * Add a page split to the template. A pagination helps the user to navigate to the previous/next page.
  */
  
 // Don't load directly
@@ -17,6 +19,8 @@ if(current_theme_supports('avia_template_builder_page_split_element'))
 				 */
 				function shortcode_insert_button()
 				{
+					$this->config['self_closing']	=	'yes';
+					
 					$this->config['name']		= __('Page Split', 'avia_framework' );
 					$this->config['tab']		= __('Layout Elements', 'avia_framework' );
 					$this->config['icon']		= AviaBuilder::$path['imagesURL']."sc-heading.png";

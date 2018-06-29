@@ -47,7 +47,7 @@ class LS_Posts {
 
 	public function getParsedObject() {
 
-		if(!$this->posts) {
+		if( ! $this->posts ) {
 			return array();
 		}
 
@@ -56,8 +56,8 @@ class LS_Posts {
 			$ret[$key]['post-id'] = $val->ID;
 			$ret[$key]['post-slug'] = $val->post_name;
 			$ret[$key]['post-url'] = get_permalink($val->ID);
-			$ret[$key]['date-published'] = date(get_option('date_format'), strtotime($val->post_date));
-			$ret[$key]['date-modified'] = date(get_option('date_format'), strtotime($val->post_modified));
+			$ret[$key]['date-published'] = date_i18n(get_option('date_format'), strtotime($val->post_date));
+			$ret[$key]['date-modified'] = date_i18n(get_option('date_format'), strtotime($val->post_modified));
 			$ret[$key]['thumbnail'] = $this->getPostThumb($val->ID);
 			$ret[$key]['thumbnail'] = !empty($ret[$key]['thumbnail']) ? $ret[$key]['thumbnail'] : LS_ROOT_URL . '/static/admin/img/blank.gif';
 			$ret[$key]['image'] = '<img src="'.$ret[$key]['thumbnail'].'" alt="">';
@@ -98,11 +98,11 @@ class LS_Posts {
 
 		// Date published
 		if(stripos($str, '[date-published]') !== false) {
-			$str = str_replace('[date-published]', date(get_option('date_format'), strtotime($this->post->post_date)), $str); }
+			$str = str_replace('[date-published]', date_i18n(get_option('date_format'), strtotime($this->post->post_date)), $str); }
 
 		// Date modified
 		if(stripos($str, '[date-modified]') !== false) {
-			$str = str_replace('%date-modified]', date(get_option('date_format'), strtotime($this->post->post_modified)), $str); }
+			$str = str_replace('%date-modified]', date_i18n(get_option('date_format'), strtotime($this->post->post_modified)), $str); }
 
 		// Featured image
 		if(stripos($str, '[image]') !== false) {

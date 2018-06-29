@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 if (!class_exists("PixelentityThemeUpdate")) {
 	class PixelentityThemeUpdate {
 			
@@ -85,4 +89,3 @@ if (!class_exists("PixelentityThemeUpdate")) {
 
 	}
 }
-?>

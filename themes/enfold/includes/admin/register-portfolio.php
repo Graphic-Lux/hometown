@@ -67,18 +67,37 @@ function portfolio_register()
 #portfolio_columns, register_post_type then append _columns
 add_filter("manage_edit-portfolio_columns", "prod_edit_columns");
 add_filter("manage_edit-post_columns", "post_edit_columns");
+add_filter("manage_edit-page_columns", "post_edit_columns");
 add_action("manage_posts_custom_column",  "prod_custom_columns");
+add_action("manage_pages_custom_column",  "prod_custom_columns");
 
+
+/**
+ * Add a custom style for featured images in admin list table
+ * 
+ * @since 4.2.1
+ */
+function avia_listtable_image_css() 
+{
+    ?>
+        <style>
+            .widefat thead tr th#avia-image {
+                width: 45px;
+            }
+        </style>
+    <?php
+}
 
 function post_edit_columns($columns)
 {
 	$newcolumns = array(
 		"cb" => "<input type=\"checkbox\" />",
-		"thumb column-comments" => "Image",
+		"avia-image" => "Image",
 	);
 
 	$columns= array_merge($newcolumns, $columns);
 
+	add_action('admin_footer', 'avia_listtable_image_css');
 	return $columns;
 }
 
@@ -86,13 +105,14 @@ function prod_edit_columns($columns)
 {
 	$newcolumns = array(
 		"cb" => "<input type=\"checkbox\" />",
-		"thumb column-comments" => "Image",
+		"avia-image" => "Image",
 		"title" => "Title",
 		"portfolio_entries" => "Categories"
 	);
 
 	$columns= array_merge($newcolumns, $columns);
 
+	add_action('admin_footer', 'avia_listtable_image_css');
 	return $columns;
 }
 
@@ -101,7 +121,7 @@ function prod_custom_columns($column)
 	global $post;
 	switch ($column)
 	{
-		case "thumb column-comments":
+		case "avia-image":
 		if (has_post_thumbnail($post->ID)){
 				echo get_the_post_thumbnail($post->ID, 'widget');
 			}
@@ -214,6 +234,8 @@ if(!function_exists('avia_permalink_settings_save'))
 { 
 	function avia_permalink_settings_save()
 	{
+		if (defined('DOING_AJAX') && DOING_AJAX) return;
+		
 		global $avia_config;
 		$permalinks = get_option('avia_permalink_settings');
 		if(!$permalinks) $permalinks = array();

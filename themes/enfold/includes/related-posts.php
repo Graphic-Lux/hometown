@@ -91,7 +91,7 @@ if (!empty($tags) && is_array($tags))
 
   			//create seperator
 
-     		$output .= "<div class ='related_posts {$rp}'>";
+     		$output .= "<div class ='related_posts clearfix {$rp}'>";
 
 
      		$output .= "<h5 class='related_title'>".__('You might also like', 'avia_framework')."</h5>";

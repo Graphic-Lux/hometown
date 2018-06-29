@@ -73,6 +73,7 @@ var av_backend_maps_loaded, gm_authFailure;
 		}		
 
 		var	script 		= document.createElement('script');
+			script.id	= 'av-google-maps-api';
 			script.type = 'text/javascript';	
 			script.src 	= src;
 			
@@ -399,24 +400,29 @@ execute a function after change event was fired
 				{
 				
 					var current 	= $(this),
-						value 		= current.val();
+						value 		= current.val(),
+						parentItem 	= current.parents('.avia_control:eq(0)'),
+						cssRule 	= parentItem.find('.webfont_'+this.id).remove();
 						
 					if(!value) return;
 						
 					var cssValue 	= value.replace(/ /g, "+", value),
-						parentItem 	= current.parents('.avia_control:eq(0)'),
-						cssRule 	= parentItem.find('.webfont_'+this.id).remove(),
 						insert		= "";
 					
 					if(value.indexOf("-websave") != -1)
 					{
-						value = value.replace(/-websave/g, "", value),
-						value = value.replace(/-/g, "", value)
-						insert = '<style type="text/css">.webfont_'+this.id+'{font-family:'+value.replace(/:(\d+)$/,"")+';}</style>';
+						value = value.replace(/-websave/g, "", value);
+						value = value.replace(/-/g, "", value);
+						insert = '<style type="text/css">.webfont_'+this.id+'{font-family:\''+value.replace(/:(\d+)$/,"")+'\';}</style>';
+					}
+					else if(value.indexOf("-custom") != -1)
+					{
+						value = value.replace(/-custom/g, "", value);
+						insert = '<style type="text/css">.webfont_'+this.id+'{font-family:\'' + value + '\';}</style>';
 					}
 					else
 					{
-						insert = '<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family='+cssValue+'" /> <style type="text/css">.webfont_'+this.id+'{font-family:'+value.replace(/:(.+)$/,"")+';}</style>';
+						insert = '<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family='+cssValue+'" /> <style type="text/css">.webfont_'+this.id+'{font-family:\''+value.replace(/:(.+)$/,"")+'\';}</style>';
 					}
 					
 					cssRule = $('<div class="webfont_'+this.id+'">'+insert+'</div>');

@@ -1,9 +1,11 @@
 <?php
 /**
- * Post/Page Content
+ * Product Grid
  *
- * Element is in Beta and by default disabled. Todo: test with layerslider elements. currently throws error bc layerslider is only included if layerslider element is detected which is not the case with the post/page element
+ * Display a Grid of Product Entries
  */
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
 
 if( !class_exists( 'woocommerce' ) )
 {
@@ -20,6 +22,8 @@ if ( !class_exists( 'avia_sc_productgrid' ) )
 		 */
 		function shortcode_insert_button()
 		{
+			$this->config['self_closing']	=	'yes';
+			
 			$this->config['name']		= __('Product Grid', 'avia_framework' );
 			$this->config['tab']		= __('Plugin Additions', 'avia_framework' );
 			$this->config['icon']		= AviaBuilder::$path['imagesURL']."sc-portfolio.png";
@@ -232,7 +236,7 @@ if ( !class_exists( 'avia_sc_productgrid' ) )
 		{
 			$params['innerHtml'] = "<img src='".$this->config['icon']."' title='".$this->config['name']."' />";
 			$params['innerHtml'].= "<div class='avia-element-label'>".$this->config['name']."</div>";
-			$params['content'] 	 = NULL; //remove to allow content elements
+
 			return $params;
 		}
 

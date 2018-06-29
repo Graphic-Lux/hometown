@@ -3,8 +3,6 @@ if ( !defined('ABSPATH') ){ die(); }
 
 global $avia_config;
 
-
-
 /*
  * if you run a child theme and dont want to load the default functions.php file
  * set the global var below in you childthemes function.php to true:
@@ -28,8 +26,17 @@ $avia_config['posts_on_current_page'] = array();
  * wpml multi site config file
  * needs to be loaded before the framework
  */
-
 require_once( 'config-wpml/config.php' );
+
+/**
+ * layerslider plugin - needs to be loaded before framework because we need to add data to the options array
+ * 
+ * To be backwards compatible we still support  add_theme_support('deactivate_layerslider'); 
+ * This will override the option setting "activation" of the bundled plugin !!
+ * 
+ * @since 4.2.1
+ */
+require_once( 'config-layerslider/config.php' );
 
 
 /*
@@ -78,6 +85,7 @@ add_filter('avia_mega_menu_walker', '__return_false');
  */
  
 add_theme_support('avia_sidebar_manager');
+
 
 /*
  * Filters for post formats etc
@@ -277,6 +285,34 @@ $avia_config['layout']['sidebar_right'] = array('content' => 'av-content-small a
 
 
 
+/*
+ * a small array that contains admin notices that can, for example, be called after an update
+ * just set the db option avia_admin_notice to contain the key of the notice you want to display
+ * eg: update_option('avia_admin_notice', 'performance_update');
+ *
+ * classes: error, warning, success, info
+ * msg: whatever floats your boat :D
+ */
+
+$avia_config['admin_notices'] = array(
+	
+	//default update success
+	'update_success' 		=> array('class'=>'success', 'msg' => __('Enfold update was successful! ','avia_framework')),
+	
+	//update to version 4.3 - performance update. display notice and link to blog post	
+	'performance_update' 	=> array('class'=>'info', 	 'msg' => "<strong>Attention:</strong> The last Enfold update added a lot of performance options. Make sure to read more about it <a href='https://kriesi.at/archives/enfold-4-3-performance-update' target='_blank'>here</a><br><br>If you are running a caching plugin please make sure to reset your cached files, since the CSS and JS file structure of the theme changed heavily"
+	),	
+	
+	//update to version 4.4 - gdpr update. display notice and link to blog post	
+	'gdpr_update' 	=> array('class'=>'info', 	 'msg' => "<strong>Attention:</strong> Enfold was updated for GDPR compliance. Make sure to read more about it <a href='https://kriesi.at/archives/enfold-4-4-and-the-gdpr-general-data-protection-regulation' target='_blank'>here</a>"
+	),	
+	
+	
+	//more to come...
+);
+
+
+
 
 
 add_theme_support( 'automatic-feed-links' );
@@ -298,6 +334,8 @@ if(!function_exists('avia_register_frontend_scripts'))
 
 	function avia_register_frontend_scripts()
 	{
+		global $avia_config;
+		
 		$theme = wp_get_theme();
 		if( false !== $theme->parent() )
 		{
@@ -311,56 +349,142 @@ if(!function_exists('avia_register_frontend_scripts'))
 		$child_theme_url 	= get_stylesheet_directory_uri();
 
 		//register js
-		wp_enqueue_script( 'avia-compat', $template_url.'/js/avia-compat.js', array('jquery'), $vn, false ); //needs to be loaded at the top to prevent bugs
+		wp_enqueue_script( 'avia-compat', $template_url.'/js/avia-compat.js' , array(), $vn, false ); //needs to be loaded at the top to prevent bugs
 		wp_enqueue_script( 'avia-default', $template_url.'/js/avia.js', array('jquery'), $vn, true );
-		wp_enqueue_script( 'avia-shortcodes', $template_url.'/js/shortcodes.js', array('jquery'), $vn, true );
-		
-		if( empty( $options['lightbox_active'] ) || ( 'lightbox_active' == $options['lightbox_active'] ) )
-		{
-			wp_enqueue_script( 'avia-popup',  $template_url.'/js/aviapopup/jquery.magnific-popup.min.js', array('jquery'), $vn, true);
-		}
+		wp_enqueue_script( 'avia-shortcodes', $template_url.'/js/shortcodes.js', array('jquery','avia-default'), $vn, true );
 
 		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'wp-mediaelement' );
 
 
-		if ( is_singular() && get_option( 'thread_comments' ) ) { wp_enqueue_script( 'comment-reply' ); }
+		
 
 
 		//register styles
-		wp_register_style( 'avia-style' ,  $child_theme_url."/style.css", array(), 		$vn, 'all' ); //register default style.css file. only include in childthemes. has no purpose in main theme
+		wp_register_style( 'avia-style' ,  $child_theme_url."/style.css", array(), 		$vn, 'all' ); //only include in childthemes. has no purpose in main theme
 		wp_register_style( 'avia-custom',  $template_url."/css/custom.css", array(), 	$vn, 'all' );
 																						 
 		wp_enqueue_style( 'avia-grid' ,   $template_url."/css/grid.css", array(), 		$vn, 'all' );
-		wp_enqueue_style( 'avia-base' ,   $template_url."/css/base.css", array(), 		$vn, 'all' );
-		wp_enqueue_style( 'avia-layout',  $template_url."/css/layout.css", array(), 	$vn, 'all' );
-		wp_enqueue_style( 'avia-scs',     $template_url."/css/shortcodes.css", array(), $vn, 'all' );
-		
-		if( empty( $options['lightbox_active'] ) || ( 'lightbox_active' == $options['lightbox_active'] ) )
-		{
-			wp_enqueue_style( 'avia-popup-css', $template_url."/js/aviapopup/magnific-popup.css", array(), $vn, 'screen' );
-		}
-		
-		wp_enqueue_style( 'avia-print' ,  $template_url."/css/print.css", array(), $vn, 'print' );
+		wp_enqueue_style( 'avia-base' ,   $template_url."/css/base.css", array('avia-grid'), 		$vn, 'all' );
+		wp_enqueue_style( 'avia-layout',  $template_url."/css/layout.css", array('avia-base'), 	$vn, 'all' );
+		wp_enqueue_style( 'avia-scs',     $template_url."/css/shortcodes.css", array('avia-layout'), $vn, 'all' );
 		
 		
-		if ( is_rtl() ) {
-			wp_enqueue_style(  'avia-rtl',  $template_url."/css/rtl.css", array(), $vn, 'all' );
-		}
+		/************************************************************************
+		Conditional style and script calling, based on theme options or other conditions
+		*************************************************************************/
+		
+		//lightbox inclusion
+		$condition = !empty($avia_config['use_standard_lightbox']) && ( 'disabled' != $avia_config['use_standard_lightbox'] );
+		avia_enqueue_style_conditionally(  $condition , 'avia-popup-css', $template_url."/js/aviapopup/magnific-popup.css", array('avia-layout'), $vn, 'screen');
+		avia_enqueue_style_conditionally(  $condition , 'avia-lightbox', $template_url."/css/avia-snippet-lightbox.css", array('avia-layout'), $vn, 'screen');
+		avia_enqueue_script_conditionally( $condition , 'avia-popup-js' , $template_url.'/js/aviapopup/jquery.magnific-popup.min.js', array('jquery'), $vn, true);
+		avia_enqueue_script_conditionally( $condition , 'avia-lightbox-activation', $template_url."/js/avia-snippet-lightbox.js", array('avia-default'), $vn, true);
+		
+		
+		//mega menu inclusion (only necessary with sub menu items)
+		$condition = (avia_get_submenu_count('avia') > 0);
+		avia_enqueue_script_conditionally( $condition , 'avia-megamenu', $template_url."/js/avia-snippet-megamenu.js", array('avia-default'), $vn, true);
+		
+		
+		//sidebar menu inclusion (only necessary when header position is set to be a sidebar)
+		$condition = (isset($options['header_position']) && $options['header_position'] != "header_top");
+		avia_enqueue_script_conditionally( $condition , 'avia-sidebarmenu', $template_url."/js/avia-snippet-sidebarmenu.js", array('avia-default'), $vn, true);
+		
+		
+		//sticky header with header size calculator
+		$condition  = (isset($options['header_position']) && $options['header_position'] == "header_top");
+		$condition2 = (isset($options['header_sticky']) && $options['header_sticky'] == "header_sticky") && $condition;
+		avia_enqueue_script_conditionally( $condition2 , 'avia-sticky-header', $template_url."/js/avia-snippet-sticky-header.js", array('avia-default'), $vn, true);
+		
+		
+		//site preloader
+		$condition = (isset($options['preloader']) && $options['preloader'] == "preloader");
+		avia_enqueue_script_conditionally( $condition , 'avia-siteloader-js', $template_url."/js/avia-snippet-site-preloader.js", array('avia-default'), $vn, true, false);
+		avia_enqueue_style_conditionally(  $condition , 'avia-siteloader', $template_url."/css/avia-snippet-site-preloader.css", array('avia-layout'), $vn, 'screen', false);
+		
+		
+		//cookie consent
+		$condition = (isset($options['cookie_consent']) && $options['cookie_consent'] == "cookie_consent");
+		avia_enqueue_script_conditionally( $condition , 'avia-cookie-js' , $template_url."/js/avia-snippet-cookieconsent.js", array('avia-default'), $vn, true);
+		avia_enqueue_style_conditionally(  $condition , 'avia-cookie-css', $template_url."/css/avia-snippet-cookieconsent.css", array('avia-layout'), $vn, 'screen');
+		
+		
+		//load widget css only if we got active widgets
+		$condition = (avia_get_active_widget_count() > 0);
+		avia_enqueue_style_conditionally(  $condition , 'avia-widget-css', $template_url."/css/avia-snippet-widget.css", array('avia-layout'), $vn, 'screen');
+
+		
+		//load mediaelement js
+		$condition  = !( isset($options['disable_mediaelement']) && $options['disable_mediaelement'] == "disable_mediaelement" ) && av_video_assets_required();
+		$condition2 = ( version_compare( get_bloginfo( 'version' ), '4.9', '>=' ) ) && $condition;
+		avia_enqueue_script_conditionally( $condition , 'wp-mediaelement');
+		avia_enqueue_style_conditionally( $condition2 , 'wp-mediaelement'); //With WP 4.9 we need to load the stylesheet seperately
+
+
+		//comment reply script
+		global $post;
+		$condition = !( isset($options['disable_blog']) && $options['disable_blog'] == "disable_blog" ) && $post && comments_open();
+		$condition = ( is_singular() && get_option( 'thread_comments' ) ) && $condition;
+		avia_enqueue_script_conditionally( $condition , 'comment-reply');
 		
 
+
+		//rtl inclusion
+		avia_enqueue_style_conditionally( is_rtl() , 'avia-rtl',  $template_url."/css/rtl.css", array(), $vn, 'all');
+		
+		
+		//disable jquery migrate if no plugins are active (enfold does not need it) or if user asked for it in optimization options
+		$condition = avia_count_active_plugins() == 0 || (isset($options['disable_jq_migrate']) && $options['disable_jq_migrate'] != "disable_jq_migrate");
+		if(!$condition) avia_disable_query_migrate();
+		
+		
+		
+		//move jquery to footer if no unkown plugins are active
+		if(av_count_untested_plugins() == 0 || (isset($options['jquery_in_footer']) && $options['jquery_in_footer'] == "jquery_in_footer") ){ 
+			av_move_jquery_into_footer();
+		}
+		
+		
+		
+		/************************************************************************
+		Inclusion of the dynamic stylesheet
+		*************************************************************************/
+		
+		
         global $avia;
+		
 		$safe_name = avia_backend_safe_string($avia->base_data['prefix']);
 		$safe_name = apply_filters('avf_dynamic_stylesheet_filename', $safe_name);
 
         if( get_option('avia_stylesheet_exists'.$safe_name) == 'true' )
         {
             $avia_upload_dir = wp_upload_dir();
-            if(is_ssl()) $avia_upload_dir['baseurl'] = str_replace("http://", "https://", $avia_upload_dir['baseurl']);
+			
+			/**
+			 * Change the default dynamic upload url
+			 * 
+			 * @since 4.4
+			 */
+			$avia_dyn_upload_path = apply_filters('avf_dyn_stylesheet_dir_url',  $avia_upload_dir['baseurl'] . '/dynamic_avia' );
+			$avia_dyn_upload_path = trailingslashit( $avia_dyn_upload_path );
+			
+            if( is_ssl() ) 
+			{
+				$avia_dyn_upload_path = str_replace( "http://", "https://", $avia_dyn_upload_path );
+			}
+			
+			/**
+			 * Change the default dynamic stylesheet name
+			 * 
+			 * @since 4.4
+			 */
+			$avia_dyn_stylesheet_url = apply_filters( 'avf_dyn_stylesheet_file_url', $avia_dyn_upload_path . $safe_name . '.css' );
 
-            $avia_dyn_stylesheet_url = $avia_upload_dir['baseurl'] . '/dynamic_avia/'.$safe_name.'.css';
-			$version_number = get_option('avia_stylesheet_dynamic_version'.$safe_name);
-			if(empty($version_number)) $version_number = $vn;
+			$version_number = get_option( 'avia_stylesheet_dynamic_version' . $safe_name );
+			if( empty( $version_number ) ) 
+			{
+				$version_number = $vn;
+			}
             
             wp_enqueue_style( 'avia-dynamic', $avia_dyn_stylesheet_url, array(), $version_number, 'all' );
         }
@@ -385,8 +509,16 @@ if(!function_exists('avia_remove_default_video_styling'))
 
 	function avia_remove_default_video_styling()
 	{
-		//remove default style for videos
-		wp_dequeue_style( 'mediaelement' );
+		/**
+		 * remove default style for videos
+		 * 
+		 * With WP 4.9 we need to load the stylesheet seperately - therefore we must not remove it
+		 */
+		if( version_compare( get_bloginfo( 'version' ), '4.9', '<' ) )
+		{
+			wp_dequeue_style( 'mediaelement' );
+		}
+		
 		// wp_dequeue_script( 'wp-mediaelement' );
 		// wp_dequeue_style( 'wp-mediaelement' );
 	}
@@ -446,6 +578,8 @@ require_once( 'includes/helper-template-logic.php' ); 			// holds the template l
 require_once( 'includes/helper-social-media.php' ); 			// holds some helper functions necessary for twitter and facebook buttons
 require_once( 'includes/helper-post-format.php' ); 				// holds actions and filter necessary for post formats
 require_once( 'includes/helper-markup.php' ); 					// holds the markup logic (schema.org and html5)
+require_once( 'includes/helper-assets.php' ); 					// holds asset managment functions
+require_once( 'includes/helper-privacy.php' ); 					// holds privacy managment shortcodes and functions
 
 if(current_theme_supports('avia_conditionals_for_mega_menu'))
 {
@@ -459,8 +593,6 @@ require_once( 'includes/helper-responsive-megamenu.php' ); 		// holds the walker
 
 //adds the plugin initalization scripts that add styles and functions
 
-if(!current_theme_supports('deactivate_layerslider')) require_once( 'config-layerslider/config.php' );//layerslider plugin
-
 require_once( 'config-bbpress/config.php' );					//compatibility with  bbpress forum plugin
 require_once( 'config-templatebuilder/config.php' );			//templatebuilder plugin
 require_once( 'config-gravityforms/config.php' );				//compatibility with gravityforms plugin
@@ -473,10 +605,9 @@ if(!current_theme_supports('deactivate_tribe_events_calendar'))
 	require_once( 'config-events-calendar/config.php' );		//compatibility with the Events Calendar plugin
 }
 
-if(is_admin())
-{
-	require_once( 'includes/admin/helper-compat-update.php');	// include helper functions for new versions
-}
+// if(is_admin())
+require_once( 'includes/admin/helper-compat-update.php');	// include helper functions for new versions
+
 
 
 
@@ -509,7 +640,6 @@ if(!function_exists('avia_register_avia_widgets'))
 		register_widget( 'avia_newsbox' );
 		register_widget( 'avia_portfoliobox' );
 		register_widget( 'avia_socialcount' );
-		register_widget( 'avia_combo_widget' );
 		register_widget( 'avia_partner_widget' );
 		register_widget( 'avia_google_maps' );
 		register_widget( 'avia_fb_likebox' );
@@ -549,6 +679,8 @@ add_theme_support('force-post-thumbnails-in-widget');
 
 /*
  * display page titles via wordpress default output
+ * 
+ * @since 3.6
  */
 function av_theme_slug_setup() 
 {
@@ -557,7 +689,7 @@ function av_theme_slug_setup()
 
 add_action( 'after_setup_theme', 'av_theme_slug_setup' );
 
-/*title fallback*/
+/*title fallback (up to WP 4.1)*/
 if ( ! function_exists( '_wp_render_title_tag' ) )
 {
     function av_theme_slug_render_title() 
@@ -581,4 +713,14 @@ require_once( 'functions-enfold.php');
  * add option to edit elements via css class
  */
 // add_theme_support('avia_template_builder_custom_css');
+
+
+
+
+
+
+
+
+
+
 

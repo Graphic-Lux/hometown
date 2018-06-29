@@ -8,6 +8,26 @@ if(is_single()) $blog_style = avia_get_option('single_post_style','single-big');
 
 $blog_global_style = avia_get_option('blog_global_style',''); //alt: elegant-blog
 
+$blog_disabled = ( avia_get_option('disable_blog') == 'disable_blog' ) ? true : false;
+if($blog_disabled)
+{
+	if (current_user_can('edit_posts'))
+	{
+		$msg = 	'<strong>'.__('Admin notice for:' )."</strong><br>".
+						__('Blog Posts', 'avia_framework' )."<br><br>".
+						__('This element was disabled in your theme settings. You can activate it here:' )."<br>".
+					   '<a target="_blank" href="'.admin_url('admin.php?page=avia#goto_performance').'">'.__("Performance Settings",'avia_framework' )."</a>";
+		
+		$content 	= "<span class='av-shortcode-disabled-notice'>{$msg}</span>";
+		
+		echo $content;
+	}
+	
+	 return;
+}
+
+
+
 
 $initial_id = avia_get_the_ID();
 
@@ -33,7 +53,7 @@ if (have_posts()) :
 	$blog_content = !empty($avia_config['blog_content']) ? $avia_config['blog_content'] : "content";
 	
 	/*If post uses builder change content to exerpt on overview pages*/
-    if(AviaHelper::builder_status($current_post['the_id']) && !is_singular($current_post['the_id']) && $current_post['post_type'] == 'post')
+    if( Avia_Builder()->get_alb_builder_status( $current_post['the_id'] ) && !is_singular($current_post['the_id']) && $current_post['post_type'] == 'post')
     {
 	   $current_post['post_format'] = 'standard';
 	   $blog_content = "excerpt_read_more";
@@ -148,6 +168,8 @@ if (have_posts()) :
 
         echo "<div class='entry-content-wrapper clearfix {$post_format}-content'>";
             echo '<header class="entry-content-header">';
+            
+            	$close_header 	= "</header>"; 
             	
             	$content_output  =  '<div class="entry-content" '.avia_markup_helper(array('context' => 'entry_content','echo'=>false)).'>';
 				$content_output .=  $content;
@@ -185,9 +207,15 @@ if (have_posts()) :
                         $cat_output .= '</span>';
                         $cats = "";
                     }
-            
-					echo strpos($blog_global_style, 'modern-blog') === false ? $cat_output.$title : $title.$cat_output;
-					
+
+                    // The wrapper div prevents the Safari reader from displaying the content twice  ¯\_(ツ)_/¯
+                    echo '<div class="av-heading-wrapper">';
+                        echo strpos($blog_global_style, 'modern-blog') === false ? $cat_output.$title : $title.$cat_output;
+                    echo '</div>';
+                    
+                    echo $close_header;
+					$close_header = "";
+
 					echo '<span class="av-vertical-delimiter"></span>';
 					
 					//echo preview image
@@ -196,6 +224,7 @@ if (have_posts()) :
 				        if($slider) $slider = '<a href="'.$link.'" title="'.$featured_img_desc.'">'.$slider.'</a>';
 				        if($slider) echo '<div class="big-preview '.$blog_style.'">'.$slider.'</div>';
 				    }
+					
 					
 				    if(!empty($before_content))
 				        echo '<div class="big-preview '.$blog_style.'">'.$before_content.'</div>';
@@ -248,7 +277,7 @@ if (have_posts()) :
                     echo '</span>';
                     echo '</span>';
                 echo '</span>';
-            echo '</header>';
+            echo $close_header;
 
 
             // echo the post content

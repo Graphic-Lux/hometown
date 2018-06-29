@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 ######################################################################
 # remove backend options by removing them from the config array
 ######################################################################

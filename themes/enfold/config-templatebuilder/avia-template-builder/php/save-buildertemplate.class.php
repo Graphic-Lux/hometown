@@ -121,6 +121,7 @@ if ( !class_exists( 'aviaSaveBuilderTemplate' ) ) {
             }
             else
             {
+				Avia_Builder()->get_shortcode_parser()->set_builder_save_location( 'none' );
                 $value = ShortcodeHelper::clean_up_shortcode($value);
                 $result = update_post_meta($id, $key, '{{{'.$name.'}}}'.$value);
                 echo 'avia_template_saved';

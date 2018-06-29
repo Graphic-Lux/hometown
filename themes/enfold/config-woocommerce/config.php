@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 function avia_woocommerce_enabled()
 {
 	// if( !function_exists( 'wc_get_template_part' ) && class_exists( 'woocommerce' )) return "deprecated";
@@ -579,20 +582,20 @@ function avia_woocommerce_thumb_size()
 
 if(!function_exists('avia_woocommerce_breadcrumb'))
 {
-	add_filter('avia_breadcrumbs_trail','avia_woocommerce_breadcrumb');
+	add_filter('avia_breadcrumbs_trail','avia_woocommerce_breadcrumb', 10, 2 );
 
-	function avia_woocommerce_breadcrumb($trail)
+	function avia_woocommerce_breadcrumb( $trail, $args )
 	{
 		global $avia_config;
 
 		if(is_woocommerce())
 		{
-
+			$front_id	= avia_get_option('frontpage');
 			$home 		= isset( $trail[0] ) ? $trail[0] : '';
 			$last 		= array_pop($trail);
 			$shop_id 	= function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : woocommerce_get_page_id( 'shop' );
 			$taxonomy 	= "product_cat";
-
+			
 			// on the shop frontpage simply display the shop name, rather than shop name + "All Products"
 			if(is_shop())
 			{
@@ -653,8 +656,36 @@ if(!function_exists('avia_woocommerce_breadcrumb'))
 				$last = __("Tag",'avia_framework').": ".$last;
 			}
 
-
-			if(!empty($last)) $trail[] = $last;
+			if( ! empty( $last ) ) 
+			{
+				$trail['trail_end'] = $last;
+			}
+			
+			/**
+			 * Allow to remove "Shop" in breadcrumb when shop page is frontpage
+			 * 
+			 * @since 4.2.7
+			 */
+			$trail_count = count( $trail );
+			if( ( $front_id == $shop_id ) && ! empty( $home ) && ( $trail_count > 1 ) )
+			{
+				$hide = apply_filters( 'avf_woocommerce_breadcrumb_hide_shop', 'hide', $trail, $args );
+				if( 'hide' == $hide )
+				{
+					$title = get_the_title( $shop_id );
+					
+					for( $i = 1; $i < $trail_count; $i++ )
+					{
+						if( false !== strpos( $trail[ $i ], $title ) )
+						{
+							unset( $trail[ $i ] );
+							break;
+						}
+					}
+					
+					$trail = array_merge( $trail );
+				}
+			}
 		}
 
 		return $trail;
@@ -1116,7 +1147,7 @@ add_action(    'woocommerce_after_single_product_summary', 'woocommerce_output_p
 #
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products',20);
 remove_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products',10);
-//add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_related_products', 20); // causes error
+add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_related_products', 20);
 
 function avia_woocommerce_output_related_products($items = false, $columns = false)
 {
@@ -1144,7 +1175,7 @@ function avia_woocommerce_output_related_products($items = false, $columns = fal
 
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 remove_action( 'woocommerce_after_single_product', 'woocommerce_upsell_display',10);
-//add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_upsells', 21); // needs to be called after the "related product" function to inherit columns and product count
+add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_output_upsells', 21); // needs to be called after the "related product" function to inherit columns and product count
 
 function avia_woocommerce_output_upsells($items = false, $columns = false)
 {
@@ -1171,15 +1202,18 @@ function avia_woocommerce_output_upsells($items = false, $columns = false)
 
 }
 
-//add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_display_output_upsells', 30); //display the related products and upsells
+add_action( 'woocommerce_after_single_product_summary', 'avia_woocommerce_display_output_upsells', 30); //display the related products and upsells
 
 function avia_woocommerce_display_output_upsells()
 {
 	global $avia_config;
 
-	$products = $avia_config['woo_upsells'].$avia_config['woo_related'];
+	$sells = isset( $avia_config['woo_upsells'] ) ? $avia_config['woo_upsells'] : '';
+	$related = isset( $avia_config['woo_related'] ) ? $avia_config['woo_related'] : '';
 
-	if(!empty($products))
+	$products = $sells . $related;
+
+	if( ! empty( $products ) )
 	{
 
 		$output  = "</div></div></div>";
@@ -1614,7 +1648,7 @@ if(!function_exists('avia_woocommerce_default_page'))
 		    	if(isset($vars['post_type']) && 'product' == $vars['post_type'] )
 		    	{
 		    		$shop_page_id 	= wc_get_page_id( 'shop' );
-		    		$builder_active = AviaHelper::builder_status($shop_page_id);
+		    		$builder_active = Avia_Builder()->get_alb_builder_status($shop_page_id);
 		    		
 		    		if($builder_active == "active")
 		    		{
@@ -1750,7 +1784,7 @@ if(!function_exists('avia_woocommerce_cart_pos'))
 	    	$cart = $woocommerce->cart->get_cart();
 	    	$cart_pos = avia_get_option('cart_icon');
 	    	
-	    	if($cart_pos == "always_display" || (!empty($cart) && !avia_active_caching()))
+	    	if( $cart_pos == "always_display" || ( ! empty( $cart ) ) )
 	    	{
 				$class[] = "visible_cart";
 			}
@@ -2138,6 +2172,56 @@ if( ! function_exists( 'avia_wc_product_is_visible' ) )
 			default:
 				return $visible;
 		}
+	}
+}
+
+
+if( ! function_exists( 'avia_wc_remove_inline_terms' ) )
+{
+	
+	/**
+	 * If a template builder page with a fullwidth el is used for terms and conditions the terms and conditions are not displayed properly. we need to filter that.
+	 * in case the user uses a template builder page do not display the inline terms. returning an empty string will just show the link to the TOS page
+	 */
+	add_filter('woocommerce_format_content', 'avia_wc_remove_inline_terms', 10, 2);
+	
+	function avia_wc_remove_inline_terms( $apply_filters, $raw_string ) 
+	{
+		if( is_checkout() ) {
+			
+			$id = wc_get_page_id( 'terms' );
+			
+			if(get_post_meta($id, '_aviaLayoutBuilder_active', true) == "active")
+			{
+				return '';
+			}
+		}
+		
+		return $apply_filters;
+	}
+}
+
+
+add_filter( 'woocommerce_get_settings_checkout' , 'avia_wc_filter_terms_page_selection', 10 , 2);
+
+
+if( ! function_exists( 'avia_wc_filter_terms_page_selection' ) )
+{
+	/**
+	 * Filter the content description for TOS page selection
+	 */
+	function avia_wc_filter_terms_page_selection($settings)
+	{
+		foreach($settings as $key => $setting)
+		{
+			if( isset( $setting['id'] ) && ( $setting['id'] == "woocommerce_terms_page_id" ) )
+			{
+				$settings[$key]['desc'] .= "<br><br>".__('Attention! Pages built with the Enfold Advanced Template Builder will not be displayed at the bottom of the checkout page but only with a link.', 'avia_framework');
+				break;
+			}
+		}
+		
+		return $settings;
 	}
 }
 

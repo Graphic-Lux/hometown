@@ -216,3 +216,64 @@ left: 0!important;
     left: auto;
     right: 50px;
 }
+
+
+/* Columns for better content separation
+================================================== */
+body.rtl.rtl_columns  div .first,
+body.rtl.rtl_columns  div .no_margin {
+  margin-right: 0;
+}
+
+.rtl.rtl_columns div .flex_column {
+	margin-left: 0;				/*	reset margins from standard grid   */
+	float: right;
+}
+
+.rtl.rtl_columns div.flex_column.first{
+	margin-right: 0;
+	clear: right;
+}
+
+.rtl.rtl_columns div .av_one_fifth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_fourth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_third {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_two_fifth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_half {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_three_fifth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_two_third {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_three_fourth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_four_fifth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_sixth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_seventh {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_eighth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_nineth {
+  margin-right: 6%;
+}
+.rtl.rtl_columns div .av_one_tenth {
+  margin-right: 6%;
+}

@@ -1,5 +1,8 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {  exit;  }    // Exit if accessed directly
+
+
 //add color styles
 if(!function_exists('avia_events_dynamic_css'))
 {

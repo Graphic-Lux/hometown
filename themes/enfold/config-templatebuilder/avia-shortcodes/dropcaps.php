@@ -1,6 +1,7 @@
 <?php
 /**
  * DROPCAPS
+ * 
  * Shortcode which creates dropcaps
  */
  
@@ -18,6 +19,8 @@ if ( !class_exists( 'av_dropcap1' ) )
 			 */
 			function shortcode_insert_button()
 			{
+				$this->config['self_closing']	=	'no';
+				
 				$this->config['name']		= 'Dropcap 1 (Big Letter)';
 				$this->config['order']		= 100;
 				$this->config['shortcode'] 	= 'av_dropcap1';
@@ -78,6 +81,8 @@ if ( !class_exists( 'av_dropcap2' ) )
 			 */
 			function shortcode_insert_button()
 			{
+				$this->config['self_closing']	=	'no';
+				
 				$this->config['name']		= 'Dropcap 2 (Colored Background)';
 				$this->config['order']		= 90;
 				$this->config['shortcode'] 	= 'av_dropcap2';
