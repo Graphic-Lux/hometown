@@ -23,7 +23,7 @@ function hometown_get_products_by_category() {
         'post_type'             => 'product',
         'post_status'           => 'publish',
         'ignore_sticky_posts'   => 1,
-        'posts_per_page'        => '12',
+        'posts_per_page'        => -1,
 //        'meta_query'            => array(
 //            array(
 //                'key'           => '_visibility',
