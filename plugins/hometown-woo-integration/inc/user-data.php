@@ -30,13 +30,16 @@ function hometown_save_user_sizes() {
 
   delete_user_meta(get_current_user_id(), 'unique_cart_key');
 
+  $newID = update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value );
+
   wp_send_json(array(
       'action' => 'save_size_data',
-      'result' => (update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value )),
-      'newID'  => update_user_meta( get_current_user_id(), $meta_key, $sizeCSV, $prev_value ),
+      'result' => ($newID),
+      'newID'  => $newID,
       'value'  => $sizeCSV
   ));
-  wp_die();
+  exit;
+//  wp_die();
 }
 
 

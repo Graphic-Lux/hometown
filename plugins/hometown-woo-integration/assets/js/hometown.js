@@ -58,7 +58,7 @@ function hometown_init() {
 
 
   $('.type a').unbind().click(function (e) {
-
+    continue_3
     $('.type a').removeClass('hovered');
     $(this).addClass("hovered");
 
@@ -148,6 +148,12 @@ function hometown_init() {
 
 
   $("#continue_3").unbind().click(function(e) {
+
+    if ($(this).prop('disabled')) {
+      return false;
+    } else {
+      $(this).prop('disabled', true);
+    }
 
     e.preventDefault();
 
@@ -291,7 +297,7 @@ function add_variation_to_cart() {
 
         setSizeData(uniqueCartKey);
 
-        window.location.replace(graphic_lux_subdirectory+'/cart');
+        // window.location.replace(graphic_lux_subdirectory+'/cart');
 
       });
 

@@ -31,7 +31,8 @@ function hometown_save_imprint_artwork() {
 		'result' => ( $newID ),
 		'newID'  => $newID
 	) );
-	wp_die();
+	exit;
+//	wp_die();
 
 }
 
@@ -115,7 +116,8 @@ function hometown_save_imprint_data() {
       'result' => ($newID),
       'newID'  => $newID
   ));
-  wp_die();
+  exit;
+//  wp_die();
 
 }
 
