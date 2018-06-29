@@ -305,7 +305,7 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
                     <th>Size</th>
                     <th>QTY</th>
                     <th>Each</th>
-                    <th>Total</th>
+                    <th>SUBTOTAL</th>
                   </tr>
                 </thead>
                 <tbody>';
@@ -342,6 +342,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
       $artPriceOutput = '';
     }
 
+    $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
+
     foreach($sizeData[$uniqueIdentifier] as $size => $qty) {
 
       if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
@@ -363,8 +365,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $lineSubtotal = $qty * ($xxlPriceNumber+$artTotal);
-        $shirtSubtotal = (float) $xxlPriceNumber + $artTotal;
+        $lineSubtotal = ($qty * ($xxlPriceNumber+$artTotal)) * $bulkDiscount;
+        $shirtSubtotal = (float) ($xxlPriceNumber + $artTotal) * $bulkDiscount;
 
         $output .= "$".number_format($shirtSubtotal, 2);
 
@@ -391,9 +393,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $lineSubtotal = $qty * ($price+$artTotal);
-
-        $shirtSubtotal = (float) $price + $artTotal;
+        $lineSubtotal = ($qty * ($price+$artTotal)) * $bulkDiscount;
+        $shirtSubtotal = (float) ($price + $artTotal) * $bulkDiscount;
 
         $output .= "$".number_format($shirtSubtotal, 2);
 

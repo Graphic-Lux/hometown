@@ -110,9 +110,9 @@ do_action( 'woocommerce_before_cart' ); ?>
 								echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key );
                 $sizeData = hometown_get_size_data($cart_item['unique_key']);
                 $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $cart_item['unique_key']);
-                if ($bulkDiscount != 1) {
-                  echo " (incl. ".($bulkDiscount*100)."% bulk discount)";
-                }
+//                if ($bulkDiscount != 1) {
+//                  echo " (incl. ".($bulkDiscount*100)."% bulk discount)";
+//                }
 							?>
 						</td>
 					</tr>
