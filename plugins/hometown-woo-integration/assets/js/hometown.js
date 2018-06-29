@@ -58,7 +58,7 @@ function hometown_init() {
 
 
   $('.type a').unbind().click(function (e) {
-    continue_3
+
     $('.type a').removeClass('hovered');
     $(this).addClass("hovered");
 
@@ -326,6 +326,10 @@ function hometown_get_product_variant_images(data) {
     $('.shirt_positions').html(searchResults).fadeIn();
 
     artwork_init();
+
+    $('html, body').animate({
+      scrollTop: $(".step_2").offset().top - 50
+    }, 500);
 
   });
 

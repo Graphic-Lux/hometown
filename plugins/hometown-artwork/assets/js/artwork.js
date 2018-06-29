@@ -50,7 +50,6 @@ function artwork_init() {
     apply_artwork_to_shirt(artClone, $(this).closest('.single_art').attr('data-orientation'));
   });
 
-
 }
 
 /**

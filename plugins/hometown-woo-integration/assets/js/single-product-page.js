@@ -80,10 +80,6 @@ function hometown_reload_add_to_cart_actions() {
 
       hometown_get_product_variant_images(data);
 
-      $('html, body').animate({
-        scrollTop: $(".step_2").offset().top - 50
-      }, 500);
-
     }
 
   });
