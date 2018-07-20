@@ -152,6 +152,8 @@ function hometown_calculate_price( $cart_object ) {
         $artTotal = (float) 0.00;
       }
 
+      $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
+
       foreach ($productSizeData as $size => $qty) {
 
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
@@ -169,10 +171,7 @@ function hometown_calculate_price( $cart_object ) {
 
       }
 
-      $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
-
-      $product_subtotal = $product_subtotal - ($product_subtotal * $bulkDiscount);
-
+      $product_subtotal += $bulkDiscount; // apply bulk cost on top of overall total
       $item['data']->set_price((float) $product_subtotal);
 
     }
@@ -192,28 +191,32 @@ function ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier) {
     $totalSizeCount += (int) $sizeAmount;
   }
 
-  // BULK QTY DISCOUNTS
-  if (($totalSizeCount >= 2) && ($totalSizeCount <= 9)) {
-    $bulkDiscount = 0.3;
+  // BULK QTY DISCOUNTS - this actually adds an amount based on the size rather than giving a discount.
+
+  if ($totalSizeCount == 1) {
+    $bulkDiscount = 9;
+  } else if (($totalSizeCount >= 2) && ($totalSizeCount <= 5)) {
+    $bulkDiscount = 6;
+  } else if (($totalSizeCount >= 6) && ($totalSizeCount <= 9)) {
+    $bulkDiscount = 5;
   } else if (($totalSizeCount >= 10) && ($totalSizeCount <= 15)) {
-    $bulkDiscount = 0.5;
+    $bulkDiscount = 4;
   } else if (($totalSizeCount >= 16) && ($totalSizeCount <= 24)) {
-    $bulkDiscount = 0.6;
+    $bulkDiscount = 3;
   } else if (($totalSizeCount >= 25) && ($totalSizeCount <= 47)) {
-    $bulkDiscount = 0.70;
+    $bulkDiscount = 2.75;
   } else if (($totalSizeCount >= 48) && ($totalSizeCount <= 74)) {
-    $bulkDiscount = 0.75;
+    $bulkDiscount = 2.5;
   } else if (($totalSizeCount >= 75) && ($totalSizeCount <= 99)) {
-    $bulkDiscount = 0.775;
-  } else if (($totalSizeCount >= 100) && ($totalSizeCount <= 149)) {
-    $bulkDiscount = 0.8;
-  } else if ($totalSizeCount >= 150) {
-    $bulkDiscount = 0.8;
+    $bulkDiscount = 2.25;
+  } else if ($totalSizeCount >= 100) {
+    $bulkDiscount = 2;
   } else {
-    $bulkDiscount = 1;
+    $bulkDiscount = 9;
   }
 
   return $bulkDiscount;
+
 }
 
 
@@ -342,8 +345,6 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
       $artPriceOutput = '';
     }
 
-    $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
-
     foreach($sizeData[$uniqueIdentifier] as $size => $qty) {
 
       if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
@@ -365,8 +366,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $lineSubtotal = ($qty * ($xxlPriceNumber+$artTotal)) * $bulkDiscount;
-        $shirtSubtotal = (float) ($xxlPriceNumber + $artTotal) * $bulkDiscount;
+        $lineSubtotal = ($qty * ($xxlPriceNumber+$artTotal));
+        $shirtSubtotal = (float) ($xxlPriceNumber + $artTotal);
 
         $output .= "$".number_format($shirtSubtotal, 2);
 
@@ -393,8 +394,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $lineSubtotal = ($qty * ($price+$artTotal)) * $bulkDiscount;
-        $shirtSubtotal = (float) ($price + $artTotal) * $bulkDiscount;
+        $lineSubtotal = ($qty * ($price+$artTotal));
+        $shirtSubtotal = (float) ($price + $artTotal);
 
         $output .= "$".number_format($shirtSubtotal, 2);
 
