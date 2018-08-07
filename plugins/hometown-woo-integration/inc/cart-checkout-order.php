@@ -126,48 +126,45 @@ function hometown_calculate_price( $cart_object ) {
       $sizeData = hometown_get_size_data($uniqueIdentifier);
       $productSizeData = $sizeData[$uniqueIdentifier];
       $price = hometown_get_price($product, $variationID);
+      $xxlPrice = (float) get_post_meta( $variationID, '_xxl_pricing', true ); // APPLY XXL PRICING
 
       // GET IMPRINT AND ARTWORK DATA
       $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
       $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
 
       $artworkPrices = array();
+      $artTotal = (float) 0.00;
+      $artPriceOutput = '';
 
-      if ($artworkDataArray) {
+      if (count($artworkDataArray) > 0) {
         // SET ARTWORK PRICE
         foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
-          if ($location != '') {
-            $artworkPrices[$orientation] = (float) number_format((float) hometown_get_artwork_price($artworkDataArray[$orientation]['id']), 2);
+          $artworkID = (int) $artworkDataArray[$orientation]['id'];
+          if (($location != '') && ($artworkID > 0)) {
+            $artworkPriceBeforeFormatting = hometown_get_artwork_price($artworkID);
+            $artworkPrice = explode('$', $artworkPriceBeforeFormatting);
+            $artworkPrice = (float) $artworkPrice[1];
+            $artworkPrices[$orientation] = (float) number_format($artworkPrice, 2);
           }
         }
 
-        $artTotal = (float) 0.00;
-        $artPriceOutput = '';
-
         foreach ($artworkPrices as $orientation => $artPrice) {
 //          $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
-          $artTotal += (float) $artPrice;
+          $artTotal += $artPrice;
         }
-      } else {
-        $artTotal = (float) 0.00;
       }
+
 
       $bulkDiscount = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
 
       foreach ($productSizeData as $size => $qty) {
 
         if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
-
-          $xxlPricing = (float) get_post_meta( $variationID, '_xxl_pricing', true );
-          $lineSubtotal = $qty * ($xxlPricing + $artTotal);
-
-        } else {
-
-          $lineSubtotal = $qty * ($price + $artTotal);
-
+          $price = $xxlPrice; // APPLY XXL PRICING
         }
 
-        $product_subtotal += $lineSubtotal;
+        $lineSubtotal = $qty * ($price + $artTotal); // "EACH" COLUMN
+        $product_subtotal += $lineSubtotal; // "SUBTOTAL" COLUMN
 
       }
 
@@ -318,39 +315,34 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
     // GET IMPRINT AND ARTWORK DATA
     $imprintArray = hometown_get_imprint_data($uniqueIdentifier);
     $artworkDataArray = hometown_get_imprint_artwork($uniqueIdentifier);
+    $artTotal = (float) 0.00;
+    $artPriceOutput = '';
+    $artworkPrices = array();
+
+    $xxlPriceNumber = (float) number_format((float) get_post_meta( $variationID, '_xxl_pricing', true ), 2);
+    $xxlPrice = '$'.$xxlPriceNumber;
 
 
-    if ($artworkDataArray) {
-
-      $artworkPrices = array();
-
+    if (count($artworkDataArray) > 0) {
       // SET ARTWORK PRICE
       foreach ($imprintArray[$uniqueIdentifier] as $orientation => $location) {
-        if ($location != '') {
-          $artworkPrice = (float) hometown_get_artwork_price($artworkDataArray[$orientation]['id']);
+        $artworkID = (int) $artworkDataArray[$orientation]['id'];
+        if (($location != '') && ($artworkID > 0)) {
+          $artworkPriceBeforeFormatting = hometown_get_artwork_price($artworkID);
+          $artworkPrice = explode('$', $artworkPriceBeforeFormatting);
+          $artworkPrice = (float) $artworkPrice[1];
           $artworkPrices[$orientation] = (float) number_format($artworkPrice, 2);
         }
       }
 
-      $artTotal = (float) 0.00;
-      $artPriceOutput = '';
-
       foreach ($artworkPrices as $orientation => $artPrice) {
-//        $artPriceOutput .= '<br>+ ' . $orientation . ' artwork Price: $' . number_format($artPrice, 2);
-        $artTotal += (float) $artPrice;
+        $artTotal += $artPrice;
       }
-
-    } else {
-      $artTotal = (float) 0.00;
-      $artPriceOutput = '';
     }
 
     foreach($sizeData[$uniqueIdentifier] as $size => $qty) {
 
       if (($size === 'XXL') || ($size === '3XL') || ($size === '4XL') || ($size === '5XL')) {
-
-        $xxlPriceNumber = (float) number_format((float) get_post_meta( $variationID, '_xxl_pricing', true ), 2);
-        $xxlPrice = '$'.$xxlPriceNumber;
 
         $output .= "<tr class='preview_sizes'>";
         $output .= '<td>' . $size . '</td>';

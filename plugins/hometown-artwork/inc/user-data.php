@@ -39,7 +39,7 @@ function hometown_save_imprint_artwork() {
 
 function hometown_get_imprint_artwork($uniqueIdentifier) {
 
-  $meta_key   = 'imprint_artwork-' . $uniqueIdentifier;
+  $meta_key = 'imprint_artwork-' . $uniqueIdentifier;
 
   $imprintArtworkData = explode(',', get_user_meta( get_current_user_id(), $meta_key, true ));
 
@@ -153,9 +153,8 @@ function hometown_get_imprint_data($uniqueIdentifier) {
 function hometown_get_artwork_price($artworkPostID) {
 
   global $wpdb;
-
   $query = "SELECT meta_value FROM `wp_postmeta` where post_id = %d and meta_key = 'hamf_artwork_price'";
-  $sql = $wpdb->prepare($query, array($artworkPostID));
+  $sql = $wpdb->prepare($query, array((int) $artworkPostID));
   $priceResults = $wpdb->get_results($sql);
   foreach ($priceResults as $priceResult) {
     return $priceResult->meta_value;
