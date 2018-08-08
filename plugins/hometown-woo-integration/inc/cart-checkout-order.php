@@ -155,7 +155,7 @@ function hometown_calculate_price( $cart_object ) {
       }
 
 
-//      $bulkDiscountTotal = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
+//      $bulkPricingTotal = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
 
       foreach ($productSizeData as $size => $qty) {
 
@@ -163,13 +163,13 @@ function hometown_calculate_price( $cart_object ) {
           $price = $xxlPrice; // APPLY XXL PRICING
         }
 
-        $bulkDiscount = calculate_bulk_discount($qty);
-        $lineSubtotal = $qty * ($price + $artTotal + $bulkDiscount); // "EACH" COLUMN
+        $bulkPricing = calculate_bulk_discount($qty);
+        $lineSubtotal = $qty * ($price + $artTotal + $bulkPricing); // "EACH" COLUMN
         $product_subtotal += $lineSubtotal; // "SUBTOTAL" COLUMN
 
       }
 
-//      $product_subtotal += $bulkDiscount; // apply bulk cost on top of overall total
+//      $product_subtotal += $bulkPricing; // apply bulk cost on top of overall total
       $item['data']->set_price((float) $product_subtotal);
 
     }
@@ -200,28 +200,28 @@ function ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier) {
 function calculate_bulk_discount($qty) {
 
   if ($qty == 1) {
-    $bulkDiscount = 9;
+    $bulkPricing = 9;
   } else if (($qty >= 2) && ($qty <= 5)) {
-    $bulkDiscount = 6;
+    $bulkPricing = 6;
   } else if (($qty >= 6) && ($qty <= 9)) {
-    $bulkDiscount = 5;
+    $bulkPricing = 5;
   } else if (($qty >= 10) && ($qty <= 15)) {
-    $bulkDiscount = 4;
+    $bulkPricing = 4;
   } else if (($qty >= 16) && ($qty <= 24)) {
-    $bulkDiscount = 3;
+    $bulkPricing = 3;
   } else if (($qty >= 25) && ($qty <= 47)) {
-    $bulkDiscount = 2.75;
+    $bulkPricing = 2.75;
   } else if (($qty >= 48) && ($qty <= 74)) {
-    $bulkDiscount = 2.5;
+    $bulkPricing = 2.5;
   } else if (($qty >= 75) && ($qty <= 99)) {
-    $bulkDiscount = 2.25;
+    $bulkPricing = 2.25;
   } else if ($qty >= 100) {
-    $bulkDiscount = 2;
+    $bulkPricing = 2;
   } else {
-    $bulkDiscount = 9;
+    $bulkPricing = 9;
   }
 
-  return $bulkDiscount;
+  return $bulkPricing;
 
 }
 
@@ -394,10 +394,10 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $bulkDiscount = calculate_bulk_discount($qty);
+        $bulkPricing = calculate_bulk_discount($qty);
 
-        $lineSubtotal = $qty * ($price + $artTotal + $bulkDiscount);
-        $shirtSubtotal = (float) $price + $artTotal + $bulkDiscount;
+        $lineSubtotal = $qty * ($price + $artTotal + $bulkPricing);
+        $shirtSubtotal = (float) $price + $artTotal + $bulkPricing;
 
         $output .= "$".number_format($shirtSubtotal, 2);
 
