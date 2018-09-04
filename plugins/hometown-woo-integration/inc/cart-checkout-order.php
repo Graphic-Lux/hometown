@@ -155,7 +155,7 @@ function hometown_calculate_price( $cart_object ) {
       }
 
 
-//      $bulkPricingTotal = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
+      $bulkPricingTotal = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
 
       foreach ($productSizeData as $size => $qty) {
 
@@ -163,8 +163,8 @@ function hometown_calculate_price( $cart_object ) {
           $price = $xxlPrice; // APPLY XXL PRICING
         }
 
-        $bulkPricing = calculate_bulk_discount($qty);
-        $lineSubtotal = $qty * ($price + $artTotal + $bulkPricing); // "EACH" COLUMN
+//        $bulkPricing = calculate_bulk_discount($qty);
+        $lineSubtotal = $qty * ($price + $artTotal + $bulkPricingTotal); // "EACH" COLUMN
         $product_subtotal += $lineSubtotal; // "SUBTOTAL" COLUMN
 
       }
@@ -302,6 +302,7 @@ function hometown_display_imprint_data($productID, $variationID, $uniqueIdentifi
 function hometown_display_size_data($product, $productID, $variationID, $screen, $uniqueIdentifier) {
 
   $sizeData = hometown_get_size_data($uniqueIdentifier);
+  $bulkPricingTotal = ha_get_bulk_discount_amount($sizeData, $uniqueIdentifier);
 
   /*code to add custom data on Cart & checkout Page*/
   if(count($sizeData[$uniqueIdentifier]) > 0)
@@ -366,8 +367,8 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $lineSubtotal = ($qty * ($xxlPriceNumber+$artTotal));
-        $shirtSubtotal = (float) ($xxlPriceNumber + $artTotal);
+        $lineSubtotal = $qty * ($xxlPriceNumber + $artTotal + $bulkPricingTotal);
+        $shirtSubtotal = (float) $xxlPriceNumber + $artTotal + $bulkPricingTotal;
 
         $output .= "$".number_format($shirtSubtotal, 2);
 
@@ -394,10 +395,10 @@ function hometown_display_size_data($product, $productID, $variationID, $screen,
 
         $output .= $artPriceOutput;
 
-        $bulkPricing = calculate_bulk_discount($qty);
+//        $bulkPricing = calculate_bulk_discount($qty);
 
-        $lineSubtotal = $qty * ($price + $artTotal + $bulkPricing);
-        $shirtSubtotal = (float) $price + $artTotal + $bulkPricing;
+        $lineSubtotal = $qty * ($price + $artTotal + $bulkPricingTotal);
+        $shirtSubtotal = (float) $price + $artTotal + $bulkPricingTotal;
 
         $output .= "$".number_format($shirtSubtotal, 2);
 
