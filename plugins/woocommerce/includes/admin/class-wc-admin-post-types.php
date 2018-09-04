@@ -350,7 +350,7 @@ class WC_Admin_Post_Types {
 				if ( ! empty( $new_sku ) ) {
 					$unique_sku = wc_product_has_unique_sku( $post_id, $new_sku );
 					if ( $unique_sku ) {
-						$product->set_sku( $new_sku );
+						$product->set_sku( wc_clean( wp_unslash( $new_sku ) ) );
 					}
 				} else {
 					$product->set_sku( '' );
@@ -828,7 +828,7 @@ class WC_Admin_Post_Types {
 	public function hide_cpt_archive_templates( $page_templates, $theme, $post ) {
 		$shop_page_id = wc_get_page_id( 'shop' );
 
-		if ( $post && absint( $shop_page_id ) === absint( $post->ID ) ) {
+		if ( $post && $shop_page_id === absint( $post->ID ) ) {
 			$page_templates = array();
 		}
 
@@ -843,7 +843,7 @@ class WC_Admin_Post_Types {
 	public function show_cpt_archive_notice( $post ) {
 		$shop_page_id = wc_get_page_id( 'shop' );
 
-		if ( $post && absint( $shop_page_id ) === absint( $post->ID ) ) {
+		if ( $post && $shop_page_id === absint( $post->ID ) ) {
 			echo '<div class="notice notice-info">';
 			echo '<p>' . sprintf( wp_kses_post( __( 'This is the WooCommerce shop page. The shop page is a special archive that lists your products. <a href="%s">You can read more about this here</a>.', 'woocommerce' ) ), 'https://docs.woocommerce.com/document/woocommerce-pages/#section-4' ) . '</p>';
 			echo '</div>';

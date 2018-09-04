@@ -23,6 +23,10 @@ class WC_Admin_Importers {
 	 * Constructor.
 	 */
 	public function __construct() {
+		if ( ! $this->import_allowed() ) {
+			return;
+		}
+
 		add_action( 'admin_menu', array( $this, 'add_to_menus' ) );
 		add_action( 'admin_init', array( $this, 'register_importers' ) );
 		add_action( 'admin_head', array( $this, 'hide_from_menus' ) );
@@ -33,9 +37,18 @@ class WC_Admin_Importers {
 		$this->importers['product_importer'] = array(
 			'menu'       => 'edit.php?post_type=product',
 			'name'       => __( 'Product Import', 'woocommerce' ),
-			'capability' => 'edit_products',
+			'capability' => 'import',
 			'callback'   => array( $this, 'product_importer' ),
 		);
+	}
+
+	/**
+	 * Return true if WooCommerce imports are allowed for current user, false otherwise.
+	 *
+	 * @return bool Whether current user can perform imports.
+	 */
+	protected function import_allowed() {
+		return current_user_can( 'edit_products' ) && current_user_can( 'import' );
 	}
 
 	/**
@@ -190,8 +203,8 @@ class WC_Admin_Importers {
 
 		check_ajax_referer( 'wc-product-import', 'security' );
 
-		if ( ! current_user_can( 'edit_products' ) || ! isset( $_POST['file'] ) ) { // PHPCS: input var ok.
-			wp_die( -1 );
+		if ( ! $this->import_allowed() || ! isset( $_POST['file'] ) ) { // PHPCS: input var ok.
+			wp_send_json_error( array( 'message' => __( 'Insufficient privileges to import products.', 'woocommerce' ) ) );
 		}
 
 		include_once WC_ABSPATH . 'includes/admin/importers/class-wc-product-csv-importer-controller.php';
@@ -222,26 +235,38 @@ class WC_Admin_Importers {
 		update_user_option( get_current_user_id(), 'product_import_error_log', $error_log );
 
 		if ( 100 === $percent_complete ) {
-			// Clear temp meta.
-			$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_original_id' ) ); // @codingStandardsIgnoreLine.
-			$wpdb->query(
-				"DELETE {$wpdb->posts}, {$wpdb->postmeta}, {$wpdb->term_relationships}
-				FROM {$wpdb->posts}
-				LEFT JOIN {$wpdb->term_relationships} ON ( {$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id )
-				LEFT JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )
-				LEFT JOIN {$wpdb->term_taxonomy} ON ( {$wpdb->term_taxonomy}.term_taxonomy_id = {$wpdb->term_relationships}.term_taxonomy_id )
-				LEFT JOIN {$wpdb->terms} ON ( {$wpdb->terms}.term_id = {$wpdb->term_taxonomy}.term_id )
-				WHERE {$wpdb->posts}.post_type IN ( 'product', 'product_variation' )
-				AND {$wpdb->posts}.post_status = 'importing'"
-			);
+			// @codingStandardsIgnoreStart.
+			$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_original_id' ) );
+			$wpdb->delete( $wpdb->posts, array(
+				'post_type'   => 'product',
+				'post_status' => 'importing',
+			) );
+			$wpdb->delete( $wpdb->posts, array(
+				'post_type'   => 'product_variation',
+				'post_status' => 'importing',
+			) );
+			// @codingStandardsIgnoreEnd.
 
-			// Clear orphan variations.
-			$wpdb->query(
-				"DELETE products
-				FROM {$wpdb->posts} products
-				LEFT JOIN {$wpdb->posts} wp ON wp.ID = products.post_parent
-				WHERE wp.ID IS NULL AND products.post_type = 'product_variation';"
-			);
+			// Clean up orphaned data.
+			$wpdb->query( "
+				DELETE {$wpdb->posts}.* FROM {$wpdb->posts}
+				LEFT JOIN {$wpdb->posts} wp ON wp.ID = {$wpdb->posts}.post_parent
+				WHERE wp.ID IS NULL AND {$wpdb->posts}.post_type = 'product_variation'
+			" );
+			$wpdb->query( "
+				DELETE {$wpdb->postmeta}.* FROM {$wpdb->postmeta}
+				LEFT JOIN {$wpdb->posts} wp ON wp.ID = {$wpdb->postmeta}.post_id
+				WHERE wp.ID IS NULL
+			" );
+			// @codingStandardsIgnoreStart.
+			$wpdb->query( "
+				DELETE tr.* FROM {$wpdb->term_relationships} tr
+				LEFT JOIN {$wpdb->posts} wp ON wp.ID = tr.object_id
+				LEFT JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+				WHERE wp.ID IS NULL
+				AND tt.taxonomy IN ( '" . implode( "','", array_map( 'esc_sql', get_object_taxonomies( 'product' ) ) ) . "' )
+			" );
+			// @codingStandardsIgnoreEnd.
 
 			// Send success.
 			wp_send_json_success(

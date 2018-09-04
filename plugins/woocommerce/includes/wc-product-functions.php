@@ -103,6 +103,7 @@ function wc_delete_product_transients( $post_id = 0 ) {
 		'wc_featured_products',
 		'wc_outofstock_count',
 		'wc_low_stock_count',
+		'wc_count_comments',
 	);
 
 	// Transient names that include an ID.
@@ -536,9 +537,9 @@ function wc_product_has_unique_sku( $product_id, $sku ) {
 
 	if ( apply_filters( 'wc_product_has_unique_sku', $sku_found, $product_id, $sku ) ) {
 		return false;
-	} else {
-		return true;
 	}
+
+	return true;
 }
 
 /**
@@ -700,8 +701,8 @@ function wc_get_product_attachment_props( $attachment_id = null, $product = fals
 		// Alt text.
 		$alt_text = array( wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ), $props['caption'], wp_strip_all_tags( $attachment->post_title ) );
 
-		if ( $product ) {
-			$alt_text[] = wp_strip_all_tags( get_the_title( $product->ID ) );
+		if ( $product && $product instanceof WC_Product ) {
+			$alt_text[] = wp_strip_all_tags( get_the_title( $product->get_id() ) );
 		}
 
 		$alt_text     = array_filter( $alt_text );
@@ -853,7 +854,7 @@ function wc_get_product_backorder_options() {
 function wc_get_related_products( $product_id, $limit = 5, $exclude_ids = array() ) {
 
 	$product_id     = absint( $product_id );
-	$limit          = $limit > 0 ? $limit : 5;
+	$limit          = $limit >= -1 ? $limit : 5;
 	$exclude_ids    = array_merge( array( 0, $product_id ), $exclude_ids );
 	$transient_name = 'wc_related_' . $product_id;
 	$query_args     = http_build_query( array(
@@ -999,7 +1000,7 @@ function wc_get_price_excluding_tax( $product, $args = array() ) {
 		$tax_rates      = WC_Tax::get_rates( $product->get_tax_class() );
 		$base_tax_rates = WC_Tax::get_base_tax_rates( $product->get_tax_class( 'unfiltered' ) );
 		$remove_taxes   = apply_filters( 'woocommerce_adjust_non_base_location_prices', true ) ? WC_Tax::calc_tax( $line_price, $base_tax_rates, true ) : WC_Tax::calc_tax( $line_price, $tax_rates, true );
-		$return_price   = WC_Tax::round( $line_price - wc_round_tax_total( array_sum( $remove_taxes ) ) );
+		$return_price   = $line_price - array_sum( $remove_taxes );
 	} else {
 		$return_price = $line_price;
 	}

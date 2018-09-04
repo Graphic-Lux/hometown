@@ -3,8 +3,8 @@ Contributors: nicolamustone
 Tags: ecommerce, e-commerce, commerce, woothemes, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mustone.nicola@gmail.com&item_name=Donation+for+WC+Custom+Thank+Tou
 Requires at least: 4.1
-Tested up to: 4.7.3
-Stable tag: 1.2.0
+Tested up to: 4.9.7
+Stable tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,7 @@ This allows you to create your own Thank you message, specific to your store onl
 
 = Configuration =
 
-Once active, go to **WooCommerce > Settings > Checkout** and at the bottom find the Thank You page configuration dropdown. Choose the page you want to use as custom Thank you page.
+Once active, go to **WooCommerce > Settings > Advanced** and at the bottom find the Thank You page configuration dropdown. Choose the page you want to use as custom Thank you page.
 
 = Support =
 
@@ -28,9 +28,7 @@ Make sure to tag `@nicolamustone` if you need urgent help, since I don't check t
 
 = Get involved =
 
-Developers can contribute to the source code on the [GitHub Repository](https://github.com/SiR-DanieL/woocommerce-custom-thankyou/).
-
-If you want to help but you are not a developer, consider to [translate the plugin in your language](https://translate.wordpress.org/projects/wp-plugins/wc-custom-thank-you)!
+If you want to help, consider to [translate the plugin in your language](https://translate.wordpress.org/projects/wp-plugins/wc-custom-thank-you)!
 
 == Installation ==
 
@@ -72,6 +70,11 @@ This plugin loads languages files from:
 Put your custom language files in one of these locations, **the first one is recommended**. If you save the files in the last location you will lose them when updating the plugin.
 
 == Changelog ==
+
+= 1.2.1 - 2018-07-19 =
+* Tested with WooCommerce 3.4.3
+* Tested with WordPress 4.9.7
+* Moved the page option in WooCommerce > Settings > Advanced
 
 = 1.2.0 - 2017-04-05 =
 * Compatibility test for WordPress 4.7.3

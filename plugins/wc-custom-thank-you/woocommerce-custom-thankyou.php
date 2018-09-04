@@ -3,11 +3,14 @@
  * Plugin Name: WC Custom Thank You
  * Plugin URI: https://wordpress.org/plugins/wc-custom-thank-you/
  * Description: A WooCommerce extension that allows you to define e custom Thank you page.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Nicola Mustone
  * Author URI: https://nicola.blog/
  * Requires at least: 4.1
- * Tested up to: 4.7.3
+ *
+ * Tested up to: 4.9.7
+ *
+ * WC tested up to: 3.4.3
  *
  * Text Domain: woocommerce-custom-thankyou
  * Domain Path: /languages/
@@ -96,7 +99,7 @@ class WC_Custom_Thankyou {
 		add_filter( 'woocommerce_is_order_received_page', array( $this, 'custom_thankyou_is_order_received_page' ) );
 
 		// Admin Settings.
-		add_filter( 'woocommerce_payment_gateways_settings', array( $this, 'add_settings' ) );
+		add_filter( 'woocommerce_settings_pages', array( $this, 'add_settings' ) );
 	}
 
 	/**

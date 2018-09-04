@@ -741,6 +741,7 @@ class WC_Helper {
 		}
 
 		self::_flush_subscriptions_cache();
+		self::_flush_updates_cache();
 
 		// Enable tracking when connected.
 		if ( class_exists( 'WC_Tracker' ) ) {
@@ -858,6 +859,8 @@ class WC_Helper {
 		}
 
 		self::_flush_subscriptions_cache();
+		self::_flush_updates_cache();
+
 		$redirect_uri = add_query_arg(
 			array(
 				'page'                 => 'wc-addons',
@@ -1214,12 +1217,13 @@ class WC_Helper {
 		}
 
 		if ( ! $activated ) {
-			self::log( 'Could not activate a subscription upon plugin activation: ' . $$filename );
+			self::log( 'Could not activate a subscription upon plugin activation: ' . $filename );
 			return;
 		}
 
 		self::log( 'Auto-activated a subscription for ' . $filename );
 		self::_flush_subscriptions_cache();
+		self::_flush_updates_cache();
 	}
 
 	/**
@@ -1280,6 +1284,7 @@ class WC_Helper {
 		if ( $deactivated ) {
 			self::log( sprintf( 'Auto-deactivated %d subscription(s) for %s', $deactivated, $filename ) );
 			self::_flush_subscriptions_cache();
+			self::_flush_updates_cache();
 		}
 	}
 
@@ -1318,6 +1323,10 @@ class WC_Helper {
 	 * @param string $screen_id Current screen ID.
 	 */
 	private static function _prompt_helper_connect( $screen_id ) {
+		if ( apply_filters( 'woocommerce_helper_suppress_connect_notice', false ) ) {
+			return;
+		}
+
 		$screens   = wc_get_screen_ids();
 		$screens[] = 'plugins';
 

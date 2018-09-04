@@ -193,6 +193,21 @@ h3.widgettitle {
     font-size: 22px;
 }
 
+#menu-pre-designed li a {
+    font-size: 14px;
+    font-family: "UniversLT57Condensed";
+    text-transform: uppercase;
+    background: none;
+}
+
+section.widget.widget_nav_menu {
+    float: right;
+}
+
+#menu-pre-designed li a {
+    padding: 0 0 0 9px;
+}
+
 .widget_product_categories li a {
     font-size: 14px;
 	font-family: "UniversLT57Condensed";

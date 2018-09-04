@@ -222,7 +222,7 @@ class WC_Shortcode_Checkout {
 		wc_print_notices();
 
 		// Check cart has contents.
-		if ( WC()->cart->is_empty() ) {
+		if ( WC()->cart->is_empty() && ! is_customize_preview() ) {
 			return;
 		}
 
@@ -241,7 +241,7 @@ class WC_Shortcode_Checkout {
 
 		} else {
 
-			$non_js_checkout = ! empty( $_POST['woocommerce_checkout_update_totals'] ) ? true : false; // WPCS: input var ok, CSRF ok.
+			$non_js_checkout = ! empty( $_POST['woocommerce_checkout_update_totals'] ); // WPCS: input var ok, CSRF ok.
 
 			if ( wc_notice_count( 'error' ) === 0 && $non_js_checkout ) {
 				wc_add_notice( __( 'The order totals have been updated. Please confirm your order by pressing the "Place order" button at the bottom of the page.', 'woocommerce' ) );

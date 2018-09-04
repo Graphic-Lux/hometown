@@ -54,6 +54,9 @@ None.
 
 == Changelog ==
 
+= 1.5.3 =
+* Showing ID columns for plugins that register non-public post types and taxonomies
+
 = 1.5.2 =
 * Workaround for third-party plugin incompatibilities
 

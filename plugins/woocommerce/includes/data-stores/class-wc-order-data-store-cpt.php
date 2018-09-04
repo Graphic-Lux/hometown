@@ -259,9 +259,14 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 		}
 
 		// If customer changed, update any downloadable permissions.
-		if ( in_array( 'customer_user', $updated_props, true ) || in_array( 'billing_email', $updated_props, true ) ) {
+		if ( in_array( 'customer_id', $updated_props, true ) || in_array( 'billing_email', $updated_props, true ) ) {
 			$data_store = WC_Data_Store::load( 'customer-download' );
 			$data_store->update_user_by_order_id( $id, $order->get_customer_id(), $order->get_billing_email() );
+		}
+
+		// Mark user account as active.
+		if ( in_array( 'customer_id', $updated_props, true ) ) {
+			wc_update_user_last_active( $order->get_customer_id() );
 		}
 
 		do_action( 'woocommerce_order_object_updated_props', $order, $updated_props );
@@ -694,6 +699,20 @@ class WC_Order_Data_Store_CPT extends Abstract_WC_Order_Data_Store_CPT implement
 				$wp_query_args['errors'][] = $customer_query;
 			} else {
 				$wp_query_args['meta_query'][] = $customer_query;
+			}
+		}
+
+		if ( isset( $query_vars['anonymized'] ) ) {
+			if ( $query_vars['anonymized'] ) {
+				$wp_query_args['meta_query'][] = array(
+					'key'   => '_anonymized',
+					'value' => 'yes',
+				);
+			} else {
+				$wp_query_args['meta_query'][] = array(
+					'key'     => '_anonymized',
+					'compare' => 'NOT EXISTS',
+				);
 			}
 		}
 

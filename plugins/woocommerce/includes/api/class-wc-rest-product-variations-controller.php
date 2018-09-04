@@ -290,7 +290,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 		// Thumbnail.
 		if ( isset( $request['image'] ) ) {
-			if ( is_array( $request['image'] ) ) {
+			if ( is_array( $request['image'] ) && ! empty( $request['image'] ) ) {
 				$image = $request['image'];
 				if ( is_array( $image ) ) {
 					$image['position'] = 0;
@@ -335,7 +335,11 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 		// Stock handling.
 		if ( isset( $request['manage_stock'] ) ) {
-			$variation->set_manage_stock( $request['manage_stock'] );
+			if ( 'parent' === $request['manage_stock'] ) {
+				$variation->set_manage_stock( false ); // This just indicates the variation does not manage stock, but the parent does.
+			} else {
+				$variation->set_manage_stock( wc_string_to_bool( $request['manage_stock'] ) );
+			}
 		}
 
 		if ( isset( $request['in_stock'] ) ) {
@@ -397,8 +401,18 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 
 		// Update taxonomies.
 		if ( isset( $request['attributes'] ) ) {
-			$attributes        = array();
-			$parent            = wc_get_product( $variation->get_parent_id() );
+			$attributes = array();
+			$parent     = wc_get_product( $variation->get_parent_id() );
+
+			if ( ! $parent ) {
+				return new WP_Error(
+					// Translators: %d parent ID.
+					"woocommerce_rest_{$this->post_type}_invalid_parent", sprintf( __( 'Cannot set attributes due to invalid parent product.', 'woocommerce' ), $variation->get_parent_id() ), array(
+						'status' => 404,
+					)
+				);
+			}
+
 			$parent_attributes = $parent->get_attributes();
 
 			foreach ( $request['attributes'] as $attribute ) {
@@ -802,7 +816,7 @@ class WC_REST_Product_Variations_Controller extends WC_REST_Products_Controller 
 				),
 				'manage_stock'          => array(
 					'description' => __( 'Stock management at variation level.', 'woocommerce' ),
-					'type'        => 'boolean',
+					'type'        => 'mixed',
 					'default'     => false,
 					'context'     => array( 'view', 'edit' ),
 				),
