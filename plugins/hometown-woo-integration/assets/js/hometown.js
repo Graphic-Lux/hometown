@@ -1,8 +1,5 @@
 $=jQuery;
 
-let pathname = window.location.pathname;
-let graphic_lux_subdirectory = '/home';
-
 $(document).ready(function () { hometown_init();});
 
 function hometown_init() {
@@ -297,7 +294,7 @@ function add_variation_to_cart() {
 
         setSizeData(uniqueCartKey);
 
-        window.location.replace(graphic_lux_subdirectory+'/cart');
+        window.location.replace(localized_config.graphic_lux_subdirectory+'/cart');
 
       });
 
@@ -365,20 +362,20 @@ function hometown_set_user_size_options(sizeData) {
       $.post(ha_localized_config.ajaxurl, sizeData).done(function(userMetaResults) {
 
         // console.log(userMetaResults);
-        if (pathname.indexOf('predesigned') > 0) {
+        if (window.location.pathname.indexOf('predesigned') > 0) {
 
-          window.location.replace(graphic_lux_subdirectory+'/cart');
+          window.location.replace(localized_config.graphic_lux_subdirectory+'/cart');
 
-        } else if (pathname.indexOf('cart') || pathname.indexOf('checkout') >= 0) {
+        } else if (window.location.pathname.indexOf('cart') || window.location.pathname.indexOf('checkout') >= 0) {
 
           // UPDATE CART
           $.post(
               woocommerce_params.ajax_url,
               {'action': 'hometown_ajax_refresh_cart'},
               function(result) {
-                if (pathname.indexOf('cart') >= 0) {
+                if (window.location.pathname.indexOf('cart') >= 0) {
                   $('.entry-content').html(result);
-                } else if (pathname.indexOf('checkout') >= 0) {
+                } else if (window.location.pathname.indexOf('checkout') >= 0) {
                   $(document.body).trigger("update_checkout");
                 }
 
@@ -410,7 +407,7 @@ function setSizeData(uniqueCartKey) {
 
   if (uniqueCartKey !== null) {
 
-    if (pathname.indexOf('create') >= 0) {
+    if (window.location.pathname.indexOf('create') >= 0) {
 
       sizeData.action = 'hometown_save_user_sizes';
       sizeData.unique_cart_key = uniqueCartKey;
@@ -458,16 +455,16 @@ function updateSizes(sizeData) {
 
   $.post(ha_localized_config.ajaxurl, sizeData).done(function(userMetaResults) {
 
-    if (pathname.indexOf('cart') || pathname.indexOf('checkout') >= 0) {
+    if (window.location.pathname.indexOf('cart') || window.location.pathname.indexOf('checkout') >= 0) {
 
       // UPDATE CART
       $.post(
           woocommerce_params.ajax_url,
           {'action': 'hometown_ajax_refresh_cart'},
           function(result) {
-            if (pathname.indexOf('cart') >= 0) {
+            if (window.location.pathname.indexOf('cart') >= 0) {
               $('.entry-content').html(result);
-            } else if (pathname.indexOf('checkout') >= 0) {
+            } else if (window.location.pathname.indexOf('checkout') >= 0) {
               $(document.body).trigger("update_checkout");
             }
 

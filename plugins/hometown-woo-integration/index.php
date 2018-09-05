@@ -39,24 +39,26 @@ function ha_load_scripts() {
 
 
   if (!is_product()) {
+
     wp_enqueue_style('hometown', HAWI_PLUGIN_URL . 'assets/css/hometown.css');
     wp_enqueue_style('swiper', HAWI_PLUGIN_URL . 'assets/js/Swiper-3.4.2/dist/css/swiper.min.css');
 
-    wp_register_script('swiper', HAWI_PLUGIN_URL . 'assets/js/Swiper-3.4.2/dist/js/swiper.jquery.min.js', array('jquery'), '1', false);
-    wp_register_script('hometown', HAWI_PLUGIN_URL . 'assets/js/hometown.js', array('jquery'), '1', false);
+    wp_register_script('swiper', HAWI_PLUGIN_URL . 'assets/js/Swiper-3.4.2/dist/js/swiper.jquery.min.js', array('jquery'), false, false);
+    wp_register_script('hometown', HAWI_PLUGIN_URL . 'assets/js/hometown.js', array('jquery'), false, false);
     wp_localize_script('hometown', 'ha_localized_config', $data);
 
     wp_enqueue_script('swiper');
     wp_enqueue_script('hometown');
+
   } else {
-    wp_register_script('hometown-single-product-page', HAWI_PLUGIN_URL . 'assets/js/single-product-page.js', array('jquery'), '1', false);
+    wp_register_script('hometown-single-product-page', HAWI_PLUGIN_URL . 'assets/js/single-product-page.js', array('jquery'), false, false);
     wp_localize_script('hometown-single-product-page', 'ha_localized_config', $data);
     wp_enqueue_script('hometown-single-product-page');
     wp_enqueue_script( 'wc-single-product' );
   }
 
   if (is_cart() || is_checkout()) {
-    wp_register_script('hometown-cart', HAWI_PLUGIN_URL . 'assets/js/cart.js', array('jquery'), '1', true);
+    wp_register_script('hometown-cart', HAWI_PLUGIN_URL . 'assets/js/cart.js', array('jquery'), false, true);
     wp_enqueue_script( 'hometown-cart' );
   }
 

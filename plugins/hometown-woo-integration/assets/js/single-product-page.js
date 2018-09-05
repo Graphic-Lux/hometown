@@ -1,8 +1,5 @@
 $=jQuery;
 
-let pathname = window.location.pathname;
-let graphic_lux_subdirectory = '/home';
-
 $(document).ready(function() {single_product_page_init();});
 
 function single_product_page_init() {
@@ -11,7 +8,7 @@ function single_product_page_init() {
     $('.bigger_sizes').slideToggle();
   });
 
-  if (pathname.indexOf('create') > 0) {
+  if (window.location.pathname.indexOf('create') > 0) {
     $('.single-product-summary .all_shirt_sizes').remove();
   }
 
@@ -28,6 +25,8 @@ function hometown_reload_add_to_cart_actions() {
   // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
 
+    e.preventDefault();
+
     if (!$('.variations .wcvasquare').hasClass('selectedswatch')) {
       $('.variations .swatchinput').bounce({
         interval: 100,
@@ -38,7 +37,6 @@ function hometown_reload_add_to_cart_actions() {
       return false;
     }
 
-    e.preventDefault();
 
     let product_id = $('input[name="product_id"]').val();
     let variation_id = null;
@@ -51,11 +49,11 @@ function hometown_reload_add_to_cart_actions() {
 
 
 
-    if (pathname.indexOf('predesigned')  > 0) {
+    if (window.location.pathname.indexOf('predesigned')  > 0) {
 
       setSizeData(null);
 
-    } else if (pathname.indexOf('custom/create')) {
+    } else if (window.location.pathname.indexOf('custom/create')) {
 
       $('.step_1_close').slideUp();
 
