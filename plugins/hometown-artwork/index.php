@@ -34,10 +34,13 @@ function ha_artwork_load_scripts() {
   );
 
 
-  wp_enqueue_script('spectrum-wheel-color-picker', HAA_PLUGIN_URL . 'assets/spectrum/spectrum.js', array('jquery'), false, true);
+  if (!is_product()) {
+    wp_enqueue_script('spectrum-wheel-color-picker', HAA_PLUGIN_URL . 'assets/spectrum/spectrum.js', array('jquery'), false, true);
 
-  wp_localize_script('artwork', 'ha_artwork_config', $data);
-  wp_enqueue_script('artwork');
+    wp_localize_script('artwork', 'ha_artwork_config', $data);
+    wp_enqueue_script('artwork');
+  }
+
 
 
 }

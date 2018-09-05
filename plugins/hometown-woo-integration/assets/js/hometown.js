@@ -294,7 +294,7 @@ function add_variation_to_cart() {
 
         setSizeData(uniqueCartKey);
 
-        window.location.replace(localized_config.graphic_lux_subdirectory+'/cart');
+        window.location.replace(ha_localized_config.graphic_lux_subdirectory+'/cart');
 
       });
 
@@ -364,7 +364,7 @@ function hometown_set_user_size_options(sizeData) {
         // console.log(userMetaResults);
         if (window.location.pathname.indexOf('predesigned') > 0) {
 
-          window.location.replace(localized_config.graphic_lux_subdirectory+'/cart');
+          window.location.replace(ha_localized_config.graphic_lux_subdirectory+'/cart');
 
         } else if (window.location.pathname.indexOf('cart') || window.location.pathname.indexOf('checkout') >= 0) {
 
