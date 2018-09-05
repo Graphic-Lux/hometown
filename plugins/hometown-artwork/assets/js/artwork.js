@@ -331,8 +331,6 @@ function artwork_display(orientation) {
   $('.artwork-' + orientation).show();
 }
 
-
-
 (function($){
   $.fn.bounce = function(settings) {
     if(typeof settings.interval == 'undefined'){

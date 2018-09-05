@@ -27,7 +27,7 @@ function ha_artwork_load_scripts() {
   wp_enqueue_style('artwork-positioning', HAA_PLUGIN_URL . 'assets/css/artwork.css');
   wp_enqueue_style('artwork', HAA_PLUGIN_URL . 'assets/css/artwork-positioning.css');
 
-  wp_register_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.js', array('jquery'), 1.8, true);
+  wp_register_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.js', array('jquery'), 1.4, true);
 
   $data = array(
       'ajaxurl' => admin_url( 'admin-ajax.php' )
@@ -40,8 +40,6 @@ function ha_artwork_load_scripts() {
     wp_localize_script('artwork', 'ha_artwork_config', $data);
     wp_enqueue_script('artwork');
   }
-
-
 
 }
 
