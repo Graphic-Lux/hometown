@@ -27,7 +27,7 @@ function ha_artwork_load_scripts() {
   wp_enqueue_style('artwork-positioning', HAA_PLUGIN_URL . 'assets/css/artwork.css');
   wp_enqueue_style('artwork', HAA_PLUGIN_URL . 'assets/css/artwork-positioning.css');
 
-  wp_register_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.js', array('jquery'), false, true);
+  wp_register_script('artwork', HAA_PLUGIN_URL . 'assets/js/artwork.js', array('jquery'), '', true);
 
   $data = array(
       'ajaxurl' => admin_url( 'admin-ajax.php' )

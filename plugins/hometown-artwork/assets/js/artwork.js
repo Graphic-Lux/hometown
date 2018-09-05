@@ -126,6 +126,9 @@ function color_input_init() {
 
     colorInputSelector = $(this).find('.hometown_color_wheel input.color_input').attr('data-color-selector', i);
 
+    console.log(orientation, colorInputSVG, colorInputSwatch, colorInputSelector);
+
+
     apply_color_to_svg(i, colorInputSVG, colorInputSwatch, colorInputSelector, orientation);
   });
 
