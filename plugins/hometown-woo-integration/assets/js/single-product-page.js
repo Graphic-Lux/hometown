@@ -3,6 +3,7 @@ $=jQuery;
 $(document).ready(function() {single_product_page_init();});
 
 function single_product_page_init() {
+  console.log('single product page init');
 
   $('.more_sizes').unbind().click(function() {
     $('.bigger_sizes').slideToggle();

@@ -17,8 +17,9 @@ function artwork_init() {
   // Initialize color inputs
   color_input_init();
 
-  $('.step_2_shirt_designs').unbind().click(function () {
+  $('.size-shop_single').unbind().click(function (e) {
 
+    e.preventDefault();
     $('.step_2_shirt_designs').removeClass('selected');
     $('.step_2_shirt_designs').fadeTo(200, .4);
     $(this).fadeTo(100, 1);
@@ -31,20 +32,23 @@ function artwork_init() {
   });
 
   // CHANGE ARTWORK LOCATION ON DROPDOWN VALUE CHANGE
-  $('.imprint_location_dropdown').unbind().change(function () {
+  $('.imprint_location_dropdown').unbind().change(function (e) {
+    e.preventDefault();
     apply_artwork_to_shirt(false, $(this).attr('name').split('-imprint_location')[0]);
   });
 
 
   // CLICK ARTWORK TO PLACE ON T-SHIRT
-  $(".single_art img").unbind().click(function () {
+  $(".single_art img").unbind().click(function (e) {
+    e.preventDefault();
     let artClone = $(this).clone();
     $(artClone).attr('data-artwork-id', $(this).parent().attr('data-artwork-id'));
     apply_artwork_to_shirt(artClone, $(this).closest('.single_art').attr('data-orientation'));
   });
 
   // CLICK ARTWORK TO PLACE ON T-SHIRT
-  $(".single_art svg").unbind().click(function () {
+  $(".single_art svg").unbind().click(function (e) {
+    e.preventDefault();
     let artClone = $(this).clone();
     $(artClone).attr('data-artwork-id', $(this).parent().attr('data-artwork-id'));
     apply_artwork_to_shirt(artClone, $(this).closest('.single_art').attr('data-orientation'));
@@ -125,9 +129,6 @@ function color_input_init() {
     colorInputSwatch = $(this).find('.hometown_color_swatch').attr('data-color-selector', i);
 
     colorInputSelector = $(this).find('.hometown_color_wheel input.color_input').attr('data-color-selector', i);
-
-    console.log(orientation, colorInputSVG, colorInputSwatch, colorInputSelector);
-
 
     apply_color_to_svg(i, colorInputSVG, colorInputSwatch, colorInputSelector, orientation);
   });
@@ -326,10 +327,8 @@ function save_artwork_to_user_meta(uniqueCartKey) {
 
 
 function artwork_display(orientation) {
-
   $('.shirt_artwork').hide();
   $('.artwork-' + orientation).show();
-
 }
 
 
