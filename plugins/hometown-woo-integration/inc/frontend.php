@@ -48,21 +48,21 @@ function hometown_get_products_by_category() {
     ?>
 
 
-      <ul class="products shirt_style_options swiper-wrapper">
-        <?php
-        $loop = new WP_Query( $args2 );
-        if ( $loop->have_posts() ) {
-          while ( $loop->have_posts() ) : $loop->the_post();
-            if (get_post_meta(get_the_ID(),'_custom_product', true) === 'yes') {
-                wc_get_template_part( 'content', 'product' );
-            }
-          endwhile;
-        } else {
-          echo __( 'No products found' );
-        }
-        wp_reset_postdata();
-        ?>
-      </ul><!--.products-->
+    <ul class="products shirt_style_options swiper-wrapper">
+      <?php
+      $loop = new WP_Query( $args2 );
+      if ( $loop->have_posts() ) {
+        while ( $loop->have_posts() ) : $loop->the_post();
+          if (get_post_meta(get_the_ID(),'_custom_product', true) === 'yes') {
+            wc_get_template_part( 'content', 'product' );
+          }
+        endwhile;
+      } else {
+        echo __( 'No products found' );
+      }
+      wp_reset_postdata();
+      ?>
+    </ul><!--.products-->
 
     <?php
     wp_die();
@@ -137,30 +137,31 @@ function hometown_get_product_variant_images() {
 
         $main_images_left = "<div class='step_2_shirt_designs'>";
 
-          // GRAB SHIRT IMAGE
-          $leftHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
-          $leftHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
-          $leftHTML .= '</figure>';
+        // GRAB SHIRT IMAGE
+        $leftHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
+        $leftHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
+        $leftHTML .= '</figure>';
 
-          $leftHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+        $leftHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
 
-          // CREATE DROPDOWN
-          $leftHTML_dropdown = "<select name='front-imprint_location' class='imprint_location_dropdown' id='front-imprint_location'>";
-            $leftHTML_dropdown .= "<option value='0'>Choose Front Imprint Location</option>";
-            if ($shirtType === 'polo') {
-              $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
-            } else if ($shirtType === 'hat') {
-              $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
-            } else {
-              $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
-              $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
-              $leftHTML_dropdown .= "<option value='centered'>Centered</option>";
-            }
-          $leftHTML_dropdown .= "</select>";
+        // CREATE DROPDOWN
+        $leftHTML_dropdown = "<select name='front-imprint_location' class='imprint_location_dropdown' id='front-imprint_location'>";
+        $leftHTML_dropdown .= "<option value='0'>Choose Front Imprint Location</option>";
+        if ($shirtType === 'polo') {
+          $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+        } else if ($shirtType === 'hat') {
+          $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
+        } else {
+          $leftHTML_dropdown .= "<option value='full_front'>Full Front</option>";
+          $leftHTML_dropdown .= "<option value='pocket'>Left Chest / Pocket</option>";
+          $leftHTML_dropdown .= "<option value='centered'>Centered</option>";
+        }
+        $leftHTML_dropdown .= "</select>";
 
-          // PUT IMAGE INTO WOOCOMMERCE HTML FILTER
-          $main_images_left .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $leftHTML, $id );
-          $main_images_left .= $leftHTML_dropdown;
+        // PUT IMAGE INTO WOOCOMMERCE HTML FILTER
+//          $main_images_left .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $leftHTML, $id );
+        $main_images_left .= $leftHTML;
+        $main_images_left .= $leftHTML_dropdown;
         $main_images_left .= "</div>";
 
       } else if ($shirtOrientation === 'back') {
@@ -183,7 +184,8 @@ function hometown_get_product_variant_images() {
           }
           $middleHTML_dropdown .= "</select>";
 
-          $main_images_middle .= apply_filters('woocommerce_single_product_image_thumbnail_html', $middleHTML, $id);
+//          $main_images_middle .= apply_filters('woocommerce_single_product_image_thumbnail_html', $middleHTML, $id);
+          $main_images_middle .= $middleHTML;
           $main_images_middle .= $middleHTML_dropdown;
           $main_images_middle .= "</div>";
 
@@ -194,28 +196,28 @@ function hometown_get_product_variant_images() {
         if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
 
           $main_images_right = "<div class='step_2_shirt_designs'>";
-            $rightHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
-            $rightHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
-            $rightHTML .= '</figure>';
+          $rightHTML  = '<figure id="'.$shirtOrientation.'" data-thumb="' . esc_url( $thumbnail[0] ) . '" class="shirt_design woocommerce-product-gallery__image flex-active-slide">';
+          $rightHTML .= wp_get_attachment_image( $id, 'shop_single', false, $attributes );
+          $rightHTML .= '</figure>';
 
-            $rightHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
+          $rightHTML .= "<span class='click_to_edit_product'>CLICK TO EDIT PRODUCT</span>";
 
-            if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
-              $rightHTML_dropdown = "<select name='sleeve-imprint_location' class='imprint_location_dropdown' id='sleeve-imprint_location'>";
-                $rightHTML_dropdown .= "<option value='0'>Choose Side Imprint Location</option>";
-                $rightHTML_dropdown .= "<option value='left_sleeve'>Left Arm</option>";
-                $rightHTML_dropdown .= "<option value='right_sleeve'>Right Arm</option>";
+          if (($shirtType === 'longsleeve') || ($shirtType === 'hoodie')) {
+            $rightHTML_dropdown = "<select name='sleeve-imprint_location' class='imprint_location_dropdown' id='sleeve-imprint_location'>";
+            $rightHTML_dropdown .= "<option value='0'>Choose Side Imprint Location</option>";
+            $rightHTML_dropdown .= "<option value='left_sleeve'>Left Arm</option>";
+            $rightHTML_dropdown .= "<option value='right_sleeve'>Right Arm</option>";
 //                $rightHTML_dropdown .= "<option value='both'>Both Sleeves</option>";
-              $rightHTML_dropdown .= "</select>";
-            }
-
-
-            $main_images_right .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $rightHTML, $id );
-
-            $main_images_right .= $rightHTML_dropdown;
+            $rightHTML_dropdown .= "</select>";
           }
 
-        $main_images_right .= "</div>";
+
+//            $main_images_right .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', $rightHTML, $id );
+          $main_images_right .= $rightHTML;
+          $main_images_right .= $rightHTML_dropdown;
+          $main_images_right .= "</div>";
+        }
+
       }
 
 
@@ -283,9 +285,9 @@ add_action( 'wp_ajax_hometown_display_sizes', 'hometown_display_sizes' );
 function hometown_display_sizes() {
 
   ?>
-  
+
   <div class="all_shirt_sizes">
-	 
+
     <div class="standard_sizes">
       <?php
       if (hometownGetReferrer() === 'predesigned') {
@@ -383,8 +385,8 @@ function display_additional_sizes_price($variationID) {
 
 
 /**
-* @desc Remove in all product type
-*/
+ * @desc Remove in all product type
+ */
 function wc_remove_all_quantity_fields( $return, $product ) {
   return true;
 }

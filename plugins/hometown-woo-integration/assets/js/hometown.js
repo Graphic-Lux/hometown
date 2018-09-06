@@ -1,11 +1,12 @@
 $=jQuery;
 
-let pathname = window.location.pathname;
-let graphic_lux_subdirectory = '/home';
-
 $(document).ready(function () { hometown_init();});
 
 function hometown_init() {
+
+  $('.more_sizes').unbind().click(function() {
+    $('.bigger_sizes').slideToggle();
+  });
 
   //initialize swiper when document ready
   var mySwiper = new Swiper ('.swiper-container', {
@@ -228,12 +229,12 @@ function display_additional_sizes_price() {
   sizeData.product_id = $("#continue_3").attr('data-product-id');
   sizeData.variation_id = $("#continue_3").attr('data-product-variant-id');
 
-  console.log(sizeData);
+//   console.log(sizeData);
 
   $.post( wc_add_to_cart_params.ajax_url, sizeData, function( response ) {
 
-      $("#pricing").html(response).fadeIn();
-      single_product_page_init();
+    $("#pricing").html(response).fadeIn();
+    single_product_page_init();
 
   });
 }
@@ -247,7 +248,7 @@ function save_imprint_location(uniqueCartKey) {
 
   let backImprintLocation = ($('#back-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').val() == 0) ? null : $('#back-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').text();
 
-  let sleeveImprintLocation = ($('#sleeve-imprint_location option[value="'+$('#sleeve-imprint_location').val()+'"]').val() == 0) ? null : $('#sleeve-imprint_location option[value="'+$('#back-imprint_location').val()+'"]').text();
+  let sleeveImprintLocation = ($('#sleeve-imprint_location option[value="'+$('#sleeve-imprint_location').val()+'"]').val() == 0) ? null : $('#sleeve-imprint_location option[value="'+$('#sleeve-imprint_location').val()+'"]').text();
 
 
   let data = {
@@ -297,7 +298,7 @@ function add_variation_to_cart() {
 
         setSizeData(uniqueCartKey);
 
-        window.location.replace(graphic_lux_subdirectory+'/cart');
+        window.location.replace(ha_localized_config.graphic_lux_subdirectory+'/cart');
 
       });
 
@@ -337,7 +338,7 @@ function hometown_get_product_variant_images(data) {
 
 function hometown_set_user_size_options(sizeData) {
 
-  console.log(sizeData);
+//   console.log(sizeData);
 
 
   let data = {
@@ -348,7 +349,7 @@ function hometown_set_user_size_options(sizeData) {
 
   $.post( wc_add_to_cart_params.ajax_url, data, function( addToCartResults ) {
 
-    console.log(addToCartResults);
+//     console.log(addToCartResults);
 
     let uniqueCartData = {
       'action': 'hometown_get_unique_cart_key'
@@ -357,7 +358,7 @@ function hometown_set_user_size_options(sizeData) {
     // GET UNIQUE CART DATA
     $.post(ha_localized_config.ajaxurl, uniqueCartData).done(function(uniqueCartKey) {
 
-      console.log(uniqueCartKey);
+//       console.log(uniqueCartKey);
 
       sizeData.unique_cart_key = uniqueCartKey;
 
@@ -365,20 +366,20 @@ function hometown_set_user_size_options(sizeData) {
       $.post(ha_localized_config.ajaxurl, sizeData).done(function(userMetaResults) {
 
         // console.log(userMetaResults);
-        if (pathname.indexOf('predesigned') > 0) {
+        if (window.location.pathname.indexOf('predesigned') > 0) {
 
-          window.location.replace(graphic_lux_subdirectory+'/cart');
+          window.location.replace(ha_localized_config.graphic_lux_subdirectory+'/cart');
 
-        } else if (pathname.indexOf('cart') || pathname.indexOf('checkout') >= 0) {
+        } else if (window.location.pathname.indexOf('cart') || window.location.pathname.indexOf('checkout') >= 0) {
 
           // UPDATE CART
           $.post(
               woocommerce_params.ajax_url,
               {'action': 'hometown_ajax_refresh_cart'},
               function(result) {
-                if (pathname.indexOf('cart') >= 0) {
+                if (window.location.pathname.indexOf('cart') >= 0) {
                   $('.entry-content').html(result);
-                } else if (pathname.indexOf('checkout') >= 0) {
+                } else if (window.location.pathname.indexOf('checkout') >= 0) {
                   $(document.body).trigger("update_checkout");
                 }
 
@@ -410,7 +411,7 @@ function setSizeData(uniqueCartKey) {
 
   if (uniqueCartKey !== null) {
 
-    if (pathname.indexOf('create') >= 0) {
+    if (window.location.pathname.indexOf('create') >= 0) {
 
       sizeData.action = 'hometown_save_user_sizes';
       sizeData.unique_cart_key = uniqueCartKey;
@@ -458,16 +459,16 @@ function updateSizes(sizeData) {
 
   $.post(ha_localized_config.ajaxurl, sizeData).done(function(userMetaResults) {
 
-    if (pathname.indexOf('cart') || pathname.indexOf('checkout') >= 0) {
+    if (window.location.pathname.indexOf('cart') || window.location.pathname.indexOf('checkout') >= 0) {
 
       // UPDATE CART
       $.post(
           woocommerce_params.ajax_url,
           {'action': 'hometown_ajax_refresh_cart'},
           function(result) {
-            if (pathname.indexOf('cart') >= 0) {
+            if (window.location.pathname.indexOf('cart') >= 0) {
               $('.entry-content').html(result);
-            } else if (pathname.indexOf('checkout') >= 0) {
+            } else if (window.location.pathname.indexOf('checkout') >= 0) {
               $(document.body).trigger("update_checkout");
             }
 
