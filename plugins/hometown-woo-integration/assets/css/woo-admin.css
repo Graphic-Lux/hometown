@@ -1,3 +1,7 @@
 .item .display_meta{
   display: none;
 }
+
+#woocommerce-order-items .woocommerce_order_items_wrapper table.woocommerce_order_items tr.preview_imprint_locations td:last-child {
+  background: #f5f3f0;
+}

@@ -401,14 +401,6 @@ div table.shop_table td {
     vertical-align: top;
 }
 
-.single_art {
-	margin-right: 5px;
-}
-
-.single_art svg {
-	background: #ccc;
-}
-
 #top .variations td.label {
     width: 100px;
 }

@@ -1,0 +1,254 @@
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: .5s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.single_shirt {
+  background: #0EB6EC;
+  text-align: center;
+  /*padding: 20px 35px;*/
+  padding: 10px 35px;
+  height: 155px;
+  margin: 0 10px;
+}
+
+.shirt_title {
+  display: block;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  color: #333;
+}
+
+.custom-create-page .single-product-summary {
+  min-height: 592px;
+}
+
+ #wrap_all {
+  min-height: 652px;
+}
+
+.custom-create-page .woocommerce-tabs {
+  min-height: 264px;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-viewport {
+  height: auto !important;
+}
+
+.hovered {
+  color: #00afef !important;
+  text-decoration: underline;
+}
+
+.selected_single_shirt {
+  background: #fbfbfb;
+  border: 8px solid #0EB6EC;
+}
+
+.subtype.shirt_type, .subtype.product {
+  display: none;
+}
+
+.mfp-content {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.shirt_view:hover {
+  cursor: pointer;
+}
+
+.product_slider_wrap {
+  display: none;
+}
+
+.product_grid_wrap {
+  display: block;
+}
+
+.product_grid_wrap .products .product, .product_slider_wrap .products .product {
+  width: 20%;
+  margin: 0;
+  padding: 5px;
+}
+
+.product_grid_wrap .products .product.last, .product_slider_wrap .products .product.last {
+  margin: 0 !important;
+}
+
+#top .inner_product_header {
+  min-height: 235px !important;
+}
+
+.mfp-content p {
+  line-height: 1em !important;
+}
+
+.woocommerce-variation-add-to-cart.variations_button .quantity {
+  display: none;
+}
+
+.shirt_selected {
+  border: 4px solid #0EB6EC !important;
+}
+
+.standard_sizes {
+  width: 100%;
+  clear:both;
+  overflow: hidden;
+}
+
+.sizing_inputs {
+  padding: 10px;
+  float: left;
+  text-align: center;
+  max-width: 65px;
+}
+
+.sizing_inputs input {
+  text-align: center;
+}
+
+.more_sizes {
+  cursor: pointer;
+}
+
+.bigger_sizes {
+  display: none;
+  width: 100%;
+  clear:both;
+  overflow: hidden;
+}
+
+.step_2_shirt_designs {
+  width: 290px;
+  float: left;
+  display:block;
+  padding-bottom: 10px;
+}
+
+.shirt_positions {
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.step_2_content_container.subtype, .choose_sizes.subtype {
+  display: none;
+}
+
+.step_2_shirt_designs figure {
+  position: relative;
+  width: 275px;
+}
+
+.shirt_positions .images .woocommerce-product-gallery__wrapper{
+  display: flex;
+  justify-content: space-evenly;
+  min-width: 830px;
+}
+
+.done {
+  background: transparent !important;
+  color: #000 !important;
+  border-right: 1px solid #e3e3e3;
+}
+
+.edit_heading:hover {
+  cursor: pointer;
+}
+
+.product-price .woocommerce-Price-amount.amount {
+  display: none;
+}
+
+#continue_3 {
+  display: none;
+}
+
+.size_qty {
+  border: none !important;
+}
+
+.restore-item {
+  display: none;
+}
+
+.product-thumbnail {
+  width: 25%;
+}
+
+table.cart img {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.click_to_edit_product {
+  font-size: 8px;
+  text-align: center;
+  display: block;
+  letter-spacing: .3em;
+}
+
+.step-holder h4.edit_heading {
+  display: none;
+}
+
+#xxl_pricing {
+  display: block;
+  clear: both;
+}
+
+.mfp-inline-holder .mfp-content, .mfp-ajax-holder .mfp-content {
+  width:75% !important;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__trigger {
+  display: none !important;
+}
+
+.single-product .template-shop {
+  padding: 30px;
+}
+
+.single_variation_wrap {
+  margin: 0px !important;
+}
+
+
+
+.lightbox_nav {
+  font-size: 6em;
+  color: #cccccc !important;
+  position: fixed;
+  top: 45%;
+  z-index: 9999;
+  transition: 0.5s color;
+  display:none;
+}
+
+.lightbox_nav:hover {
+  color: #008dcd;
+}
+
+.lightbox_nav.right {
+  right: 3%
+}
+
+.lightbox_nav.left {
+  left: 3%;
+}

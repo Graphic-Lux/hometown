@@ -70,7 +70,7 @@ class WC_Admin_API_Keys_Table_List extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_title( $key ) {
-		$url = admin_url( 'admin.php?page=wc-settings&tab=api&section=keys&edit-key=' . $key['key_id'] );
+		$url = admin_url( 'admin.php?page=wc-settings&tab=advanced&section=keys&edit-key=' . $key['key_id'] );
 
 		$output  = '<strong>';
 		$output .= '<a href="' . esc_url( $url ) . '" class="row-title">';
@@ -92,7 +92,7 @@ class WC_Admin_API_Keys_Table_List extends WP_List_Table {
 					add_query_arg(
 						array(
 							'revoke-key' => $key['key_id'],
-						), admin_url( 'admin.php?page=wc-settings&tab=api&section=keys' )
+						), admin_url( 'admin.php?page=wc-settings&tab=advanced&section=keys' )
 					), 'revoke'
 				)
 			) . '">' . esc_html__( 'Revoke', 'woocommerce' ) . '</a>',
@@ -186,6 +186,32 @@ class WC_Admin_API_Keys_Table_List extends WP_List_Table {
 		return array(
 			'revoke' => __( 'Revoke', 'woocommerce' ),
 		);
+	}
+
+	/**
+	 * Search box.
+	 *
+	 * @param  string $text     Button text.
+	 * @param  string $input_id Input ID.
+	 */
+	public function search_box( $text, $input_id ) {
+		if ( empty( $_REQUEST['s'] ) && ! $this->has_items() ) { // WPCS: input var okay, CSRF ok.
+			return;
+		}
+
+		$input_id     = $input_id . '-search-input';
+		$search_query = isset( $_REQUEST['s'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) : ''; // WPCS: input var okay, CSRF ok.
+
+		echo '<p class="search-box">';
+		echo '<label class="screen-reader-text" for="' . esc_attr( $input_id ) . '">' . esc_html( $text ) . ':</label>';
+		echo '<input type="search" id="' . esc_attr( $input_id ) . '" name="s" value="' . esc_attr( $search_query ) . '" />';
+		submit_button(
+			$text, '', '', false,
+			array(
+				'id' => 'search-submit',
+			)
+		);
+		echo '</p>';
 	}
 
 	/**

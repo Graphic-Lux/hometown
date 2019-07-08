@@ -1,0 +1,115 @@
+.shirt_artwork {
+  display: block;
+  width: 100%;
+}
+
+.shirt_artwork svg.replaced-svg {
+  display: block;
+  width: 160px;
+  height: 160px;
+}
+
+.hometown_artwork img,
+.hometown_artwork svg {
+  min-width: 160px;
+}
+
+.swiper-wrapper.artwork-back, .swiper-wrapper.artwork-sleeve {
+  display: none;
+}
+
+.single_art {
+  float: left;
+}
+
+.single_art:hover {
+  cursor: pointer
+}
+
+.single_art img,
+.single_art svg {
+  display:block;
+}
+
+.artwork_title {
+  font-size: 10px;
+}
+
+.product_image_wrap.subtype {
+  display: none;
+}
+
+.reflect {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.hometown_custom_color_selector .hometown_color_wheel img {
+  width: 18px;
+  height: 18px;
+  margin-left: 0px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.hometown_custom_color_selector .hometown_color_wheel button {
+  width: 18px;
+  height: 18px;
+  margin-left: 0px;
+  padding: 0px;
+  cursor: pointer;
+  background-size: 18px 18px !important;
+  background-repeat: no-repeat !important;
+  border: none;
+}
+
+.hometown_custom_color_selector .hometown_color_wheel {
+  float: left;
+  width: 18px;
+  height: 18px;
+  margin-left: 2px;
+}
+
+.hometown_custom_color_selector .hometown_color_swatch {
+  border: 1px solid #ededed;
+  width: 18px;
+  height: 15px;
+  float: left;
+  margin: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hometown_custom_color_selector .red_swatch {
+  background: #ff0000;
+}
+
+.hometown_custom_color_selector .blue_swatch {
+  background: #148dd3;
+}
+
+.hometown_custom_color_selector .green_swatch {
+  background: #2fd13e;
+}
+
+.hometown_custom_color_selector .white_swatch {
+  background: #ffffff;
+}
+
+.hometown_custom_color_selector .grey_swatch {
+  background: #cccccc;
+}
+
+.hometown_custom_color_selector .black_swatch {
+  background: #000000;
+}
+
+.woocommerce-cart svg.replaced-svg,
+.woocommerce-checkout svg.replaced-svg {
+  width: 32px;
+  height: auto;
+}

@@ -16,7 +16,13 @@ function single_product_page_init() {
 
 function hometown_reload_add_to_cart_actions() {
 
+  $('.more_sizes').unbind().click(function() {
+    $('.bigger_sizes').slideToggle();
+  });
+
   lightbox_arrows();
+
+  getAvailableSizes();
 
   // continue_1
   $('.single_add_to_cart_button').unbind().click(function(e) {
@@ -44,7 +50,7 @@ function hometown_reload_add_to_cart_actions() {
 
 
 
-    if (window.location.pathname.indexOf('predesigned')  > 0) {
+    if ((window.location.pathname.indexOf('predesigned')  > 0) || (window.location.pathname.indexOf('pre-designed')  > 0)) {
 
       setSizeData(null);
 
@@ -76,4 +82,48 @@ function hometown_reload_add_to_cart_actions() {
     }
 
   });
+}
+
+
+function getAvailableSizes() {
+
+  let product_id = $('input[name="product_id"]').val();
+
+  if (typeof product_id === 'undefined') {
+    product_id = $('button[name="add-to-cart"]').val();
+  }
+
+  let data = {
+    'action': 'hometown_get_available_sizes',
+    'product_id': product_id
+  };
+
+  $.get(wc_add_to_cart_params.ajax_url, data, function(availableSizes) {
+
+    let sizes = Object.keys(availableSizes);
+
+    sizes.forEach((size) => {
+
+      let uppercasedSize = size.toUpperCase();
+
+      console.log(uppercasedSize);
+
+      if (uppercasedSize === 'XXXL') {
+        uppercasedSize = '3XL';
+      } else if (uppercasedSize === 'XXXXL') {
+        uppercasedSize = '4XL';
+      }
+
+      if (availableSizes[size] === 'yes') {
+        $('input[name="'+uppercasedSize+'"]').removeAttr("disabled");
+        $('label[for="'+uppercasedSize+'"]').css({'color': 'black'});
+      } else {
+        $('input[name="'+uppercasedSize+'"]').prop("disabled", true);
+        $('label[for="'+uppercasedSize+'"]').css({'color': 'red'});
+      }
+
+    });
+
+  });
+
 }

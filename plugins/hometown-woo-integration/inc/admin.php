@@ -78,3 +78,113 @@ function hometown_woocommerce_product_custom_fields_save($post_id)
   $woocommerce_custom_product_text_field = $_POST['_custom_product'];
   update_post_meta($post_id, '_custom_product', esc_attr($woocommerce_custom_product_text_field));
 }
+
+///////////////////////////// AVAILABLE SIZES CHECKBOX ///////////////////////////////////
+
+
+// Display Fields
+add_action('woocommerce_product_options_general_product_data', 'hometown_woocommerce_product_available_sizes');
+
+// Save Fields
+add_action('woocommerce_process_product_meta', 'hometown_woocommerce_product_available_sizes_save');
+
+
+function hometown_woocommerce_product_available_sizes()
+{
+  global $woocommerce, $post;
+
+//  $productID = $post->ID;
+
+  echo "<hr>";
+  echo '<div class="product_custom_field">';
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_xs_available_sizes',
+          'label' => __('XS Sizes Available', 'woocommerce'),
+//          'value' => $value
+      )
+  );
+
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_s_available_sizes',
+          'label' => __('S Sizes Available', 'woocommerce'),
+      )
+  );
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_m_available_sizes',
+          'label' => __('M Sizes Available', 'woocommerce'),
+      )
+  );
+
+
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_l_available_sizes',
+          'label' => __('L Sizes Available', 'woocommerce'),
+      )
+  );
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_xl_available_sizes',
+          'label' => __('XL Sizes Available', 'woocommerce'),
+      )
+  );
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_xxl_available_sizes',
+          'label' => __('XXL Sizes Available', 'woocommerce')
+      )
+  );
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_3xl_available_sizes',
+          'label' => __('3XL Sizes Available', 'woocommerce')
+      )
+  );
+
+  woocommerce_wp_checkbox(
+      array(
+          'id' => '_4xl_available_sizes',
+          'label' => __('4XL Sizes Available', 'woocommerce')
+      )
+  );
+  echo '</div>';
+
+}
+
+function hometown_woocommerce_product_available_sizes_save($post_id)
+{
+  // Custom Product Text Field
+  $woocommerce_custom_product_text_field = $_POST['_xs_available_sizes'];
+  update_post_meta($post_id, '_xs_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_s_available_sizes'];
+  update_post_meta($post_id, '_s_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_m_available_sizes'];
+  update_post_meta($post_id, '_m_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_l_available_sizes'];
+  update_post_meta($post_id, '_l_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_xl_available_sizes'];
+  update_post_meta($post_id, '_xl_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_xxl_available_sizes'];
+  update_post_meta($post_id, '_xxl_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_3xl_available_sizes'];
+  update_post_meta($post_id, '_3xl_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+
+  $woocommerce_custom_product_text_field = $_POST['_4xl_available_sizes'];
+  update_post_meta($post_id, '_4xl_available_sizes', esc_attr($woocommerce_custom_product_text_field));
+}

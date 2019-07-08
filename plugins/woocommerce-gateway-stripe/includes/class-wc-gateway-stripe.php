@@ -168,8 +168,8 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		add_action( 'woocommerce_admin_order_totals_after_total', array( $this, 'display_order_fee' ), 10, 1 );
-		add_action( 'woocommerce_admin_order_totals_after_total', array( $this, 'display_order_payout' ), 20, 1 );
+		add_action( 'woocommerce_admin_order_totals_after_total', array( $this, 'display_order_fee' ) );
+		add_action( 'woocommerce_admin_order_totals_after_total', array( $this, 'display_order_payout' ), 20 );
 		add_action( 'woocommerce_customer_save_address', array( $this, 'show_update_card_notice' ), 10, 2 );
 		add_action( 'woocommerce_receipt_stripe', array( $this, 'stripe_checkout_receipt_page' ) );
 		add_action( 'woocommerce_api_' . strtolower( get_class( $this ) ), array( $this, 'stripe_checkout_return_handler' ) );
@@ -361,14 +361,14 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 					<?php esc_html_e( 'Credit or debit card', 'woocommerce-gateway-stripe' ); ?>
 				</label>
 
-				<div id="stripe-card-element" style="background:#fff;padding:0 1em;border:1px solid #ddd;margin:5px 0;padding:10px 5px;">
+				<div id="stripe-card-element" class="wc-stripe-elements-field">
 				<!-- a Stripe Element will be inserted here. -->
 				</div>
 			<?php } else { ?>
 				<div class="form-row form-row-wide">
 					<label for="stripe-card-element"><?php esc_html_e( 'Card Number', 'woocommerce-gateway-stripe' ); ?> <span class="required">*</span></label>
 					<div class="stripe-card-group">
-						<div id="stripe-card-element" style="background:#fff;padding:0 1em;border:1px solid #ddd;margin:5px 0;padding:10px 5px;">
+						<div id="stripe-card-element" class="wc-stripe-elements-field">
 						<!-- a Stripe Element will be inserted here. -->
 						</div>
 
@@ -379,14 +379,14 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 				<div class="form-row form-row-first">
 					<label for="stripe-exp-element"><?php esc_html_e( 'Expiry Date', 'woocommerce-gateway-stripe' ); ?> <span class="required">*</span></label>
 
-					<div id="stripe-exp-element" style="background:#fff;padding:0 1em;border:1px solid #ddd;margin:5px 0;padding:10px 5px;">
+					<div id="stripe-exp-element" class="wc-stripe-elements-field">
 					<!-- a Stripe Element will be inserted here. -->
 					</div>
 				</div>
 
 				<div class="form-row form-row-last">
 					<label for="stripe-cvc-element"><?php esc_html_e( 'Card Code (CVC)', 'woocommerce-gateway-stripe' ); ?> <span class="required">*</span></label>
-				<div id="stripe-cvc-element" style="background:#fff;padding:0 1em;border:1px solid #ddd;margin:5px 0;padding:10px 5px;">
+				<div id="stripe-cvc-element" class="wc-stripe-elements-field">
 				<!-- a Stripe Element will be inserted here. -->
 				</div>
 				</div>
@@ -395,6 +395,7 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 
 			<!-- Used to display form errors -->
 			<div class="stripe-source-errors" role="alert"></div>
+			<br />
 			<?php do_action( 'woocommerce_credit_card_form_end', $this->id ); ?>
 			<div class="clear"></div>
 		</fieldset>
@@ -446,10 +447,23 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			WC_Stripe_Logger::log( 'Stripe live mode requires SSL.' );
 		}
 
+		$current_theme = wp_get_theme();
+
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_register_style( 'stripe_styles', plugins_url( 'assets/css/stripe-styles.css', WC_STRIPE_MAIN_FILE ), array(), WC_STRIPE_VERSION );
 		wp_enqueue_style( 'stripe_styles' );
+
+		if ( 'storefront' === $current_theme->get_template() ) {
+			wp_register_style( 'stripe_storefront_styles', plugins_url( 'assets/css/stripe-storefront-styles.css', WC_STRIPE_MAIN_FILE ), array(), WC_STRIPE_VERSION );
+			wp_enqueue_style( 'stripe_storefront_styles' );
+		}
+
+		if ( 'twentyseventeen' === $current_theme->get_template() ) {
+			wp_register_style( 'stripe_twentyseventeen_styles', plugins_url( 'assets/css/stripe-twentyseventeen-styles.css', WC_STRIPE_MAIN_FILE ), array(), WC_STRIPE_VERSION );
+			wp_enqueue_style( 'stripe_twentyseventeen_styles' );
+		}
+
 		wp_register_script( 'stripe_checkout', 'https://checkout.stripe.com/checkout.js', '', WC_STRIPE_VERSION, true );
 		wp_register_script( 'stripe', 'https://js.stripe.com/v3/', '', '3.0', true );
 		wp_register_script( 'woocommerce_stripe', plugins_url( 'assets/js/stripe' . $suffix . '.js', WC_STRIPE_MAIN_FILE ), array( 'jquery-payment', 'stripe' ), WC_STRIPE_VERSION, true );
@@ -465,14 +479,16 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 			$order_id = wc_get_order_id_by_order_key( urldecode( $_GET['key'] ) );
 			$order    = wc_get_order( $order_id );
 
-			$stripe_params['billing_first_name'] = WC_Stripe_Helper::is_pre_30() ? $order->billing_first_name : $order->get_billing_first_name();
-			$stripe_params['billing_last_name']  = WC_Stripe_Helper::is_pre_30() ? $order->billing_last_name : $order->get_billing_last_name();
-			$stripe_params['billing_address_1']  = WC_Stripe_Helper::is_pre_30() ? $order->billing_address_1 : $order->get_billing_address_1();
-			$stripe_params['billing_address_2']  = WC_Stripe_Helper::is_pre_30() ? $order->billing_address_2 : $order->get_billing_address_2();
-			$stripe_params['billing_state']      = WC_Stripe_Helper::is_pre_30() ? $order->billing_state : $order->get_billing_state();
-			$stripe_params['billing_city']       = WC_Stripe_Helper::is_pre_30() ? $order->billing_city : $order->get_billing_city();
-			$stripe_params['billing_postcode']   = WC_Stripe_Helper::is_pre_30() ? $order->billing_postcode : $order->get_billing_postcode();
-			$stripe_params['billing_country']    = WC_Stripe_Helper::is_pre_30() ? $order->billing_country : $order->get_billing_country();
+			if ( is_a( $order, 'WC_Order' ) ) {
+				$stripe_params['billing_first_name'] = WC_Stripe_Helper::is_pre_30() ? $order->billing_first_name : $order->get_billing_first_name();
+				$stripe_params['billing_last_name']  = WC_Stripe_Helper::is_pre_30() ? $order->billing_last_name : $order->get_billing_last_name();
+				$stripe_params['billing_address_1']  = WC_Stripe_Helper::is_pre_30() ? $order->billing_address_1 : $order->get_billing_address_1();
+				$stripe_params['billing_address_2']  = WC_Stripe_Helper::is_pre_30() ? $order->billing_address_2 : $order->get_billing_address_2();
+				$stripe_params['billing_state']      = WC_Stripe_Helper::is_pre_30() ? $order->billing_state : $order->get_billing_state();
+				$stripe_params['billing_city']       = WC_Stripe_Helper::is_pre_30() ? $order->billing_city : $order->get_billing_city();
+				$stripe_params['billing_postcode']   = WC_Stripe_Helper::is_pre_30() ? $order->billing_postcode : $order->get_billing_postcode();
+				$stripe_params['billing_country']    = WC_Stripe_Helper::is_pre_30() ? $order->billing_country : $order->get_billing_country();
+			}
 		}
 
 		$stripe_params['no_prepaid_card_msg']                     = __( 'Sorry, we\'re not accepting prepaid cards at this time. Your credit card has not been charge. Please try with alternative payment method.', 'woocommerce-gateway-stripe' );
@@ -488,6 +504,8 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 		$stripe_params['stripe_nonce']                            = wp_create_nonce( '_wc_stripe_nonce' );
 		$stripe_params['statement_descriptor']                    = $this->statement_descriptor;
 		$stripe_params['elements_options']                        = apply_filters( 'wc_stripe_elements_options', array() );
+		$stripe_params['sepa_elements_options']                   = apply_filters( 'wc_stripe_sepa_elements_options', array( 'supportedCountries' => array( 'SEPA' ), 'placeholderCountry' => WC()->countries->get_base_country(), 'style' => array( 'base' => array( 'fontSize' => '15px' ) ) ) );
+		$stripe_params['invalid_owner_name']                      = __( 'Billing First Name and Last Name are required.', 'woocommerce-gateway-stripe' );
 		$stripe_params['is_stripe_checkout']                      = $this->stripe_checkout ? 'yes' : 'no';
 		$stripe_params['is_change_payment_page']                  = isset( $_GET['change_payment_method'] ) ? 'yes' : 'no';
 		$stripe_params['is_add_payment_page']                     = is_wc_endpoint_url( 'add-payment-method' ) ? 'yes' : 'no';
@@ -626,11 +644,14 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 	 * @return bool
 	 */
 	public function maybe_redirect_stripe_checkout() {
+		$is_payment_request = ( isset( $_POST ) && isset( $_POST['payment_request_type'] ) );
+
 		return (
 			$this->stripe_checkout &&
 			! isset( $_POST['stripe_checkout_order'] ) &&
 			! $this->is_using_saved_payment_method() &&
-			! is_wc_endpoint_url( 'order-pay' )
+			! is_wc_endpoint_url( 'order-pay' ) &&
+			! $is_payment_request
 		);
 	}
 
@@ -723,12 +744,18 @@ class WC_Gateway_Stripe extends WC_Stripe_Payment_Gateway {
 						$order->save();
 					}
 
-					WC_Stripe_Logger::log( 'Info: Redirecting to 3DS...' );
+					/*
+					 * Make sure after creating 3DS object it is in pending status
+					 * before redirecting.
+					 */
+					if ( 'pending' === $response->redirect->status ) {
+						WC_Stripe_Logger::log( 'Info: Redirecting to 3DS...' );
 
-					return array(
-						'result'   => 'success',
-						'redirect' => esc_url_raw( $response->redirect->url ),
-					);
+						return array(
+							'result'   => 'success',
+							'redirect' => esc_url_raw( $response->redirect->url ),
+						);
+					}
 				}
 
 				WC_Stripe_Logger::log( "Info: Begin processing payment for order $order_id for the amount of {$order->get_total()}" );

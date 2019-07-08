@@ -132,6 +132,10 @@ abstract class Abstract_WC_Order_Data_Store_CPT extends WC_Data_Store_WP impleme
 		$order->save_meta_data();
 		$order->set_version( WC_VERSION );
 
+		if ( null === $order->get_date_created( 'edit' ) ) {
+			$order->set_date_created( current_time( 'timestamp', true ) );
+		}
+
 		$changes = $order->get_changes();
 
 		// Only update the post when the post data changes.
@@ -320,7 +324,7 @@ abstract class Abstract_WC_Order_Data_Store_CPT extends WC_Data_Store_WP impleme
 		global $wpdb;
 
 		// Get from cache if available.
-		$items = wp_cache_get( 'order-items-' . $order->get_id(), 'orders' );
+		$items = 0 < $order->get_id() ? wp_cache_get( 'order-items-' . $order->get_id(), 'orders' ) : false;
 
 		if ( false === $items ) {
 			$items = $wpdb->get_results(
@@ -329,7 +333,9 @@ abstract class Abstract_WC_Order_Data_Store_CPT extends WC_Data_Store_WP impleme
 			foreach ( $items as $item ) {
 				wp_cache_set( 'item-' . $item->order_item_id, $item, 'order-items' );
 			}
-			wp_cache_set( 'order-items-' . $order->get_id(), $items, 'orders' );
+			if ( 0 < $order->get_id() ) {
+				wp_cache_set( 'order-items-' . $order->get_id(), $items, 'orders' );
+			}
 		}
 
 		$items = wp_list_filter( $items, array( 'order_item_type' => $type ) );

@@ -113,7 +113,7 @@ class WC_Shortcode_Products {
 		$attributes = shortcode_atts(
 			array(
 				'limit'          => '-1',      // Results limit.
-				'columns'        => '3',       // Number of columns.
+				'columns'        => '',        // Number of columns.
 				'rows'           => '',        // Number of rows. If defined, limit will be ignored.
 				'orderby'        => 'title',   // menu_order, title, date, rand, price, popularity, rating, or id.
 				'order'          => 'ASC',     // ASC or DESC.
@@ -134,7 +134,7 @@ class WC_Shortcode_Products {
 		);
 
 		if ( ! absint( $attributes['columns'] ) ) {
-			$attributes['columns'] = 3;
+			$attributes['columns'] = wc_get_default_products_per_row();
 		}
 
 		return $attributes;
@@ -574,9 +574,10 @@ class WC_Shortcode_Products {
 		ob_start();
 
 		if ( $products && $products->ids ) {
-			// Prime meta cache to reduce future queries.
-			update_meta_cache( 'post', $products->ids );
-			update_object_term_cache( $products->ids, 'product' );
+			// Prime caches to reduce future queries.
+			if ( is_callable( '_prime_post_caches' ) ) {
+				_prime_post_caches( $products->ids );
+			}
 
 			// Setup the loop.
 			wc_setup_loop(

@@ -11,6 +11,26 @@ function hometown_get_unique_cart_key() {
 }
 
 
+add_action( 'wp_ajax_hometown_get_available_sizes', 'hometown_get_available_sizes' );
+function hometown_get_available_sizes() {
+
+  $productID = preg_replace( '/[^0-9]/', '', $_GET['product_id'] );
+
+  $availableSizes = array();
+
+  $availableSizes['xs'] = get_post_meta( $productID, '_xs_available_sizes', true );
+  $availableSizes['s'] = get_post_meta( $productID, '_s_available_sizes', true );
+  $availableSizes['m'] = get_post_meta( $productID, '_m_available_sizes', true );
+  $availableSizes['l'] = get_post_meta( $productID, '_l_available_sizes', true );
+  $availableSizes['xl'] = get_post_meta( $productID, '_xl_available_sizes', true );
+  $availableSizes['xxl'] = get_post_meta( $productID, '_xxl_available_sizes', true );
+  $availableSizes['xxxl'] = get_post_meta( $productID, '_3xl_available_sizes', true );
+  $availableSizes['xxxxl'] = get_post_meta( $productID, '_4xl_available_sizes', true );
+
+  wp_send_json($availableSizes);
+  exit;
+
+}
 
 
 // WE WANT ONLY LOGGED IN USERS TO BE ALLOWED TO DO THIS

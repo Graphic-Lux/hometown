@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since  2.6.0
  * @param  array $args Array of args (above).
- * @return array|stdClass Number of pages and an array of order objects if
+ * @return WC_Order[]|stdClass Number of pages and an array of order objects if
  *                             paginate is true, or just an array of values.
  */
 function wc_get_orders( $args ) {
@@ -571,6 +571,9 @@ function wc_create_refund( $args = array() ) {
 					$refund->delete();
 					return $result;
 				}
+
+				$refund->set_refunded_payment( true );
+				$refund->save();
 			}
 
 			if ( $args['restock_items'] ) {

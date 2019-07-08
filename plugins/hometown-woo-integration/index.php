@@ -49,7 +49,7 @@ function ha_load_scripts() {
     wp_enqueue_script('swiper');
     wp_enqueue_script('hometown');
   } else {
-    wp_register_script('hometown-single-product-page', HAWI_PLUGIN_URL . 'assets/js/single-product-page.js', array('jquery'), '1', false);
+    wp_register_script('hometown-single-product-page', HAWI_PLUGIN_URL . 'assets/js/single-product-page.js', array('jquery'), 5, false);
     wp_localize_script('hometown-single-product-page', 'ha_localized_config', $data);
     wp_enqueue_script('hometown-single-product-page');
     wp_enqueue_script( 'wc-single-product' );

@@ -509,7 +509,7 @@ class WC_Discounts {
 			$this->discounts[ $coupon->get_code() ][ $item->key ] += $discount;
 		}
 
-		// Allow post-processing for custom coupon types (e.g. calculating discrepancy, etc)
+		// Allow post-processing for custom coupon types (e.g. calculating discrepancy, etc).
 		$this->discounts[ $coupon->get_code() ] = apply_filters( 'woocommerce_coupon_custom_discounts_array', $this->discounts[ $coupon->get_code() ], $coupon );
 
 		return array_sum( $this->discounts[ $coupon->get_code() ] );
@@ -747,12 +747,12 @@ class WC_Discounts {
 	 * @return bool
 	 */
 	protected function validate_coupon_sale_items( $coupon ) {
-		if ( $coupon->get_exclude_sale_items() ) {
-			$valid = false;
+		if ( $coupon->get_exclude_sale_items() && 'fixed_product' !== $coupon->get_discount_type() ) {
+			$valid = true;
 
 			foreach ( $this->get_items_to_validate() as $item ) {
-				if ( $item->product && ! $item->product->is_on_sale() ) {
-					$valid = true;
+				if ( $item->product && $item->product->is_on_sale() ) {
+					$valid = false;
 					break;
 				}
 			}

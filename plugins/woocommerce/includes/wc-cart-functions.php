@@ -225,7 +225,7 @@ function wc_cart_totals_shipping_html() {
 				'show_shipping_calculator' => is_cart() && $first,
 				'package_details'          => implode( ', ', $product_names ),
 				/* translators: %d: shipping package number */
-				'package_name'             => apply_filters( 'woocommerce_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping %d', 'shipping packages', 'woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping package', 'woocommerce' ), $i, $package ),
+				'package_name'             => apply_filters( 'woocommerce_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping %d', 'shipping packages', 'woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping packages', 'woocommerce' ), $i, $package ),
 				'index'                    => $i,
 				'chosen_method'            => $chosen_method,
 			)
@@ -280,7 +280,7 @@ function wc_cart_totals_coupon_html( $coupon ) {
 	$amount               = WC()->cart->get_coupon_discount_amount( $coupon->get_code(), WC()->cart->display_cart_ex_tax );
 	$discount_amount_html = '-' . wc_price( $amount );
 
-	if ( $coupon->get_free_shipping() ) {
+	if ( $coupon->get_free_shipping() && empty( $amount ) ) {
 		$discount_amount_html = __( 'Free shipping coupon', 'woocommerce' );
 	}
 
@@ -480,10 +480,12 @@ function wc_get_cart_item_data_hash( $product ) {
 	return md5(
 		wp_json_encode(
 			apply_filters(
-				'woocommerce_cart_item_data_to_validate', array(
+				'woocommerce_cart_item_data_to_validate',
+				array(
 					'type'       => $product->get_type(),
 					'attributes' => 'variation' === $product->get_type() ? $product->get_variation_attributes() : '',
-				)
+				),
+				$product
 			)
 		)
 	);
